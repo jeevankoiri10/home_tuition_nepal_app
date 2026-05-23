@@ -164,5 +164,24 @@
   "reviewGateNotMet": "पहिले यो शिक्षकलाई खोल्नुहोस्।",
   "reviewPhoneRejected": "फोन नम्बर र सम्पर्क विवरण स्वीकार्य छैन।",
   "reviewFailedGeneric": "समीक्षा पेस गर्न सकिएन।",
-  "notRated": "मूल्याङ्कन भएको छैन"
+  "notRated": "मूल्याङ्कन भएको छैन",
+
+  "filterVerifiedOnly": "प्रमाणित मात्र",
+  "filterAvailableNow": "अहिले उपलब्ध",
+  "filterLevelTooltip": "विद्यार्थी तह",
+  "filterAllLevels": "सबै तह",
+  "filterTeachingModeTooltip": "पढाउने तरिका",
+  "filterAnyMode": "जुनसुकै",
+  "filterRadiusTooltip": "क्षेत्र",
+  "filterRadiusWithinKm": "{km} किमी भित्र",
+  "filterRadiusKm": "{km} किमी",
+  "tutorAvailable": "उपलब्ध",
+  "contactLabel": "सम्पर्क",
+  "teachingModeOnline": "अनलाइन",
+  "teachingModeOffline": "अफलाइन (आफैं भेटेर)",
+  "teachingModeBoth": "दुवै",
+  "studentLevelBelowClass9": "कक्षा ९ भन्दा कम",
+  "studentLevelSee": "SEE",
+  "studentLevelPlus2": "+२",
+  "studentLevelALevel": "A Level"
 }

@@ -521,4 +521,62 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get notRated => 'मूल्याङ्कन भएको छैन';
+
+  @override
+  String get filterVerifiedOnly => 'प्रमाणित मात्र';
+
+  @override
+  String get filterAvailableNow => 'अहिले उपलब्ध';
+
+  @override
+  String get filterLevelTooltip => 'विद्यार्थी तह';
+
+  @override
+  String get filterAllLevels => 'सबै तह';
+
+  @override
+  String get filterTeachingModeTooltip => 'पढाउने तरिका';
+
+  @override
+  String get filterAnyMode => 'जुनसुकै';
+
+  @override
+  String get filterRadiusTooltip => 'क्षेत्र';
+
+  @override
+  String filterRadiusWithinKm(int km) {
+    return '$km किमी भित्र';
+  }
+
+  @override
+  String filterRadiusKm(int km) {
+    return '$km किमी';
+  }
+
+  @override
+  String get tutorAvailable => 'उपलब्ध';
+
+  @override
+  String get contactLabel => 'सम्पर्क';
+
+  @override
+  String get teachingModeOnline => 'अनलाइन';
+
+  @override
+  String get teachingModeOffline => 'अफलाइन (आफैं भेटेर)';
+
+  @override
+  String get teachingModeBoth => 'दुवै';
+
+  @override
+  String get studentLevelBelowClass9 => 'कक्षा ९ भन्दा कम';
+
+  @override
+  String get studentLevelSee => 'SEE';
+
+  @override
+  String get studentLevelPlus2 => '+२';
+
+  @override
+  String get studentLevelALevel => 'A Level';
 }

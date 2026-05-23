@@ -1003,6 +1003,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not rated'**
   String get notRated;
+
+  /// No description provided for @filterVerifiedOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified only'**
+  String get filterVerifiedOnly;
+
+  /// No description provided for @filterAvailableNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Available now'**
+  String get filterAvailableNow;
+
+  /// No description provided for @filterLevelTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Student level'**
+  String get filterLevelTooltip;
+
+  /// No description provided for @filterAllLevels.
+  ///
+  /// In en, this message translates to:
+  /// **'All levels'**
+  String get filterAllLevels;
+
+  /// No description provided for @filterTeachingModeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Teaching mode'**
+  String get filterTeachingModeTooltip;
+
+  /// No description provided for @filterAnyMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Any mode'**
+  String get filterAnyMode;
+
+  /// No description provided for @filterRadiusTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Radius'**
+  String get filterRadiusTooltip;
+
+  /// No description provided for @filterRadiusWithinKm.
+  ///
+  /// In en, this message translates to:
+  /// **'Within {km} km'**
+  String filterRadiusWithinKm(int km);
+
+  /// No description provided for @filterRadiusKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km'**
+  String filterRadiusKm(int km);
+
+  /// No description provided for @tutorAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get tutorAvailable;
+
+  /// No description provided for @contactLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactLabel;
+
+  /// No description provided for @teachingModeOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get teachingModeOnline;
+
+  /// No description provided for @teachingModeOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline (in-person)'**
+  String get teachingModeOffline;
+
+  /// No description provided for @teachingModeBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get teachingModeBoth;
+
+  /// No description provided for @studentLevelBelowClass9.
+  ///
+  /// In en, this message translates to:
+  /// **'Below Class 9'**
+  String get studentLevelBelowClass9;
+
+  /// No description provided for @studentLevelSee.
+  ///
+  /// In en, this message translates to:
+  /// **'SEE'**
+  String get studentLevelSee;
+
+  /// No description provided for @studentLevelPlus2.
+  ///
+  /// In en, this message translates to:
+  /// **'+2'**
+  String get studentLevelPlus2;
+
+  /// No description provided for @studentLevelALevel.
+  ///
+  /// In en, this message translates to:
+  /// **'A Level'**
+  String get studentLevelALevel;
 }
 
 class _AppLocalizationsDelegate

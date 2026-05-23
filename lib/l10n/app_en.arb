@@ -511,5 +511,67 @@
   "@reviewFailedGeneric": {},
 
   "notRated": "Not rated",
-  "@notRated": {}
+  "@notRated": {},
+
+  "filterVerifiedOnly": "Verified only",
+  "@filterVerifiedOnly": {},
+
+  "filterAvailableNow": "Available now",
+  "@filterAvailableNow": {},
+
+  "filterLevelTooltip": "Student level",
+  "@filterLevelTooltip": {},
+
+  "filterAllLevels": "All levels",
+  "@filterAllLevels": {},
+
+  "filterTeachingModeTooltip": "Teaching mode",
+  "@filterTeachingModeTooltip": {},
+
+  "filterAnyMode": "Any mode",
+  "@filterAnyMode": {},
+
+  "filterRadiusTooltip": "Radius",
+  "@filterRadiusTooltip": {},
+
+  "filterRadiusWithinKm": "Within {km} km",
+  "@filterRadiusWithinKm": {
+    "placeholders": {
+      "km": { "type": "int" }
+    }
+  },
+
+  "filterRadiusKm": "{km} km",
+  "@filterRadiusKm": {
+    "placeholders": {
+      "km": { "type": "int" }
+    }
+  },
+
+  "tutorAvailable": "Available",
+  "@tutorAvailable": {},
+
+  "contactLabel": "Contact",
+  "@contactLabel": {},
+
+  "teachingModeOnline": "Online",
+  "@teachingModeOnline": {},
+
+  "teachingModeOffline": "Offline (in-person)",
+  "@teachingModeOffline": {},
+
+  "teachingModeBoth": "Both",
+  "@teachingModeBoth": {},
+
+  "studentLevelBelowClass9": "Below Class 9",
+  "@studentLevelBelowClass9": {},
+
+  "studentLevelSee": "SEE",
+  "@studentLevelSee": {},
+
+  "studentLevelPlus2": "+2",
+  "@studentLevelPlus2": {},
+
+  "studentLevelALevel": "A Level",
+  "@studentLevelALevel": {}
 }

@@ -523,4 +523,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notRated => 'Not rated';
+
+  @override
+  String get filterVerifiedOnly => 'Verified only';
+
+  @override
+  String get filterAvailableNow => 'Available now';
+
+  @override
+  String get filterLevelTooltip => 'Student level';
+
+  @override
+  String get filterAllLevels => 'All levels';
+
+  @override
+  String get filterTeachingModeTooltip => 'Teaching mode';
+
+  @override
+  String get filterAnyMode => 'Any mode';
+
+  @override
+  String get filterRadiusTooltip => 'Radius';
+
+  @override
+  String filterRadiusWithinKm(int km) {
+    return 'Within $km km';
+  }
+
+  @override
+  String filterRadiusKm(int km) {
+    return '$km km';
+  }
+
+  @override
+  String get tutorAvailable => 'Available';
+
+  @override
+  String get contactLabel => 'Contact';
+
+  @override
+  String get teachingModeOnline => 'Online';
+
+  @override
+  String get teachingModeOffline => 'Offline (in-person)';
+
+  @override
+  String get teachingModeBoth => 'Both';
+
+  @override
+  String get studentLevelBelowClass9 => 'Below Class 9';
+
+  @override
+  String get studentLevelSee => 'SEE';
+
+  @override
+  String get studentLevelPlus2 => '+2';
+
+  @override
+  String get studentLevelALevel => 'A Level';
 }

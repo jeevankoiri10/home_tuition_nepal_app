@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/map_tutor.dart';
 
 /// Card shown in the carousel (bottom sheet) and in the full list view.
@@ -121,8 +122,8 @@ class TutorMapCard extends StatelessWidget {
                       color: const Color(0xFFE8F5E9),
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: const Text('Available',
-                        style: TextStyle(color: Color(0xFF2E7D32), fontSize: 11)),
+                    child: Text(AppLocalizations.of(context).tutorAvailable,
+                        style: const TextStyle(color: Color(0xFF2E7D32), fontSize: 11)),
                   ),
               ],
             ),
@@ -136,7 +137,7 @@ class TutorMapCard extends StatelessWidget {
                   shape: const RoundedRectangleBorder(borderRadius: AppRadii.inputBorder),
                 ),
                 icon: const Icon(Icons.lock_outline, size: 14),
-                label: const Text('Contact'),
+                label: Text(AppLocalizations.of(context).contactLabel),
                 onPressed: onContact,
               ),
             ),
@@ -178,8 +179,8 @@ class _RatingBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (count == 0) {
-      return const Text('Not rated',
-          style: TextStyle(color: AppColors.textSecondary, fontSize: 11));
+      return Text(AppLocalizations.of(context).notRated,
+          style: const TextStyle(color: AppColors.textSecondary, fontSize: 11));
     }
     return Row(
       mainAxisSize: MainAxisSize.min,

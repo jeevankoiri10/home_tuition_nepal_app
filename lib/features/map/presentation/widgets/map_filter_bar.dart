@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../tutor_profile/domain/models/profile_enums.dart';
+import '../../../tutor_profile/presentation/enum_labels.dart';
 import '../../domain/models/map_filters.dart';
 
 /// Sticky horizontal chip bar driving the Map filter state.
@@ -18,6 +20,7 @@ class MapFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
@@ -31,13 +34,13 @@ class MapFilterBar extends StatelessWidget {
             _ModeChip(filters: filters, onChanged: onChanged),
             const SizedBox(width: AppSpacing.xs),
             FilterChip(
-              label: const Text('Verified only'),
+              label: Text(l10n.filterVerifiedOnly),
               selected: filters.verifiedOnly,
               onSelected: (v) => onChanged(filters.copyWith(verifiedOnly: v)),
             ),
             const SizedBox(width: AppSpacing.xs),
             FilterChip(
-              label: const Text('Available now'),
+              label: Text(l10n.filterAvailableNow),
               selected: filters.availableOnly,
               onSelected: (v) => onChanged(filters.copyWith(availableOnly: v)),
             ),
@@ -57,15 +60,17 @@ class _LevelChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = filters.level?.label ?? 'All levels';
+    final l10n = AppLocalizations.of(context);
+    final label = filters.level?.localized(l10n) ?? l10n.filterAllLevels;
     return PopupMenuButton<StudentLevel?>(
-      tooltip: 'Student level',
+      tooltip: l10n.filterLevelTooltip,
       onSelected: (v) => onChanged(
         v == null ? filters.copyWith(clearLevel: true) : filters.copyWith(level: v),
       ),
       itemBuilder: (_) => [
-        const PopupMenuItem(value: null, child: Text('All levels')),
-        for (final l in StudentLevel.values) PopupMenuItem(value: l, child: Text(l.label)),
+        PopupMenuItem(value: null, child: Text(l10n.filterAllLevels)),
+        for (final l in StudentLevel.values)
+          PopupMenuItem(value: l, child: Text(l.localized(l10n))),
       ],
       child: Chip(
         label: Text(label),
@@ -84,15 +89,17 @@ class _ModeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = filters.mode == null ? 'Any mode' : filters.mode!.label;
+    final l10n = AppLocalizations.of(context);
+    final label = filters.mode == null ? l10n.filterAnyMode : filters.mode!.localized(l10n);
     return PopupMenuButton<TeachingMode?>(
-      tooltip: 'Teaching mode',
+      tooltip: l10n.filterTeachingModeTooltip,
       onSelected: (v) => onChanged(
         v == null ? filters.copyWith(clearMode: true) : filters.copyWith(mode: v),
       ),
       itemBuilder: (_) => [
-        const PopupMenuItem(value: null, child: Text('Any mode')),
-        for (final m in TeachingMode.values) PopupMenuItem(value: m, child: Text(m.label)),
+        PopupMenuItem(value: null, child: Text(l10n.filterAnyMode)),
+        for (final m in TeachingMode.values)
+          PopupMenuItem(value: m, child: Text(m.localized(l10n))),
       ],
       child: Chip(label: Text(label), avatar: const Icon(Icons.swap_horiz_outlined, size: 18)),
     );
@@ -108,15 +115,16 @@ class _RadiusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PopupMenuButton<double>(
-      tooltip: 'Radius',
+      tooltip: l10n.filterRadiusTooltip,
       onSelected: (v) => onChanged(filters.copyWith(radiusKm: v)),
       itemBuilder: (_) => [
         for (final r in _options)
-          PopupMenuItem(value: r, child: Text('Within ${r.toStringAsFixed(0)} km')),
+          PopupMenuItem(value: r, child: Text(l10n.filterRadiusWithinKm(r.toInt()))),
       ],
       child: Chip(
-        label: Text('${filters.radiusKm.toStringAsFixed(0)} km'),
+        label: Text(l10n.filterRadiusKm(filters.radiusKm.toInt())),
         avatar: const Icon(Icons.radio_button_unchecked, size: 18),
       ),
     );
