@@ -181,6 +181,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email.'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password.'**
+  String get passwordRequired;
+
+  /// No description provided for @loginSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get loginSubmit;
+
+  /// No description provided for @loginToRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Create one'**
+  String get loginToRegister;
+
+  /// No description provided for @loginErrorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect.'**
+  String get loginErrorInvalidCredentials;
+
+  /// No description provided for @errorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get errorGeneric;
 }
 
 class _AppLocalizationsDelegate

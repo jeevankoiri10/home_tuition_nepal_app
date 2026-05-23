@@ -49,4 +49,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeDark => 'Dark';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get emailInvalid => 'Enter a valid email.';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordRequired => 'Enter your password.';
+
+  @override
+  String get loginSubmit => 'Sign in';
+
+  @override
+  String get loginToRegister => 'Don\'t have an account? Create one';
+
+  @override
+  String get loginErrorInvalidCredentials => 'Email or password is incorrect.';
+
+  @override
+  String get errorGeneric => 'Something went wrong. Please try again.';
 }

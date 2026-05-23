@@ -36,5 +36,29 @@
 
   "themeSystem": "System",
   "themeLight": "Light",
-  "themeDark": "Dark"
+  "themeDark": "Dark",
+
+  "emailLabel": "Email",
+  "@emailLabel": {},
+
+  "emailInvalid": "Enter a valid email.",
+  "@emailInvalid": {},
+
+  "passwordLabel": "Password",
+  "@passwordLabel": {},
+
+  "passwordRequired": "Enter your password.",
+  "@passwordRequired": {},
+
+  "loginSubmit": "Sign in",
+  "@loginSubmit": {},
+
+  "loginToRegister": "Don't have an account? Create one",
+  "@loginToRegister": {},
+
+  "loginErrorInvalidCredentials": "Email or password is incorrect.",
+  "@loginErrorInvalidCredentials": {},
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {}
 }

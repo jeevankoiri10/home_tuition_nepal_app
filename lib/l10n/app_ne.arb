@@ -19,5 +19,14 @@
 
   "themeSystem": "सिस्टम",
   "themeLight": "लाइट",
-  "themeDark": "डार्क"
+  "themeDark": "डार्क",
+
+  "emailLabel": "इमेल",
+  "emailInvalid": "मान्य इमेल हाल्नुहोस्।",
+  "passwordLabel": "पासवर्ड",
+  "passwordRequired": "आफ्नो पासवर्ड हाल्नुहोस्।",
+  "loginSubmit": "साइन इन",
+  "loginToRegister": "खाता छैन? बनाउनुहोस्",
+  "loginErrorInvalidCredentials": "इमेल वा पासवर्ड मिलेन।",
+  "errorGeneric": "केही गडबड भयो। फेरि प्रयास गर्नुहोस्।"
 }

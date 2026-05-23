@@ -37,12 +37,12 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
-  String _errorMessage(String code) {
+  String _errorMessage(AppLocalizations l10n, String code) {
     switch (code) {
       case 'invalid_credentials':
-        return 'Email or password is incorrect.';
+        return l10n.loginErrorInvalidCredentials;
       default:
-        return 'Something went wrong. Please try again.';
+        return l10n.errorGeneric;
     }
   }
 
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             context.go(AppRoutes.otp);
           } else if (state.status == AuthStatus.error && state.errorCode != null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(_errorMessage(state.errorCode!))),
+              SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),
             );
           }
         },
@@ -77,17 +77,17 @@ class _LoginPageState extends State<LoginPage> {
                   Text(l10n.loginSubtitle, style: Theme.of(context).textTheme.bodyLarge),
                   const SizedBox(height: AppSpacing.xxl),
                   AppTextField(
-                    label: 'Email',
+                    label: l10n.emailLabel,
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: Icons.mail_outline,
                     validator: (v) {
                       final code = Validators.email(v);
-                      return code == null ? null : 'Enter a valid email.';
+                      return code == null ? null : l10n.emailInvalid;
                     },
                   ),
                   AppTextField(
-                    label: 'Password',
+                    label: l10n.passwordLabel,
                     controller: _password,
                     obscureText: _obscure,
                     prefixIcon: Icons.lock_outline,
@@ -95,14 +95,14 @@ class _LoginPageState extends State<LoginPage> {
                       icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
-                    validator: (v) => Validators.required(v) == null ? null : 'Enter your password.',
+                    validator: (v) => Validators.required(v) == null ? null : l10n.passwordRequired,
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  PrimaryButton(label: 'Sign in', busy: busy, onPressed: busy ? null : _submit),
+                  PrimaryButton(label: l10n.loginSubmit, busy: busy, onPressed: busy ? null : _submit),
                   const SizedBox(height: AppSpacing.lg),
                   TextButton(
                     onPressed: () => context.go(AppRoutes.register),
-                    child: const Text("Don't have an account? Create one"),
+                    child: Text(l10n.loginToRegister),
                   ),
                 ],
               ),
