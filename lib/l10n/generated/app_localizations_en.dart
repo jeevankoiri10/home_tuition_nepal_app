@@ -473,4 +473,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifKindSystem => 'Notice';
+
+  @override
+  String get chatTitleFallback => 'Chat';
+
+  @override
+  String get chatOpenError => 'Could not open chat.';
+
+  @override
+  String get chatComposerHint => 'Type a message…';
+
+  @override
+  String get chatEmptyHint =>
+      'Say hello — and remember: do not share phone numbers or emails here.';
+
+  @override
+  String reviewRateTitle(String name) {
+    return 'Rate $name';
+  }
+
+  @override
+  String get reviewPhoneBanWarning =>
+      'Do not include phone numbers or contact details in your review.';
+
+  @override
+  String get reviewTextLabel => 'Tell other students about this tutor';
+
+  @override
+  String get reviewTextHint => 'Optional. Stay specific and respectful.';
+
+  @override
+  String get reviewSubmit => 'Submit review';
+
+  @override
+  String get reviewSending => 'Sending…';
+
+  @override
+  String get reviewThanks => 'Thanks for your review!';
+
+  @override
+  String get reviewGateNotMet => 'You need to unlock this tutor first.';
+
+  @override
+  String get reviewPhoneRejected =>
+      'Phone numbers and contact details are not allowed.';
+
+  @override
+  String get reviewFailedGeneric => 'Could not submit review.';
+
+  @override
+  String get notRated => 'Not rated';
 }

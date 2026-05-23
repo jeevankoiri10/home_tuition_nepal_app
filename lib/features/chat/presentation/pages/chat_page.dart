@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../domain/models/chat_message.dart';
 import '../blocs/chat_bloc.dart';
@@ -59,9 +60,10 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.counterpartyMaskedName ?? 'Chat'),
+        title: Text(widget.counterpartyMaskedName ?? l10n.chatTitleFallback),
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
         listenWhen: (a, b) =>
@@ -77,7 +79,7 @@ class _ChatPageState extends State<ChatPage> {
         },
         builder: (context, state) {
           if (state.status == ChatStatus.error) {
-            return _GateError(message: state.errorMessage ?? 'Could not open chat.');
+            return _GateError(message: state.errorMessage ?? l10n.chatOpenError);
           }
           if (state.status == ChatStatus.opening || state.status == ChatStatus.loading) {
             return const Center(child: CircularProgressIndicator());
@@ -183,7 +185,7 @@ class _Composer extends StatelessWidget {
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => onSend(),
               decoration: InputDecoration(
-                hintText: 'Type a message…',
+                hintText: AppLocalizations.of(context).chatComposerHint,
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: AppRadii.pillBorder,
@@ -215,13 +217,13 @@ class _EmptyState extends StatelessWidget {
   const _EmptyState();
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(AppSpacing.xxl),
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.xxl),
       child: Center(
         child: Text(
-          'Say hello — and remember: do not share phone numbers or emails here.',
+          AppLocalizations.of(context).chatEmptyHint,
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.textSecondary),
+          style: const TextStyle(color: AppColors.textSecondary),
         ),
       ),
     );

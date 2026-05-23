@@ -471,4 +471,54 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get notifKindSystem => 'सूचना';
+
+  @override
+  String get chatTitleFallback => 'च्याट';
+
+  @override
+  String get chatOpenError => 'च्याट खोल्न सकिएन।';
+
+  @override
+  String get chatComposerHint => 'सन्देश लेख्नुहोस्…';
+
+  @override
+  String get chatEmptyHint =>
+      'नमस्ते भन्नुहोस् — तर फोन नम्बर वा इमेल साझा नगर्नुहोस्।';
+
+  @override
+  String reviewRateTitle(String name) {
+    return '$name लाई मूल्याङ्कन गर्नुहोस्';
+  }
+
+  @override
+  String get reviewPhoneBanWarning =>
+      'समीक्षामा फोन नम्बर वा सम्पर्क विवरण नराख्नुहोस्।';
+
+  @override
+  String get reviewTextLabel =>
+      'अरू विद्यार्थीलाई यो शिक्षकको बारेमा बताउनुहोस्';
+
+  @override
+  String get reviewTextHint => 'वैकल्पिक। स्पष्ट र सम्मानजनक रहनुहोस्।';
+
+  @override
+  String get reviewSubmit => 'समीक्षा पेस गर्नुहोस्';
+
+  @override
+  String get reviewSending => 'पठाउँदै…';
+
+  @override
+  String get reviewThanks => 'तपाईंको समीक्षाका लागि धन्यवाद!';
+
+  @override
+  String get reviewGateNotMet => 'पहिले यो शिक्षकलाई खोल्नुहोस्।';
+
+  @override
+  String get reviewPhoneRejected => 'फोन नम्बर र सम्पर्क विवरण स्वीकार्य छैन।';
+
+  @override
+  String get reviewFailedGeneric => 'समीक्षा पेस गर्न सकिएन।';
+
+  @override
+  String get notRated => 'मूल्याङ्कन भएको छैन';
 }

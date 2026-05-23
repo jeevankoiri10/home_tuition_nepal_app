@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/generated/app_localizations.dart';
+
 /// Tap-to-set 1–5 star input. Used by the Submit Review sheet.
 class StarRatingInput extends StatelessWidget {
   const StarRatingInput({
@@ -43,8 +45,8 @@ class StarRatingBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (count == 0) {
-      return const Text('Not rated',
-          style: TextStyle(color: Color(0xFF9E9E9E), fontSize: 12));
+      return Text(AppLocalizations.of(context).notRated,
+          style: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 12));
     }
     return Row(
       mainAxisSize: MainAxisSize.min,

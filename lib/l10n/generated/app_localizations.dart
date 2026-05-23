@@ -913,6 +913,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notice'**
   String get notifKindSystem;
+
+  /// No description provided for @chatTitleFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat'**
+  String get chatTitleFallback;
+
+  /// No description provided for @chatOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open chat.'**
+  String get chatOpenError;
+
+  /// No description provided for @chatComposerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message…'**
+  String get chatComposerHint;
+
+  /// No description provided for @chatEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Say hello — and remember: do not share phone numbers or emails here.'**
+  String get chatEmptyHint;
+
+  /// No description provided for @reviewRateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate {name}'**
+  String reviewRateTitle(String name);
+
+  /// No description provided for @reviewPhoneBanWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not include phone numbers or contact details in your review.'**
+  String get reviewPhoneBanWarning;
+
+  /// No description provided for @reviewTextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell other students about this tutor'**
+  String get reviewTextLabel;
+
+  /// No description provided for @reviewTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Stay specific and respectful.'**
+  String get reviewTextHint;
+
+  /// No description provided for @reviewSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get reviewSubmit;
+
+  /// No description provided for @reviewSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending…'**
+  String get reviewSending;
+
+  /// No description provided for @reviewThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your review!'**
+  String get reviewThanks;
+
+  /// No description provided for @reviewGateNotMet.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to unlock this tutor first.'**
+  String get reviewGateNotMet;
+
+  /// No description provided for @reviewPhoneRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone numbers and contact details are not allowed.'**
+  String get reviewPhoneRejected;
+
+  /// No description provided for @reviewFailedGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not submit review.'**
+  String get reviewFailedGeneric;
+
+  /// No description provided for @notRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not rated'**
+  String get notRated;
 }
 
 class _AppLocalizationsDelegate

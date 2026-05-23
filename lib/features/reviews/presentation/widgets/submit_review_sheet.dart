@@ -5,6 +5,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/phone_ban_regex.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/reviews_repository.dart';
 import 'star_rating_input.dart';
 
@@ -37,8 +38,9 @@ class _SubmitReviewSheetState extends State<SubmitReviewSheet> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context);
     if (PhoneBanRegex.isViolation(_text.text)) {
-      setState(() => _error = 'Remove phone numbers or contact details from your review.');
+      setState(() => _error = l10n.reviewPhoneRejected);
       return;
     }
     setState(() {
@@ -54,23 +56,24 @@ class _SubmitReviewSheetState extends State<SubmitReviewSheet> {
       if (!mounted) return;
       Navigator.of(context).pop(true);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Thanks for your review!')),
+        SnackBar(content: Text(l10n.reviewThanks)),
       );
     } on ReviewsException catch (e) {
       if (!mounted) return;
       setState(() {
         _busy = false;
         _error = e.isGateNotMet
-            ? 'You need to unlock this tutor first.'
+            ? l10n.reviewGateNotMet
             : (e.isPhoneInReview
-                ? 'Phone numbers and contact details are not allowed.'
-                : (e.message ?? 'Could not submit review.'));
+                ? l10n.reviewPhoneRejected
+                : (e.message ?? l10n.reviewFailedGeneric));
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
@@ -83,7 +86,7 @@ class _SubmitReviewSheetState extends State<SubmitReviewSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Rate ${widget.tutorMaskedName}',
+            Text(l10n.reviewRateTitle(widget.tutorMaskedName),
                 style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: AppSpacing.lg),
             StarRatingInput(
@@ -91,16 +94,15 @@ class _SubmitReviewSheetState extends State<SubmitReviewSheet> {
               onChanged: (v) => setState(() => _stars = v),
             ),
             const SizedBox(height: AppSpacing.lg),
-            const PhoneBanWarning(
-              message:
-                  'Do not include phone numbers or contact details in your review.',
+            PhoneBanWarning(
+              message: l10n.reviewPhoneBanWarning,
             ),
             TextField(
               controller: _text,
               maxLines: 4,
-              decoration: const InputDecoration(
-                labelText: 'Tell other students about this tutor',
-                hintText: 'Optional. Stay specific and respectful.',
+              decoration: InputDecoration(
+                labelText: l10n.reviewTextLabel,
+                hintText: l10n.reviewTextHint,
               ),
             ),
             if (_error != null) ...[
@@ -110,7 +112,7 @@ class _SubmitReviewSheetState extends State<SubmitReviewSheet> {
             ],
             const SizedBox(height: AppSpacing.lg),
             PrimaryButton(
-              label: _busy ? 'Sending…' : 'Submit review',
+              label: _busy ? l10n.reviewSending : l10n.reviewSubmit,
               busy: _busy,
               onPressed: _busy ? null : _submit,
             ),

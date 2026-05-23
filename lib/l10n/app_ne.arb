@@ -148,5 +148,21 @@
   "notifKindCoinCredited": "सिक्का थपियो",
   "notifKindCoinDebited": "सिक्का घटाइयो",
   "notifKindNewReview": "नयाँ समीक्षा",
-  "notifKindSystem": "सूचना"
+  "notifKindSystem": "सूचना",
+
+  "chatTitleFallback": "च्याट",
+  "chatOpenError": "च्याट खोल्न सकिएन।",
+  "chatComposerHint": "सन्देश लेख्नुहोस्…",
+  "chatEmptyHint": "नमस्ते भन्नुहोस् — तर फोन नम्बर वा इमेल साझा नगर्नुहोस्।",
+  "reviewRateTitle": "{name} लाई मूल्याङ्कन गर्नुहोस्",
+  "reviewPhoneBanWarning": "समीक्षामा फोन नम्बर वा सम्पर्क विवरण नराख्नुहोस्।",
+  "reviewTextLabel": "अरू विद्यार्थीलाई यो शिक्षकको बारेमा बताउनुहोस्",
+  "reviewTextHint": "वैकल्पिक। स्पष्ट र सम्मानजनक रहनुहोस्।",
+  "reviewSubmit": "समीक्षा पेस गर्नुहोस्",
+  "reviewSending": "पठाउँदै…",
+  "reviewThanks": "तपाईंको समीक्षाका लागि धन्यवाद!",
+  "reviewGateNotMet": "पहिले यो शिक्षकलाई खोल्नुहोस्।",
+  "reviewPhoneRejected": "फोन नम्बर र सम्पर्क विवरण स्वीकार्य छैन।",
+  "reviewFailedGeneric": "समीक्षा पेस गर्न सकिएन।",
+  "notRated": "मूल्याङ्कन भएको छैन"
 }

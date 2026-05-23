@@ -462,5 +462,54 @@
   "@notifKindNewReview": {},
 
   "notifKindSystem": "Notice",
-  "@notifKindSystem": {}
+  "@notifKindSystem": {},
+
+  "chatTitleFallback": "Chat",
+  "@chatTitleFallback": {},
+
+  "chatOpenError": "Could not open chat.",
+  "@chatOpenError": {},
+
+  "chatComposerHint": "Type a message…",
+  "@chatComposerHint": {},
+
+  "chatEmptyHint": "Say hello — and remember: do not share phone numbers or emails here.",
+  "@chatEmptyHint": {},
+
+  "reviewRateTitle": "Rate {name}",
+  "@reviewRateTitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "reviewPhoneBanWarning": "Do not include phone numbers or contact details in your review.",
+  "@reviewPhoneBanWarning": {},
+
+  "reviewTextLabel": "Tell other students about this tutor",
+  "@reviewTextLabel": {},
+
+  "reviewTextHint": "Optional. Stay specific and respectful.",
+  "@reviewTextHint": {},
+
+  "reviewSubmit": "Submit review",
+  "@reviewSubmit": {},
+
+  "reviewSending": "Sending…",
+  "@reviewSending": {},
+
+  "reviewThanks": "Thanks for your review!",
+  "@reviewThanks": {},
+
+  "reviewGateNotMet": "You need to unlock this tutor first.",
+  "@reviewGateNotMet": {},
+
+  "reviewPhoneRejected": "Phone numbers and contact details are not allowed.",
+  "@reviewPhoneRejected": {},
+
+  "reviewFailedGeneric": "Could not submit review.",
+  "@reviewFailedGeneric": {},
+
+  "notRated": "Not rated",
+  "@notRated": {}
 }
