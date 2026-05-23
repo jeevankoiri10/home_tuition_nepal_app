@@ -1,0 +1,64 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:home_tuition_nepal_app/core/services/platform_settings_service.dart';
+import 'package:home_tuition_nepal_app/features/wallet/data/fake_wallet_repository.dart';
+import 'package:home_tuition_nepal_app/features/wallet/domain/models/ledger_entry.dart';
+import 'package:home_tuition_nepal_app/features/wallet/domain/wallet_repository.dart';
+
+void main() {
+  late FakeWalletRepository repo;
+
+  setUp(() {
+    repo = FakeWalletRepository(PlatformSettingsService());
+  });
+
+  group('FakeWalletRepository', () {
+    test('first balance read for a new user is the signup grant', () async {
+      expect(await repo.loadBalance('u1'), 1000);
+    });
+
+    test('signup entry is the first ledger row', () async {
+      await repo.loadBalance('u1');
+      final history = await repo.loadHistory('u1');
+      expect(history, isNotEmpty);
+      expect(history.first.reason, LedgerReason.signup);
+      expect(history.first.delta, 1000);
+    });
+
+    test('unlock debits the unlock cost and records ledger row', () async {
+      await repo.loadBalance('u1');
+      final balance = await repo.unlockContact(studentId: 'u1', tutorId: 't1');
+      expect(balance, 995);
+      final history = await repo.loadHistory('u1');
+      final unlock = history.firstWhere((e) => e.reason == LedgerReason.unlock);
+      expect(unlock.delta, -5);
+      expect(unlock.refId, 't1');
+    });
+
+    test('second unlock for the same tutor is idempotent (no second debit)', () async {
+      await repo.unlockContact(studentId: 'u1', tutorId: 't1');
+      final balance = await repo.unlockContact(studentId: 'u1', tutorId: 't1');
+      expect(balance, 995);
+    });
+
+    test('apply_to_vacancy debits the apply cost (default 1)', () async {
+      await repo.loadBalance('u2');
+      final balance = await repo.applyToVacancy(tutorId: 'u2', vacancyId: 'v1');
+      expect(balance, 999);
+    });
+
+    test('insufficient funds throw WalletException', () async {
+      await repo.loadBalance('poor');
+      // Drain the wallet by repeatedly unlocking different tutors.
+      for (int i = 0; i < 199; i++) {
+        await repo.unlockContact(studentId: 'poor', tutorId: 't$i');
+      }
+      // Balance is now 5; next unlock should succeed, then drain again.
+      await repo.unlockContact(studentId: 'poor', tutorId: 't199');
+      expect(await repo.loadBalance('poor'), 0);
+      expect(
+        () => repo.unlockContact(studentId: 'poor', tutorId: 't_new'),
+        throwsA(isA<WalletException>().having((e) => e.isInsufficient, 'isInsufficient', true)),
+      );
+    });
+  });
+}
