@@ -1,0 +1,23 @@
+{
+  "@@locale": "ne",
+
+  "appName": "होम ट्युशन नेपाल",
+  "appTagline": "तपाईंको क्षेत्रका शिक्षक खोज्नुहोस्।",
+  "publisher": "KTM academy द्वारा",
+
+  "languagePickerTitle": "आफ्नो भाषा छान्नुहोस्",
+  "languageEnglish": "English",
+  "languageNepali": "नेपाली",
+
+  "continueLabel": "अगाडि बढ्नुहोस्",
+
+  "loginTitle": "फेरि स्वागत छ",
+  "loginSubtitle": "तपाईंको क्षेत्रका शिक्षक खोज्न साइन इन गर्नुहोस्।",
+
+  "registerTitle": "खाता बनाउनुहोस्",
+  "registerSubtitle": "सुरु गर्न आफ्नो विवरण भर्नुहोस्।",
+
+  "themeSystem": "सिस्टम",
+  "themeLight": "लाइट",
+  "themeDark": "डार्क"
+}

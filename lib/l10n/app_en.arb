@@ -1,0 +1,40 @@
+{
+  "@@locale": "en",
+
+  "appName": "Home Tuition Nepal",
+  "@appName": {},
+
+  "appTagline": "Search tutors in your locality.",
+  "@appTagline": {},
+
+  "publisher": "by KTM academy",
+  "@publisher": {},
+
+  "languagePickerTitle": "Choose your language",
+  "@languagePickerTitle": {},
+
+  "languageEnglish": "English",
+  "@languageEnglish": {},
+
+  "languageNepali": "नेपाली",
+  "@languageNepali": {},
+
+  "continueLabel": "Continue",
+  "@continueLabel": {},
+
+  "loginTitle": "Welcome back",
+  "@loginTitle": {},
+
+  "loginSubtitle": "Sign in to find tutors in your locality.",
+  "@loginSubtitle": {},
+
+  "registerTitle": "Create your account",
+  "@registerTitle": {},
+
+  "registerSubtitle": "Fill in your details to get started.",
+  "@registerSubtitle": {},
+
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark"
+}
