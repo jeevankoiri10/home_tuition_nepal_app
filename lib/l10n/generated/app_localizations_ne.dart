@@ -154,4 +154,33 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get registerErrorCocRequired =>
       'शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।';
+
+  @override
+  String get otpTitle => 'फोन प्रमाणित गर्नुहोस्';
+
+  @override
+  String otpInstruction(String phone) {
+    return '$phone मा पठाइएको ६ अङ्कको कोड हाल्नुहोस्।';
+  }
+
+  @override
+  String get otpCodeLabel => 'OTP कोड';
+
+  @override
+  String get otpInvalidLength => '६ अङ्क आवश्यक।';
+
+  @override
+  String get otpVerifySubmit => 'प्रमाणित गर्नुहोस्';
+
+  @override
+  String get otpResend => 'कोड पुनः पठाउनुहोस्';
+
+  @override
+  String get otpResentSnack => 'नयाँ कोड पठाइयो।';
+
+  @override
+  String get otpErrorInvalid => 'कोड मिलेन। फेरि प्रयास गर्नुहोस्।';
+
+  @override
+  String get otpErrorNoSession => 'सेसन सकियो। पुनः साइन इन गर्नुहोस्।';
 }

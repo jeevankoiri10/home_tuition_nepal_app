@@ -156,4 +156,33 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get registerErrorCocRequired =>
       'Tutors must accept the Code of Conduct.';
+
+  @override
+  String get otpTitle => 'Verify your phone';
+
+  @override
+  String otpInstruction(String phone) {
+    return 'Enter the 6-digit code we sent to $phone.';
+  }
+
+  @override
+  String get otpCodeLabel => 'OTP code';
+
+  @override
+  String get otpInvalidLength => '6 digits required.';
+
+  @override
+  String get otpVerifySubmit => 'Verify';
+
+  @override
+  String get otpResend => 'Resend code';
+
+  @override
+  String get otpResentSnack => 'A new code was sent.';
+
+  @override
+  String get otpErrorInvalid => 'That code is not valid. Please try again.';
+
+  @override
+  String get otpErrorNoSession => 'Session expired. Please sign in again.';
 }

@@ -138,5 +138,36 @@
   "@registerErrorSignupFailed": {},
 
   "registerErrorCocRequired": "Tutors must accept the Code of Conduct.",
-  "@registerErrorCocRequired": {}
+  "@registerErrorCocRequired": {},
+
+  "otpTitle": "Verify your phone",
+  "@otpTitle": {},
+
+  "otpInstruction": "Enter the 6-digit code we sent to {phone}.",
+  "@otpInstruction": {
+    "placeholders": {
+      "phone": { "type": "String" }
+    }
+  },
+
+  "otpCodeLabel": "OTP code",
+  "@otpCodeLabel": {},
+
+  "otpInvalidLength": "6 digits required.",
+  "@otpInvalidLength": {},
+
+  "otpVerifySubmit": "Verify",
+  "@otpVerifySubmit": {},
+
+  "otpResend": "Resend code",
+  "@otpResend": {},
+
+  "otpResentSnack": "A new code was sent.",
+  "@otpResentSnack": {},
+
+  "otpErrorInvalid": "That code is not valid. Please try again.",
+  "@otpErrorInvalid": {},
+
+  "otpErrorNoSession": "Session expired. Please sign in again.",
+  "@otpErrorNoSession": {}
 }

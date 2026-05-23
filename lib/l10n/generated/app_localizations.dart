@@ -385,6 +385,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tutors must accept the Code of Conduct.'**
   String get registerErrorCocRequired;
+
+  /// No description provided for @otpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your phone'**
+  String get otpTitle;
+
+  /// No description provided for @otpInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code we sent to {phone}.'**
+  String otpInstruction(String phone);
+
+  /// No description provided for @otpCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP code'**
+  String get otpCodeLabel;
+
+  /// No description provided for @otpInvalidLength.
+  ///
+  /// In en, this message translates to:
+  /// **'6 digits required.'**
+  String get otpInvalidLength;
+
+  /// No description provided for @otpVerifySubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get otpVerifySubmit;
+
+  /// No description provided for @otpResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get otpResend;
+
+  /// No description provided for @otpResentSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'A new code was sent.'**
+  String get otpResentSnack;
+
+  /// No description provided for @otpErrorInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That code is not valid. Please try again.'**
+  String get otpErrorInvalid;
+
+  /// No description provided for @otpErrorNoSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired. Please sign in again.'**
+  String get otpErrorNoSession;
 }
 
 class _AppLocalizationsDelegate

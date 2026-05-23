@@ -55,5 +55,15 @@
   "registerSubmit": "दर्ता गर्नुहोस्",
   "registerToLogin": "पहिले नै दर्ता हुनुहुन्छ? साइन इन",
   "registerErrorSignupFailed": "खाता बनाउन सकिएन। इमेल पहिले नै प्रयोग भएको हुन सक्छ।",
-  "registerErrorCocRequired": "शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।"
+  "registerErrorCocRequired": "शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।",
+
+  "otpTitle": "फोन प्रमाणित गर्नुहोस्",
+  "otpInstruction": "{phone} मा पठाइएको ६ अङ्कको कोड हाल्नुहोस्।",
+  "otpCodeLabel": "OTP कोड",
+  "otpInvalidLength": "६ अङ्क आवश्यक।",
+  "otpVerifySubmit": "प्रमाणित गर्नुहोस्",
+  "otpResend": "कोड पुनः पठाउनुहोस्",
+  "otpResentSnack": "नयाँ कोड पठाइयो।",
+  "otpErrorInvalid": "कोड मिलेन। फेरि प्रयास गर्नुहोस्।",
+  "otpErrorNoSession": "सेसन सकियो। पुनः साइन इन गर्नुहोस्।"
 }
