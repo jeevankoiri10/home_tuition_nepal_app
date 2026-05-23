@@ -389,4 +389,86 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get doneLabel => 'भयो';
+
+  @override
+  String get notificationsTitle => 'सूचनाहरू';
+
+  @override
+  String get notificationsMarkAllRead => 'सबै पढिएको चिन्ह लगाउनुहोस्';
+
+  @override
+  String get notificationsTabAll => 'सबै';
+
+  @override
+  String notificationsTabAllCount(int count) {
+    return 'सबै ($count)';
+  }
+
+  @override
+  String get notificationsTabUnread => 'नपढिएका';
+
+  @override
+  String notificationsTabUnreadCount(int count) {
+    return 'नपढिएका ($count)';
+  }
+
+  @override
+  String get notificationsTabRead => 'पढिएका';
+
+  @override
+  String get notificationsEmpty => 'अहिलेसम्म कुनै सूचना छैन।';
+
+  @override
+  String get notificationsEmptyUnread => 'नपढिएका सूचना छैनन्।';
+
+  @override
+  String get notificationsEmptyRead => 'पढिएका सूचना छैनन्।';
+
+  @override
+  String get relativeJustNow => 'अहिले';
+
+  @override
+  String relativeMinutesAgo(int count) {
+    return '$count मिनेट अघि';
+  }
+
+  @override
+  String relativeHoursAgo(int count) {
+    return '$count घण्टा अघि';
+  }
+
+  @override
+  String relativeDaysAgo(int count) {
+    return '$count दिन अघि';
+  }
+
+  @override
+  String get notifKindNewJobPosted => 'नयाँ जागिर पोस्ट';
+
+  @override
+  String get notifKindApplicationShortlisted => 'आवेदन छनोट';
+
+  @override
+  String get notifKindApplicationHired => 'तपाईं छनोट हुनुभयो';
+
+  @override
+  String get notifKindContactRevealed => 'सम्पर्क खुलासा';
+
+  @override
+  String get notifKindIdentityApproved => 'पहिचान प्रमाणीकरण स्वीकृत';
+
+  @override
+  String get notifKindIdentityRejected => 'प्रमाणीकरण फेरि हेर्नुहोस्';
+
+  @override
+  String get notifKindCoinCredited => 'सिक्का थपियो';
+
+  @override
+  String get notifKindCoinDebited => 'सिक्का घटाइयो';
+
+  @override
+  String get notifKindNewReview => 'नयाँ समीक्षा';
+
+  @override
+  String get notifKindSystem => 'सूचना';
 }

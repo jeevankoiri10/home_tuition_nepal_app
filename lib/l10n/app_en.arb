@@ -370,5 +370,97 @@
   "@leaveReview": {},
 
   "doneLabel": "Done",
-  "@doneLabel": {}
+  "@doneLabel": {},
+
+  "notificationsTitle": "Notifications",
+  "@notificationsTitle": {},
+
+  "notificationsMarkAllRead": "Mark all read",
+  "@notificationsMarkAllRead": {},
+
+  "notificationsTabAll": "All",
+  "@notificationsTabAll": {},
+
+  "notificationsTabAllCount": "All ({count})",
+  "@notificationsTabAllCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "notificationsTabUnread": "Unread",
+  "@notificationsTabUnread": {},
+
+  "notificationsTabUnreadCount": "Unread ({count})",
+  "@notificationsTabUnreadCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "notificationsTabRead": "Read",
+  "@notificationsTabRead": {},
+
+  "notificationsEmpty": "No notifications yet.",
+  "@notificationsEmpty": {},
+
+  "notificationsEmptyUnread": "No unread notifications.",
+  "@notificationsEmptyUnread": {},
+
+  "notificationsEmptyRead": "No read notifications.",
+  "@notificationsEmptyRead": {},
+
+  "relativeJustNow": "just now",
+  "@relativeJustNow": {},
+
+  "relativeMinutesAgo": "{count}m ago",
+  "@relativeMinutesAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "relativeHoursAgo": "{count}h ago",
+  "@relativeHoursAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "relativeDaysAgo": "{count}d ago",
+  "@relativeDaysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "notifKindNewJobPosted": "New job posted",
+  "@notifKindNewJobPosted": {},
+
+  "notifKindApplicationShortlisted": "Application shortlisted",
+  "@notifKindApplicationShortlisted": {},
+
+  "notifKindApplicationHired": "You were hired",
+  "@notifKindApplicationHired": {},
+
+  "notifKindContactRevealed": "Contact revealed",
+  "@notifKindContactRevealed": {},
+
+  "notifKindIdentityApproved": "Identity Verification Approved",
+  "@notifKindIdentityApproved": {},
+
+  "notifKindIdentityRejected": "Verification needs attention",
+  "@notifKindIdentityRejected": {},
+
+  "notifKindCoinCredited": "Coins credited",
+  "@notifKindCoinCredited": {},
+
+  "notifKindCoinDebited": "Coins debited",
+  "@notifKindCoinDebited": {},
+
+  "notifKindNewReview": "New review",
+  "@notifKindNewReview": {},
+
+  "notifKindSystem": "Notice",
+  "@notifKindSystem": {}
 }

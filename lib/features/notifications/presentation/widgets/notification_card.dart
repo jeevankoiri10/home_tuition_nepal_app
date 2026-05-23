@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/app_notification.dart';
 
 /// One row in the Notifications feed. Layout mirrors the competitor pattern
@@ -48,6 +49,7 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: InkWell(
@@ -68,7 +70,7 @@ class NotificationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      notification.kind.fallbackLabel,
+                      _kindLabel(l10n, notification.kind),
                       style: tt.labelMedium?.copyWith(
                         color: _labelColor,
                         fontWeight: notification.isRead ? FontWeight.w500 : FontWeight.w700,
@@ -93,7 +95,7 @@ class NotificationCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(_relative(notification.createdAt),
+                  Text(_relative(l10n, notification.createdAt),
                       style: tt.bodySmall?.copyWith(color: AppColors.textSecondary)),
                   const SizedBox(height: 2),
                   Icon(
@@ -112,11 +114,36 @@ class NotificationCard extends StatelessWidget {
     );
   }
 
-  static String _relative(DateTime t) {
+  static String _kindLabel(AppLocalizations l10n, NotificationKind kind) {
+    switch (kind) {
+      case NotificationKind.newJobPosted:
+        return l10n.notifKindNewJobPosted;
+      case NotificationKind.applicationShortlisted:
+        return l10n.notifKindApplicationShortlisted;
+      case NotificationKind.applicationHired:
+        return l10n.notifKindApplicationHired;
+      case NotificationKind.contactRevealed:
+        return l10n.notifKindContactRevealed;
+      case NotificationKind.identityVerificationApproved:
+        return l10n.notifKindIdentityApproved;
+      case NotificationKind.identityVerificationRejected:
+        return l10n.notifKindIdentityRejected;
+      case NotificationKind.coinCredited:
+        return l10n.notifKindCoinCredited;
+      case NotificationKind.coinDebited:
+        return l10n.notifKindCoinDebited;
+      case NotificationKind.newReview:
+        return l10n.notifKindNewReview;
+      case NotificationKind.systemMessage:
+        return l10n.notifKindSystem;
+    }
+  }
+
+  static String _relative(AppLocalizations l10n, DateTime t) {
     final d = DateTime.now().difference(t);
-    if (d.inMinutes < 1) return 'just now';
-    if (d.inMinutes < 60) return '${d.inMinutes}m ago';
-    if (d.inHours < 24) return '${d.inHours}h ago';
-    return '${d.inDays}d ago';
+    if (d.inMinutes < 1) return l10n.relativeJustNow;
+    if (d.inMinutes < 60) return l10n.relativeMinutesAgo(d.inMinutes);
+    if (d.inHours < 24) return l10n.relativeHoursAgo(d.inHours);
+    return l10n.relativeDaysAgo(d.inDays);
   }
 }

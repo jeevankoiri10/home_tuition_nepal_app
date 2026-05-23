@@ -391,4 +391,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get doneLabel => 'Done';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all read';
+
+  @override
+  String get notificationsTabAll => 'All';
+
+  @override
+  String notificationsTabAllCount(int count) {
+    return 'All ($count)';
+  }
+
+  @override
+  String get notificationsTabUnread => 'Unread';
+
+  @override
+  String notificationsTabUnreadCount(int count) {
+    return 'Unread ($count)';
+  }
+
+  @override
+  String get notificationsTabRead => 'Read';
+
+  @override
+  String get notificationsEmpty => 'No notifications yet.';
+
+  @override
+  String get notificationsEmptyUnread => 'No unread notifications.';
+
+  @override
+  String get notificationsEmptyRead => 'No read notifications.';
+
+  @override
+  String get relativeJustNow => 'just now';
+
+  @override
+  String relativeMinutesAgo(int count) {
+    return '${count}m ago';
+  }
+
+  @override
+  String relativeHoursAgo(int count) {
+    return '${count}h ago';
+  }
+
+  @override
+  String relativeDaysAgo(int count) {
+    return '${count}d ago';
+  }
+
+  @override
+  String get notifKindNewJobPosted => 'New job posted';
+
+  @override
+  String get notifKindApplicationShortlisted => 'Application shortlisted';
+
+  @override
+  String get notifKindApplicationHired => 'You were hired';
+
+  @override
+  String get notifKindContactRevealed => 'Contact revealed';
+
+  @override
+  String get notifKindIdentityApproved => 'Identity Verification Approved';
+
+  @override
+  String get notifKindIdentityRejected => 'Verification needs attention';
+
+  @override
+  String get notifKindCoinCredited => 'Coins credited';
+
+  @override
+  String get notifKindCoinDebited => 'Coins debited';
+
+  @override
+  String get notifKindNewReview => 'New review';
+
+  @override
+  String get notifKindSystem => 'Notice';
 }

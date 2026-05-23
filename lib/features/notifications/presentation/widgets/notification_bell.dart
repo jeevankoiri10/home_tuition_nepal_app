@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../blocs/notifications_bloc.dart';
 
 /// Bell icon with an unread-count badge. Drop into any AppBar's actions list.
@@ -20,7 +21,7 @@ class NotificationBell extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             IconButton(
-              tooltip: 'Notifications',
+              tooltip: AppLocalizations.of(context).notificationsTitle,
               icon: Icon(Icons.notifications_outlined, color: iconColor),
               onPressed: () => context.push(AppRoutes.notifications),
             ),

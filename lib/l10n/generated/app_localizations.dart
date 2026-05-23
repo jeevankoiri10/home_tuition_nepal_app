@@ -769,6 +769,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get doneLabel;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notificationsTabAll;
+
+  /// No description provided for @notificationsTabAllCount.
+  ///
+  /// In en, this message translates to:
+  /// **'All ({count})'**
+  String notificationsTabAllCount(int count);
+
+  /// No description provided for @notificationsTabUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get notificationsTabUnread;
+
+  /// No description provided for @notificationsTabUnreadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread ({count})'**
+  String notificationsTabUnreadCount(int count);
+
+  /// No description provided for @notificationsTabRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get notificationsTabRead;
+
+  /// No description provided for @notificationsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet.'**
+  String get notificationsEmpty;
+
+  /// No description provided for @notificationsEmptyUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'No unread notifications.'**
+  String get notificationsEmptyUnread;
+
+  /// No description provided for @notificationsEmptyRead.
+  ///
+  /// In en, this message translates to:
+  /// **'No read notifications.'**
+  String get notificationsEmptyRead;
+
+  /// No description provided for @relativeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get relativeJustNow;
+
+  /// No description provided for @relativeMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m ago'**
+  String relativeMinutesAgo(int count);
+
+  /// No description provided for @relativeHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h ago'**
+  String relativeHoursAgo(int count);
+
+  /// No description provided for @relativeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d ago'**
+  String relativeDaysAgo(int count);
+
+  /// No description provided for @notifKindNewJobPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'New job posted'**
+  String get notifKindNewJobPosted;
+
+  /// No description provided for @notifKindApplicationShortlisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Application shortlisted'**
+  String get notifKindApplicationShortlisted;
+
+  /// No description provided for @notifKindApplicationHired.
+  ///
+  /// In en, this message translates to:
+  /// **'You were hired'**
+  String get notifKindApplicationHired;
+
+  /// No description provided for @notifKindContactRevealed.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact revealed'**
+  String get notifKindContactRevealed;
+
+  /// No description provided for @notifKindIdentityApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity Verification Approved'**
+  String get notifKindIdentityApproved;
+
+  /// No description provided for @notifKindIdentityRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification needs attention'**
+  String get notifKindIdentityRejected;
+
+  /// No description provided for @notifKindCoinCredited.
+  ///
+  /// In en, this message translates to:
+  /// **'Coins credited'**
+  String get notifKindCoinCredited;
+
+  /// No description provided for @notifKindCoinDebited.
+  ///
+  /// In en, this message translates to:
+  /// **'Coins debited'**
+  String get notifKindCoinDebited;
+
+  /// No description provided for @notifKindNewReview.
+  ///
+  /// In en, this message translates to:
+  /// **'New review'**
+  String get notifKindNewReview;
+
+  /// No description provided for @notifKindSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice'**
+  String get notifKindSystem;
 }
 
 class _AppLocalizationsDelegate
