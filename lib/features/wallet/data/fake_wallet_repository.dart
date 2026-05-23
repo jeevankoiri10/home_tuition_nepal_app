@@ -15,7 +15,7 @@ class FakeWalletRepository implements WalletRepository {
   _UserWallet _ensure(String userId) {
     return _wallets.putIfAbsent(
       userId,
-      () => _UserWallet(balance: AppConstants.defaultSignupCoinGrant)
+      () => _UserWallet(balance: 0)
         ..addCredit(
           AppConstants.defaultSignupCoinGrant,
           LedgerReason.signup,
@@ -34,6 +34,15 @@ class FakeWalletRepository implements WalletRepository {
   Future<List<LedgerEntry>> loadHistory(String userId, {int limit = 50}) async {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     return _ensure(userId).entries.reversed.take(limit).toList();
+  }
+
+  @override
+  Future<bool> hasUnlocked({required String studentId, required String tutorId}) async {
+    final w = _wallets[studentId];
+    if (w == null) return false;
+    return w.entries.any(
+      (e) => e.reason == LedgerReason.unlock && e.refId == tutorId,
+    );
   }
 
   @override

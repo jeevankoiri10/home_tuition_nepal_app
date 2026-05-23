@@ -67,6 +67,7 @@ class TutorProfileBloc extends Bloc<TutorProfileEvent, TutorProfileState> {
   Future<void> _onPublish(TutorProfilePublishRequested event, Emitter<TutorProfileState> emit) async {
     final draft = state.profile;
     if (draft == null) return;
+    _autoSaveTimer?.cancel();
     emit(state.copyWith(status: TutorProfileStatus.saving));
     try {
       final published = await _repo.publish(draft);
