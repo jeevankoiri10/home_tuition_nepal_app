@@ -63,5 +63,6 @@
   "verifyEmailResend": "इमेल पुनः पठाउनुहोस्",
   "verifyEmailResentSnack": "नयाँ प्रमाणीकरण इमेल पठाइयो।",
   "verifyEmailNotYet": "अहिलेसम्म प्रमाणीकरण देखिएन — इमेल खोल्नुहोस् र लिङ्क थिच्नुहोस्।",
-  "verifyEmailErrorNoSession": "सेसन सकियो। पुनः साइन इन गर्नुहोस्।"
+  "verifyEmailErrorNoSession": "सेसन सकियो। पुनः साइन इन गर्नुहोस्।",
+  "verifyEmailResendCooldown": "{seconds} सेकेन्डपछि पुनः पठाउनुहोस्"
 }

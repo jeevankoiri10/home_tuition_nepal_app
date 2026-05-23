@@ -427,6 +427,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Session expired. Please sign in again.'**
   String get verifyEmailErrorNoSession;
+
+  /// No description provided for @verifyEmailResendCooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String verifyEmailResendCooldown(int seconds);
 }
 
 class _AppLocalizationsDelegate

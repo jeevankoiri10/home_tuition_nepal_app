@@ -178,4 +178,9 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get verifyEmailErrorNoSession => 'सेसन सकियो। पुनः साइन इन गर्नुहोस्।';
+
+  @override
+  String verifyEmailResendCooldown(int seconds) {
+    return '$seconds सेकेन्डपछि पुनः पठाउनुहोस्';
+  }
 }

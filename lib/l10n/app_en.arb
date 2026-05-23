@@ -163,5 +163,12 @@
   "@verifyEmailNotYet": {},
 
   "verifyEmailErrorNoSession": "Session expired. Please sign in again.",
-  "@verifyEmailErrorNoSession": {}
+  "@verifyEmailErrorNoSession": {},
+
+  "verifyEmailResendCooldown": "Resend in {seconds}s",
+  "@verifyEmailResendCooldown": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  }
 }

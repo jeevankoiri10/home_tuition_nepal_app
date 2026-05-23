@@ -181,4 +181,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get verifyEmailErrorNoSession =>
       'Session expired. Please sign in again.';
+
+  @override
+  String verifyEmailResendCooldown(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
 }
