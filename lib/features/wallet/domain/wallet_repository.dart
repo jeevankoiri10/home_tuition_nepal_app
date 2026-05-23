@@ -21,6 +21,11 @@ abstract class WalletRepository {
   /// for the same tutor returns the current balance without a second debit.
   Future<int> unlockContact({required String studentId, required String tutorId});
 
+  /// Non-mutating gate check used by chat / reviews to confirm the caller
+  /// has previously unlocked the tutor. Server-side this is a row probe; the
+  /// fake reads the ledger.
+  Future<bool> hasUnlocked({required String studentId, required String tutorId});
+
   Future<int> applyToVacancy({required String tutorId, required String vacancyId});
 
   Future<int> bidOnJob({required String tutorId, required String jobId});

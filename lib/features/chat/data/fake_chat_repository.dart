@@ -13,27 +13,12 @@ class FakeChatRepository implements ChatRepository {
   FakeChatRepository(this._wallet);
 
   final WalletRepository _wallet;
-  // ignore: unused_field — wallet is used indirectly via the unlock check
-  // when this repo decides whether the gate is met.
 
   final Map<String, ChatThread> _threadsById = {};
   final Map<String, List<ChatMessage>> _messagesByThread = {};
   final Map<String, StreamController<ChatMessage>> _streamsByThread = {};
 
   String _pairKey(String studentId, String tutorId) => '$studentId|$tutorId';
-
-  Future<bool> _hasUnlocked(String studentId, String tutorId) async {
-    // The FakeWallet records unlocks via ledger entries — we can probe by
-    // pretending to unlock and catching the idempotent return. But cleaner:
-    // we re-call unlockContact knowing the fake repo is idempotent. To avoid
-    // accidental debits the demo treats "already unlocked" as gate-met.
-    try {
-      await _wallet.unlockContact(studentId: studentId, tutorId: tutorId);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
 
   @override
   Future<ChatThread> openOrGetThread(String counterpartyId) async {
@@ -44,7 +29,7 @@ class FakeChatRepository implements ChatRepository {
     final existing = _threadsById[key];
     if (existing != null) return existing;
 
-    final ok = await _hasUnlocked(demoStudent, counterpartyId);
+    final ok = await _wallet.hasUnlocked(studentId: demoStudent, tutorId: counterpartyId);
     if (!ok) {
       throw ChatException('gate_not_met', 'Unlock the tutor first to start a chat.');
     }

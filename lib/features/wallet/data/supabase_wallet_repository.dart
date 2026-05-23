@@ -41,6 +41,22 @@ class SupabaseWalletRepository implements WalletRepository {
   }
 
   @override
+  Future<bool> hasUnlocked({required String studentId, required String tutorId}) async {
+    try {
+      final rows = await _client
+          .from('wallet_ledger')
+          .select('id')
+          .eq('user_id', studentId)
+          .eq('reason', 'unlock')
+          .eq('ref_id', tutorId)
+          .limit(1);
+      return (rows as List).isNotEmpty;
+    } on sb.PostgrestException catch (e) {
+      throw WalletException('has_unlocked_failed', e.message);
+    }
+  }
+
+  @override
   Future<int> unlockContact({required String studentId, required String tutorId}) {
     return _callIntRpc('unlock_contact', {'p_tutor_id': tutorId});
   }

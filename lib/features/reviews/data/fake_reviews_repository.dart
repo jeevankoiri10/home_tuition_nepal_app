@@ -47,11 +47,8 @@ class FakeReviewsRepository implements ReviewsRepository {
       throw ReviewsException('cannot_review_self');
     }
 
-    // Gate: caller must have unlocked the tutor previously. Re-call the
-    // idempotent unlock — succeeds without a debit if already done.
-    try {
-      await _wallet.unlockContact(studentId: demoStudent, tutorId: tutorId);
-    } catch (_) {
+    final unlocked = await _wallet.hasUnlocked(studentId: demoStudent, tutorId: tutorId);
+    if (!unlocked) {
       throw ReviewsException('gate_not_met', 'Unlock the tutor first to leave a review.');
     }
 
