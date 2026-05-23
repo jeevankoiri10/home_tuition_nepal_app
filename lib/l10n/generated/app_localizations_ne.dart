@@ -183,4 +183,94 @@ class AppLocalizationsNe extends AppLocalizations {
   String verifyEmailResendCooldown(int seconds) {
     return '$seconds सेकेन्डपछि पुनः पठाउनुहोस्';
   }
+
+  @override
+  String get studentHomeTitle => 'विद्यार्थी होम';
+
+  @override
+  String get tutorHomeTitle => 'शिक्षक होम';
+
+  @override
+  String get signOutTooltip => 'साइन आउट';
+
+  @override
+  String homeWelcome(String name) {
+    return 'स्वागत छ, $name';
+  }
+
+  @override
+  String homeHandle(String handle) {
+    return 'ह्यान्डल: $handle';
+  }
+
+  @override
+  String get studentMapPlaceholder =>
+      'क्षेत्र-आधारित म्याप (मुख्य सुविधा) फेज ४ मा आउँछ।';
+
+  @override
+  String get previewLabel => 'पूर्वावलोकन';
+
+  @override
+  String get currentBalanceLabel => 'हालको रकम';
+
+  @override
+  String coinsSuffix(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count सिक्का',
+      one: '$count सिक्का',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tutorActionCompleteProfileTitle => 'प्रोफाइल पूरा गर्नुहोस्';
+
+  @override
+  String get tutorActionCompleteProfileSubtitle =>
+      '७ चरणको विजार्डबाट आफ्नो शिक्षक प्रोफाइल प्रकाशित गर्नुहोस्।';
+
+  @override
+  String get tutorActionProfileSettingsTitle => 'प्रोफाइल सेटिङ';
+
+  @override
+  String get tutorActionProfileSettingsSubtitle =>
+      'विषय, मूल्य, उपलब्धता, मेरो बारेमा, र प्रमाणपत्र सम्पादन गर्नुहोस्।';
+
+  @override
+  String get tutorActionVacanciesTitle => 'खालीस्थानहरू';
+
+  @override
+  String get tutorActionVacanciesSubtitle =>
+      'खुला HTN-NNNNN खालीस्थानहरू हेर्नुहोस् र १ सिक्कामा आवेदन दिनुहोस्।';
+
+  @override
+  String get tutorActionWalletTitle => 'सिक्का वालेट';
+
+  @override
+  String get tutorActionWalletSubtitle =>
+      'रकम, इतिहास हेर्नुहोस् र सिक्का किन्नुहोस्।';
+
+  @override
+  String get tutorActionBoostTitle => 'लिस्टिङ बूस्ट (२४ घण्टा)';
+
+  @override
+  String get tutorActionBoostSubtitle =>
+      'हाइलाइट पिन र फिडको शीर्ष स्थान पाउनुहोस्।';
+
+  @override
+  String tutorBoostSuccessSnack(int balance) {
+    return 'लिस्टिङ २४ घण्टाका लागि बूस्ट भयो · रकम: $balance';
+  }
+
+  @override
+  String get tutorBoostFailedSnack => 'लिस्टिङ बूस्ट गर्न सकिएन।';
+
+  @override
+  String get tutorBoostInsufficientSnack => 'बूस्टका लागि सिक्का अपुग।';
+
+  @override
+  String get tutorPhasesNote =>
+      'पुस-नोटिफिकेसन, इन-एप च्याट, र समीक्षा फेज ८–१० मा आउँछन्।';
 }

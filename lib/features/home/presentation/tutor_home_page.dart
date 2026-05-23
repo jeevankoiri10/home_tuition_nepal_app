@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../auth/presentation/blocs/auth_bloc.dart';
 import '../../notifications/presentation/widgets/notification_bell.dart';
 import '../../reviews/domain/reviews_repository.dart';
@@ -17,16 +18,17 @@ class TutorHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final user = state.user;
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Tutor home'),
+            title: Text(l10n.tutorHomeTitle),
             actions: [
               const NotificationBell(),
               IconButton(
-                tooltip: 'Sign out',
+                tooltip: l10n.signOutTooltip,
                 icon: const Icon(Icons.logout),
                 onPressed: () {
                   context.read<AuthBloc>().add(const AuthSignOutRequested());
@@ -38,10 +40,10 @@ class TutorHomePage extends StatelessWidget {
           body: ListView(
             padding: const EdgeInsets.all(AppSpacing.xl),
             children: [
-              Text('Welcome, ${user?.displayName ?? '—'}',
+              Text(l10n.homeWelcome(user?.displayName ?? '—'),
                   style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: AppSpacing.xs),
-              Text('Handle: ${user?.handle ?? '—'}',
+              Text(l10n.homeHandle(user?.handle ?? '—'),
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: AppSpacing.lg),
               CoinBalanceCard(
@@ -51,60 +53,58 @@ class TutorHomePage extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               _ActionTile(
                 icon: Icons.auto_awesome_outlined,
-                title: 'Complete your profile',
-                subtitle: 'Walk through the 7-step wizard to publish your tutor profile.',
+                title: l10n.tutorActionCompleteProfileTitle,
+                subtitle: l10n.tutorActionCompleteProfileSubtitle,
                 onTap: () => context.push(AppRoutes.tutorOnboarding),
               ),
               _ActionTile(
                 icon: Icons.tune_outlined,
-                title: 'Profile settings',
-                subtitle: 'Edit subjects, prices, availability, About sections, credentials.',
+                title: l10n.tutorActionProfileSettingsTitle,
+                subtitle: l10n.tutorActionProfileSettingsSubtitle,
                 onTap: () => context.push(AppRoutes.tutorProfileSettings),
               ),
               _ActionTile(
                 icon: Icons.assignment_outlined,
-                title: 'Vacancies',
-                subtitle: 'Browse open HTN-NNNNN vacancies and apply with 1 coin.',
+                title: l10n.tutorActionVacanciesTitle,
+                subtitle: l10n.tutorActionVacanciesSubtitle,
                 onTap: () => context.push(AppRoutes.vacancies),
               ),
               _ActionTile(
                 icon: Icons.account_balance_wallet_outlined,
-                title: 'Coin wallet',
-                subtitle: 'See balance, transaction history, and buy coins.',
+                title: l10n.tutorActionWalletTitle,
+                subtitle: l10n.tutorActionWalletSubtitle,
                 onTap: () => context.push(AppRoutes.wallet),
               ),
               _ActionTile(
                 icon: Icons.bolt_outlined,
-                title: 'Boost listing (24h)',
-                subtitle: 'Get a highlighted pin and a top-of-feed slot.',
+                title: l10n.tutorActionBoostTitle,
+                subtitle: l10n.tutorActionBoostSubtitle,
                 onTap: () async {
                   final messenger = ScaffoldMessenger.of(context);
                   try {
                     final balance =
                         await sl<ReviewsRepository>().boostFeatured(hours: 24);
                     messenger.showSnackBar(SnackBar(
-                        content: Text('Listing boosted for 24h · Balance: $balance')));
+                        content: Text(l10n.tutorBoostSuccessSnack(balance))));
                   } on ReviewsException catch (e) {
                     messenger.showSnackBar(SnackBar(
-                        content: Text(e.message ?? 'Could not boost listing.')));
+                        content: Text(e.message ?? l10n.tutorBoostFailedSnack)));
                   } catch (_) {
-                    messenger.showSnackBar(const SnackBar(
-                        content: Text('Insufficient coins for boost.')));
+                    messenger.showSnackBar(SnackBar(
+                        content: Text(l10n.tutorBoostInsufficientSnack)));
                   }
                 },
               ),
               const SizedBox(height: AppSpacing.lg),
-              const Card(
+              Card(
                 child: Padding(
-                  padding: EdgeInsets.all(AppSpacing.lg),
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Row(
                     children: [
-                      Icon(Icons.construction_outlined),
-                      SizedBox(width: AppSpacing.md),
+                      const Icon(Icons.construction_outlined),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
-                        child: Text(
-                          'Push notifications, in-app chat, and reviews ship in Phases 8–10.',
-                        ),
+                        child: Text(l10n.tutorPhasesNote),
                       ),
                     ],
                   ),

@@ -433,6 +433,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend in {seconds}s'**
   String verifyEmailResendCooldown(int seconds);
+
+  /// No description provided for @studentHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Student home'**
+  String get studentHomeTitle;
+
+  /// No description provided for @tutorHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutor home'**
+  String get tutorHomeTitle;
+
+  /// No description provided for @signOutTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOutTooltip;
+
+  /// No description provided for @homeWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {name}'**
+  String homeWelcome(String name);
+
+  /// No description provided for @homeHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'Handle: {handle}'**
+  String homeHandle(String handle);
+
+  /// No description provided for @studentMapPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'The locality-first map (the headline feature) ships in Phase 4.'**
+  String get studentMapPlaceholder;
+
+  /// No description provided for @previewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get previewLabel;
+
+  /// No description provided for @currentBalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT BALANCE'**
+  String get currentBalanceLabel;
+
+  /// No description provided for @coinsSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} coin} other{{count} coins}}'**
+  String coinsSuffix(int count);
+
+  /// No description provided for @tutorActionCompleteProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile'**
+  String get tutorActionCompleteProfileTitle;
+
+  /// No description provided for @tutorActionCompleteProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk through the 7-step wizard to publish your tutor profile.'**
+  String get tutorActionCompleteProfileSubtitle;
+
+  /// No description provided for @tutorActionProfileSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile settings'**
+  String get tutorActionProfileSettingsTitle;
+
+  /// No description provided for @tutorActionProfileSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit subjects, prices, availability, About sections, credentials.'**
+  String get tutorActionProfileSettingsSubtitle;
+
+  /// No description provided for @tutorActionVacanciesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancies'**
+  String get tutorActionVacanciesTitle;
+
+  /// No description provided for @tutorActionVacanciesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse open HTN-NNNNN vacancies and apply with 1 coin.'**
+  String get tutorActionVacanciesSubtitle;
+
+  /// No description provided for @tutorActionWalletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coin wallet'**
+  String get tutorActionWalletTitle;
+
+  /// No description provided for @tutorActionWalletSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See balance, transaction history, and buy coins.'**
+  String get tutorActionWalletSubtitle;
+
+  /// No description provided for @tutorActionBoostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost listing (24h)'**
+  String get tutorActionBoostTitle;
+
+  /// No description provided for @tutorActionBoostSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get a highlighted pin and a top-of-feed slot.'**
+  String get tutorActionBoostSubtitle;
+
+  /// No description provided for @tutorBoostSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing boosted for 24h · Balance: {balance}'**
+  String tutorBoostSuccessSnack(int balance);
+
+  /// No description provided for @tutorBoostFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not boost listing.'**
+  String get tutorBoostFailedSnack;
+
+  /// No description provided for @tutorBoostInsufficientSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient coins for boost.'**
+  String get tutorBoostInsufficientSnack;
+
+  /// No description provided for @tutorPhasesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications, in-app chat, and reviews ship in Phases 8–10.'**
+  String get tutorPhasesNote;
 }
 
 class _AppLocalizationsDelegate

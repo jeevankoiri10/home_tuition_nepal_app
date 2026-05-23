@@ -186,4 +186,94 @@ class AppLocalizationsEn extends AppLocalizations {
   String verifyEmailResendCooldown(int seconds) {
     return 'Resend in ${seconds}s';
   }
+
+  @override
+  String get studentHomeTitle => 'Student home';
+
+  @override
+  String get tutorHomeTitle => 'Tutor home';
+
+  @override
+  String get signOutTooltip => 'Sign out';
+
+  @override
+  String homeWelcome(String name) {
+    return 'Welcome, $name';
+  }
+
+  @override
+  String homeHandle(String handle) {
+    return 'Handle: $handle';
+  }
+
+  @override
+  String get studentMapPlaceholder =>
+      'The locality-first map (the headline feature) ships in Phase 4.';
+
+  @override
+  String get previewLabel => 'Preview';
+
+  @override
+  String get currentBalanceLabel => 'CURRENT BALANCE';
+
+  @override
+  String coinsSuffix(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count coins',
+      one: '$count coin',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tutorActionCompleteProfileTitle => 'Complete your profile';
+
+  @override
+  String get tutorActionCompleteProfileSubtitle =>
+      'Walk through the 7-step wizard to publish your tutor profile.';
+
+  @override
+  String get tutorActionProfileSettingsTitle => 'Profile settings';
+
+  @override
+  String get tutorActionProfileSettingsSubtitle =>
+      'Edit subjects, prices, availability, About sections, credentials.';
+
+  @override
+  String get tutorActionVacanciesTitle => 'Vacancies';
+
+  @override
+  String get tutorActionVacanciesSubtitle =>
+      'Browse open HTN-NNNNN vacancies and apply with 1 coin.';
+
+  @override
+  String get tutorActionWalletTitle => 'Coin wallet';
+
+  @override
+  String get tutorActionWalletSubtitle =>
+      'See balance, transaction history, and buy coins.';
+
+  @override
+  String get tutorActionBoostTitle => 'Boost listing (24h)';
+
+  @override
+  String get tutorActionBoostSubtitle =>
+      'Get a highlighted pin and a top-of-feed slot.';
+
+  @override
+  String tutorBoostSuccessSnack(int balance) {
+    return 'Listing boosted for 24h · Balance: $balance';
+  }
+
+  @override
+  String get tutorBoostFailedSnack => 'Could not boost listing.';
+
+  @override
+  String get tutorBoostInsufficientSnack => 'Insufficient coins for boost.';
+
+  @override
+  String get tutorPhasesNote =>
+      'Push notifications, in-app chat, and reviews ship in Phases 8–10.';
 }

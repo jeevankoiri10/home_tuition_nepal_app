@@ -170,5 +170,90 @@
     "placeholders": {
       "seconds": { "type": "int" }
     }
-  }
+  },
+
+  "studentHomeTitle": "Student home",
+  "@studentHomeTitle": {},
+
+  "tutorHomeTitle": "Tutor home",
+  "@tutorHomeTitle": {},
+
+  "signOutTooltip": "Sign out",
+  "@signOutTooltip": {},
+
+  "homeWelcome": "Welcome, {name}",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "homeHandle": "Handle: {handle}",
+  "@homeHandle": {
+    "placeholders": {
+      "handle": { "type": "String" }
+    }
+  },
+
+  "studentMapPlaceholder": "The locality-first map (the headline feature) ships in Phase 4.",
+  "@studentMapPlaceholder": {},
+
+  "previewLabel": "Preview",
+  "@previewLabel": {},
+
+  "currentBalanceLabel": "CURRENT BALANCE",
+  "@currentBalanceLabel": {},
+
+  "coinsSuffix": "{count, plural, one{{count} coin} other{{count} coins}}",
+  "@coinsSuffix": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "tutorActionCompleteProfileTitle": "Complete your profile",
+  "@tutorActionCompleteProfileTitle": {},
+
+  "tutorActionCompleteProfileSubtitle": "Walk through the 7-step wizard to publish your tutor profile.",
+  "@tutorActionCompleteProfileSubtitle": {},
+
+  "tutorActionProfileSettingsTitle": "Profile settings",
+  "@tutorActionProfileSettingsTitle": {},
+
+  "tutorActionProfileSettingsSubtitle": "Edit subjects, prices, availability, About sections, credentials.",
+  "@tutorActionProfileSettingsSubtitle": {},
+
+  "tutorActionVacanciesTitle": "Vacancies",
+  "@tutorActionVacanciesTitle": {},
+
+  "tutorActionVacanciesSubtitle": "Browse open HTN-NNNNN vacancies and apply with 1 coin.",
+  "@tutorActionVacanciesSubtitle": {},
+
+  "tutorActionWalletTitle": "Coin wallet",
+  "@tutorActionWalletTitle": {},
+
+  "tutorActionWalletSubtitle": "See balance, transaction history, and buy coins.",
+  "@tutorActionWalletSubtitle": {},
+
+  "tutorActionBoostTitle": "Boost listing (24h)",
+  "@tutorActionBoostTitle": {},
+
+  "tutorActionBoostSubtitle": "Get a highlighted pin and a top-of-feed slot.",
+  "@tutorActionBoostSubtitle": {},
+
+  "tutorBoostSuccessSnack": "Listing boosted for 24h · Balance: {balance}",
+  "@tutorBoostSuccessSnack": {
+    "placeholders": {
+      "balance": { "type": "int" }
+    }
+  },
+
+  "tutorBoostFailedSnack": "Could not boost listing.",
+  "@tutorBoostFailedSnack": {},
+
+  "tutorBoostInsufficientSnack": "Insufficient coins for boost.",
+  "@tutorBoostInsufficientSnack": {},
+
+  "tutorPhasesNote": "Push notifications, in-app chat, and reviews ship in Phases 8–10.",
+  "@tutorPhasesNote": {}
 }
