@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../app/router.dart';
+import '../blocs/notifications_bloc.dart';
+
+/// Bell icon with an unread-count badge. Drop into any AppBar's actions list.
+class NotificationBell extends StatelessWidget {
+  const NotificationBell({super.key, this.iconColor = Colors.white});
+
+  final Color iconColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NotificationsBloc, NotificationsState>(
+      builder: (context, state) {
+        final unread = state.unreadCount;
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            IconButton(
+              tooltip: 'Notifications',
+              icon: Icon(Icons.notifications_outlined, color: iconColor),
+              onPressed: () => context.push(AppRoutes.notifications),
+            ),
+            if (unread > 0)
+              Positioned(
+                right: 6,
+                top: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                  constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD32F2F),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: Colors.white, width: 1),
+                  ),
+                  child: Text(
+                    unread > 99 ? '99+' : '$unread',
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
