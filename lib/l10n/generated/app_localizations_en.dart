@@ -158,31 +158,27 @@ class AppLocalizationsEn extends AppLocalizations {
       'Tutors must accept the Code of Conduct.';
 
   @override
-  String get otpTitle => 'Verify your phone';
+  String get verifyEmailTitle => 'Verify your email';
 
   @override
-  String otpInstruction(String phone) {
-    return 'Enter the 6-digit code we sent to $phone.';
+  String verifyEmailInstruction(String email) {
+    return 'We sent a confirmation link to $email. Open it on this device, then come back and tap I\'ve verified.';
   }
 
   @override
-  String get otpCodeLabel => 'OTP code';
+  String get verifyEmailRefresh => 'I\'ve verified';
 
   @override
-  String get otpInvalidLength => '6 digits required.';
+  String get verifyEmailResend => 'Resend email';
 
   @override
-  String get otpVerifySubmit => 'Verify';
+  String get verifyEmailResentSnack => 'A new confirmation email was sent.';
 
   @override
-  String get otpResend => 'Resend code';
+  String get verifyEmailNotYet =>
+      'We can\'t see the confirmation yet — open the email and click the link.';
 
   @override
-  String get otpResentSnack => 'A new code was sent.';
-
-  @override
-  String get otpErrorInvalid => 'That code is not valid. Please try again.';
-
-  @override
-  String get otpErrorNoSession => 'Session expired. Please sign in again.';
+  String get verifyEmailErrorNoSession =>
+      'Session expired. Please sign in again.';
 }

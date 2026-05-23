@@ -386,59 +386,47 @@ abstract class AppLocalizations {
   /// **'Tutors must accept the Code of Conduct.'**
   String get registerErrorCocRequired;
 
-  /// No description provided for @otpTitle.
+  /// No description provided for @verifyEmailTitle.
   ///
   /// In en, this message translates to:
-  /// **'Verify your phone'**
-  String get otpTitle;
+  /// **'Verify your email'**
+  String get verifyEmailTitle;
 
-  /// No description provided for @otpInstruction.
+  /// No description provided for @verifyEmailInstruction.
   ///
   /// In en, this message translates to:
-  /// **'Enter the 6-digit code we sent to {phone}.'**
-  String otpInstruction(String phone);
+  /// **'We sent a confirmation link to {email}. Open it on this device, then come back and tap I\'ve verified.'**
+  String verifyEmailInstruction(String email);
 
-  /// No description provided for @otpCodeLabel.
+  /// No description provided for @verifyEmailRefresh.
   ///
   /// In en, this message translates to:
-  /// **'OTP code'**
-  String get otpCodeLabel;
+  /// **'I\'ve verified'**
+  String get verifyEmailRefresh;
 
-  /// No description provided for @otpInvalidLength.
+  /// No description provided for @verifyEmailResend.
   ///
   /// In en, this message translates to:
-  /// **'6 digits required.'**
-  String get otpInvalidLength;
+  /// **'Resend email'**
+  String get verifyEmailResend;
 
-  /// No description provided for @otpVerifySubmit.
+  /// No description provided for @verifyEmailResentSnack.
   ///
   /// In en, this message translates to:
-  /// **'Verify'**
-  String get otpVerifySubmit;
+  /// **'A new confirmation email was sent.'**
+  String get verifyEmailResentSnack;
 
-  /// No description provided for @otpResend.
+  /// No description provided for @verifyEmailNotYet.
   ///
   /// In en, this message translates to:
-  /// **'Resend code'**
-  String get otpResend;
+  /// **'We can\'t see the confirmation yet — open the email and click the link.'**
+  String get verifyEmailNotYet;
 
-  /// No description provided for @otpResentSnack.
-  ///
-  /// In en, this message translates to:
-  /// **'A new code was sent.'**
-  String get otpResentSnack;
-
-  /// No description provided for @otpErrorInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'That code is not valid. Please try again.'**
-  String get otpErrorInvalid;
-
-  /// No description provided for @otpErrorNoSession.
+  /// No description provided for @verifyEmailErrorNoSession.
   ///
   /// In en, this message translates to:
   /// **'Session expired. Please sign in again.'**
-  String get otpErrorNoSession;
+  String get verifyEmailErrorNoSession;
 }
 
 class _AppLocalizationsDelegate

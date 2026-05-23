@@ -56,8 +56,8 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state.status == AuthStatus.authenticated) {
             context.go(AppRoutes.routeForRole(state.user!.role));
-          } else if (state.status == AuthStatus.awaitingOtp) {
-            context.go(AppRoutes.otp);
+          } else if (state.status == AuthStatus.awaitingEmailVerification) {
+            context.go(AppRoutes.verifyEmail);
           } else if (state.status == AuthStatus.error && state.errorCode != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),

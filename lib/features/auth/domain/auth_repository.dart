@@ -45,12 +45,13 @@ abstract class AuthRepository {
 
   Future<UserProfile> login({required String email, required String password});
 
-  /// Send a 6-digit OTP to the user's stored phone number.
-  Future<void> sendOtp();
+  /// Resend the confirmation email to the user's registered address.
+  Future<void> sendEmailVerification();
 
-  /// Verify the OTP. On success, flips phoneVerified=true and returns the
-  /// updated profile.
-  Future<UserProfile> verifyOtp(String code);
+  /// Refresh the session and reload the profile. Returns the updated user
+  /// with `emailVerified` reflecting the current backend state. Callers use
+  /// this after the user reports clicking the confirmation link.
+  Future<UserProfile> refreshEmailVerification();
 
   Future<void> signOut();
 }

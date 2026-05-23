@@ -4,7 +4,7 @@ enum AuthStatus {
   unknown,
   unauthenticated,
   registering,
-  awaitingOtp,
+  awaitingEmailVerification,
   authenticated,
   error,
 }

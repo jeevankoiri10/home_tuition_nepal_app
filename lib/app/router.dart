@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../features/auth/domain/models/user_role.dart';
 import '../features/auth/presentation/blocs/auth_bloc.dart';
+import '../features/auth/presentation/pages/email_verification_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
-import '../features/auth/presentation/pages/otp_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/home/presentation/student_home_page.dart';
 import '../features/home/presentation/tutor_home_page.dart';
@@ -37,7 +37,7 @@ class AppRoutes {
   static const String splash = '/';
   static const String login = '/login';
   static const String register = '/register';
-  static const String otp = '/otp';
+  static const String verifyEmail = '/verify-email';
   static const String tutorHome = '/tutor';
   static const String tutorOnboarding = '/tutor/onboarding';
   static const String tutorProfileSettings = '/tutor/settings';
@@ -71,7 +71,7 @@ GoRouter buildRouter() {
       GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashPage()),
       GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginPage()),
       GoRoute(path: AppRoutes.register, builder: (_, _) => const RegisterPage()),
-      GoRoute(path: AppRoutes.otp, builder: (_, _) => const OtpPage()),
+      GoRoute(path: AppRoutes.verifyEmail, builder: (_, _) => const EmailVerificationPage()),
       GoRoute(path: AppRoutes.tutorHome, builder: (_, _) => const TutorHomePage()),
       GoRoute(
         path: AppRoutes.tutorOnboarding,

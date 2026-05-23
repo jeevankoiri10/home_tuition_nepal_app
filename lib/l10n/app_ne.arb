@@ -57,13 +57,11 @@
   "registerErrorSignupFailed": "खाता बनाउन सकिएन। इमेल पहिले नै प्रयोग भएको हुन सक्छ।",
   "registerErrorCocRequired": "शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।",
 
-  "otpTitle": "फोन प्रमाणित गर्नुहोस्",
-  "otpInstruction": "{phone} मा पठाइएको ६ अङ्कको कोड हाल्नुहोस्।",
-  "otpCodeLabel": "OTP कोड",
-  "otpInvalidLength": "६ अङ्क आवश्यक।",
-  "otpVerifySubmit": "प्रमाणित गर्नुहोस्",
-  "otpResend": "कोड पुनः पठाउनुहोस्",
-  "otpResentSnack": "नयाँ कोड पठाइयो।",
-  "otpErrorInvalid": "कोड मिलेन। फेरि प्रयास गर्नुहोस्।",
-  "otpErrorNoSession": "सेसन सकियो। पुनः साइन इन गर्नुहोस्।"
+  "verifyEmailTitle": "इमेल प्रमाणित गर्नुहोस्",
+  "verifyEmailInstruction": "हामीले {email} मा प्रमाणीकरण लिङ्क पठाएका छौं। यही उपकरणबाट खोल्नुहोस्, अनि फर्केर 'मैले प्रमाणित गरें' थिच्नुहोस्।",
+  "verifyEmailRefresh": "मैले प्रमाणित गरें",
+  "verifyEmailResend": "इमेल पुनः पठाउनुहोस्",
+  "verifyEmailResentSnack": "नयाँ प्रमाणीकरण इमेल पठाइयो।",
+  "verifyEmailNotYet": "अहिलेसम्म प्रमाणीकरण देखिएन — इमेल खोल्नुहोस् र लिङ्क थिच्नुहोस्।",
+  "verifyEmailErrorNoSession": "सेसन सकियो। पुनः साइन इन गर्नुहोस्।"
 }

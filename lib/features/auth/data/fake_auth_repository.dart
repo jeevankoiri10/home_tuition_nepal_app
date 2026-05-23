@@ -6,12 +6,11 @@ import '../domain/models/user_profile.dart';
 import '../domain/models/user_role.dart';
 
 /// In-memory AuthRepository for local development without Supabase credentials.
-/// All operations succeed; the OTP is fixed to '123456' so the flow is
-/// demonstrable without an SMS provider.
+/// All operations succeed; `refreshEmailVerification` simulates the user
+/// having clicked the confirmation link, so the demo flow is reachable
+/// without a real mailbox.
 class FakeAuthRepository implements AuthRepository {
   FakeAuthRepository();
-
-  static const String demoOtp = '123456';
 
   final StreamController<UserProfile?> _controller = StreamController<UserProfile?>.broadcast();
   UserProfile? _user;
@@ -36,7 +35,7 @@ class FakeAuthRepository implements AuthRepository {
       lastName: input.lastName.trim(),
       email: input.email.trim(),
       phone: '+977${input.phone.trim()}',
-      phoneVerified: false,
+      emailVerified: false,
       role: input.role,
       handle: handle,
       tosAcceptedAt: DateTime.now(),
@@ -60,7 +59,7 @@ class FakeAuthRepository implements AuthRepository {
       lastName: 'User',
       email: email,
       phone: '+9779800000000',
-      phoneVerified: true,
+      emailVerified: true,
       role: UserRole.student,
       handle: 'Student #DEMO',
       tosAcceptedAt: DateTime.now().subtract(const Duration(days: 30)),
@@ -72,15 +71,14 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> sendOtp() async {
+  Future<void> sendEmailVerification() async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
   }
 
   @override
-  Future<UserProfile> verifyOtp(String code) async {
+  Future<UserProfile> refreshEmailVerification() async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
-    if (code != demoOtp) throw AuthException('invalid_otp');
-    final updated = _user?.copyWith(phoneVerified: true);
+    final updated = _user?.copyWith(emailVerified: true);
     if (updated == null) throw AuthException('no_session');
     _user = updated;
     _controller.add(updated);

@@ -140,34 +140,28 @@
   "registerErrorCocRequired": "Tutors must accept the Code of Conduct.",
   "@registerErrorCocRequired": {},
 
-  "otpTitle": "Verify your phone",
-  "@otpTitle": {},
+  "verifyEmailTitle": "Verify your email",
+  "@verifyEmailTitle": {},
 
-  "otpInstruction": "Enter the 6-digit code we sent to {phone}.",
-  "@otpInstruction": {
+  "verifyEmailInstruction": "We sent a confirmation link to {email}. Open it on this device, then come back and tap I've verified.",
+  "@verifyEmailInstruction": {
     "placeholders": {
-      "phone": { "type": "String" }
+      "email": { "type": "String" }
     }
   },
 
-  "otpCodeLabel": "OTP code",
-  "@otpCodeLabel": {},
+  "verifyEmailRefresh": "I've verified",
+  "@verifyEmailRefresh": {},
 
-  "otpInvalidLength": "6 digits required.",
-  "@otpInvalidLength": {},
+  "verifyEmailResend": "Resend email",
+  "@verifyEmailResend": {},
 
-  "otpVerifySubmit": "Verify",
-  "@otpVerifySubmit": {},
+  "verifyEmailResentSnack": "A new confirmation email was sent.",
+  "@verifyEmailResentSnack": {},
 
-  "otpResend": "Resend code",
-  "@otpResend": {},
+  "verifyEmailNotYet": "We can't see the confirmation yet — open the email and click the link.",
+  "@verifyEmailNotYet": {},
 
-  "otpResentSnack": "A new code was sent.",
-  "@otpResentSnack": {},
-
-  "otpErrorInvalid": "That code is not valid. Please try again.",
-  "@otpErrorInvalid": {},
-
-  "otpErrorNoSession": "Session expired. Please sign in again.",
-  "@otpErrorNoSession": {}
+  "verifyEmailErrorNoSession": "Session expired. Please sign in again.",
+  "@verifyEmailErrorNoSession": {}
 }

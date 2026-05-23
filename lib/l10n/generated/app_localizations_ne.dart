@@ -156,31 +156,26 @@ class AppLocalizationsNe extends AppLocalizations {
       'शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।';
 
   @override
-  String get otpTitle => 'फोन प्रमाणित गर्नुहोस्';
+  String get verifyEmailTitle => 'इमेल प्रमाणित गर्नुहोस्';
 
   @override
-  String otpInstruction(String phone) {
-    return '$phone मा पठाइएको ६ अङ्कको कोड हाल्नुहोस्।';
+  String verifyEmailInstruction(String email) {
+    return 'हामीले $email मा प्रमाणीकरण लिङ्क पठाएका छौं। यही उपकरणबाट खोल्नुहोस्, अनि फर्केर \'मैले प्रमाणित गरें\' थिच्नुहोस्।';
   }
 
   @override
-  String get otpCodeLabel => 'OTP कोड';
+  String get verifyEmailRefresh => 'मैले प्रमाणित गरें';
 
   @override
-  String get otpInvalidLength => '६ अङ्क आवश्यक।';
+  String get verifyEmailResend => 'इमेल पुनः पठाउनुहोस्';
 
   @override
-  String get otpVerifySubmit => 'प्रमाणित गर्नुहोस्';
+  String get verifyEmailResentSnack => 'नयाँ प्रमाणीकरण इमेल पठाइयो।';
 
   @override
-  String get otpResend => 'कोड पुनः पठाउनुहोस्';
+  String get verifyEmailNotYet =>
+      'अहिलेसम्म प्रमाणीकरण देखिएन — इमेल खोल्नुहोस् र लिङ्क थिच्नुहोस्।';
 
   @override
-  String get otpResentSnack => 'नयाँ कोड पठाइयो।';
-
-  @override
-  String get otpErrorInvalid => 'कोड मिलेन। फेरि प्रयास गर्नुहोस्।';
-
-  @override
-  String get otpErrorNoSession => 'सेसन सकियो। पुनः साइन इन गर्नुहोस्।';
+  String get verifyEmailErrorNoSession => 'सेसन सकियो। पुनः साइन इन गर्नुहोस्।';
 }

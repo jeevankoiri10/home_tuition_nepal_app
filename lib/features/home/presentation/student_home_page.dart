@@ -7,9 +7,9 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../auth/presentation/blocs/auth_bloc.dart';
 
-/// Placeholder Student home — shipped in Phase 2 so the post-OTP redirect
-/// lands somewhere meaningful. Phase 4 replaces this with the inDrive-style
-/// locality-first map view.
+/// Placeholder Student home — shipped in Phase 2 so the post-verification
+/// redirect lands somewhere meaningful. Phase 4 replaces this with the
+/// inDrive-style locality-first map view.
 class StudentHomePage extends StatelessWidget {
   const StudentHomePage({super.key});
 

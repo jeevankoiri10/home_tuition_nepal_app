@@ -118,8 +118,8 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(title: Text(l10n.registerTitle)),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state.status == AuthStatus.awaitingOtp) {
-            context.go(AppRoutes.otp);
+          if (state.status == AuthStatus.awaitingEmailVerification) {
+            context.go(AppRoutes.verifyEmail);
           } else if (state.status == AuthStatus.error && state.errorCode != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),

@@ -13,7 +13,7 @@ class UserProfile extends Equatable {
     required this.lastName,
     required this.email,
     required this.phone,
-    required this.phoneVerified,
+    required this.emailVerified,
     required this.role,
     required this.handle,
     required this.tosAcceptedAt,
@@ -26,7 +26,7 @@ class UserProfile extends Equatable {
   final String lastName;
   final String email;
   final String phone;
-  final bool phoneVerified;
+  final bool emailVerified;
   final UserRole role;
   final String handle;
   final DateTime tosAcceptedAt;
@@ -37,7 +37,7 @@ class UserProfile extends Equatable {
   String get displayName => maskedName(firstName, lastName);
 
   UserProfile copyWith({
-    bool? phoneVerified,
+    bool? emailVerified,
     int? coinBalance,
     DateTime? codeOfConductAcceptedAt,
   }) {
@@ -47,7 +47,7 @@ class UserProfile extends Equatable {
       lastName: lastName,
       email: email,
       phone: phone,
-      phoneVerified: phoneVerified ?? this.phoneVerified,
+      emailVerified: emailVerified ?? this.emailVerified,
       role: role,
       handle: handle,
       tosAcceptedAt: tosAcceptedAt,
@@ -63,7 +63,7 @@ class UserProfile extends Equatable {
         lastName,
         email,
         phone,
-        phoneVerified,
+        emailVerified,
         role,
         handle,
         tosAcceptedAt,

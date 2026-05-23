@@ -10,10 +10,11 @@ import '../domain/models/user_role.dart';
 /// Real AuthRepository backed by Supabase. Requires SUPABASE_URL +
 /// SUPABASE_ANON_KEY at build time (see lib/core/config/env.dart).
 ///
-/// Expects the schema from docs/comprehensive_phasewise_plan.md Phase 2,
-/// i.e. profiles(id, first_name, last_name, email, phone, phone_verified,
-/// role, handle, tos_accepted_at, code_of_conduct_accepted_at, coin_balance,
-/// created_at, updated_at) protected by RLS.
+/// Email verification is delegated to Supabase Auth: `signUp` triggers the
+/// confirmation email automatically, and the email is considered verified
+/// once `auth.users.email_confirmed_at` is set. We mirror that into
+/// `profiles.email_verified` so the rest of the app can read a single
+/// canonical flag.
 class SupabaseAuthRepository implements AuthRepository {
   SupabaseAuthRepository(this._client) {
     _client.auth.onAuthStateChange.listen((event) async {
@@ -62,7 +63,7 @@ class SupabaseAuthRepository implements AuthRepository {
       'last_name': input.lastName.trim(),
       'email': input.email.trim(),
       'phone': '+977${input.phone.trim()}',
-      'phone_verified': false,
+      'email_verified': user.emailConfirmedAt != null,
       'role': input.role.value,
       'handle': handle,
       'tos_accepted_at': now.toIso8601String(),
@@ -94,31 +95,34 @@ class SupabaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> sendOtp() async {
+  Future<void> sendEmailVerification() async {
     final user = _user;
     if (user == null) throw AuthException('no_session');
     try {
-      await _client.auth.signInWithOtp(phone: user.phone);
+      await _client.auth.resend(
+        type: sb.OtpType.signup,
+        email: user.email,
+      );
     } on sb.AuthException catch (e) {
-      throw AuthException('otp_send_failed', e.message);
+      throw AuthException('email_send_failed', e.message);
     }
   }
 
   @override
-  Future<UserProfile> verifyOtp(String code) async {
+  Future<UserProfile> refreshEmailVerification() async {
     final user = _user;
     if (user == null) throw AuthException('no_session');
     try {
-      await _client.auth.verifyOTP(
-        phone: user.phone,
-        token: code,
-        type: sb.OtpType.sms,
-      );
-      await _client.from('profiles').update({'phone_verified': true}).eq('id', user.id);
+      final res = await _client.auth.refreshSession();
+      final authUser = res.user;
+      final confirmed = authUser?.emailConfirmedAt != null;
+      if (confirmed) {
+        await _client.from('profiles').update({'email_verified': true}).eq('id', user.id);
+      }
       await _loadProfile(user.id);
       return _user!;
     } on sb.AuthException catch (e) {
-      throw AuthException('invalid_otp', e.message);
+      throw AuthException('refresh_failed', e.message);
     }
   }
 
@@ -151,7 +155,7 @@ class SupabaseAuthRepository implements AuthRepository {
       lastName: (row['last_name'] as String?) ?? '',
       email: (row['email'] as String?) ?? '',
       phone: (row['phone'] as String?) ?? '',
-      phoneVerified: (row['phone_verified'] as bool?) ?? false,
+      emailVerified: (row['email_verified'] as bool?) ?? false,
       role: UserRole.fromString((row['role'] as String?) ?? 'student'),
       handle: (row['handle'] as String?) ?? '',
       tosAcceptedAt: DateTime.parse(row['tos_accepted_at'] as String),

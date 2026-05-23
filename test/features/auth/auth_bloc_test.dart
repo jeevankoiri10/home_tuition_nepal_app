@@ -6,9 +6,9 @@ import 'package:home_tuition_nepal_app/features/auth/domain/models/user_role.dar
 import 'package:home_tuition_nepal_app/features/auth/presentation/blocs/auth_bloc.dart';
 
 void main() {
-  group('AuthBloc — registration → OTP → authenticated', () {
+  group('AuthBloc — registration → email verification → authenticated', () {
     blocTest<AuthBloc, AuthState>(
-      'student registration ends in awaitingOtp',
+      'student registration ends in awaitingEmailVerification',
       build: () => AuthBloc(FakeAuthRepository()),
       seed: () => const AuthState(),
       act: (bloc) => bloc.add(AuthRegisterRequested(const RegistrationInput(
@@ -21,12 +21,12 @@ void main() {
         tosAccepted: true,
         codeOfConductAccepted: false,
       ))),
-      wait: const Duration(milliseconds: 600),
+      wait: const Duration(milliseconds: 900),
       verify: (bloc) {
-        expect(bloc.state.status, AuthStatus.awaitingOtp);
+        expect(bloc.state.status, AuthStatus.awaitingEmailVerification);
         expect(bloc.state.user, isNotNull);
         expect(bloc.state.user!.role, UserRole.student);
-        expect(bloc.state.user!.phoneVerified, isFalse);
+        expect(bloc.state.user!.emailVerified, isFalse);
       },
     );
 
@@ -51,7 +51,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'OTP 123456 transitions to authenticated',
+      'email verification refresh transitions to authenticated',
       build: () => AuthBloc(FakeAuthRepository()),
       act: (bloc) async {
         bloc.add(AuthRegisterRequested(const RegistrationInput(
@@ -64,13 +64,13 @@ void main() {
           tosAccepted: true,
           codeOfConductAccepted: false,
         )));
-        await Future<void>.delayed(const Duration(milliseconds: 500));
-        bloc.add(const AuthOtpRequested(FakeAuthRepository.demoOtp));
+        await Future<void>.delayed(const Duration(milliseconds: 800));
+        bloc.add(const AuthEmailVerificationRefreshRequested());
       },
       wait: const Duration(milliseconds: 1500),
       verify: (bloc) {
         expect(bloc.state.status, AuthStatus.authenticated);
-        expect(bloc.state.user!.phoneVerified, isTrue);
+        expect(bloc.state.user!.emailVerified, isTrue);
       },
     );
   });

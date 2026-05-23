@@ -14,7 +14,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthStarted>(_onStarted);
     on<AuthRegisterRequested>(_onRegister);
     on<AuthLoginRequested>(_onLogin);
-    on<AuthOtpRequested>(_onVerifyOtp);
+    on<AuthEmailVerificationResendRequested>(_onResendEmail);
+    on<AuthEmailVerificationRefreshRequested>(_onRefreshEmail);
     on<AuthSignOutRequested>(_onSignOut);
     on<_AuthUserUpdated>(_onUserUpdated);
 
@@ -28,8 +29,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final cached = _repo.cachedUser;
     if (cached == null) {
       emit(state.copyWith(status: AuthStatus.unauthenticated, clearError: true));
-    } else if (!cached.phoneVerified) {
-      emit(state.copyWith(status: AuthStatus.awaitingOtp, user: cached, clearError: true));
+    } else if (!cached.emailVerified) {
+      emit(state.copyWith(status: AuthStatus.awaitingEmailVerification, user: cached, clearError: true));
     } else {
       emit(state.copyWith(status: AuthStatus.authenticated, user: cached, clearError: true));
     }
@@ -39,8 +40,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: AuthStatus.registering, clearError: true));
     try {
       final user = await _repo.register(event.input);
-      await _repo.sendOtp();
-      emit(state.copyWith(status: AuthStatus.awaitingOtp, user: user, clearError: true));
+      await _repo.sendEmailVerification();
+      emit(state.copyWith(status: AuthStatus.awaitingEmailVerification, user: user, clearError: true));
     } on AuthException catch (e) {
       emit(state.copyWith(status: AuthStatus.error, errorCode: e.code));
     }
@@ -50,9 +51,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: AuthStatus.registering, clearError: true));
     try {
       final user = await _repo.login(email: event.email, password: event.password);
-      if (!user.phoneVerified) {
-        await _repo.sendOtp();
-        emit(state.copyWith(status: AuthStatus.awaitingOtp, user: user, clearError: true));
+      if (!user.emailVerified) {
+        await _repo.sendEmailVerification();
+        emit(state.copyWith(status: AuthStatus.awaitingEmailVerification, user: user, clearError: true));
       } else {
         emit(state.copyWith(status: AuthStatus.authenticated, user: user, clearError: true));
       }
@@ -61,11 +62,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onVerifyOtp(AuthOtpRequested event, Emitter<AuthState> emit) async {
+  Future<void> _onResendEmail(
+      AuthEmailVerificationResendRequested event, Emitter<AuthState> emit) async {
+    try {
+      await _repo.sendEmailVerification();
+    } on AuthException catch (e) {
+      emit(state.copyWith(status: AuthStatus.error, errorCode: e.code, user: state.user));
+    }
+  }
+
+  Future<void> _onRefreshEmail(
+      AuthEmailVerificationRefreshRequested event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.registering, clearError: true));
     try {
-      final user = await _repo.verifyOtp(event.code);
-      emit(state.copyWith(status: AuthStatus.authenticated, user: user, clearError: true));
+      final user = await _repo.refreshEmailVerification();
+      if (user.emailVerified) {
+        emit(state.copyWith(status: AuthStatus.authenticated, user: user, clearError: true));
+      } else {
+        emit(state.copyWith(status: AuthStatus.awaitingEmailVerification, user: user, clearError: true));
+      }
     } on AuthException catch (e) {
       emit(state.copyWith(status: AuthStatus.error, errorCode: e.code, user: state.user));
     }
@@ -80,8 +95,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final u = event.user;
     if (u == null) {
       emit(const AuthState(status: AuthStatus.unauthenticated));
-    } else if (!u.phoneVerified) {
-      emit(state.copyWith(status: AuthStatus.awaitingOtp, user: u));
+    } else if (!u.emailVerified) {
+      emit(state.copyWith(status: AuthStatus.awaitingEmailVerification, user: u));
     } else {
       emit(state.copyWith(status: AuthStatus.authenticated, user: u));
     }

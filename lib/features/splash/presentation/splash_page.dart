@@ -37,9 +37,9 @@ class _SplashPageState extends State<SplashPage> {
     if (auth.status == AuthStatus.authenticated && auth.user != null) {
       _routed = true;
       context.go(AppRoutes.routeForRole(auth.user!.role));
-    } else if (auth.status == AuthStatus.awaitingOtp) {
+    } else if (auth.status == AuthStatus.awaitingEmailVerification) {
       _routed = true;
-      context.go(AppRoutes.otp);
+      context.go(AppRoutes.verifyEmail);
     } else {
       _routed = true;
       context.go(AppRoutes.login);

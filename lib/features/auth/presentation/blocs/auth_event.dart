@@ -27,12 +27,15 @@ class AuthLoginRequested extends AuthEvent {
   List<Object?> get props => [email];
 }
 
-class AuthOtpRequested extends AuthEvent {
-  const AuthOtpRequested(this.code);
-  final String code;
+/// User asked the backend to resend the confirmation email.
+class AuthEmailVerificationResendRequested extends AuthEvent {
+  const AuthEmailVerificationResendRequested();
+}
 
-  @override
-  List<Object?> get props => [code];
+/// User reports having clicked the confirmation link; refresh the session
+/// to pick up the updated `emailVerified` flag.
+class AuthEmailVerificationRefreshRequested extends AuthEvent {
+  const AuthEmailVerificationRefreshRequested();
 }
 
 class AuthSignOutRequested extends AuthEvent {
