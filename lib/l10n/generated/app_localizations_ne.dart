@@ -273,4 +273,40 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get tutorPhasesNote =>
       'पुस-नोटिफिकेसन, इन-एप च्याट, र समीक्षा फेज ८–१० मा आउँछन्।';
+
+  @override
+  String get mapTitle => 'तपाईंको नजिकका शिक्षक';
+
+  @override
+  String get mapMyPostsTooltip => 'मेरा पोस्ट';
+
+  @override
+  String get mapRecenterTooltip => 'केन्द्र मा फर्काउनुहोस्';
+
+  @override
+  String get mapRequestTutorFab => 'शिक्षक अनुरोध';
+
+  @override
+  String get mapPostJobFab => 'जागिर पोस्ट';
+
+  @override
+  String mapTutorCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count शिक्षक',
+      one: '$count शिक्षक',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapAllMatchesHeader => 'सबै मिलेका';
+
+  @override
+  String get mapEmptyTitle => 'तपाईंका फिल्टरमा कुनै शिक्षक भेटिएन';
+
+  @override
+  String get mapEmptyHint =>
+      'क्षेत्र फराकिलो बनाउनुहोस् वा फिल्टर खुकुलो गर्नुहोस्।';
 }

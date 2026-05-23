@@ -255,5 +255,36 @@
   "@tutorBoostInsufficientSnack": {},
 
   "tutorPhasesNote": "Push notifications, in-app chat, and reviews ship in Phases 8–10.",
-  "@tutorPhasesNote": {}
+  "@tutorPhasesNote": {},
+
+  "mapTitle": "Tutors near you",
+  "@mapTitle": {},
+
+  "mapMyPostsTooltip": "My posts",
+  "@mapMyPostsTooltip": {},
+
+  "mapRecenterTooltip": "Re-center",
+  "@mapRecenterTooltip": {},
+
+  "mapRequestTutorFab": "Request a tutor",
+  "@mapRequestTutorFab": {},
+
+  "mapPostJobFab": "Post a job",
+  "@mapPostJobFab": {},
+
+  "mapTutorCount": "{count, plural, one{{count} tutor} other{{count} tutors}}",
+  "@mapTutorCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "mapAllMatchesHeader": "All matches",
+  "@mapAllMatchesHeader": {},
+
+  "mapEmptyTitle": "No tutors match your filters",
+  "@mapEmptyTitle": {},
+
+  "mapEmptyHint": "Try widening the radius or loosening filters.",
+  "@mapEmptyHint": {}
 }

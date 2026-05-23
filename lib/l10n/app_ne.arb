@@ -88,5 +88,15 @@
   "tutorBoostSuccessSnack": "लिस्टिङ २४ घण्टाका लागि बूस्ट भयो · रकम: {balance}",
   "tutorBoostFailedSnack": "लिस्टिङ बूस्ट गर्न सकिएन।",
   "tutorBoostInsufficientSnack": "बूस्टका लागि सिक्का अपुग।",
-  "tutorPhasesNote": "पुस-नोटिफिकेसन, इन-एप च्याट, र समीक्षा फेज ८–१० मा आउँछन्।"
+  "tutorPhasesNote": "पुस-नोटिफिकेसन, इन-एप च्याट, र समीक्षा फेज ८–१० मा आउँछन्।",
+
+  "mapTitle": "तपाईंको नजिकका शिक्षक",
+  "mapMyPostsTooltip": "मेरा पोस्ट",
+  "mapRecenterTooltip": "केन्द्र मा फर्काउनुहोस्",
+  "mapRequestTutorFab": "शिक्षक अनुरोध",
+  "mapPostJobFab": "जागिर पोस्ट",
+  "mapTutorCount": "{count, plural, one{{count} शिक्षक} other{{count} शिक्षक}}",
+  "mapAllMatchesHeader": "सबै मिलेका",
+  "mapEmptyTitle": "तपाईंका फिल्टरमा कुनै शिक्षक भेटिएन",
+  "mapEmptyHint": "क्षेत्र फराकिलो बनाउनुहोस् वा फिल्टर खुकुलो गर्नुहोस्।"
 }

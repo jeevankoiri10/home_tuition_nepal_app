@@ -9,6 +9,7 @@ import '../../../../app/router.dart';
 import '../../../../core/services/platform_settings_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../notifications/presentation/widgets/notification_bell.dart';
 import '../../../wallet/domain/wallet_repository.dart';
 import '../../../wallet/presentation/blocs/wallet_bloc.dart';
@@ -82,13 +83,14 @@ class _MapPageState extends State<MapPage> {
       },
       builder: (context, state) {
         final bloc = context.read<MapBloc>();
+        final l10n = AppLocalizations.of(context);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Tutors near you'),
+            title: Text(l10n.mapTitle),
             actions: [
               const NotificationBell(),
               IconButton(
-                tooltip: 'My posts',
+                tooltip: l10n.mapMyPostsTooltip,
                 icon: const Icon(Icons.assignment_outlined),
                 onPressed: () => context.push(AppRoutes.myPosts),
               ),
@@ -102,7 +104,7 @@ class _MapPageState extends State<MapPage> {
               ),
               IconButton(
                 icon: const Icon(Icons.my_location),
-                tooltip: 'Re-center',
+                tooltip: l10n.mapRecenterTooltip,
                 onPressed: () {
                   if (state.centerLat != null && state.centerLng != null) {
                     _mapController.move(
@@ -359,7 +361,7 @@ class _DragHandleHeader extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Row(
                 children: [
-                  Text('$tutorCount tutors',
+                  Text(AppLocalizations.of(context).mapTutorCount(tutorCount),
                       style: Theme.of(context).textTheme.titleMedium),
                   const Spacer(),
                   AnimatedBuilder(
@@ -425,14 +427,14 @@ class _SheetTrackingFabs extends StatelessWidget {
                 heroTag: 'fab-request',
                 onPressed: () => context.push(AppRoutes.requestTutor),
                 icon: const Icon(Icons.person_search_outlined),
-                label: const Text('Request a tutor'),
+                label: Text(AppLocalizations.of(context).mapRequestTutorFab),
               ),
               const SizedBox(height: AppSpacing.sm),
               FloatingActionButton.extended(
                 heroTag: 'fab-post-job',
                 onPressed: () => context.push(AppRoutes.postJob),
                 icon: const Icon(Icons.post_add_outlined),
-                label: const Text('Post a job'),
+                label: Text(AppLocalizations.of(context).mapPostJobFab),
               ),
             ],
           ),
@@ -492,9 +494,11 @@ class _SheetBody extends StatelessWidget {
             ),
           ),
         ),
-        const SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
-          sliver: SliverToBoxAdapter(child: Text('All matches')),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+          sliver: SliverToBoxAdapter(
+            child: Text(AppLocalizations.of(context).mapAllMatchesHeader),
+          ),
         ),
         SliverList.builder(
           itemCount: state.tutors.length,
@@ -524,6 +528,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
@@ -531,12 +536,12 @@ class _EmptyState extends StatelessWidget {
         children: [
           const Icon(Icons.search_off, size: 48, color: AppColors.textSecondary),
           const SizedBox(height: AppSpacing.md),
-          Text('No tutors match your filters',
+          Text(l10n.mapEmptyTitle,
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: AppSpacing.xs),
-          const Text(
-            'Try widening the radius or loosening filters.',
-            style: TextStyle(color: AppColors.textSecondary),
+          Text(
+            l10n.mapEmptyHint,
+            style: const TextStyle(color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],

@@ -276,4 +276,39 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tutorPhasesNote =>
       'Push notifications, in-app chat, and reviews ship in Phases 8–10.';
+
+  @override
+  String get mapTitle => 'Tutors near you';
+
+  @override
+  String get mapMyPostsTooltip => 'My posts';
+
+  @override
+  String get mapRecenterTooltip => 'Re-center';
+
+  @override
+  String get mapRequestTutorFab => 'Request a tutor';
+
+  @override
+  String get mapPostJobFab => 'Post a job';
+
+  @override
+  String mapTutorCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tutors',
+      one: '$count tutor',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapAllMatchesHeader => 'All matches';
+
+  @override
+  String get mapEmptyTitle => 'No tutors match your filters';
+
+  @override
+  String get mapEmptyHint => 'Try widening the radius or loosening filters.';
 }

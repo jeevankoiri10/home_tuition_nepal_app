@@ -571,6 +571,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Push notifications, in-app chat, and reviews ship in Phases 8–10.'**
   String get tutorPhasesNote;
+
+  /// No description provided for @mapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutors near you'**
+  String get mapTitle;
+
+  /// No description provided for @mapMyPostsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'My posts'**
+  String get mapMyPostsTooltip;
+
+  /// No description provided for @mapRecenterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-center'**
+  String get mapRecenterTooltip;
+
+  /// No description provided for @mapRequestTutorFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a tutor'**
+  String get mapRequestTutorFab;
+
+  /// No description provided for @mapPostJobFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Post a job'**
+  String get mapPostJobFab;
+
+  /// No description provided for @mapTutorCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} tutor} other{{count} tutors}}'**
+  String mapTutorCount(int count);
+
+  /// No description provided for @mapAllMatchesHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'All matches'**
+  String get mapAllMatchesHeader;
+
+  /// No description provided for @mapEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No tutors match your filters'**
+  String get mapEmptyTitle;
+
+  /// No description provided for @mapEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try widening the radius or loosening filters.'**
+  String get mapEmptyHint;
 }
 
 class _AppLocalizationsDelegate
