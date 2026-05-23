@@ -229,6 +229,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
+
+  /// No description provided for @firstNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get firstNameLabel;
+
+  /// No description provided for @lastNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get lastNameLabel;
+
+  /// No description provided for @emailAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email address'**
+  String get emailAddressLabel;
+
+  /// No description provided for @phoneNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumberLabel;
+
+  /// No description provided for @phoneNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'98XXXXXXXX'**
+  String get phoneNumberHint;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @nameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Required (max 40).'**
+  String get nameInvalid;
+
+  /// No description provided for @phoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid 10-digit Nepali mobile (98… / 97…).'**
+  String get phoneInvalid;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters.'**
+  String get passwordTooShort;
+
+  /// No description provided for @passwordWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must include letters and digits.'**
+  String get passwordWeak;
+
+  /// No description provided for @confirmPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get confirmPasswordMismatch;
+
+  /// No description provided for @roleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get roleLabel;
+
+  /// No description provided for @roleTutor.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m a tutor'**
+  String get roleTutor;
+
+  /// No description provided for @roleTutorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I want to teach'**
+  String get roleTutorSubtitle;
+
+  /// No description provided for @roleStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m a student'**
+  String get roleStudent;
+
+  /// No description provided for @roleStudentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m looking for a tutor'**
+  String get roleStudentSubtitle;
+
+  /// No description provided for @rolePermanentNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your role is permanent for this account.'**
+  String get rolePermanentNote;
+
+  /// No description provided for @tosAcceptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept the Terms of Service & Privacy Policy.'**
+  String get tosAcceptLabel;
+
+  /// No description provided for @cocAcceptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept the Tutors\' Code of Conduct.'**
+  String get cocAcceptLabel;
+
+  /// No description provided for @pickRoleSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a role to continue.'**
+  String get pickRoleSnack;
+
+  /// No description provided for @tosRequiredSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the Terms of Service.'**
+  String get tosRequiredSnack;
+
+  /// No description provided for @cocRequiredSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutors must accept the Tutors\' Code of Conduct.'**
+  String get cocRequiredSnack;
+
+  /// No description provided for @registerSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get registerSubmit;
+
+  /// No description provided for @registerToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Already registered? Sign in'**
+  String get registerToLogin;
+
+  /// No description provided for @registerErrorSignupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create the account. The email may already be in use.'**
+  String get registerErrorSignupFailed;
+
+  /// No description provided for @registerErrorCocRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutors must accept the Code of Conduct.'**
+  String get registerErrorCocRequired;
 }
 
 class _AppLocalizationsDelegate

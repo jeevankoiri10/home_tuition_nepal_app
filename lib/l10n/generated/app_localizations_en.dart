@@ -73,4 +73,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get firstNameLabel => 'First name';
+
+  @override
+  String get lastNameLabel => 'Last name';
+
+  @override
+  String get emailAddressLabel => 'Email address';
+
+  @override
+  String get phoneNumberLabel => 'Phone number';
+
+  @override
+  String get phoneNumberHint => '98XXXXXXXX';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get nameInvalid => 'Required (max 40).';
+
+  @override
+  String get phoneInvalid =>
+      'Enter a valid 10-digit Nepali mobile (98… / 97…).';
+
+  @override
+  String get passwordTooShort => 'At least 8 characters.';
+
+  @override
+  String get passwordWeak => 'Password must include letters and digits.';
+
+  @override
+  String get confirmPasswordMismatch => 'Passwords do not match.';
+
+  @override
+  String get roleLabel => 'Role';
+
+  @override
+  String get roleTutor => 'I\'m a tutor';
+
+  @override
+  String get roleTutorSubtitle => 'I want to teach';
+
+  @override
+  String get roleStudent => 'I\'m a student';
+
+  @override
+  String get roleStudentSubtitle => 'I\'m looking for a tutor';
+
+  @override
+  String get rolePermanentNote => 'Your role is permanent for this account.';
+
+  @override
+  String get tosAcceptLabel =>
+      'I accept the Terms of Service & Privacy Policy.';
+
+  @override
+  String get cocAcceptLabel => 'I accept the Tutors\' Code of Conduct.';
+
+  @override
+  String get pickRoleSnack => 'Pick a role to continue.';
+
+  @override
+  String get tosRequiredSnack => 'You must accept the Terms of Service.';
+
+  @override
+  String get cocRequiredSnack =>
+      'Tutors must accept the Tutors\' Code of Conduct.';
+
+  @override
+  String get registerSubmit => 'Register';
+
+  @override
+  String get registerToLogin => 'Already registered? Sign in';
+
+  @override
+  String get registerErrorSignupFailed =>
+      'Could not create the account. The email may already be in use.';
+
+  @override
+  String get registerErrorCocRequired =>
+      'Tutors must accept the Code of Conduct.';
 }

@@ -47,21 +47,22 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _submit() {
+    final l10n = AppLocalizations.of(context);
     if (_role == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pick a role to continue.')),
+        SnackBar(content: Text(l10n.pickRoleSnack)),
       );
       return;
     }
     if (!_tosAccepted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('You must accept the Terms of Service.')),
+        SnackBar(content: Text(l10n.tosRequiredSnack)),
       );
       return;
     }
     if (_role == UserRole.tutor && !_cocAccepted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Tutors must accept the Tutors' Code of Conduct.")),
+        SnackBar(content: Text(l10n.cocRequiredSnack)),
       );
       return;
     }
@@ -79,32 +80,36 @@ class _RegisterPageState extends State<RegisterPage> {
         )));
   }
 
-  String _errorMessage(String code) {
+  String _errorMessage(AppLocalizations l10n, String code) {
     switch (code) {
       case 'signup_failed':
-        return 'Could not create the account. The email may already be in use.';
+        return l10n.registerErrorSignupFailed;
       case 'tos_required':
-        return 'You must accept the Terms of Service.';
+        return l10n.tosRequiredSnack;
       case 'coc_required':
-        return "Tutors must accept the Code of Conduct.";
+        return l10n.registerErrorCocRequired;
       default:
-        return 'Something went wrong. Please try again.';
+        return l10n.errorGeneric;
     }
   }
 
-  String? _validateName(String? v) => Validators.name(v) == null ? null : 'Required (max 40).';
-  String? _validateEmail(String? v) => Validators.email(v) == null ? null : 'Enter a valid email.';
-  String? _validatePhone(String? v) =>
-      Validators.nepaliPhone(v) == null ? null : 'Enter a valid 10-digit Nepali mobile (98… / 97…).';
-  String? _validatePassword(String? v) {
+  String? _validateName(AppLocalizations l10n, String? v) =>
+      Validators.name(v) == null ? null : l10n.nameInvalid;
+  String? _validateEmail(AppLocalizations l10n, String? v) =>
+      Validators.email(v) == null ? null : l10n.emailInvalid;
+  String? _validatePhone(AppLocalizations l10n, String? v) =>
+      Validators.nepaliPhone(v) == null ? null : l10n.phoneInvalid;
+  String? _validatePassword(AppLocalizations l10n, String? v) {
     final code = Validators.password(v);
     if (code == null) return null;
-    if (code == 'passwordTooShort') return 'At least 8 characters.';
-    return 'Password must include letters and digits.';
+    if (code == 'passwordTooShort') return l10n.passwordTooShort;
+    return l10n.passwordWeak;
   }
 
-  String? _validateConfirm(String? v) =>
-      Validators.confirmPassword(v, _password.text) == null ? null : 'Passwords do not match.';
+  String? _validateConfirm(AppLocalizations l10n, String? v) =>
+      Validators.confirmPassword(v, _password.text) == null
+          ? null
+          : l10n.confirmPasswordMismatch;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
             context.go(AppRoutes.otp);
           } else if (state.status == AuthStatus.error && state.errorCode != null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(_errorMessage(state.errorCode!))),
+              SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),
             );
           }
         },
@@ -136,39 +141,39 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       Expanded(
                         child: AppTextField(
-                          label: 'First name',
+                          label: l10n.firstNameLabel,
                           controller: _first,
                           prefixIcon: Icons.person_outline,
-                          validator: _validateName,
+                          validator: (v) => _validateName(l10n, v),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: AppTextField(
-                          label: 'Last name',
+                          label: l10n.lastNameLabel,
                           controller: _last,
-                          validator: _validateName,
+                          validator: (v) => _validateName(l10n, v),
                         ),
                       ),
                     ],
                   ),
                   AppTextField(
-                    label: 'Email address',
+                    label: l10n.emailAddressLabel,
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: Icons.mail_outline,
-                    validator: _validateEmail,
+                    validator: (v) => _validateEmail(l10n, v),
                   ),
                   AppTextField(
-                    label: 'Phone number',
-                    hint: '98XXXXXXXX',
+                    label: l10n.phoneNumberLabel,
+                    hint: l10n.phoneNumberHint,
                     controller: _phone,
                     keyboardType: TextInputType.phone,
                     prefixIcon: Icons.phone_outlined,
-                    validator: _validatePhone,
+                    validator: (v) => _validatePhone(l10n, v),
                   ),
                   AppTextField(
-                    label: 'Password',
+                    label: l10n.passwordLabel,
                     controller: _password,
                     obscureText: _obscure,
                     prefixIcon: Icons.lock_outline,
@@ -176,10 +181,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
-                    validator: _validatePassword,
+                    validator: (v) => _validatePassword(l10n, v),
                   ),
                   AppTextField(
-                    label: 'Confirm password',
+                    label: l10n.confirmPasswordLabel,
                     controller: _confirm,
                     obscureText: _obscureConfirm,
                     prefixIcon: Icons.lock_outline,
@@ -189,10 +194,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           : Icons.visibility_off_outlined),
                       onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
                     ),
-                    validator: _validateConfirm,
+                    validator: (v) => _validateConfirm(l10n, v),
                   ),
                   const SizedBox(height: AppSpacing.md),
-                  Text('Role', style: Theme.of(context).textTheme.titleMedium),
+                  Text(l10n.roleLabel, style: Theme.of(context).textTheme.titleMedium),
                   const SizedBox(height: AppSpacing.sm),
                   RoleSelector(
                     value: _role,
@@ -200,16 +205,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       _role = r;
                       if (r != UserRole.tutor) _cocAccepted = false;
                     }),
-                    tutorLabel: "I'm a tutor",
-                    tutorSubtitle: 'I want to teach',
-                    studentLabel: "I'm a student",
-                    studentSubtitle: "I'm looking for a tutor",
+                    tutorLabel: l10n.roleTutor,
+                    tutorSubtitle: l10n.roleTutorSubtitle,
+                    studentLabel: l10n.roleStudent,
+                    studentSubtitle: l10n.roleStudentSubtitle,
                   ),
                   if (_role != null) ...[
                     const SizedBox(height: AppSpacing.xs),
-                    const Text(
-                      'Your role is permanent for this account.',
-                      style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                    Text(
+                      l10n.rolePermanentNote,
+                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     ),
                   ],
                   const SizedBox(height: AppSpacing.lg),
@@ -218,7 +223,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onChanged: (v) => setState(() => _tosAccepted = v ?? false),
                     controlAffinity: ListTileControlAffinity.leading,
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('I accept the Terms of Service & Privacy Policy.'),
+                    title: Text(l10n.tosAcceptLabel),
                   ),
                   if (_role == UserRole.tutor)
                     CheckboxListTile(
@@ -226,14 +231,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       onChanged: (v) => setState(() => _cocAccepted = v ?? false),
                       controlAffinity: ListTileControlAffinity.leading,
                       contentPadding: EdgeInsets.zero,
-                      title: const Text("I accept the Tutors' Code of Conduct."),
+                      title: Text(l10n.cocAcceptLabel),
                     ),
                   const SizedBox(height: AppSpacing.lg),
-                  PrimaryButton(label: 'Register', busy: busy, onPressed: busy ? null : _submit),
+                  PrimaryButton(label: l10n.registerSubmit, busy: busy, onPressed: busy ? null : _submit),
                   const SizedBox(height: AppSpacing.lg),
                   TextButton(
                     onPressed: () => context.go(AppRoutes.login),
-                    child: const Text('Already registered? Sign in'),
+                    child: Text(l10n.registerToLogin),
                   ),
                 ],
               ),

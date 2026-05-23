@@ -74,4 +74,84 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get errorGeneric => 'केही गडबड भयो। फेरि प्रयास गर्नुहोस्।';
+
+  @override
+  String get firstNameLabel => 'नाम';
+
+  @override
+  String get lastNameLabel => 'थर';
+
+  @override
+  String get emailAddressLabel => 'इमेल ठेगाना';
+
+  @override
+  String get phoneNumberLabel => 'मोबाइल नम्बर';
+
+  @override
+  String get phoneNumberHint => '98XXXXXXXX';
+
+  @override
+  String get confirmPasswordLabel => 'पासवर्ड पुष्टि गर्नुहोस्';
+
+  @override
+  String get nameInvalid => 'आवश्यक (बढीमा ४०)।';
+
+  @override
+  String get phoneInvalid => '१० अङ्कको नेपाली मोबाइल हाल्नुहोस् (९८… / ९७…)।';
+
+  @override
+  String get passwordTooShort => 'कम्तीमा ८ अक्षर।';
+
+  @override
+  String get passwordWeak => 'पासवर्डमा अक्षर र अङ्क दुवै हुनुपर्छ।';
+
+  @override
+  String get confirmPasswordMismatch => 'पासवर्ड मिलेन।';
+
+  @override
+  String get roleLabel => 'भूमिका';
+
+  @override
+  String get roleTutor => 'म शिक्षक हुँ';
+
+  @override
+  String get roleTutorSubtitle => 'म पढाउन चाहन्छु';
+
+  @override
+  String get roleStudent => 'म विद्यार्थी हुँ';
+
+  @override
+  String get roleStudentSubtitle => 'म शिक्षक खोज्दैछु';
+
+  @override
+  String get rolePermanentNote => 'तपाईंको भूमिका यो खातामा स्थायी हुनेछ।';
+
+  @override
+  String get tosAcceptLabel => 'म सर्तहरू र गोपनीयता नीति स्वीकार गर्छु।';
+
+  @override
+  String get cocAcceptLabel => 'म शिक्षकहरूको आचारसंहिता स्वीकार गर्छु।';
+
+  @override
+  String get pickRoleSnack => 'अगाडि बढ्न भूमिका छान्नुहोस्।';
+
+  @override
+  String get tosRequiredSnack => 'तपाईंले सर्तहरू स्वीकार गर्नुपर्छ।';
+
+  @override
+  String get cocRequiredSnack => 'शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।';
+
+  @override
+  String get registerSubmit => 'दर्ता गर्नुहोस्';
+
+  @override
+  String get registerToLogin => 'पहिले नै दर्ता हुनुहुन्छ? साइन इन';
+
+  @override
+  String get registerErrorSignupFailed =>
+      'खाता बनाउन सकिएन। इमेल पहिले नै प्रयोग भएको हुन सक्छ।';
+
+  @override
+  String get registerErrorCocRequired =>
+      'शिक्षकहरूले आचारसंहिता स्वीकार गर्नुपर्छ।';
 }

@@ -60,5 +60,83 @@
   "@loginErrorInvalidCredentials": {},
 
   "errorGeneric": "Something went wrong. Please try again.",
-  "@errorGeneric": {}
+  "@errorGeneric": {},
+
+  "firstNameLabel": "First name",
+  "@firstNameLabel": {},
+
+  "lastNameLabel": "Last name",
+  "@lastNameLabel": {},
+
+  "emailAddressLabel": "Email address",
+  "@emailAddressLabel": {},
+
+  "phoneNumberLabel": "Phone number",
+  "@phoneNumberLabel": {},
+
+  "phoneNumberHint": "98XXXXXXXX",
+  "@phoneNumberHint": {},
+
+  "confirmPasswordLabel": "Confirm password",
+  "@confirmPasswordLabel": {},
+
+  "nameInvalid": "Required (max 40).",
+  "@nameInvalid": {},
+
+  "phoneInvalid": "Enter a valid 10-digit Nepali mobile (98… / 97…).",
+  "@phoneInvalid": {},
+
+  "passwordTooShort": "At least 8 characters.",
+  "@passwordTooShort": {},
+
+  "passwordWeak": "Password must include letters and digits.",
+  "@passwordWeak": {},
+
+  "confirmPasswordMismatch": "Passwords do not match.",
+  "@confirmPasswordMismatch": {},
+
+  "roleLabel": "Role",
+  "@roleLabel": {},
+
+  "roleTutor": "I'm a tutor",
+  "@roleTutor": {},
+
+  "roleTutorSubtitle": "I want to teach",
+  "@roleTutorSubtitle": {},
+
+  "roleStudent": "I'm a student",
+  "@roleStudent": {},
+
+  "roleStudentSubtitle": "I'm looking for a tutor",
+  "@roleStudentSubtitle": {},
+
+  "rolePermanentNote": "Your role is permanent for this account.",
+  "@rolePermanentNote": {},
+
+  "tosAcceptLabel": "I accept the Terms of Service & Privacy Policy.",
+  "@tosAcceptLabel": {},
+
+  "cocAcceptLabel": "I accept the Tutors' Code of Conduct.",
+  "@cocAcceptLabel": {},
+
+  "pickRoleSnack": "Pick a role to continue.",
+  "@pickRoleSnack": {},
+
+  "tosRequiredSnack": "You must accept the Terms of Service.",
+  "@tosRequiredSnack": {},
+
+  "cocRequiredSnack": "Tutors must accept the Tutors' Code of Conduct.",
+  "@cocRequiredSnack": {},
+
+  "registerSubmit": "Register",
+  "@registerSubmit": {},
+
+  "registerToLogin": "Already registered? Sign in",
+  "@registerToLogin": {},
+
+  "registerErrorSignupFailed": "Could not create the account. The email may already be in use.",
+  "@registerErrorSignupFailed": {},
+
+  "registerErrorCocRequired": "Tutors must accept the Code of Conduct.",
+  "@registerErrorCocRequired": {}
 }
