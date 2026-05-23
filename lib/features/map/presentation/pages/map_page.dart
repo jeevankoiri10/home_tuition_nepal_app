@@ -150,27 +150,10 @@ class _MapPageState extends State<MapPage> {
                       onCardTap: (t, i) => _onPinTap(bloc, t, i),
                       onContact: (t) => _onContactTap(context, t),
                     ),
-                    Positioned(
-                      left: AppSpacing.lg,
-                      bottom: 220,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FloatingActionButton.extended(
-                            heroTag: 'fab-request',
-                            onPressed: () => context.push(AppRoutes.requestTutor),
-                            icon: const Icon(Icons.person_search_outlined),
-                            label: const Text('Request a tutor'),
-                          ),
-                          const SizedBox(height: AppSpacing.sm),
-                          FloatingActionButton.extended(
-                            heroTag: 'fab-post-job',
-                            onPressed: () => context.push(AppRoutes.postJob),
-                            icon: const Icon(Icons.post_add_outlined),
-                            label: const Text('Post a job'),
-                          ),
-                        ],
-                      ),
+                    _SheetTrackingFabs(
+                      controller: _sheetController,
+                      minSize: _BottomSheet.minSize,
+                      maxSize: _BottomSheet.maxSize,
                     ),
                   ],
                 ),
@@ -266,23 +249,39 @@ class _BottomSheet extends StatelessWidget {
     required this.onContact,
   });
 
+  // Exposed so other widgets (FABs) can mirror the same bounds.
+  static const double minSize = 0.12;
+  static const double initialSize = 0.34;
+  static const double maxSize = 0.92;
+
   final DraggableScrollableController controller;
   final MapState state;
   final PageController carouselController;
   final void Function(MapTutor, int) onCardTap;
   final void Function(MapTutor) onContact;
 
+  void _toggle() {
+    final size = controller.size;
+    // If close to max, collapse back to initial; else expand to max.
+    final target = size > (initialSize + 0.1) ? initialSize : maxSize;
+    controller.animateTo(
+      target,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       controller: controller,
-      initialChildSize: 0.32,
-      minChildSize: 0.18,
-      maxChildSize: 0.85,
-      snap: true,
-      snapSizes: const [0.32, 0.85],
+      initialChildSize: initialSize,
+      minChildSize: minSize,
+      maxChildSize: maxSize,
+      // No `snap` — drags settle wherever the user lets go, so the sheet
+      // never feels yanked between two fixed positions.
       builder: (context, scrollController) {
-        return Container(
+        return DecoratedBox(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
@@ -292,27 +291,11 @@ class _BottomSheet extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Container(
-                width: 36,
-                height: 4,
-                margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-                decoration: BoxDecoration(
-                  color: AppColors.border,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+              _DragHandleHeader(
+                tutorCount: state.tutors.length,
+                onTap: _toggle,
+                sheetController: controller,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: Row(
-                  children: [
-                    Text('${state.tutors.length} tutors',
-                        style: Theme.of(context).textTheme.titleMedium),
-                    const Spacer(),
-                    const Icon(Icons.expand_less, color: AppColors.textSecondary),
-                  ],
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
               Expanded(
                 child: state.tutors.isEmpty
                     ? const _EmptyState()
@@ -323,6 +306,133 @@ class _BottomSheet extends StatelessWidget {
                         onCardTap: onCardTap,
                         onContact: onContact,
                       ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// A tall, obviously-tappable header that drives the sheet via drag gestures
+/// AND a tap-to-toggle. Sized to be a comfortable thumb target on phones.
+class _DragHandleHeader extends StatelessWidget {
+  const _DragHandleHeader({
+    required this.tutorCount,
+    required this.onTap,
+    required this.sheetController,
+  });
+
+  final int tutorCount;
+  final VoidCallback onTap;
+  final DraggableScrollableController sheetController;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      onVerticalDragUpdate: (details) {
+        // Translate finger movement into sheet-size delta. The sheet's `size`
+        // is a fraction of screen height; positive primaryDelta is downward.
+        final screenHeight = MediaQuery.of(context).size.height;
+        final next = (sheetController.size - details.primaryDelta! / screenHeight)
+            .clamp(_BottomSheet.minSize, _BottomSheet.maxSize);
+        sheetController.jumpTo(next);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: AppSpacing.sm, bottom: AppSpacing.xs),
+        child: Column(
+          children: [
+            // Pill — bigger than the original 36×4 so it reads as a control.
+            Container(
+              width: 44,
+              height: 5,
+              decoration: BoxDecoration(
+                color: AppColors.border,
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Row(
+                children: [
+                  Text('$tutorCount tutors',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  const Spacer(),
+                  AnimatedBuilder(
+                    animation: sheetController,
+                    builder: (_, _) {
+                      final t = sheetController.isAttached
+                          ? ((sheetController.size - _BottomSheet.minSize) /
+                                  (_BottomSheet.maxSize - _BottomSheet.minSize))
+                              .clamp(0.0, 1.0)
+                          : 0.0;
+                      // 0 → expand-less (pointing up to invite expansion);
+                      // 1 → expand-more (pointing down to invite collapse).
+                      return Transform.rotate(
+                        angle: t * 3.14159,
+                        child: const Icon(Icons.expand_less,
+                            color: AppColors.textSecondary),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Repositions floating action buttons so they always sit just above the
+/// bottom sheet's current top edge, instead of a fixed magic offset that
+/// would clip when the sheet expands.
+class _SheetTrackingFabs extends StatelessWidget {
+  const _SheetTrackingFabs({
+    required this.controller,
+    required this.minSize,
+    required this.maxSize,
+  });
+
+  final DraggableScrollableController controller;
+  final double minSize;
+  final double maxSize;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final size = controller.isAttached
+            ? controller.size.clamp(minSize, maxSize)
+            : minSize;
+        // The sheet covers `size * screenHeight` from the bottom; sit the
+        // FABs 12px above the top edge of that.
+        final bottomInset = size * screenHeight + 12;
+        return Positioned(
+          left: AppSpacing.lg,
+          bottom: bottomInset,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FloatingActionButton.extended(
+                heroTag: 'fab-request',
+                onPressed: () => context.push(AppRoutes.requestTutor),
+                icon: const Icon(Icons.person_search_outlined),
+                label: const Text('Request a tutor'),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              FloatingActionButton.extended(
+                heroTag: 'fab-post-job',
+                onPressed: () => context.push(AppRoutes.postJob),
+                icon: const Icon(Icons.post_add_outlined),
+                label: const Text('Post a job'),
               ),
             ],
           ),
@@ -351,8 +461,14 @@ class _SheetBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // The carousel and the list both render the same data; CustomScrollView
     // lets us nest them inside the DraggableScrollableSheet's scroll controller.
+    // BouncingScrollPhysics gives a smoother handoff between inner scroll and
+    // the sheet's own drag: when the user keeps dragging past offset 0 the
+    // sheet collapses instead of the list hitting a hard stop.
     return CustomScrollView(
       controller: scrollController,
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
       slivers: [
         SliverToBoxAdapter(
           child: SizedBox(
