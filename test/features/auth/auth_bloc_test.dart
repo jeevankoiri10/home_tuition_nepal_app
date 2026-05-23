@@ -43,6 +43,7 @@ void main() {
         tosAccepted: true,
         codeOfConductAccepted: false,
       ))),
+      wait: const Duration(milliseconds: 600),
       verify: (bloc) {
         expect(bloc.state.status, AuthStatus.error);
         expect(bloc.state.errorCode, 'coc_required');

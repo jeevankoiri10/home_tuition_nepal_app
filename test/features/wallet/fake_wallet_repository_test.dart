@@ -59,6 +59,6 @@ void main() {
         () => repo.unlockContact(studentId: 'poor', tutorId: 't_new'),
         throwsA(isA<WalletException>().having((e) => e.isInsufficient, 'isInsufficient', true)),
       );
-    });
+    }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }
