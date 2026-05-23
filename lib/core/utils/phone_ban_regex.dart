@@ -5,6 +5,7 @@
 ///
 /// The client-side check is non-authoritative — Postgres triggers in the
 /// backend repeat the same validation as a backstop.
+library;
 
 class PhoneBanRegex {
   PhoneBanRegex._();

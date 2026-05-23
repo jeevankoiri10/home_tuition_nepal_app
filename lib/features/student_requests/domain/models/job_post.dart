@@ -23,8 +23,8 @@ class JobPost extends Equatable {
     this.communicateLanguages = const [],
     this.canTravel = true,
     this.status = JobStatus.open,
-    DateTime? createdAt,
-  }) : createdAt = createdAt;
+    this.createdAt,
+  });
 
   final String? id;
   final String studentId;

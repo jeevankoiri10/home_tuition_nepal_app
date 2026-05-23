@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -46,6 +45,7 @@ Future<void> main() async {
             // Sensible defaults — re-tune per project after a week of data.
             o.tracesSampleRate = kReleaseMode ? 0.1 : 1.0;
             o.attachScreenshot = false;       // privacy: never attach to errors
+            // ignore: experimental_member_use
             o.attachViewHierarchy = false;
             o.sendDefaultPii = false;
           },

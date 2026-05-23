@@ -1,5 +1,6 @@
 /// Form-field validators used across registration / login / OTP screens.
 /// Each returns null when valid, an error key (caller localizes) when not.
+library;
 
 class Validators {
   Validators._();

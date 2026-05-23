@@ -68,23 +68,23 @@ GoRouter buildRouter() {
   return GoRouter(
     initialLocation: AppRoutes.splash,
     routes: [
-      GoRoute(path: AppRoutes.splash, builder: (_, __) => const SplashPage()),
-      GoRoute(path: AppRoutes.login, builder: (_, __) => const LoginPage()),
-      GoRoute(path: AppRoutes.register, builder: (_, __) => const RegisterPage()),
-      GoRoute(path: AppRoutes.otp, builder: (_, __) => const OtpPage()),
-      GoRoute(path: AppRoutes.tutorHome, builder: (_, __) => const TutorHomePage()),
+      GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashPage()),
+      GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginPage()),
+      GoRoute(path: AppRoutes.register, builder: (_, _) => const RegisterPage()),
+      GoRoute(path: AppRoutes.otp, builder: (_, _) => const OtpPage()),
+      GoRoute(path: AppRoutes.tutorHome, builder: (_, _) => const TutorHomePage()),
       GoRoute(
         path: AppRoutes.tutorOnboarding,
-        builder: (_, __) => _withTutorProfile(const TutorOnboardingWizardPage()),
+        builder: (_, _) => _withTutorProfile(const TutorOnboardingWizardPage()),
       ),
       GoRoute(
         path: AppRoutes.tutorProfileSettings,
-        builder: (_, __) => _withTutorProfile(const TutorProfileSettingsPage()),
+        builder: (_, _) => _withTutorProfile(const TutorProfileSettingsPage()),
       ),
-      GoRoute(path: AppRoutes.studentHome, builder: (_, __) => const StudentHomePage()),
+      GoRoute(path: AppRoutes.studentHome, builder: (_, _) => const StudentHomePage()),
       GoRoute(
         path: AppRoutes.map,
-        builder: (_, __) => MultiBlocProvider(
+        builder: (_, _) => MultiBlocProvider(
           providers: [
             BlocProvider<MapBloc>(create: (_) => sl<MapBloc>()),
             BlocProvider<WalletBloc>(create: (ctx) {
@@ -99,23 +99,23 @@ GoRouter buildRouter() {
       ),
       GoRoute(
         path: AppRoutes.wallet,
-        builder: (_, __) => _withWallet(const WalletPage()),
+        builder: (_, _) => _withWallet(const WalletPage()),
       ),
       GoRoute(
         path: AppRoutes.buyCoins,
-        builder: (_, __) => _withWallet(const CoinPacksPage()),
+        builder: (_, _) => _withWallet(const CoinPacksPage()),
       ),
       GoRoute(
         path: AppRoutes.myPosts,
-        builder: (_, __) => _withStudentRequests(const MyPostsPage()),
+        builder: (_, _) => _withStudentRequests(const MyPostsPage()),
       ),
       GoRoute(
         path: AppRoutes.postJob,
-        builder: (_, __) => _withStudentRequests(const PostJobPage()),
+        builder: (_, _) => _withStudentRequests(const PostJobPage()),
       ),
       GoRoute(
         path: AppRoutes.requestTutor,
-        builder: (_, __) => _withStudentRequests(const RequestTutorPage()),
+        builder: (_, _) => _withStudentRequests(const RequestTutorPage()),
       ),
       GoRoute(
         path: AppRoutes.postDetail,
@@ -125,7 +125,7 @@ GoRouter buildRouter() {
       ),
       GoRoute(
         path: AppRoutes.vacancies,
-        builder: (_, __) => _withVacancies(const VacanciesFeedPage()),
+        builder: (_, _) => _withVacancies(const VacanciesFeedPage()),
       ),
       GoRoute(
         path: AppRoutes.vacancyDetail,
@@ -135,7 +135,7 @@ GoRouter buildRouter() {
       ),
       GoRoute(
         path: AppRoutes.notifications,
-        builder: (_, __) => const NotificationsPage(),
+        builder: (_, _) => const NotificationsPage(),
       ),
       GoRoute(
         path: AppRoutes.chat,

@@ -49,7 +49,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (_, __) => _maybeAutoRoute(),
+      listener: (_, _) => _maybeAutoRoute(),
       child: const _SplashContent(),
     );
   }

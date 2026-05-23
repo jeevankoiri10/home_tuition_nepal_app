@@ -204,7 +204,7 @@ class _MapLayer extends StatelessWidget {
       options: MapOptions(
         initialCenter: LatLng(state.centerLat!, state.centerLng!),
         initialZoom: 13,
-        onTap: (_, __) => onTap(),
+        onTap: (_, _) => onTap(),
         onPositionChanged: (pos, hasGesture) {
           if (hasGesture) onCameraIdle(pos.center);
         },

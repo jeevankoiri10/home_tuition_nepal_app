@@ -1,5 +1,6 @@
 /// Closed taxonomies that map 1:1 to Postgres CHECK constraints.
 /// Keep the `value` strings in sync with supabase/migrations/0002_phase3_tutors.sql.
+library;
 
 enum TeachingMode {
   online,

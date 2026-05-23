@@ -24,8 +24,8 @@ class VacancyRequest extends Equatable {
     this.mode = JobMode.inPerson,
     this.notes,
     this.status = VacancyStatus.pendingAdminReview,
-    DateTime? createdAt,
-  }) : createdAt = createdAt;
+    this.createdAt,
+  });
 
   final String? id;
   final String? code;

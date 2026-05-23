@@ -5,7 +5,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
-import '../../domain/models/job_post.dart';
 import '../../domain/models/request_enums.dart';
 import '../blocs/student_requests_bloc.dart';
 
