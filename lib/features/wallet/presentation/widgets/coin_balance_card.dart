@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 /// Gradient hero card showing the current coin balance. Reusable across the
 /// tutor & student home screens and the Wallet page header.
@@ -19,6 +20,7 @@ class CoinBalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final card = Container(
       padding: EdgeInsets.all(compact ? AppSpacing.md : AppSpacing.lg),
       decoration: const BoxDecoration(
@@ -34,10 +36,10 @@ class CoinBalanceCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('CURRENT BALANCE',
-                    style:
-                        TextStyle(color: Colors.white70, fontWeight: FontWeight.w500, fontSize: 12)),
-                Text('$coins coins',
+                Text(l10n.currentBalanceLabel,
+                    style: const TextStyle(
+                        color: Colors.white70, fontWeight: FontWeight.w500, fontSize: 12)),
+                Text(l10n.coinsSuffix(coins),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: compact ? 22 : 28,

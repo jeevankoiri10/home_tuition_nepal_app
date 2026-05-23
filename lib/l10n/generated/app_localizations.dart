@@ -625,6 +625,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try widening the radius or loosening filters.'**
   String get mapEmptyHint;
+
+  /// No description provided for @walletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coin Wallet'**
+  String get walletTitle;
+
+  /// No description provided for @walletBuyCoins.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Coins'**
+  String get walletBuyCoins;
+
+  /// No description provided for @walletTransactionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction History'**
+  String get walletTransactionHistory;
+
+  /// No description provided for @walletNoTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet.'**
+  String get walletNoTransactions;
+
+  /// No description provided for @ledgerColDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get ledgerColDate;
+
+  /// No description provided for @ledgerColDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get ledgerColDetails;
+
+  /// No description provided for @ledgerColCoins.
+  ///
+  /// In en, this message translates to:
+  /// **'Coins'**
+  String get ledgerColCoins;
+
+  /// No description provided for @unlockNotSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in first.'**
+  String get unlockNotSignedIn;
+
+  /// No description provided for @unlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock contact for {cost} coins'**
+  String unlockTitle(int cost);
+
+  /// No description provided for @unlockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can contact the tutor over phone or WhatsApp once unlocked. This is a one-time cost — repeat unlocks for the same tutor are free.'**
+  String get unlockBody;
+
+  /// No description provided for @unlockNeedMoreCoins.
+  ///
+  /// In en, this message translates to:
+  /// **'You need more coins. Top up to continue.'**
+  String get unlockNeedMoreCoins;
+
+  /// No description provided for @unlockFailedGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not unlock contact.'**
+  String get unlockFailedGeneric;
+
+  /// No description provided for @workingEllipsis.
+  ///
+  /// In en, this message translates to:
+  /// **'Working…'**
+  String get workingEllipsis;
+
+  /// No description provided for @unlockConfirmCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm — {cost} coins'**
+  String unlockConfirmCta(int cost);
+
+  /// No description provided for @buyCoinsLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy coins'**
+  String get buyCoinsLink;
+
+  /// No description provided for @unlockSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact unlocked'**
+  String get unlockSuccess;
+
+  /// No description provided for @unlockNewBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'New balance: {balance} coins'**
+  String unlockNewBalance(int balance);
+
+  /// No description provided for @openChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Open chat'**
+  String get openChat;
+
+  /// No description provided for @callLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get callLabel;
+
+  /// No description provided for @whatsAppLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get whatsAppLabel;
+
+  /// No description provided for @unlockCallPhase7Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone-number reveal lands when admin matches go live (Phase 7).'**
+  String get unlockCallPhase7Hint;
+
+  /// No description provided for @unlockWhatsAppPhase7Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp launch wires in Phase 7.'**
+  String get unlockWhatsAppPhase7Hint;
+
+  /// No description provided for @leaveReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a review'**
+  String get leaveReview;
+
+  /// No description provided for @doneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
 }
 
 class _AppLocalizationsDelegate

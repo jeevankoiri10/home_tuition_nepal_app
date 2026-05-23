@@ -311,4 +311,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapEmptyHint => 'Try widening the radius or loosening filters.';
+
+  @override
+  String get walletTitle => 'Coin Wallet';
+
+  @override
+  String get walletBuyCoins => 'Buy Coins';
+
+  @override
+  String get walletTransactionHistory => 'Transaction History';
+
+  @override
+  String get walletNoTransactions => 'No transactions yet.';
+
+  @override
+  String get ledgerColDate => 'Date';
+
+  @override
+  String get ledgerColDetails => 'Details';
+
+  @override
+  String get ledgerColCoins => 'Coins';
+
+  @override
+  String get unlockNotSignedIn => 'Please sign in first.';
+
+  @override
+  String unlockTitle(int cost) {
+    return 'Unlock contact for $cost coins';
+  }
+
+  @override
+  String get unlockBody =>
+      'You can contact the tutor over phone or WhatsApp once unlocked. This is a one-time cost — repeat unlocks for the same tutor are free.';
+
+  @override
+  String get unlockNeedMoreCoins => 'You need more coins. Top up to continue.';
+
+  @override
+  String get unlockFailedGeneric => 'Could not unlock contact.';
+
+  @override
+  String get workingEllipsis => 'Working…';
+
+  @override
+  String unlockConfirmCta(int cost) {
+    return 'Confirm — $cost coins';
+  }
+
+  @override
+  String get buyCoinsLink => 'Buy coins';
+
+  @override
+  String get unlockSuccess => 'Contact unlocked';
+
+  @override
+  String unlockNewBalance(int balance) {
+    return 'New balance: $balance coins';
+  }
+
+  @override
+  String get openChat => 'Open chat';
+
+  @override
+  String get callLabel => 'Call';
+
+  @override
+  String get whatsAppLabel => 'WhatsApp';
+
+  @override
+  String get unlockCallPhase7Hint =>
+      'Phone-number reveal lands when admin matches go live (Phase 7).';
+
+  @override
+  String get unlockWhatsAppPhase7Hint => 'WhatsApp launch wires in Phase 7.';
+
+  @override
+  String get leaveReview => 'Leave a review';
+
+  @override
+  String get doneLabel => 'Done';
 }

@@ -7,6 +7,7 @@ import '../../../../app/router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/ledger_entry.dart';
 import '../blocs/wallet_bloc.dart';
 import '../widgets/coin_balance_card.dart';
@@ -16,10 +17,11 @@ class WalletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: const Text('Coin Wallet')),
+          appBar: AppBar(title: Text(l10n.walletTitle)),
           body: RefreshIndicator(
             onRefresh: () async {
               context.read<WalletBloc>().add(const WalletRefreshRequested());
@@ -31,11 +33,11 @@ class WalletPage extends StatelessWidget {
                 CoinBalanceCard(coins: state.balance),
                 const SizedBox(height: AppSpacing.lg),
                 PrimaryButton(
-                  label: 'Buy Coins',
+                  label: l10n.walletBuyCoins,
                   onPressed: () => context.push(AppRoutes.buyCoins),
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                Text('Transaction History',
+                Text(l10n.walletTransactionHistory,
                     style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: AppSpacing.sm),
                 if (state.status == WalletStatus.loading && state.entries.isEmpty)
@@ -44,11 +46,11 @@ class WalletPage extends StatelessWidget {
                     child: Center(child: CircularProgressIndicator()),
                   )
                 else if (state.entries.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
                     child: Center(
-                      child: Text('No transactions yet.',
-                          style: TextStyle(color: AppColors.textSecondary)),
+                      child: Text(l10n.walletNoTransactions,
+                          style: const TextStyle(color: AppColors.textSecondary)),
                     ),
                   )
                 else
@@ -71,32 +73,25 @@ class _LedgerTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    const headerStyle = TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600);
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
                   AppSpacing.lg, AppSpacing.xs, AppSpacing.lg, AppSpacing.xs),
               child: Row(
                 children: [
+                  SizedBox(width: 56, child: Text(l10n.ledgerColDate, style: headerStyle)),
+                  Expanded(child: Text(l10n.ledgerColDetails, style: headerStyle)),
                   SizedBox(
-                      width: 56,
-                      child: Text('Date',
-                          style: TextStyle(
-                              color: AppColors.primary, fontWeight: FontWeight.w600))),
-                  Expanded(
-                    child: Text('Details',
-                        style: TextStyle(
-                            color: AppColors.primary, fontWeight: FontWeight.w600)),
+                    width: 64,
+                    child: Text(l10n.ledgerColCoins,
+                        textAlign: TextAlign.right, style: headerStyle),
                   ),
-                  SizedBox(
-                      width: 64,
-                      child: Text('Coins',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              color: AppColors.primary, fontWeight: FontWeight.w600))),
                 ],
               ),
             ),

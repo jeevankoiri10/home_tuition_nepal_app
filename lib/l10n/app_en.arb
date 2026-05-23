@@ -286,5 +286,89 @@
   "@mapEmptyTitle": {},
 
   "mapEmptyHint": "Try widening the radius or loosening filters.",
-  "@mapEmptyHint": {}
+  "@mapEmptyHint": {},
+
+  "walletTitle": "Coin Wallet",
+  "@walletTitle": {},
+
+  "walletBuyCoins": "Buy Coins",
+  "@walletBuyCoins": {},
+
+  "walletTransactionHistory": "Transaction History",
+  "@walletTransactionHistory": {},
+
+  "walletNoTransactions": "No transactions yet.",
+  "@walletNoTransactions": {},
+
+  "ledgerColDate": "Date",
+  "@ledgerColDate": {},
+
+  "ledgerColDetails": "Details",
+  "@ledgerColDetails": {},
+
+  "ledgerColCoins": "Coins",
+  "@ledgerColCoins": {},
+
+  "unlockNotSignedIn": "Please sign in first.",
+  "@unlockNotSignedIn": {},
+
+  "unlockTitle": "Unlock contact for {cost} coins",
+  "@unlockTitle": {
+    "placeholders": {
+      "cost": { "type": "int" }
+    }
+  },
+
+  "unlockBody": "You can contact the tutor over phone or WhatsApp once unlocked. This is a one-time cost — repeat unlocks for the same tutor are free.",
+  "@unlockBody": {},
+
+  "unlockNeedMoreCoins": "You need more coins. Top up to continue.",
+  "@unlockNeedMoreCoins": {},
+
+  "unlockFailedGeneric": "Could not unlock contact.",
+  "@unlockFailedGeneric": {},
+
+  "workingEllipsis": "Working…",
+  "@workingEllipsis": {},
+
+  "unlockConfirmCta": "Confirm — {cost} coins",
+  "@unlockConfirmCta": {
+    "placeholders": {
+      "cost": { "type": "int" }
+    }
+  },
+
+  "buyCoinsLink": "Buy coins",
+  "@buyCoinsLink": {},
+
+  "unlockSuccess": "Contact unlocked",
+  "@unlockSuccess": {},
+
+  "unlockNewBalance": "New balance: {balance} coins",
+  "@unlockNewBalance": {
+    "placeholders": {
+      "balance": { "type": "int" }
+    }
+  },
+
+  "openChat": "Open chat",
+  "@openChat": {},
+
+  "callLabel": "Call",
+  "@callLabel": {},
+
+  "whatsAppLabel": "WhatsApp",
+  "@whatsAppLabel": {},
+
+  "unlockCallPhase7Hint": "Phone-number reveal lands when admin matches go live (Phase 7).",
+  "@unlockCallPhase7Hint": {},
+
+  "unlockWhatsAppPhase7Hint": "WhatsApp launch wires in Phase 7.",
+  "@unlockWhatsAppPhase7Hint": {},
+
+  "leaveReview": "Leave a review",
+  "@leaveReview": {},
+
+  "doneLabel": "Done",
+  "@doneLabel": {}
 }

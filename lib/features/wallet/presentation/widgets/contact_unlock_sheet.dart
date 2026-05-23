@@ -7,6 +7,7 @@ import '../../../../core/services/platform_settings_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../app/di.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../../map/domain/models/map_tutor.dart';
@@ -42,9 +43,10 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
   int? _newBalance;
 
   Future<void> _confirm() async {
+    final l10n = AppLocalizations.of(context);
     final user = context.read<AuthBloc>().state.user;
     if (user == null) {
-      setState(() => _error = 'Please sign in first.');
+      setState(() => _error = l10n.unlockNotSignedIn);
       return;
     }
     setState(() {
@@ -69,14 +71,15 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
       setState(() {
         _busy = false;
         _error = e.isInsufficient
-            ? 'You need more coins. Top up to continue.'
-            : (e.message ?? 'Could not unlock contact.');
+            ? l10n.unlockNeedMoreCoins
+            : (e.message ?? l10n.unlockFailedGeneric);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cost = widget.platformSettings.unlockCoinCost;
     return SafeArea(
       child: Padding(
@@ -88,19 +91,18 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
             _Header(tutor: widget.tutor),
             const SizedBox(height: AppSpacing.lg),
             if (!_unlocked) ...[
-              Text('Unlock contact for $cost coins',
+              Text(l10n.unlockTitle(cost),
                   style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: AppSpacing.xs),
-              const Text(
-                'You can contact the tutor over phone or WhatsApp once unlocked. '
-                'This is a one-time cost — repeat unlocks for the same tutor are free.',
-                style: TextStyle(color: AppColors.textSecondary),
+              Text(
+                l10n.unlockBody,
+                style: const TextStyle(color: AppColors.textSecondary),
               ),
               if (_error != null) ...[
                 const SizedBox(height: AppSpacing.md),
                 _ErrorBox(
                   message: _error!,
-                  showTopUp: _error!.toLowerCase().contains('more coins'),
+                  showTopUp: _error == l10n.unlockNeedMoreCoins,
                   onTopUp: () {
                     Navigator.of(context).pop();
                     context.push(AppRoutes.wallet);
@@ -109,7 +111,7 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
               ],
               const SizedBox(height: AppSpacing.lg),
               PrimaryButton(
-                label: _busy ? 'Working…' : 'Confirm — $cost coins',
+                label: _busy ? l10n.workingEllipsis : l10n.unlockConfirmCta(cost),
                 busy: _busy,
                 onPressed: _busy ? null : _confirm,
               ),
@@ -197,7 +199,10 @@ class _ErrorBox extends StatelessWidget {
                     style: const TextStyle(color: Color(0xFFD32F2F), fontWeight: FontWeight.w500)),
                 if (showTopUp) ...[
                   const SizedBox(height: AppSpacing.xs),
-                  TextButton(onPressed: onTopUp, child: const Text('Buy coins')),
+                  TextButton(
+                    onPressed: onTopUp,
+                    child: Text(AppLocalizations.of(context).buyCoinsLink),
+                  ),
                 ],
               ],
             ),
@@ -221,23 +226,24 @@ class _UnlockedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
-          children: const [
-            Icon(Icons.check_circle, color: Color(0xFF2E7D32)),
-            SizedBox(width: AppSpacing.sm),
-            Text('Contact unlocked',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+          children: [
+            const Icon(Icons.check_circle, color: Color(0xFF2E7D32)),
+            const SizedBox(width: AppSpacing.sm),
+            Text(l10n.unlockSuccess,
+                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
           ],
         ),
         const SizedBox(height: AppSpacing.sm),
-        Text('New balance: $newBalance coins',
+        Text(l10n.unlockNewBalance(newBalance),
             style: const TextStyle(color: AppColors.textSecondary)),
         const SizedBox(height: AppSpacing.lg),
         PrimaryButton(
-          label: 'Open chat',
+          label: l10n.openChat,
           onPressed: () {
             Navigator.of(context).pop();
             final encoded = Uri.encodeComponent(tutorName);
@@ -251,14 +257,11 @@ class _UnlockedView extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                          'Phone-number reveal lands when admin matches go live (Phase 7).'),
-                    ),
+                    SnackBar(content: Text(l10n.unlockCallPhase7Hint)),
                   );
                 },
                 icon: const Icon(Icons.phone_outlined),
-                label: const Text('Call'),
+                label: Text(l10n.callLabel),
               ),
             ),
             const SizedBox(width: AppSpacing.md),
@@ -266,11 +269,11 @@ class _UnlockedView extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('WhatsApp launch wires in Phase 7.')),
+                    SnackBar(content: Text(l10n.unlockWhatsAppPhase7Hint)),
                   );
                 },
                 icon: const Icon(Icons.chat_outlined),
-                label: const Text('WhatsApp'),
+                label: Text(l10n.whatsAppLabel),
               ),
             ),
           ],
@@ -280,7 +283,7 @@ class _UnlockedView extends StatelessWidget {
           Expanded(
             child: TextButton.icon(
               icon: const Icon(Icons.star_border_rounded),
-              label: const Text('Leave a review'),
+              label: Text(l10n.leaveReview),
               onPressed: () {
                 Navigator.of(context).pop();
                 showModalBottomSheet<bool>(
@@ -299,7 +302,7 @@ class _UnlockedView extends StatelessWidget {
           Expanded(
             child: TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Done'),
+              child: Text(l10n.doneLabel),
             ),
           ),
         ]),

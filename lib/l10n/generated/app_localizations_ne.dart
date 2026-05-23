@@ -309,4 +309,84 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get mapEmptyHint =>
       'क्षेत्र फराकिलो बनाउनुहोस् वा फिल्टर खुकुलो गर्नुहोस्।';
+
+  @override
+  String get walletTitle => 'सिक्का वालेट';
+
+  @override
+  String get walletBuyCoins => 'सिक्का किन्नुहोस्';
+
+  @override
+  String get walletTransactionHistory => 'कारोबार इतिहास';
+
+  @override
+  String get walletNoTransactions => 'अहिलेसम्म कुनै कारोबार छैन।';
+
+  @override
+  String get ledgerColDate => 'मिति';
+
+  @override
+  String get ledgerColDetails => 'विवरण';
+
+  @override
+  String get ledgerColCoins => 'सिक्का';
+
+  @override
+  String get unlockNotSignedIn => 'पहिले साइन इन गर्नुहोस्।';
+
+  @override
+  String unlockTitle(int cost) {
+    return '$cost सिक्कामा सम्पर्क खोल्नुहोस्';
+  }
+
+  @override
+  String get unlockBody =>
+      'खोलेपछि तपाईं फोन वा WhatsApp मार्फत शिक्षकलाई सम्पर्क गर्न सक्नुहुन्छ। यो एक-पटकको शुल्क हो — उही शिक्षकका लागि पुनः खोल्नु निःशुल्क।';
+
+  @override
+  String get unlockNeedMoreCoins => 'थप सिक्का चाहियो। थप गर्नुहोस्।';
+
+  @override
+  String get unlockFailedGeneric => 'सम्पर्क खोल्न सकिएन।';
+
+  @override
+  String get workingEllipsis => 'गर्दैछ…';
+
+  @override
+  String unlockConfirmCta(int cost) {
+    return 'पुष्टि — $cost सिक्का';
+  }
+
+  @override
+  String get buyCoinsLink => 'सिक्का किन्नुहोस्';
+
+  @override
+  String get unlockSuccess => 'सम्पर्क खोलियो';
+
+  @override
+  String unlockNewBalance(int balance) {
+    return 'नयाँ रकम: $balance सिक्का';
+  }
+
+  @override
+  String get openChat => 'च्याट खोल्नुहोस्';
+
+  @override
+  String get callLabel => 'कल';
+
+  @override
+  String get whatsAppLabel => 'WhatsApp';
+
+  @override
+  String get unlockCallPhase7Hint =>
+      'फोन नम्बर खुलासा फेज ७ का एडमिन म्याचसँगै आउँछ।';
+
+  @override
+  String get unlockWhatsAppPhase7Hint => 'WhatsApp लिङ्क फेज ७ मा जोडिनेछ।';
+
+  @override
+  String get leaveReview => 'समीक्षा छोड्नुहोस्';
+
+  @override
+  String get doneLabel => 'भयो';
 }
