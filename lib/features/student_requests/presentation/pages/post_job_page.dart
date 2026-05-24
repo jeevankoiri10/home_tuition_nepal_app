@@ -9,10 +9,12 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/section_card.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../domain/models/job_post.dart';
 import '../../domain/models/request_enums.dart';
 import '../blocs/student_requests_bloc.dart';
+import '../enum_labels.dart';
 
 class PostJobPage extends StatefulWidget {
   const PostJobPage({super.key});
@@ -51,11 +53,12 @@ class _PostJobPageState extends State<PostJobPage> {
     super.dispose();
   }
 
-  String? _required(String? v) => (v == null || v.trim().isEmpty) ? 'Required' : null;
+  String? _required(AppLocalizations l10n, String? v) =>
+      (v == null || v.trim().isEmpty) ? l10n.requiredField : null;
 
-  String? _noPhone(String? v) {
+  String? _noPhone(AppLocalizations l10n, String? v) {
     if (v == null) return null;
-    return PhoneBanRegex.isViolation(v) ? 'Remove phone numbers or contact details.' : null;
+    return PhoneBanRegex.isViolation(v) ? l10n.phoneInTextValidation : null;
   }
 
   Future<void> _pickDueDate() async {
@@ -97,6 +100,7 @@ class _PostJobPageState extends State<PostJobPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocConsumer<StudentRequestsBloc, StudentRequestsState>(
       listener: (context, state) {
         if (state.status == StudentRequestsStatus.error && state.errorMessage != null) {
@@ -108,14 +112,14 @@ class _PostJobPageState extends State<PostJobPage> {
             state.jobs.isNotEmpty &&
             (DateTime.now().difference(state.jobs.first.createdAt ?? DateTime.now())).inSeconds < 3) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Job posted. Tutors will be notified.')));
+              .showSnackBar(SnackBar(content: Text(l10n.postJobSuccessSnack)));
           context.pop();
         }
       },
       builder: (context, state) {
         final busy = state.status == StudentRequestsStatus.submitting;
         return Scaffold(
-          appBar: AppBar(title: const Text('Post a job')),
+          appBar: AppBar(title: Text(l10n.postJobAppBar)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             child: Form(
@@ -124,27 +128,36 @@ class _PostJobPageState extends State<PostJobPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SectionCard(
-                    title: 'Type of job',
+                    title: l10n.postJobSectionType,
                     child: SegmentedButton<JobType>(
-                      segments: const [
-                        ButtonSegment(value: JobType.homeTuition, label: Text('Home tuition'), icon: Icon(Icons.home_outlined)),
-                        ButtonSegment(value: JobType.onlineTuition, label: Text('Online'), icon: Icon(Icons.computer_outlined)),
-                        ButtonSegment(value: JobType.assignmentHelp, label: Text('Assignment'), icon: Icon(Icons.assignment_outlined)),
+                      segments: [
+                        ButtonSegment(
+                            value: JobType.homeTuition,
+                            label: Text(l10n.postJobTypeHome),
+                            icon: const Icon(Icons.home_outlined)),
+                        ButtonSegment(
+                            value: JobType.onlineTuition,
+                            label: Text(l10n.postJobTypeOnline),
+                            icon: const Icon(Icons.computer_outlined)),
+                        ButtonSegment(
+                            value: JobType.assignmentHelp,
+                            label: Text(l10n.postJobTypeAssignment),
+                            icon: const Icon(Icons.assignment_outlined)),
                       ],
                       selected: {_type},
                       onSelectionChanged: (s) => setState(() => _type = s.first),
                     ),
                   ),
                   SectionCard(
-                    title: 'Title',
+                    title: l10n.postJobSectionTitle,
                     child: AppTextField(
-                      label: 'Headline (e.g., Maths tutor needed in Kapan)',
+                      label: l10n.postJobTitleHint,
                       controller: _title,
-                      validator: _required,
+                      validator: (v) => _required(l10n, v),
                     ),
                   ),
                   SectionCard(
-                    title: 'Description',
+                    title: l10n.postJobSectionDescription,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -152,87 +165,84 @@ class _PostJobPageState extends State<PostJobPage> {
                           controller: _description,
                           maxLines: 4,
                           decoration:
-                              const InputDecoration(hintText: 'Describe what you need.'),
-                          validator: _noPhone,
+                              InputDecoration(hintText: l10n.postJobDescriptionHint),
+                          validator: (v) => _noPhone(l10n, v),
                         ),
                         const SizedBox(height: AppSpacing.sm),
-                        const PhoneBanWarning(
-                          message:
-                              'Please don\'t share any contact details (phone, email, website etc) here.',
-                        ),
+                        PhoneBanWarning(message: l10n.phoneBanFormHint),
                       ],
                     ),
                   ),
                   SectionCard(
-                    title: 'Where & when',
+                    title: l10n.postJobSectionWhereWhen,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                      AppTextField(label: 'Subject', controller: _subject),
-                      AppTextField(label: 'Grade / Class', controller: _grade),
+                      AppTextField(label: l10n.postJobSubjectLabel, controller: _subject),
+                      AppTextField(label: l10n.postJobGradeLabel, controller: _grade),
                       AppTextField(
-                          label: 'Area / chowk',
+                          label: l10n.postJobAreaLabel,
                           controller: _area,
                           prefixIcon: Icons.place_outlined),
                       AppTextField(
-                          label: 'Schedule (e.g., evenings, 5–6pm)',
+                          label: l10n.postJobScheduleLabel,
                           controller: _schedule),
                       if (_type == JobType.assignmentHelp)
                         ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: const Icon(Icons.calendar_today_outlined),
                           title: Text(_due == null
-                              ? 'Due date — pick a date'
-                              : 'Due ${_due!.toLocal().toString().split(' ').first}'),
+                              ? l10n.postJobDueDatePick
+                              : l10n.postJobDueOnPrefix(_formatDate(context, _due!))),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: _pickDueDate,
                         ),
                     ]),
                   ),
                   SectionCard(
-                    title: 'Budget',
+                    title: l10n.postJobSectionBudget,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                       Row(children: [
                         Expanded(
                             child: AppTextField(
-                                label: 'Min (NPR)',
+                                label: l10n.postJobBudgetMinLabel,
                                 controller: _budgetMin,
                                 keyboardType: TextInputType.number)),
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                             child: AppTextField(
-                                label: 'Max (NPR)',
+                                label: l10n.postJobBudgetMaxLabel,
                                 controller: _budgetMax,
                                 keyboardType: TextInputType.number)),
                       ]),
                       DropdownButtonFormField<BudgetPeriod>(
                         initialValue: _period,
-                        decoration: const InputDecoration(labelText: 'Period'),
+                        decoration: InputDecoration(labelText: l10n.postJobPeriodLabel),
                         items: [
                           for (final p in BudgetPeriod.values)
-                            DropdownMenuItem(value: p, child: Text(p.suffix.trim())),
+                            DropdownMenuItem(value: p, child: Text(p.localized(l10n))),
                         ],
                         onChanged: (v) => setState(() => _period = v ?? _period),
                       ),
                     ]),
                   ),
                   SectionCard(
-                    title: 'Preferences',
+                    title: l10n.postJobSectionPreferences,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                       DropdownButtonFormField<JobMode>(
                         initialValue: _mode,
-                        decoration: const InputDecoration(labelText: 'Mode'),
+                        decoration: InputDecoration(labelText: l10n.postJobModeLabel),
                         items: [
                           for (final m in JobMode.values)
-                            DropdownMenuItem(value: m, child: Text(m.label)),
+                            DropdownMenuItem(value: m, child: Text(m.localized(l10n))),
                         ],
                         onChanged: (v) => setState(() => _mode = v ?? _mode),
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       DropdownButtonFormField<GenderPref>(
                         initialValue: _gender,
-                        decoration: const InputDecoration(labelText: 'Tutor gender'),
+                        decoration: InputDecoration(labelText: l10n.postJobTutorGenderLabel),
                         items: [
                           for (final g in GenderPref.values)
-                            DropdownMenuItem(value: g, child: Text(g.label)),
+                            DropdownMenuItem(value: g, child: Text(g.localized(l10n))),
                         ],
                         onChanged: (v) => setState(() => _gender = v ?? _gender),
                       ),
@@ -240,12 +250,12 @@ class _PostJobPageState extends State<PostJobPage> {
                       DropdownButtonFormField<EngagementType?>(
                         initialValue: _engagement,
                         decoration:
-                            const InputDecoration(labelText: 'Engagement type'),
+                            InputDecoration(labelText: l10n.postJobEngagementLabel),
                         items: [
-                          const DropdownMenuItem<EngagementType?>(
-                              value: null, child: Text('Any')),
+                          DropdownMenuItem<EngagementType?>(
+                              value: null, child: Text(l10n.postJobEngagementAny)),
                           for (final e in EngagementType.values)
-                            DropdownMenuItem(value: e, child: Text(e.label)),
+                            DropdownMenuItem(value: e, child: Text(e.localized(l10n))),
                         ],
                         onChanged: (v) => setState(() => _engagement = v),
                       ),
@@ -253,14 +263,14 @@ class _PostJobPageState extends State<PostJobPage> {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   PrimaryButton(
-                    label: busy ? 'Posting…' : 'Post job',
+                    label: busy ? l10n.postJobPostingEllipsis : l10n.postJobSubmit,
                     busy: busy,
                     onPressed: busy ? null : _submit,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text(
-                    'Matching tutors are notified automatically. You\'ll see their bids in My Posts.',
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  Text(
+                    l10n.postJobFooter,
+                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -270,5 +280,10 @@ class _PostJobPageState extends State<PostJobPage> {
         );
       },
     );
+  }
+
+  String _formatDate(BuildContext context, DateTime d) {
+    // Reuse the locale's short date — yMMMd gives "Jan 15, 2026" / "जन ५, २०२६".
+    return MaterialLocalizations.of(context).formatShortDate(d);
   }
 }

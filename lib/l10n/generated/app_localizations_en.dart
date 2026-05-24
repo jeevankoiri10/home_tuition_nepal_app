@@ -843,4 +843,167 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get engagementOneOff => 'One-off';
+
+  @override
+  String get requiredField => 'Required';
+
+  @override
+  String get phoneInTextValidation =>
+      'Remove phone numbers or contact details.';
+
+  @override
+  String get phoneBanFormHint =>
+      'Please don\'t share any contact details (phone, email, website etc) here.';
+
+  @override
+  String get postJobAppBar => 'Post a job';
+
+  @override
+  String get postJobSectionType => 'Type of job';
+
+  @override
+  String get postJobTypeHome => 'Home tuition';
+
+  @override
+  String get postJobTypeOnline => 'Online';
+
+  @override
+  String get postJobTypeAssignment => 'Assignment';
+
+  @override
+  String get postJobSectionTitle => 'Title';
+
+  @override
+  String get postJobTitleHint => 'Headline (e.g., Maths tutor needed in Kapan)';
+
+  @override
+  String get postJobSectionDescription => 'Description';
+
+  @override
+  String get postJobDescriptionHint => 'Describe what you need.';
+
+  @override
+  String get postJobSectionWhereWhen => 'Where & when';
+
+  @override
+  String get postJobSubjectLabel => 'Subject';
+
+  @override
+  String get postJobGradeLabel => 'Grade / Class';
+
+  @override
+  String get postJobAreaLabel => 'Area / chowk';
+
+  @override
+  String get postJobScheduleLabel => 'Schedule (e.g., evenings, 5–6pm)';
+
+  @override
+  String get postJobDueDatePick => 'Due date — pick a date';
+
+  @override
+  String postJobDueOnPrefix(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String get postJobSectionBudget => 'Budget';
+
+  @override
+  String get postJobBudgetMinLabel => 'Min (NPR)';
+
+  @override
+  String get postJobBudgetMaxLabel => 'Max (NPR)';
+
+  @override
+  String get postJobPeriodLabel => 'Period';
+
+  @override
+  String get postJobSectionPreferences => 'Preferences';
+
+  @override
+  String get postJobModeLabel => 'Mode';
+
+  @override
+  String get postJobTutorGenderLabel => 'Tutor gender';
+
+  @override
+  String get postJobEngagementLabel => 'Engagement type';
+
+  @override
+  String get postJobEngagementAny => 'Any';
+
+  @override
+  String get postJobPostingEllipsis => 'Posting…';
+
+  @override
+  String get postJobSubmit => 'Post job';
+
+  @override
+  String get postJobFooter =>
+      'Matching tutors are notified automatically. You\'ll see their bids in My Posts.';
+
+  @override
+  String get postJobSuccessSnack => 'Job posted. Tutors will be notified.';
+
+  @override
+  String get budgetPeriodHour => '/hour';
+
+  @override
+  String get budgetPeriodDay => '/day';
+
+  @override
+  String get budgetPeriodMonth => '/month';
+
+  @override
+  String get budgetPeriodSession => '/session';
+
+  @override
+  String get budgetPeriodFixed => 'fixed';
+
+  @override
+  String get requestSectionDetails => 'Details of your requirement';
+
+  @override
+  String get requestDetailsHint => 'Hi,\nI need maths and Hindi tutors online.';
+
+  @override
+  String get requestSectionLocation => 'Location';
+
+  @override
+  String get requestSectionSubjects => 'Subjects';
+
+  @override
+  String get requestSubjectsRequired => 'Pick at least one subject.';
+
+  @override
+  String get requestSectionLevel => 'Your Level';
+
+  @override
+  String get requestDurationLabel =>
+      'Duration / preferred time (e.g., 5pm–6pm)';
+
+  @override
+  String get requestMinSalaryLabel => 'Min salary (NPR)';
+
+  @override
+  String get requestMaxSalaryLabel => 'Max salary (NPR)';
+
+  @override
+  String get requestGenderLabel => 'Gender preference';
+
+  @override
+  String get requestSubmit => 'Send request to admin';
+
+  @override
+  String get requestFooter =>
+      'Admin reviews your request, assigns an HTN-NNNNN code, and notifies matching tutors. You\'ll get a push when it\'s live.';
+
+  @override
+  String get requestSuccessSnack =>
+      'Request sent. Admin will review and publish soon.';
+
+  @override
+  String requestTitlePrefix(String area) {
+    return 'Tutor needed in $area';
+  }
 }

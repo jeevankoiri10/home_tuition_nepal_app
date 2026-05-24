@@ -77,3 +77,35 @@ extension EngagementTypeLabel on EngagementType {
     }
   }
 }
+
+extension JobTypeLabel on JobType {
+  /// Short label suited to a segmented button. Use [.localized] for forms
+  /// where the full phrase reads better.
+  String shortLabel(AppLocalizations l10n) {
+    switch (this) {
+      case JobType.homeTuition:
+        return l10n.postJobTypeHome;
+      case JobType.onlineTuition:
+        return l10n.postJobTypeOnline;
+      case JobType.assignmentHelp:
+        return l10n.postJobTypeAssignment;
+    }
+  }
+}
+
+extension BudgetPeriodLabel on BudgetPeriod {
+  String localized(AppLocalizations l10n) {
+    switch (this) {
+      case BudgetPeriod.hour:
+        return l10n.budgetPeriodHour;
+      case BudgetPeriod.day:
+        return l10n.budgetPeriodDay;
+      case BudgetPeriod.month:
+        return l10n.budgetPeriodMonth;
+      case BudgetPeriod.session:
+        return l10n.budgetPeriodSession;
+      case BudgetPeriod.fixed:
+        return l10n.budgetPeriodFixed;
+    }
+  }
+}

@@ -10,11 +10,14 @@ import '../../../../core/widgets/chip_multi_select.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/section_card.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../../tutor_profile/domain/models/profile_enums.dart';
+import '../../../tutor_profile/presentation/enum_labels.dart';
 import '../../domain/models/request_enums.dart';
 import '../../domain/models/vacancy_request.dart';
 import '../blocs/student_requests_bloc.dart';
+import '../enum_labels.dart';
 
 const _kCommonSubjects = ['Maths', 'Science', 'English', 'Nepali', 'Computer', 'Social', 'Accountancy'];
 
@@ -47,34 +50,32 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
     super.dispose();
   }
 
-  String? _validateText(String? v) =>
-      (v == null || v.trim().isEmpty) ? 'Required' : null;
+  String? _validateText(AppLocalizations l10n, String? v) =>
+      (v == null || v.trim().isEmpty) ? l10n.requiredField : null;
 
-  String? _validateLocation(String? v) {
-    final required = _validateText(v);
-    if (required != null) return required;
-    return null;
-  }
-
-  String? _validateNoPhone(String? v) {
+  String? _validateNoPhone(AppLocalizations l10n, String? v) {
     if (v == null) return null;
-    return PhoneBanRegex.isViolation(v) ? 'Remove phone numbers or contact details.' : null;
+    return PhoneBanRegex.isViolation(v) ? l10n.phoneInTextValidation : null;
   }
 
   void _submit() {
+    final l10n = AppLocalizations.of(context);
     final user = context.read<AuthBloc>().state.user;
     if (user == null) return;
     if (!_formKey.currentState!.validate()) return;
     if (_subjects.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pick at least one subject.')),
+        SnackBar(content: Text(l10n.requestSubjectsRequired)),
       );
       return;
     }
 
     final vacancy = VacancyRequest(
       linkedStudent: user.id,
-      title: 'Tutor needed in ${_location.text.trim()}',
+      // The vacancy title and grade are stored server-side; keep the English
+      // label so admins/exports see a stable string. The user sees the
+      // localised version through the UI.
+      title: l10n.requestTitlePrefix(_location.text.trim()),
       areaLabel: _location.text.trim(),
       grade: _level.label,
       subjects: _subjects.toList(),
@@ -105,15 +106,18 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
             (DateTime.now().difference(state.vacancies.first.createdAt ?? DateTime.now()))
                     .inSeconds <
                 3) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Request sent. Admin will review and publish soon.')));
+          final l10n = AppLocalizations.of(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.requestSuccessSnack)),
+          );
           context.pop();
         }
       },
       builder: (context, state) {
+        final l10n = AppLocalizations.of(context);
         final busy = state.status == StudentRequestsStatus.submitting;
         return Scaffold(
-          appBar: AppBar(title: const Text('Request a Tutor')),
+          appBar: AppBar(title: Text(l10n.requestTutorCta)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             child: Form(
@@ -122,38 +126,34 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SectionCard(
-                    title: 'Details of your requirement',
+                    title: l10n.requestSectionDetails,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         TextFormField(
                           controller: _details,
                           maxLines: 4,
-                          decoration: const InputDecoration(
-                            hintText:
-                                'Hi,\nI need maths and Hindi tutors online.',
+                          decoration: InputDecoration(
+                            hintText: l10n.requestDetailsHint,
                           ),
-                          validator: _validateNoPhone,
+                          validator: (v) => _validateNoPhone(l10n, v),
                         ),
                         const SizedBox(height: AppSpacing.sm),
-                        const PhoneBanWarning(
-                          message:
-                              'Please don\'t share any contact details (phone, email, website etc) here.',
-                        ),
+                        PhoneBanWarning(message: l10n.phoneBanFormHint),
                       ],
                     ),
                   ),
                   SectionCard(
-                    title: 'Location',
+                    title: l10n.requestSectionLocation,
                     child: AppTextField(
-                      label: 'Area / chowk',
+                      label: l10n.postJobAreaLabel,
                       controller: _location,
                       prefixIcon: Icons.place_outlined,
-                      validator: _validateLocation,
+                      validator: (v) => _validateText(l10n, v),
                     ),
                   ),
                   SectionCard(
-                    title: 'Subjects',
+                    title: l10n.requestSectionSubjects,
                     child: ChipMultiSelect<String>(
                       options: _kCommonSubjects,
                       selected: _subjects,
@@ -162,32 +162,32 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
                     ),
                   ),
                   SectionCard(
-                    title: 'Your Level',
+                    title: l10n.requestSectionLevel,
                     child: DropdownButtonFormField<StudentLevel>(
                       initialValue: _level,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.school_outlined),
                       ),
                       items: [
-                        for (final l in StudentLevel.values)
-                          DropdownMenuItem(value: l, child: Text(l.label)),
+                        for (final lvl in StudentLevel.values)
+                          DropdownMenuItem(value: lvl, child: Text(lvl.localized(l10n))),
                       ],
                       onChanged: (v) => setState(() => _level = v ?? _level),
                     ),
                   ),
                   SectionCard(
-                    title: 'Preferences',
+                    title: l10n.postJobSectionPreferences,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         AppTextField(
-                          label: 'Duration / preferred time (e.g., 5pm–6pm)',
+                          label: l10n.requestDurationLabel,
                           controller: _duration,
                         ),
                         Row(children: [
                           Expanded(
                             child: AppTextField(
-                              label: 'Min salary (NPR)',
+                              label: l10n.requestMinSalaryLabel,
                               controller: _salaryMin,
                               keyboardType: TextInputType.number,
                             ),
@@ -195,7 +195,7 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
                           const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: AppTextField(
-                              label: 'Max salary (NPR)',
+                              label: l10n.requestMaxSalaryLabel,
                               controller: _salaryMax,
                               keyboardType: TextInputType.number,
                             ),
@@ -203,21 +203,20 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
                         ]),
                         DropdownButtonFormField<GenderPref>(
                           initialValue: _gender,
-                          decoration:
-                              const InputDecoration(labelText: 'Gender preference'),
+                          decoration: InputDecoration(labelText: l10n.requestGenderLabel),
                           items: [
                             for (final g in GenderPref.values)
-                              DropdownMenuItem(value: g, child: Text(g.label)),
+                              DropdownMenuItem(value: g, child: Text(g.localized(l10n))),
                           ],
                           onChanged: (v) => setState(() => _gender = v ?? _gender),
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         DropdownButtonFormField<JobMode>(
                           initialValue: _mode,
-                          decoration: const InputDecoration(labelText: 'Mode'),
+                          decoration: InputDecoration(labelText: l10n.postJobModeLabel),
                           items: [
                             for (final m in JobMode.values)
-                              DropdownMenuItem(value: m, child: Text(m.label)),
+                              DropdownMenuItem(value: m, child: Text(m.localized(l10n))),
                           ],
                           onChanged: (v) => setState(() => _mode = v ?? _mode),
                         ),
@@ -226,14 +225,14 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   PrimaryButton(
-                    label: busy ? 'Sending…' : 'Send request to admin',
+                    label: busy ? l10n.applySending : l10n.requestSubmit,
                     busy: busy,
                     onPressed: busy ? null : _submit,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text(
-                    'Admin reviews your request, assigns an HTN-NNNNN code, and notifies matching tutors. You\'ll get a push when it\'s live.',
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  Text(
+                    l10n.requestFooter,
+                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ],

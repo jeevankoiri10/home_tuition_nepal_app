@@ -850,5 +850,166 @@
   "@engagementPartTime": {},
 
   "engagementOneOff": "One-off",
-  "@engagementOneOff": {}
+  "@engagementOneOff": {},
+
+  "requiredField": "Required",
+  "@requiredField": {},
+
+  "phoneInTextValidation": "Remove phone numbers or contact details.",
+  "@phoneInTextValidation": {},
+
+  "phoneBanFormHint": "Please don't share any contact details (phone, email, website etc) here.",
+  "@phoneBanFormHint": {},
+
+  "postJobAppBar": "Post a job",
+  "@postJobAppBar": {},
+
+  "postJobSectionType": "Type of job",
+  "@postJobSectionType": {},
+
+  "postJobTypeHome": "Home tuition",
+  "@postJobTypeHome": {},
+
+  "postJobTypeOnline": "Online",
+  "@postJobTypeOnline": {},
+
+  "postJobTypeAssignment": "Assignment",
+  "@postJobTypeAssignment": {},
+
+  "postJobSectionTitle": "Title",
+  "@postJobSectionTitle": {},
+
+  "postJobTitleHint": "Headline (e.g., Maths tutor needed in Kapan)",
+  "@postJobTitleHint": {},
+
+  "postJobSectionDescription": "Description",
+  "@postJobSectionDescription": {},
+
+  "postJobDescriptionHint": "Describe what you need.",
+  "@postJobDescriptionHint": {},
+
+  "postJobSectionWhereWhen": "Where & when",
+  "@postJobSectionWhereWhen": {},
+
+  "postJobSubjectLabel": "Subject",
+  "@postJobSubjectLabel": {},
+
+  "postJobGradeLabel": "Grade / Class",
+  "@postJobGradeLabel": {},
+
+  "postJobAreaLabel": "Area / chowk",
+  "@postJobAreaLabel": {},
+
+  "postJobScheduleLabel": "Schedule (e.g., evenings, 5–6pm)",
+  "@postJobScheduleLabel": {},
+
+  "postJobDueDatePick": "Due date — pick a date",
+  "@postJobDueDatePick": {},
+
+  "postJobDueOnPrefix": "Due {date}",
+  "@postJobDueOnPrefix": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "postJobSectionBudget": "Budget",
+  "@postJobSectionBudget": {},
+
+  "postJobBudgetMinLabel": "Min (NPR)",
+  "@postJobBudgetMinLabel": {},
+
+  "postJobBudgetMaxLabel": "Max (NPR)",
+  "@postJobBudgetMaxLabel": {},
+
+  "postJobPeriodLabel": "Period",
+  "@postJobPeriodLabel": {},
+
+  "postJobSectionPreferences": "Preferences",
+  "@postJobSectionPreferences": {},
+
+  "postJobModeLabel": "Mode",
+  "@postJobModeLabel": {},
+
+  "postJobTutorGenderLabel": "Tutor gender",
+  "@postJobTutorGenderLabel": {},
+
+  "postJobEngagementLabel": "Engagement type",
+  "@postJobEngagementLabel": {},
+
+  "postJobEngagementAny": "Any",
+  "@postJobEngagementAny": {},
+
+  "postJobPostingEllipsis": "Posting…",
+  "@postJobPostingEllipsis": {},
+
+  "postJobSubmit": "Post job",
+  "@postJobSubmit": {},
+
+  "postJobFooter": "Matching tutors are notified automatically. You'll see their bids in My Posts.",
+  "@postJobFooter": {},
+
+  "postJobSuccessSnack": "Job posted. Tutors will be notified.",
+  "@postJobSuccessSnack": {},
+
+  "budgetPeriodHour": "/hour",
+  "@budgetPeriodHour": {},
+
+  "budgetPeriodDay": "/day",
+  "@budgetPeriodDay": {},
+
+  "budgetPeriodMonth": "/month",
+  "@budgetPeriodMonth": {},
+
+  "budgetPeriodSession": "/session",
+  "@budgetPeriodSession": {},
+
+  "budgetPeriodFixed": "fixed",
+  "@budgetPeriodFixed": {},
+
+  "requestSectionDetails": "Details of your requirement",
+  "@requestSectionDetails": {},
+
+  "requestDetailsHint": "Hi,\nI need maths and Hindi tutors online.",
+  "@requestDetailsHint": {},
+
+  "requestSectionLocation": "Location",
+  "@requestSectionLocation": {},
+
+  "requestSectionSubjects": "Subjects",
+  "@requestSectionSubjects": {},
+
+  "requestSubjectsRequired": "Pick at least one subject.",
+  "@requestSubjectsRequired": {},
+
+  "requestSectionLevel": "Your Level",
+  "@requestSectionLevel": {},
+
+  "requestDurationLabel": "Duration / preferred time (e.g., 5pm–6pm)",
+  "@requestDurationLabel": {},
+
+  "requestMinSalaryLabel": "Min salary (NPR)",
+  "@requestMinSalaryLabel": {},
+
+  "requestMaxSalaryLabel": "Max salary (NPR)",
+  "@requestMaxSalaryLabel": {},
+
+  "requestGenderLabel": "Gender preference",
+  "@requestGenderLabel": {},
+
+  "requestSubmit": "Send request to admin",
+  "@requestSubmit": {},
+
+  "requestFooter": "Admin reviews your request, assigns an HTN-NNNNN code, and notifies matching tutors. You'll get a push when it's live.",
+  "@requestFooter": {},
+
+  "requestSuccessSnack": "Request sent. Admin will review and publish soon.",
+  "@requestSuccessSnack": {},
+
+  "requestTitlePrefix": "Tutor needed in {area}",
+  "@requestTitlePrefix": {
+    "placeholders": {
+      "area": { "type": "String" }
+    }
+  }
 }

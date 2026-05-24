@@ -1561,6 +1561,312 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One-off'**
   String get engagementOneOff;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get requiredField;
+
+  /// No description provided for @phoneInTextValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove phone numbers or contact details.'**
+  String get phoneInTextValidation;
+
+  /// No description provided for @phoneBanFormHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Please don\'t share any contact details (phone, email, website etc) here.'**
+  String get phoneBanFormHint;
+
+  /// No description provided for @postJobAppBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Post a job'**
+  String get postJobAppBar;
+
+  /// No description provided for @postJobSectionType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type of job'**
+  String get postJobSectionType;
+
+  /// No description provided for @postJobTypeHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home tuition'**
+  String get postJobTypeHome;
+
+  /// No description provided for @postJobTypeOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get postJobTypeOnline;
+
+  /// No description provided for @postJobTypeAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignment'**
+  String get postJobTypeAssignment;
+
+  /// No description provided for @postJobSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get postJobSectionTitle;
+
+  /// No description provided for @postJobTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Headline (e.g., Maths tutor needed in Kapan)'**
+  String get postJobTitleHint;
+
+  /// No description provided for @postJobSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get postJobSectionDescription;
+
+  /// No description provided for @postJobDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe what you need.'**
+  String get postJobDescriptionHint;
+
+  /// No description provided for @postJobSectionWhereWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Where & when'**
+  String get postJobSectionWhereWhen;
+
+  /// No description provided for @postJobSubjectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get postJobSubjectLabel;
+
+  /// No description provided for @postJobGradeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade / Class'**
+  String get postJobGradeLabel;
+
+  /// No description provided for @postJobAreaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area / chowk'**
+  String get postJobAreaLabel;
+
+  /// No description provided for @postJobScheduleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule (e.g., evenings, 5–6pm)'**
+  String get postJobScheduleLabel;
+
+  /// No description provided for @postJobDueDatePick.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date — pick a date'**
+  String get postJobDueDatePick;
+
+  /// No description provided for @postJobDueOnPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String postJobDueOnPrefix(String date);
+
+  /// No description provided for @postJobSectionBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get postJobSectionBudget;
+
+  /// No description provided for @postJobBudgetMinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Min (NPR)'**
+  String get postJobBudgetMinLabel;
+
+  /// No description provided for @postJobBudgetMaxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Max (NPR)'**
+  String get postJobBudgetMaxLabel;
+
+  /// No description provided for @postJobPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get postJobPeriodLabel;
+
+  /// No description provided for @postJobSectionPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get postJobSectionPreferences;
+
+  /// No description provided for @postJobModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get postJobModeLabel;
+
+  /// No description provided for @postJobTutorGenderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutor gender'**
+  String get postJobTutorGenderLabel;
+
+  /// No description provided for @postJobEngagementLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Engagement type'**
+  String get postJobEngagementLabel;
+
+  /// No description provided for @postJobEngagementAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get postJobEngagementAny;
+
+  /// No description provided for @postJobPostingEllipsis.
+  ///
+  /// In en, this message translates to:
+  /// **'Posting…'**
+  String get postJobPostingEllipsis;
+
+  /// No description provided for @postJobSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Post job'**
+  String get postJobSubmit;
+
+  /// No description provided for @postJobFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching tutors are notified automatically. You\'ll see their bids in My Posts.'**
+  String get postJobFooter;
+
+  /// No description provided for @postJobSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Job posted. Tutors will be notified.'**
+  String get postJobSuccessSnack;
+
+  /// No description provided for @budgetPeriodHour.
+  ///
+  /// In en, this message translates to:
+  /// **'/hour'**
+  String get budgetPeriodHour;
+
+  /// No description provided for @budgetPeriodDay.
+  ///
+  /// In en, this message translates to:
+  /// **'/day'**
+  String get budgetPeriodDay;
+
+  /// No description provided for @budgetPeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'/month'**
+  String get budgetPeriodMonth;
+
+  /// No description provided for @budgetPeriodSession.
+  ///
+  /// In en, this message translates to:
+  /// **'/session'**
+  String get budgetPeriodSession;
+
+  /// No description provided for @budgetPeriodFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'fixed'**
+  String get budgetPeriodFixed;
+
+  /// No description provided for @requestSectionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details of your requirement'**
+  String get requestSectionDetails;
+
+  /// No description provided for @requestDetailsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi,\nI need maths and Hindi tutors online.'**
+  String get requestDetailsHint;
+
+  /// No description provided for @requestSectionLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get requestSectionLocation;
+
+  /// No description provided for @requestSectionSubjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects'**
+  String get requestSectionSubjects;
+
+  /// No description provided for @requestSubjectsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one subject.'**
+  String get requestSubjectsRequired;
+
+  /// No description provided for @requestSectionLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Level'**
+  String get requestSectionLevel;
+
+  /// No description provided for @requestDurationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration / preferred time (e.g., 5pm–6pm)'**
+  String get requestDurationLabel;
+
+  /// No description provided for @requestMinSalaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Min salary (NPR)'**
+  String get requestMinSalaryLabel;
+
+  /// No description provided for @requestMaxSalaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Max salary (NPR)'**
+  String get requestMaxSalaryLabel;
+
+  /// No description provided for @requestGenderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender preference'**
+  String get requestGenderLabel;
+
+  /// No description provided for @requestSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request to admin'**
+  String get requestSubmit;
+
+  /// No description provided for @requestFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin reviews your request, assigns an HTN-NNNNN code, and notifies matching tutors. You\'ll get a push when it\'s live.'**
+  String get requestFooter;
+
+  /// No description provided for @requestSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent. Admin will review and publish soon.'**
+  String get requestSuccessSnack;
+
+  /// No description provided for @requestTitlePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutor needed in {area}'**
+  String requestTitlePrefix(String area);
 }
 
 class _AppLocalizationsDelegate

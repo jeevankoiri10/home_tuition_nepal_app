@@ -842,4 +842,166 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get engagementOneOff => 'एकपटक';
+
+  @override
+  String get requiredField => 'आवश्यक';
+
+  @override
+  String get phoneInTextValidation => 'फोन नम्बर वा सम्पर्क विवरण हटाउनुहोस्।';
+
+  @override
+  String get phoneBanFormHint =>
+      'यहाँ फोन, इमेल, वेबसाइट जस्ता सम्पर्क विवरण साझा नगर्नुहोस्।';
+
+  @override
+  String get postJobAppBar => 'जागिर पोस्ट गर्नुहोस्';
+
+  @override
+  String get postJobSectionType => 'जागिरको प्रकार';
+
+  @override
+  String get postJobTypeHome => 'घर शिक्षण';
+
+  @override
+  String get postJobTypeOnline => 'अनलाइन';
+
+  @override
+  String get postJobTypeAssignment => 'असाइनमेन्ट';
+
+  @override
+  String get postJobSectionTitle => 'शीर्षक';
+
+  @override
+  String get postJobTitleHint => 'शीर्षक (उदाहरण: कपनमा गणित शिक्षक चाहियो)';
+
+  @override
+  String get postJobSectionDescription => 'विवरण';
+
+  @override
+  String get postJobDescriptionHint => 'तपाईंलाई के चाहिन्छ वर्णन गर्नुहोस्।';
+
+  @override
+  String get postJobSectionWhereWhen => 'कहाँ र कहिले';
+
+  @override
+  String get postJobSubjectLabel => 'विषय';
+
+  @override
+  String get postJobGradeLabel => 'कक्षा';
+
+  @override
+  String get postJobAreaLabel => 'क्षेत्र / चोक';
+
+  @override
+  String get postJobScheduleLabel => 'तालिका (उदाहरण: साँझ, ५–६ बजे)';
+
+  @override
+  String get postJobDueDatePick => 'अन्तिम मिति — मिति छान्नुहोस्';
+
+  @override
+  String postJobDueOnPrefix(String date) {
+    return 'अन्तिम $date';
+  }
+
+  @override
+  String get postJobSectionBudget => 'बजेट';
+
+  @override
+  String get postJobBudgetMinLabel => 'न्यून (NPR)';
+
+  @override
+  String get postJobBudgetMaxLabel => 'अधिकतम (NPR)';
+
+  @override
+  String get postJobPeriodLabel => 'अवधि';
+
+  @override
+  String get postJobSectionPreferences => 'प्राथमिकता';
+
+  @override
+  String get postJobModeLabel => 'तरिका';
+
+  @override
+  String get postJobTutorGenderLabel => 'शिक्षकको लिङ्ग';
+
+  @override
+  String get postJobEngagementLabel => 'नियुक्ति प्रकार';
+
+  @override
+  String get postJobEngagementAny => 'जुनसुकै';
+
+  @override
+  String get postJobPostingEllipsis => 'पोस्ट गर्दै…';
+
+  @override
+  String get postJobSubmit => 'जागिर पोस्ट';
+
+  @override
+  String get postJobFooter =>
+      'मिल्ने शिक्षकलाई स्वतः सूचना जान्छ। ‘मेरा पोस्ट’ मा बिडहरू देखिनेछन्।';
+
+  @override
+  String get postJobSuccessSnack => 'जागिर पोस्ट भयो। शिक्षकलाई सूचना जान्छ।';
+
+  @override
+  String get budgetPeriodHour => '/घण्टा';
+
+  @override
+  String get budgetPeriodDay => '/दिन';
+
+  @override
+  String get budgetPeriodMonth => '/महिना';
+
+  @override
+  String get budgetPeriodSession => '/सेसन';
+
+  @override
+  String get budgetPeriodFixed => 'एकमुष्ट';
+
+  @override
+  String get requestSectionDetails => 'तपाईंको आवश्यकताको विवरण';
+
+  @override
+  String get requestDetailsHint =>
+      'नमस्ते,\nमलाई गणित र हिन्दी शिक्षक अनलाइन चाहियो।';
+
+  @override
+  String get requestSectionLocation => 'स्थान';
+
+  @override
+  String get requestSectionSubjects => 'विषयहरू';
+
+  @override
+  String get requestSubjectsRequired => 'कम्तीमा एउटा विषय छान्नुहोस्।';
+
+  @override
+  String get requestSectionLevel => 'तपाईंको तह';
+
+  @override
+  String get requestDurationLabel => 'अवधि / मनपर्ने समय (उदाहरण: ५–६ बजे)';
+
+  @override
+  String get requestMinSalaryLabel => 'न्यून तलब (NPR)';
+
+  @override
+  String get requestMaxSalaryLabel => 'अधिकतम तलब (NPR)';
+
+  @override
+  String get requestGenderLabel => 'लिङ्ग प्राथमिकता';
+
+  @override
+  String get requestSubmit => 'एडमिनलाई अनुरोध पठाउनुहोस्';
+
+  @override
+  String get requestFooter =>
+      'एडमिनले अनुरोध हेरेर HTN-NNNNN कोड दिनुहुन्छ र मिल्ने शिक्षकलाई सूचना पठाउनुहुन्छ। लाइभ हुँदा पुस सूचना आउँछ।';
+
+  @override
+  String get requestSuccessSnack =>
+      'अनुरोध पठाइयो। एडमिनले समीक्षा गरेर चाँडै प्रकाशित गर्नुहुनेछ।';
+
+  @override
+  String requestTitlePrefix(String area) {
+    return '$area मा शिक्षक चाहियो';
+  }
 }
