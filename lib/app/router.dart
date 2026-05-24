@@ -6,9 +6,10 @@ import '../features/auth/domain/models/user_role.dart';
 import '../features/auth/presentation/blocs/auth_bloc.dart';
 import '../features/auth/presentation/pages/email_verification_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
+import '../features/auth/presentation/pages/login_role_chooser_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/home/presentation/student_home_page.dart';
-import '../features/home/presentation/tutor_home_page.dart';
+import '../features/home/presentation/tutor_shell_page.dart';
 import '../features/map/presentation/blocs/map_bloc.dart';
 import '../features/map/presentation/pages/map_page.dart';
 import '../features/splash/presentation/splash_page.dart';
@@ -21,8 +22,12 @@ import '../features/tutor_profile/presentation/blocs/tutor_profile_bloc.dart';
 import '../features/tutor_profile/presentation/pages/tutor_onboarding_wizard_page.dart';
 import '../features/tutor_profile/presentation/pages/tutor_profile_settings_page.dart';
 import '../features/chat/presentation/blocs/chat_bloc.dart';
+import '../features/chat/presentation/pages/chat_list_page.dart';
 import '../features/chat/presentation/pages/chat_page.dart';
+import '../features/contracts/presentation/blocs/contract_bloc.dart';
+import '../features/notifications/presentation/pages/notice_details_page.dart';
 import '../features/notifications/presentation/pages/notifications_page.dart';
+import '../features/settings/presentation/pages/student_settings_page.dart';
 import '../features/topups/presentation/pages/coin_packs_page.dart';
 import '../features/vacancies/presentation/blocs/vacancies_bloc.dart';
 import '../features/vacancies/presentation/pages/vacancies_feed_page.dart';
@@ -36,12 +41,14 @@ class AppRoutes {
 
   static const String splash = '/';
   static const String login = '/login';
+  static const String loginRoleChooser = '/login/choose-role';
   static const String register = '/register';
   static const String verifyEmail = '/verify-email';
   static const String tutorHome = '/tutor';
   static const String tutorOnboarding = '/tutor/onboarding';
   static const String tutorProfileSettings = '/tutor/settings';
   static const String studentHome = '/student';
+  static const String studentSettings = '/student/settings';
   static const String map = '/map';
   static const String wallet = '/wallet';
   static const String buyCoins = '/wallet/buy';
@@ -52,6 +59,8 @@ class AppRoutes {
   static const String vacancies = '/vacancies';
   static const String vacancyDetail = '/vacancies/:id';
   static const String notifications = '/notifications';
+  static const String noticeDetail = '/notifications/:id';
+  static const String chatList = '/chats';
   static const String chat = '/chat/:counterpartyId';
 
   static String routeForRole(UserRole role) {
@@ -70,9 +79,16 @@ GoRouter buildRouter() {
     routes: [
       GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashPage()),
       GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginPage()),
+      GoRoute(
+        path: AppRoutes.loginRoleChooser,
+        builder: (_, _) => const LoginRoleChooserPage(),
+      ),
       GoRoute(path: AppRoutes.register, builder: (_, _) => const RegisterPage()),
       GoRoute(path: AppRoutes.verifyEmail, builder: (_, _) => const EmailVerificationPage()),
-      GoRoute(path: AppRoutes.tutorHome, builder: (_, _) => const TutorHomePage()),
+      GoRoute(
+        path: AppRoutes.tutorHome,
+        builder: (_, _) => const TutorShellPage(),
+      ),
       GoRoute(
         path: AppRoutes.tutorOnboarding,
         builder: (_, _) => _withTutorProfile(const TutorOnboardingWizardPage()),
@@ -82,6 +98,10 @@ GoRouter buildRouter() {
         builder: (_, _) => _withTutorProfile(const TutorProfileSettingsPage()),
       ),
       GoRoute(path: AppRoutes.studentHome, builder: (_, _) => const StudentHomePage()),
+      GoRoute(
+        path: AppRoutes.studentSettings,
+        builder: (_, _) => const StudentSettingsPage(),
+      ),
       GoRoute(
         path: AppRoutes.map,
         builder: (_, _) => MultiBlocProvider(
@@ -138,9 +158,22 @@ GoRouter buildRouter() {
         builder: (_, _) => const NotificationsPage(),
       ),
       GoRoute(
+        path: AppRoutes.noticeDetail,
+        builder: (_, st) => NoticeDetailsPage(
+          notificationId: st.pathParameters['id'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.chatList,
+        builder: (_, _) => const ChatListPage(),
+      ),
+      GoRoute(
         path: AppRoutes.chat,
-        builder: (_, st) => BlocProvider<ChatBloc>(
-          create: (_) => sl<ChatBloc>(),
+        builder: (_, st) => MultiBlocProvider(
+          providers: [
+            BlocProvider<ChatBloc>(create: (_) => sl<ChatBloc>()),
+            BlocProvider<ContractBloc>(create: (_) => sl<ContractBloc>()),
+          ],
           child: ChatPage(
             counterpartyId: st.pathParameters['counterpartyId'] ?? '',
             counterpartyMaskedName: st.uri.queryParameters['name'],

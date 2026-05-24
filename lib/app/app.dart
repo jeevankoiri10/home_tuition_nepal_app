@@ -5,7 +5,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../core/blocs/locale_cubit.dart';
 import '../core/blocs/theme_cubit.dart';
 import '../core/constants/app_constants.dart';
+import '../core/services/push_notification_coordinator.dart';
+import '../core/services/push_notification_service.dart';
 import '../core/theme/app_theme.dart';
+import '../features/auth/domain/auth_repository.dart';
 import '../features/auth/presentation/blocs/auth_bloc.dart';
 import '../features/notifications/presentation/blocs/notifications_bloc.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -21,6 +24,13 @@ class HomeTuitionNepalApp extends StatefulWidget {
 
 class _HomeTuitionNepalAppState extends State<HomeTuitionNepalApp> {
   late final _router = buildRouter();
+  PushNotificationCoordinator? _pushCoordinator;
+
+  @override
+  void dispose() {
+    _pushCoordinator?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +41,17 @@ class _HomeTuitionNepalAppState extends State<HomeTuitionNepalApp> {
         BlocProvider<AuthBloc>(create: (_) => sl<AuthBloc>()),
         BlocProvider<NotificationsBloc>(create: (_) => sl<NotificationsBloc>()),
       ],
-      child: BlocListener<AuthBloc, AuthState>(
+      child: Builder(
+        builder: (ctx) {
+          // Start the push coordinator once the auth bloc is reachable via
+          // context. It self-cancels when this state is disposed.
+          _pushCoordinator ??= PushNotificationCoordinator(
+            push: sl<PushNotificationService>(),
+            auth: sl<AuthRepository>(),
+            authBloc: ctx.read<AuthBloc>(),
+            router: _router,
+          )..start();
+          return BlocListener<AuthBloc, AuthState>(
         listenWhen: (a, b) =>
             a.status != AuthStatus.authenticated && b.status == AuthStatus.authenticated,
         listener: (ctx, state) {
@@ -63,6 +83,8 @@ class _HomeTuitionNepalAppState extends State<HomeTuitionNepalApp> {
             );
           },
         ),
+      );
+        },
       ),
     );
   }

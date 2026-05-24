@@ -16,6 +16,10 @@ import '../features/chat/data/fake_chat_repository.dart';
 import '../features/chat/data/supabase_chat_repository.dart';
 import '../features/chat/domain/chat_repository.dart';
 import '../features/chat/presentation/blocs/chat_bloc.dart';
+import '../features/contracts/data/fake_contracts_repository.dart';
+import '../features/contracts/data/supabase_contracts_repository.dart';
+import '../features/contracts/domain/contracts_repository.dart';
+import '../features/contracts/presentation/blocs/contract_bloc.dart';
 import '../features/map/data/fake_map_repository.dart';
 import '../features/map/data/supabase_map_repository.dart';
 import '../features/map/domain/map_repository.dart';
@@ -79,6 +83,7 @@ Future<void> setupDependencies() async {
       ..registerSingleton<VacanciesRepository>(SupabaseVacanciesRepository(client))
       ..registerSingleton<NotificationsRepository>(SupabaseNotificationsRepository(client))
       ..registerSingleton<ChatRepository>(SupabaseChatRepository(client))
+      ..registerSingleton<ContractsRepository>(SupabaseContractsRepository(client))
       ..registerSingleton<ReviewsRepository>(SupabaseReviewsRepository(client))
       ..registerSingleton<TopUpsRepository>(SupabaseTopUpsRepository(client));
   } else {
@@ -92,6 +97,7 @@ Future<void> setupDependencies() async {
           FakeVacanciesRepository(sl<WalletRepository>()))
       ..registerSingleton<NotificationsRepository>(FakeNotificationsRepository())
       ..registerSingleton<ChatRepository>(FakeChatRepository(sl<WalletRepository>()))
+      ..registerSingleton<ContractsRepository>(FakeContractsRepository())
       ..registerSingleton<ReviewsRepository>(
           FakeReviewsRepository(sl<WalletRepository>(), sl<PlatformSettingsService>()))
       ..registerSingleton<TopUpsRepository>(
@@ -112,5 +118,6 @@ Future<void> setupDependencies() async {
         () => VacanciesBloc(sl<VacanciesRepository>()))
     ..registerLazySingleton<NotificationsBloc>(
         () => NotificationsBloc(sl<NotificationsRepository>()))
-    ..registerFactory<ChatBloc>(() => ChatBloc(sl<ChatRepository>()));
+    ..registerFactory<ChatBloc>(() => ChatBloc(sl<ChatRepository>()))
+    ..registerFactory<ContractBloc>(() => ContractBloc(sl<ContractsRepository>()));
 }
