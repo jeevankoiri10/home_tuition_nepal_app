@@ -127,7 +127,25 @@ class SupabaseAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<void> setPushToken(String? token) async {
+    final user = _user;
+    if (user == null) return;
+    try {
+      await _client.from('profiles').update({'push_token': token}).eq('id', user.id);
+    } on sb.PostgrestException catch (e) {
+      throw AuthException('push_token_update_failed', e.message);
+    }
+  }
+
+  @override
   Future<void> signOut() async {
+    // Clear the token first so the dispatcher stops trying to send to a
+    // device the user has abandoned. Don't fail the sign-out if this errors.
+    try {
+      await setPushToken(null);
+    } on AuthException {
+      // best-effort
+    }
     await _client.auth.signOut();
     _user = null;
     _controller.add(null);

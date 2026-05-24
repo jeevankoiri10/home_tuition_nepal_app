@@ -86,6 +86,12 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<void> setPushToken(String? token) async {
+    // Fake repo doesn't persist anything — push notifications are noop in
+    // dev. See [SupabaseAuthRepository.setPushToken] for the real write.
+  }
+
+  @override
   Future<void> signOut() async {
     _user = null;
     _controller.add(null);

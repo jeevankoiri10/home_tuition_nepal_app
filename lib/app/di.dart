@@ -7,6 +7,7 @@ import '../core/blocs/theme_cubit.dart';
 import '../core/config/env.dart';
 import '../core/services/location_service.dart';
 import '../core/services/platform_settings_service.dart';
+import '../core/services/push_notification_service.dart';
 import '../features/auth/data/fake_auth_repository.dart';
 import '../features/auth/data/supabase_auth_repository.dart';
 import '../features/auth/domain/auth_repository.dart';
@@ -56,7 +57,11 @@ Future<void> setupDependencies() async {
     ..registerLazySingleton<LocaleCubit>(() => LocaleCubit(sl<SharedPreferences>()))
     ..registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl<SharedPreferences>()))
     ..registerSingleton<LocationService>(LocationService())
-    ..registerSingleton<PlatformSettingsService>(PlatformSettingsService());
+    ..registerSingleton<PlatformSettingsService>(PlatformSettingsService())
+    // Push channel — swap [FakePushNotificationService] for
+    // [FirebaseMessagingPushService] once firebase_messaging is added
+    // (see docs/push_setup.md).
+    ..registerSingleton<PushNotificationService>(FakePushNotificationService());
 
   if (Env.hasSupabase) {
     await sb.Supabase.initialize(

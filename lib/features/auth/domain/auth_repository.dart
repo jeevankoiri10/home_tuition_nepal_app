@@ -53,5 +53,12 @@ abstract class AuthRepository {
   /// this after the user reports clicking the confirmation link.
   Future<UserProfile> refreshEmailVerification();
 
+  /// Persist (or clear) this device's push notification token on the user's
+  /// profile so the server-side dispatcher can fan out to it. Passing null
+  /// clears the token — typically on sign-out or when the user revokes
+  /// notification permission. Safe to call when there's no signed-in user
+  /// (the implementation will no-op).
+  Future<void> setPushToken(String? token);
+
   Future<void> signOut();
 }
