@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/vacancy.dart';
 
 /// Card used in the Vacancies feed. Mirrors the structured layout seen on
@@ -25,6 +26,7 @@ class VacancyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       child: InkWell(
@@ -49,7 +51,7 @@ class VacancyCard extends StatelessWidget {
                           fontSize: 12)),
                 ),
                 const Spacer(),
-                Text(_ago(vacancy.createdAt),
+                Text(_ago(l10n, vacancy.createdAt),
                     style: tt.bodySmall?.copyWith(color: AppColors.textSecondary)),
               ]),
               const SizedBox(height: AppSpacing.sm),
@@ -62,7 +64,7 @@ class VacancyCard extends StatelessWidget {
               ]),
               const SizedBox(height: AppSpacing.xs),
               if (vacancy.grade != null)
-                Text('Grade: ${vacancy.grade!}', style: tt.bodySmall),
+                Text(l10n.vacancyGradePrefix(vacancy.grade!), style: tt.bodySmall),
               if (vacancy.subjects.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.xs),
                 Wrap(
@@ -96,12 +98,12 @@ class VacancyCard extends StatelessWidget {
                     ? OutlinedButton.icon(
                         onPressed: null,
                         icon: const Icon(Icons.check, size: 16),
-                        label: const Text('Applied'),
+                        label: Text(l10n.vacancyAppliedLabel),
                       )
                     : FilledButton.icon(
                         onPressed: onApply,
                         icon: const Icon(Icons.send_outlined, size: 16),
-                        label: const Text('Apply'),
+                        label: Text(l10n.vacancyApplyLabel),
                       ),
               ),
             ],
@@ -111,10 +113,10 @@ class VacancyCard extends StatelessWidget {
     );
   }
 
-  static String _ago(DateTime t) {
+  static String _ago(AppLocalizations l10n, DateTime t) {
     final d = DateTime.now().difference(t);
-    if (d.inMinutes < 60) return '${d.inMinutes}m ago';
-    if (d.inHours < 24) return '${d.inHours}h ago';
-    return '${d.inDays}d ago';
+    if (d.inMinutes < 60) return l10n.relativeMinutesAgo(d.inMinutes);
+    if (d.inHours < 24) return l10n.relativeHoursAgo(d.inHours);
+    return l10n.relativeDaysAgo(d.inDays);
   }
 }

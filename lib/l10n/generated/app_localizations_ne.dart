@@ -579,4 +579,128 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get studentLevelALevel => 'A Level';
+
+  @override
+  String get vacanciesTitle => 'खालीस्थानहरू';
+
+  @override
+  String get refreshTooltip => 'ताजा गर्नुहोस्';
+
+  @override
+  String get vacanciesLoadError => 'खालीस्थान लोड गर्न सकिएन।';
+
+  @override
+  String get vacanciesEmpty =>
+      'अहिले खुला खालीस्थान छैन। ताजा गर्न तान्नुहोस्।';
+
+  @override
+  String get vacancyApplyLabel => 'आवेदन दिनुहोस्';
+
+  @override
+  String get vacancyAppliedLabel => 'आवेदन भयो';
+
+  @override
+  String get vacancyAlreadyApplied => 'पहिले नै आवेदन भएको';
+
+  @override
+  String vacancyGradePrefix(String grade) {
+    return 'कक्षा: $grade';
+  }
+
+  @override
+  String vacancySubjectsPrefix(String subjects) {
+    return 'विषयहरू: $subjects';
+  }
+
+  @override
+  String vacancyNumStudentsPrefix(int count) {
+    return 'विद्यार्थी सङ्ख्या: $count';
+  }
+
+  @override
+  String vacancyTimePrefix(String text) {
+    return 'समय: $text';
+  }
+
+  @override
+  String vacancyGenderPrefPrefix(String label) {
+    return 'लिङ्ग प्राथमिकता: $label';
+  }
+
+  @override
+  String vacancyModePrefix(String label) {
+    return 'तरिका: $label';
+  }
+
+  @override
+  String get vacancyNotesHeader => 'टिप्पणी';
+
+  @override
+  String get vacancyPostedByAdmin => 'Home Tuition Nepal एडमिनद्वारा पोस्ट।';
+
+  @override
+  String get vacancyTitleFallback => 'खालीस्थान';
+
+  @override
+  String get vacancyNotFound => 'खालीस्थान भेटिएन।';
+
+  @override
+  String applySheetTitle(String label) {
+    return '$label मा आवेदन';
+  }
+
+  @override
+  String get applyPhoneBanWarning =>
+      'कभर नोटमा फोन नम्बर वा सम्पर्क विवरण नराख्नुहोस्। राख्ने खाताहरू ब्लक हुनेछन्।';
+
+  @override
+  String get applyCoverLabel => 'कभर नोट';
+
+  @override
+  String get applyCoverHint => 'किन तपाईं उपयुक्त हुनुहुन्छ?';
+
+  @override
+  String get applyCoverRequired => 'छोटो कभर नोट लेख्नुहोस्।';
+
+  @override
+  String get applyCoverPhoneViolation =>
+      'फोन नम्बर वा सम्पर्क विवरण हटाउनुहोस्।';
+
+  @override
+  String get applyRateLabel => 'अपेक्षित दर (NPR, वैकल्पिक)';
+
+  @override
+  String get applySending => 'पठाउँदै…';
+
+  @override
+  String applyButtonLabel(int cost) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cost,
+      locale: localeName,
+      other: 'आवेदन — $cost सिक्का',
+      one: 'आवेदन — $cost सिक्का',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get applySuccessSnack => 'आवेदन पठाइयो। एडमिनले हेर्नेछन्।';
+
+  @override
+  String get jobModeInPerson => 'आफैं भेटेर';
+
+  @override
+  String get jobModeOnline => 'अनलाइन';
+
+  @override
+  String get jobModeEither => 'जुनसुकै';
+
+  @override
+  String get genderPrefAny => 'जुनसुकै';
+
+  @override
+  String get genderPrefMale => 'पुरुष';
+
+  @override
+  String get genderPrefFemale => 'महिला';
 }

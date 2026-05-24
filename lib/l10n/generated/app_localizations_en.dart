@@ -581,4 +581,127 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get studentLevelALevel => 'A Level';
+
+  @override
+  String get vacanciesTitle => 'Vacancies';
+
+  @override
+  String get refreshTooltip => 'Refresh';
+
+  @override
+  String get vacanciesLoadError => 'Could not load vacancies.';
+
+  @override
+  String get vacanciesEmpty => 'No open vacancies right now. Pull to refresh.';
+
+  @override
+  String get vacancyApplyLabel => 'Apply';
+
+  @override
+  String get vacancyAppliedLabel => 'Applied';
+
+  @override
+  String get vacancyAlreadyApplied => 'Already applied';
+
+  @override
+  String vacancyGradePrefix(String grade) {
+    return 'Grade: $grade';
+  }
+
+  @override
+  String vacancySubjectsPrefix(String subjects) {
+    return 'Subjects: $subjects';
+  }
+
+  @override
+  String vacancyNumStudentsPrefix(int count) {
+    return 'No. of students: $count';
+  }
+
+  @override
+  String vacancyTimePrefix(String text) {
+    return 'Time: $text';
+  }
+
+  @override
+  String vacancyGenderPrefPrefix(String label) {
+    return 'Gender preference: $label';
+  }
+
+  @override
+  String vacancyModePrefix(String label) {
+    return 'Mode: $label';
+  }
+
+  @override
+  String get vacancyNotesHeader => 'Notes';
+
+  @override
+  String get vacancyPostedByAdmin => 'Posted by Home Tuition Nepal admin.';
+
+  @override
+  String get vacancyTitleFallback => 'Vacancy';
+
+  @override
+  String get vacancyNotFound => 'Vacancy not found.';
+
+  @override
+  String applySheetTitle(String label) {
+    return 'Apply to $label';
+  }
+
+  @override
+  String get applyPhoneBanWarning =>
+      'Do not include phone numbers or contact details in your cover note. Accounts that do will be blocked.';
+
+  @override
+  String get applyCoverLabel => 'Cover note';
+
+  @override
+  String get applyCoverHint => 'Why are you a good fit?';
+
+  @override
+  String get applyCoverRequired => 'Please write a short cover note.';
+
+  @override
+  String get applyCoverPhoneViolation =>
+      'Remove phone numbers or contact details.';
+
+  @override
+  String get applyRateLabel => 'Expected rate (NPR, optional)';
+
+  @override
+  String get applySending => 'Sending…';
+
+  @override
+  String applyButtonLabel(int cost) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cost,
+      locale: localeName,
+      other: 'Apply — $cost coins',
+      one: 'Apply — $cost coin',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get applySuccessSnack => 'Application sent. Admin will review it.';
+
+  @override
+  String get jobModeInPerson => 'In-person';
+
+  @override
+  String get jobModeOnline => 'Online';
+
+  @override
+  String get jobModeEither => 'Either';
+
+  @override
+  String get genderPrefAny => 'Any';
+
+  @override
+  String get genderPrefMale => 'Male';
+
+  @override
+  String get genderPrefFemale => 'Female';
 }

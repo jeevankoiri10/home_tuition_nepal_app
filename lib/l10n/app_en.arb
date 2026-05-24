@@ -573,5 +573,136 @@
   "@studentLevelPlus2": {},
 
   "studentLevelALevel": "A Level",
-  "@studentLevelALevel": {}
+  "@studentLevelALevel": {},
+
+  "vacanciesTitle": "Vacancies",
+  "@vacanciesTitle": {},
+
+  "refreshTooltip": "Refresh",
+  "@refreshTooltip": {},
+
+  "vacanciesLoadError": "Could not load vacancies.",
+  "@vacanciesLoadError": {},
+
+  "vacanciesEmpty": "No open vacancies right now. Pull to refresh.",
+  "@vacanciesEmpty": {},
+
+  "vacancyApplyLabel": "Apply",
+  "@vacancyApplyLabel": {},
+
+  "vacancyAppliedLabel": "Applied",
+  "@vacancyAppliedLabel": {},
+
+  "vacancyAlreadyApplied": "Already applied",
+  "@vacancyAlreadyApplied": {},
+
+  "vacancyGradePrefix": "Grade: {grade}",
+  "@vacancyGradePrefix": {
+    "placeholders": {
+      "grade": { "type": "String" }
+    }
+  },
+
+  "vacancySubjectsPrefix": "Subjects: {subjects}",
+  "@vacancySubjectsPrefix": {
+    "placeholders": {
+      "subjects": { "type": "String" }
+    }
+  },
+
+  "vacancyNumStudentsPrefix": "No. of students: {count}",
+  "@vacancyNumStudentsPrefix": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "vacancyTimePrefix": "Time: {text}",
+  "@vacancyTimePrefix": {
+    "placeholders": {
+      "text": { "type": "String" }
+    }
+  },
+
+  "vacancyGenderPrefPrefix": "Gender preference: {label}",
+  "@vacancyGenderPrefPrefix": {
+    "placeholders": {
+      "label": { "type": "String" }
+    }
+  },
+
+  "vacancyModePrefix": "Mode: {label}",
+  "@vacancyModePrefix": {
+    "placeholders": {
+      "label": { "type": "String" }
+    }
+  },
+
+  "vacancyNotesHeader": "Notes",
+  "@vacancyNotesHeader": {},
+
+  "vacancyPostedByAdmin": "Posted by Home Tuition Nepal admin.",
+  "@vacancyPostedByAdmin": {},
+
+  "vacancyTitleFallback": "Vacancy",
+  "@vacancyTitleFallback": {},
+
+  "vacancyNotFound": "Vacancy not found.",
+  "@vacancyNotFound": {},
+
+  "applySheetTitle": "Apply to {label}",
+  "@applySheetTitle": {
+    "placeholders": {
+      "label": { "type": "String" }
+    }
+  },
+
+  "applyPhoneBanWarning": "Do not include phone numbers or contact details in your cover note. Accounts that do will be blocked.",
+  "@applyPhoneBanWarning": {},
+
+  "applyCoverLabel": "Cover note",
+  "@applyCoverLabel": {},
+
+  "applyCoverHint": "Why are you a good fit?",
+  "@applyCoverHint": {},
+
+  "applyCoverRequired": "Please write a short cover note.",
+  "@applyCoverRequired": {},
+
+  "applyCoverPhoneViolation": "Remove phone numbers or contact details.",
+  "@applyCoverPhoneViolation": {},
+
+  "applyRateLabel": "Expected rate (NPR, optional)",
+  "@applyRateLabel": {},
+
+  "applySending": "Sending…",
+  "@applySending": {},
+
+  "applyButtonLabel": "{cost, plural, one{Apply — {cost} coin} other{Apply — {cost} coins}}",
+  "@applyButtonLabel": {
+    "placeholders": {
+      "cost": { "type": "int" }
+    }
+  },
+
+  "applySuccessSnack": "Application sent. Admin will review it.",
+  "@applySuccessSnack": {},
+
+  "jobModeInPerson": "In-person",
+  "@jobModeInPerson": {},
+
+  "jobModeOnline": "Online",
+  "@jobModeOnline": {},
+
+  "jobModeEither": "Either",
+  "@jobModeEither": {},
+
+  "genderPrefAny": "Any",
+  "@genderPrefAny": {},
+
+  "genderPrefMale": "Male",
+  "@genderPrefMale": {},
+
+  "genderPrefFemale": "Female",
+  "@genderPrefFemale": {}
 }

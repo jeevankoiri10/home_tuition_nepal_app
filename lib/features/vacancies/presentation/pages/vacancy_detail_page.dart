@@ -7,6 +7,9 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
+import '../../../student_requests/domain/models/request_enums.dart';
+import '../../../student_requests/presentation/enum_labels.dart';
 import '../../domain/models/vacancy.dart';
 import '../blocs/vacancies_bloc.dart';
 import '../widgets/apply_to_vacancy_sheet.dart';
@@ -18,18 +21,19 @@ class VacancyDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<VacanciesBloc, VacanciesState>(
       builder: (context, state) {
         final vacancy = state.vacancies.where((v) => v.id == vacancyId).firstOrNull;
         if (vacancy == null) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Vacancy')),
-            body: const Center(child: Text('Vacancy not found.')),
+            appBar: AppBar(title: Text(l10n.vacancyTitleFallback)),
+            body: Center(child: Text(l10n.vacancyNotFound)),
           );
         }
         final applied = state.appliedVacancyIds.contains(vacancy.id);
         return Scaffold(
-          appBar: AppBar(title: Text(vacancy.code ?? 'Vacancy')),
+          appBar: AppBar(title: Text(vacancy.code ?? l10n.vacancyTitleFallback)),
           body: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
@@ -47,31 +51,29 @@ class VacancyDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Column(children: [
                     if (vacancy.grade != null)
-                      _Row(icon: Icons.school_outlined, text: 'Grade: ${vacancy.grade!}'),
+                      _Row(icon: Icons.school_outlined, text: l10n.vacancyGradePrefix(vacancy.grade!)),
                     if (vacancy.subjects.isNotEmpty)
                       _Row(
                           icon: Icons.menu_book_outlined,
-                          text: 'Subjects: ${vacancy.subjects.join(', ')}'),
-                    _Row(icon: Icons.people_outline, text: 'No. of students: ${vacancy.numStudents}'),
+                          text: l10n.vacancySubjectsPrefix(vacancy.subjects.join(', '))),
+                    _Row(icon: Icons.people_outline, text: l10n.vacancyNumStudentsPrefix(vacancy.numStudents)),
                     if (vacancy.durationText != null)
-                      _Row(icon: Icons.schedule, text: 'Time: ${vacancy.durationText!}'),
+                      _Row(icon: Icons.schedule, text: l10n.vacancyTimePrefix(vacancy.durationText!)),
                     _Row(icon: Icons.payments_outlined, text: vacancy.formatSalary()),
                     _Row(
                       icon: Icons.wc_outlined,
-                      text: 'Gender preference: ${vacancy.genderPref.label}',
+                      text: l10n.vacancyGenderPrefPrefix(vacancy.genderPref.localized(l10n)),
                     ),
                     _Row(
-                      icon: vacancy.mode.label == 'Online'
-                          ? Icons.wifi
-                          : Icons.home_outlined,
-                      text: 'Mode: ${vacancy.mode.label}',
+                      icon: vacancy.mode == JobMode.online ? Icons.wifi : Icons.home_outlined,
+                      text: l10n.vacancyModePrefix(vacancy.mode.localized(l10n)),
                     ),
                   ]),
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
               if (vacancy.notes != null && vacancy.notes!.isNotEmpty) ...[
-                Text('Notes', style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.vacancyNotesHeader, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.sm),
                 Card(
                   shape: const RoundedRectangleBorder(borderRadius: AppRadii.cardBorder),
@@ -82,10 +84,10 @@ class VacancyDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.lg),
               ],
-              const Text(
-                'Posted by Home Tuition Nepal admin.',
+              Text(
+                l10n.vacancyPostedByAdmin,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
               ),
             ],
           ),
@@ -96,10 +98,10 @@ class VacancyDetailPage extends StatelessWidget {
                   ? OutlinedButton.icon(
                       onPressed: null,
                       icon: const Icon(Icons.check),
-                      label: const Text('Already applied'),
+                      label: Text(l10n.vacancyAlreadyApplied),
                     )
                   : PrimaryButton(
-                      label: 'Apply',
+                      label: l10n.vacancyApplyLabel,
                       onPressed: () => _showApply(context, vacancy),
                     ),
             ),

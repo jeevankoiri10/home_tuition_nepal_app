@@ -9,6 +9,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/phone_ban_regex.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/vacancy.dart';
 import '../blocs/vacancies_bloc.dart';
 
@@ -37,18 +38,18 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
     super.dispose();
   }
 
-  String? _noPhone(String v) =>
-      PhoneBanRegex.isViolation(v) ? 'Remove phone numbers or contact details.' : null;
-
   void _submit(BuildContext context) {
-    final ban = _noPhone(_cover.text);
-    if (ban != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ban)));
+    final l10n = AppLocalizations.of(context);
+    if (PhoneBanRegex.isViolation(_cover.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.applyCoverPhoneViolation)),
+      );
       return;
     }
     if (_cover.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please write a short cover note.')));
+        SnackBar(content: Text(l10n.applyCoverRequired)),
+      );
       return;
     }
     context.read<VacanciesBloc>().add(VacancyApplied(
@@ -60,6 +61,7 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cost = widget.platformSettings.applyCoinCost;
     return BlocConsumer<VacanciesBloc, VacanciesState>(
       listenWhen: (a, b) => a.applyStatus != b.applyStatus,
@@ -68,7 +70,7 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
           context.read<VacanciesBloc>().add(const VacancyApplyAcknowledged());
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Application sent. Admin will review it.')),
+            SnackBar(content: Text(l10n.applySuccessSnack)),
           );
         }
       },
@@ -86,37 +88,40 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Apply to ${widget.vacancy.code ?? widget.vacancy.title}',
-                    style: Theme.of(context).textTheme.titleLarge),
+                Text(
+                  l10n.applySheetTitle(widget.vacancy.code ?? widget.vacancy.title),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(widget.vacancy.areaLabel,
                     style: const TextStyle(color: AppColors.textSecondary)),
                 const SizedBox(height: AppSpacing.lg),
-                const PhoneBanWarning(
-                  message:
-                      'Do not include phone numbers or contact details in your cover note. Accounts that do will be blocked.',
-                ),
+                PhoneBanWarning(message: l10n.applyPhoneBanWarning),
                 TextField(
                   controller: _cover,
                   maxLines: 4,
-                  decoration: const InputDecoration(
-                    labelText: 'Cover note',
-                    hintText: 'Why are you a good fit?',
+                  decoration: InputDecoration(
+                    labelText: l10n.applyCoverLabel,
+                    hintText: l10n.applyCoverHint,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 TextField(
                   controller: _rate,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Expected rate (NPR, optional)',
-                    prefixIcon: Icon(Icons.payments_outlined),
+                  decoration: InputDecoration(
+                    labelText: l10n.applyRateLabel,
+                    prefixIcon: const Icon(Icons.payments_outlined),
                   ),
                 ),
                 if (state.applyError != null) ...[
                   const SizedBox(height: AppSpacing.sm),
                   _ApplyError(
                     message: state.applyError!,
+                    // Heuristic: if the server-side message hints at coins,
+                    // offer a top-up shortcut. The user-visible text the
+                    // server returns is still its own English (or whatever
+                    // locale the server emits), so this stays English-only.
                     onTopUp: state.applyError!.toLowerCase().contains('coins')
                         ? () {
                             Navigator.of(context).pop();
@@ -127,7 +132,7 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
                 ],
                 const SizedBox(height: AppSpacing.lg),
                 PrimaryButton(
-                  label: busy ? 'Sending…' : 'Apply — $cost coin${cost == 1 ? '' : 's'}',
+                  label: busy ? l10n.applySending : l10n.applyButtonLabel(cost),
                   busy: busy,
                   onPressed: busy ? null : () => _submit(context),
                 ),
@@ -164,7 +169,10 @@ class _ApplyError extends StatelessWidget {
                     color: Color(0xFFD32F2F), fontWeight: FontWeight.w500)),
             if (onTopUp != null) ...[
               const SizedBox(height: AppSpacing.xs),
-              TextButton(onPressed: onTopUp, child: const Text('Buy coins')),
+              TextButton(
+                onPressed: onTopUp,
+                child: Text(AppLocalizations.of(context).buyCoinsLink),
+              ),
             ],
           ]),
         ),

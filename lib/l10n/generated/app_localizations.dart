@@ -1111,6 +1111,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A Level'**
   String get studentLevelALevel;
+
+  /// No description provided for @vacanciesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancies'**
+  String get vacanciesTitle;
+
+  /// No description provided for @refreshTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refreshTooltip;
+
+  /// No description provided for @vacanciesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load vacancies.'**
+  String get vacanciesLoadError;
+
+  /// No description provided for @vacanciesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No open vacancies right now. Pull to refresh.'**
+  String get vacanciesEmpty;
+
+  /// No description provided for @vacancyApplyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get vacancyApplyLabel;
+
+  /// No description provided for @vacancyAppliedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied'**
+  String get vacancyAppliedLabel;
+
+  /// No description provided for @vacancyAlreadyApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Already applied'**
+  String get vacancyAlreadyApplied;
+
+  /// No description provided for @vacancyGradePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade: {grade}'**
+  String vacancyGradePrefix(String grade);
+
+  /// No description provided for @vacancySubjectsPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects: {subjects}'**
+  String vacancySubjectsPrefix(String subjects);
+
+  /// No description provided for @vacancyNumStudentsPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'No. of students: {count}'**
+  String vacancyNumStudentsPrefix(int count);
+
+  /// No description provided for @vacancyTimePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Time: {text}'**
+  String vacancyTimePrefix(String text);
+
+  /// No description provided for @vacancyGenderPrefPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender preference: {label}'**
+  String vacancyGenderPrefPrefix(String label);
+
+  /// No description provided for @vacancyModePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode: {label}'**
+  String vacancyModePrefix(String label);
+
+  /// No description provided for @vacancyNotesHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get vacancyNotesHeader;
+
+  /// No description provided for @vacancyPostedByAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted by Home Tuition Nepal admin.'**
+  String get vacancyPostedByAdmin;
+
+  /// No description provided for @vacancyTitleFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancy'**
+  String get vacancyTitleFallback;
+
+  /// No description provided for @vacancyNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancy not found.'**
+  String get vacancyNotFound;
+
+  /// No description provided for @applySheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to {label}'**
+  String applySheetTitle(String label);
+
+  /// No description provided for @applyPhoneBanWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not include phone numbers or contact details in your cover note. Accounts that do will be blocked.'**
+  String get applyPhoneBanWarning;
+
+  /// No description provided for @applyCoverLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover note'**
+  String get applyCoverLabel;
+
+  /// No description provided for @applyCoverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you a good fit?'**
+  String get applyCoverHint;
+
+  /// No description provided for @applyCoverRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write a short cover note.'**
+  String get applyCoverRequired;
+
+  /// No description provided for @applyCoverPhoneViolation.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove phone numbers or contact details.'**
+  String get applyCoverPhoneViolation;
+
+  /// No description provided for @applyRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected rate (NPR, optional)'**
+  String get applyRateLabel;
+
+  /// No description provided for @applySending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending…'**
+  String get applySending;
+
+  /// No description provided for @applyButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{cost, plural, one{Apply — {cost} coin} other{Apply — {cost} coins}}'**
+  String applyButtonLabel(int cost);
+
+  /// No description provided for @applySuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Application sent. Admin will review it.'**
+  String get applySuccessSnack;
+
+  /// No description provided for @jobModeInPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'In-person'**
+  String get jobModeInPerson;
+
+  /// No description provided for @jobModeOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get jobModeOnline;
+
+  /// No description provided for @jobModeEither.
+  ///
+  /// In en, this message translates to:
+  /// **'Either'**
+  String get jobModeEither;
+
+  /// No description provided for @genderPrefAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get genderPrefAny;
+
+  /// No description provided for @genderPrefMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get genderPrefMale;
+
+  /// No description provided for @genderPrefFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get genderPrefFemale;
 }
 
 class _AppLocalizationsDelegate
