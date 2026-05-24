@@ -92,6 +92,16 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<Set<UserRole>> availableRoles(String userId) async {
+    // Single-role schema today — the user has exactly the role they
+    // registered with. The interface returns a Set so the chooser code
+    // doesn't need to branch when the multi-role schema lands.
+    final u = _user;
+    if (u == null || u.id != userId) return const {};
+    return {u.role};
+  }
+
+  @override
   Future<void> signOut() async {
     _user = null;
     _controller.add(null);

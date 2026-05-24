@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/di.dart';
 import '../../../../app/router.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/app_text_field.dart';
+import '../../../../core/widgets/language_toggle.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../domain/auth_repository.dart';
+import '../../domain/models/user_role.dart';
 import '../blocs/auth_bloc.dart';
 
 class LoginPage extends StatefulWidget {
@@ -51,11 +55,28 @@ class _LoginPageState extends State<LoginPage> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.loginTitle)),
+      appBar: AppBar(
+        title: Text(l10n.loginTitle),
+        actions: const [LanguageToggle()],
+      ),
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state.status == AuthStatus.authenticated) {
-            context.go(AppRoutes.routeForRole(state.user!.role));
+            final user = state.user!;
+            // If the email has profiles in both roles, ask the user which one
+            // to enter as. Otherwise auto-route to the only available role.
+            // `availableRoles` is a single-element set on the current schema,
+            // so the chooser only appears once the multi-role schema lands.
+            final router = GoRouter.of(context);
+            Set<UserRole> roles = {user.role};
+            try {
+              roles = await sl<AuthRepository>().availableRoles(user.id);
+            } catch (_) {/* fall through to single-role default */}
+            if (roles.length > 1) {
+              router.go(AppRoutes.loginRoleChooser);
+            } else {
+              router.go(AppRoutes.routeForRole(roles.first));
+            }
           } else if (state.status == AuthStatus.awaitingEmailVerification) {
             context.go(AppRoutes.verifyEmail);
           } else if (state.status == AuthStatus.error && state.errorCode != null) {
@@ -102,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                   PrimaryButton(label: l10n.loginSubmit, busy: busy, onPressed: busy ? null : _submit),
                   const SizedBox(height: AppSpacing.lg),
                   TextButton(
-                    onPressed: () => context.go(AppRoutes.register),
+                    onPressed: () => context.push(AppRoutes.register),
                     child: Text(l10n.loginToRegister),
                   ),
                 ],

@@ -8,6 +8,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/safe_back_scope.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/auth_repository.dart';
 import '../../domain/models/user_role.dart';
@@ -114,9 +115,11 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.registerTitle)),
-      body: BlocConsumer<AuthBloc, AuthState>(
+    return SafeBackScope(
+      fallbackLocation: AppRoutes.login,
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.registerTitle)),
+        body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.status == AuthStatus.awaitingEmailVerification) {
             context.go(AppRoutes.verifyEmail);
@@ -241,7 +244,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   PrimaryButton(label: l10n.registerSubmit, busy: busy, onPressed: busy ? null : _submit),
                   const SizedBox(height: AppSpacing.lg),
                   TextButton(
-                    onPressed: () => context.go(AppRoutes.login),
+                    onPressed: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go(AppRoutes.login);
+                      }
+                    },
                     child: Text(l10n.registerToLogin),
                   ),
                 ],
@@ -249,6 +258,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           );
         },
+        ),
       ),
     );
   }

@@ -60,5 +60,12 @@ abstract class AuthRepository {
   /// (the implementation will no-op).
   Future<void> setPushToken(String? token);
 
+  /// Returns the set of roles this user account has profiles for. With the
+  /// current single-role schema this is always a one-element set ({user.role});
+  /// once the schema supports a single email backing both a tutor and a
+  /// student profile, the set may contain two roles and the post-login
+  /// chooser surfaces (see Phase 21).
+  Future<Set<UserRole>> availableRoles(String userId);
+
   Future<void> signOut();
 }

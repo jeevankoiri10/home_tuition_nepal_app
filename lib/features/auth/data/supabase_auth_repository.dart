@@ -138,6 +138,28 @@ class SupabaseAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<Set<UserRole>> availableRoles(String userId) async {
+    try {
+      // Each profiles row carries exactly one role today, but the query is
+      // shaped so a future multi-role schema (one auth user → many profile
+      // rows) naturally returns both without further client changes.
+      final rows = await _client
+          .from('profiles')
+          .select('role')
+          .eq('id', userId);
+      return (rows as List)
+          .cast<Map<String, dynamic>>()
+          .map((r) => UserRole.values.firstWhere(
+                (v) => v.value == (r['role'] as String?),
+                orElse: () => UserRole.student,
+              ))
+          .toSet();
+    } on sb.PostgrestException catch (e) {
+      throw AuthException('available_roles_failed', e.message);
+    }
+  }
+
+  @override
   Future<void> signOut() async {
     // Clear the token first so the dispatcher stops trying to send to a
     // device the user has abandoned. Don't fail the sign-out if this errors.
