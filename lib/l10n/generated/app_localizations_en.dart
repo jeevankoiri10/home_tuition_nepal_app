@@ -1006,4 +1006,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String requestTitlePrefix(String area) {
     return 'Tutor needed in $area';
   }
+
+  @override
+  String get coinPacksIntro =>
+      'Coins are used inside the app — to apply to vacancies, unlock contacts, and boost your listing. Tuition fees are settled off-platform.';
+
+  @override
+  String coinPackSubtitle(int count) {
+    return '$count coins';
+  }
+
+  @override
+  String coinPackSubtitleWithBonus(int count, String bonus) {
+    return '$count coins · $bonus';
+  }
+
+  @override
+  String get coinPackBuy => 'Buy';
+
+  @override
+  String get topUpFailedGeneric => 'Could not start payment.';
+
+  @override
+  String coinPackPaymentInitiated(String price, String provider) {
+    return 'Payment of $price via $provider initiated — coins arrive on confirmation.';
+  }
+
+  @override
+  String get payWithTitle => 'Pay with';
+
+  @override
+  String get payProviderHint =>
+      'You\'ll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.';
 }

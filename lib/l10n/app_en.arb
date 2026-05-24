@@ -1011,5 +1011,43 @@
     "placeholders": {
       "area": { "type": "String" }
     }
-  }
+  },
+
+  "coinPacksIntro": "Coins are used inside the app — to apply to vacancies, unlock contacts, and boost your listing. Tuition fees are settled off-platform.",
+  "@coinPacksIntro": {},
+
+  "coinPackSubtitle": "{count} coins",
+  "@coinPackSubtitle": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "coinPackSubtitleWithBonus": "{count} coins · {bonus}",
+  "@coinPackSubtitleWithBonus": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "bonus": { "type": "String" }
+    }
+  },
+
+  "coinPackBuy": "Buy",
+  "@coinPackBuy": {},
+
+  "topUpFailedGeneric": "Could not start payment.",
+  "@topUpFailedGeneric": {},
+
+  "coinPackPaymentInitiated": "Payment of {price} via {provider} initiated — coins arrive on confirmation.",
+  "@coinPackPaymentInitiated": {
+    "placeholders": {
+      "price": { "type": "String" },
+      "provider": { "type": "String" }
+    }
+  },
+
+  "payWithTitle": "Pay with",
+  "@payWithTitle": {},
+
+  "payProviderHint": "You'll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.",
+  "@payProviderHint": {}
 }

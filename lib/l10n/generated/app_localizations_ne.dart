@@ -1004,4 +1004,36 @@ class AppLocalizationsNe extends AppLocalizations {
   String requestTitlePrefix(String area) {
     return '$area मा शिक्षक चाहियो';
   }
+
+  @override
+  String get coinPacksIntro =>
+      'सिक्का एप भित्र प्रयोग हुन्छन् — खालीस्थानमा आवेदन दिन, सम्पर्क खोल्न र लिस्टिङ बूस्ट गर्न। शिक्षण शुल्क एप बाहिर मिलाइन्छ।';
+
+  @override
+  String coinPackSubtitle(int count) {
+    return '$count सिक्का';
+  }
+
+  @override
+  String coinPackSubtitleWithBonus(int count, String bonus) {
+    return '$count सिक्का · $bonus';
+  }
+
+  @override
+  String get coinPackBuy => 'किन्नुहोस्';
+
+  @override
+  String get topUpFailedGeneric => 'भुक्तानी सुरु गर्न सकिएन।';
+
+  @override
+  String coinPackPaymentInitiated(String price, String provider) {
+    return '$provider मार्फत $price को भुक्तानी सुरु भयो — पुष्टि भएपछि सिक्का आउनेछन्।';
+  }
+
+  @override
+  String get payWithTitle => 'यसबाट भुक्तानी';
+
+  @override
+  String get payProviderHint =>
+      'भुक्तानी पूरा गर्न तपाईं प्रदायककहाँ जानुहुनेछ। पुष्टि भएपछि सिक्का तुरुन्तै थपिन्छन्।';
 }

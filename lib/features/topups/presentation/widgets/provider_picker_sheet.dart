@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/top_up.dart';
 
 /// Bottom sheet that lets the user pick eSewa / Khalti / IME Pay before the
@@ -11,6 +12,7 @@ class ProviderPickerSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -19,11 +21,11 @@ class ProviderPickerSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Pay with', style: Theme.of(context).textTheme.titleLarge),
+            Text(l10n.payWithTitle, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: AppSpacing.xs),
-            const Text(
-              'You\'ll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.',
-              style: TextStyle(color: AppColors.textSecondary),
+            Text(
+              l10n.payProviderHint,
+              style: const TextStyle(color: AppColors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.lg),
             for (final p in PaymentProvider.values) _ProviderTile(provider: p),

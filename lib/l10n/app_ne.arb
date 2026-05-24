@@ -312,5 +312,14 @@
   "requestSubmit": "एडमिनलाई अनुरोध पठाउनुहोस्",
   "requestFooter": "एडमिनले अनुरोध हेरेर HTN-NNNNN कोड दिनुहुन्छ र मिल्ने शिक्षकलाई सूचना पठाउनुहुन्छ। लाइभ हुँदा पुस सूचना आउँछ।",
   "requestSuccessSnack": "अनुरोध पठाइयो। एडमिनले समीक्षा गरेर चाँडै प्रकाशित गर्नुहुनेछ।",
-  "requestTitlePrefix": "{area} मा शिक्षक चाहियो"
+  "requestTitlePrefix": "{area} मा शिक्षक चाहियो",
+
+  "coinPacksIntro": "सिक्का एप भित्र प्रयोग हुन्छन् — खालीस्थानमा आवेदन दिन, सम्पर्क खोल्न र लिस्टिङ बूस्ट गर्न। शिक्षण शुल्क एप बाहिर मिलाइन्छ।",
+  "coinPackSubtitle": "{count} सिक्का",
+  "coinPackSubtitleWithBonus": "{count} सिक्का · {bonus}",
+  "coinPackBuy": "किन्नुहोस्",
+  "topUpFailedGeneric": "भुक्तानी सुरु गर्न सकिएन।",
+  "coinPackPaymentInitiated": "{provider} मार्फत {price} को भुक्तानी सुरु भयो — पुष्टि भएपछि सिक्का आउनेछन्।",
+  "payWithTitle": "यसबाट भुक्तानी",
+  "payProviderHint": "भुक्तानी पूरा गर्न तपाईं प्रदायककहाँ जानुहुनेछ। पुष्टि भएपछि सिक्का तुरुन्तै थपिन्छन्।"
 }

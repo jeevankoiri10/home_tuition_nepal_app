@@ -1867,6 +1867,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tutor needed in {area}'**
   String requestTitlePrefix(String area);
+
+  /// No description provided for @coinPacksIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Coins are used inside the app — to apply to vacancies, unlock contacts, and boost your listing. Tuition fees are settled off-platform.'**
+  String get coinPacksIntro;
+
+  /// No description provided for @coinPackSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} coins'**
+  String coinPackSubtitle(int count);
+
+  /// No description provided for @coinPackSubtitleWithBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} coins · {bonus}'**
+  String coinPackSubtitleWithBonus(int count, String bonus);
+
+  /// No description provided for @coinPackBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get coinPackBuy;
+
+  /// No description provided for @topUpFailedGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start payment.'**
+  String get topUpFailedGeneric;
+
+  /// No description provided for @coinPackPaymentInitiated.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment of {price} via {provider} initiated — coins arrive on confirmation.'**
+  String coinPackPaymentInitiated(String price, String provider);
+
+  /// No description provided for @payWithTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with'**
+  String get payWithTitle;
+
+  /// No description provided for @payProviderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.'**
+  String get payProviderHint;
 }
 
 class _AppLocalizationsDelegate

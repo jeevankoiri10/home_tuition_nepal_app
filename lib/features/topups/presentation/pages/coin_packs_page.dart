@@ -8,6 +8,7 @@ import '../../../../core/config/env.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../wallet/presentation/blocs/wallet_bloc.dart';
 import '../../domain/models/coin_pack.dart';
 import '../../domain/models/top_up.dart';
@@ -32,6 +33,7 @@ class _CoinPacksPageState extends State<CoinPacksPage> {
   }
 
   Future<void> _buy(CoinPack pack) async {
+    final l10n = AppLocalizations.of(context);
     final provider = await showModalBottomSheet<PaymentProvider>(
       context: context,
       showDragHandle: true,
@@ -61,10 +63,11 @@ class _CoinPacksPageState extends State<CoinPacksPage> {
       } catch (_) {/* not provided here */}
       messenger.showSnackBar(SnackBar(
           content: Text(
-              'Payment of ${pack.formatPrice()} via ${provider.label} initiated — coins arrive on confirmation.')));
+              l10n.coinPackPaymentInitiated(pack.formatPrice(), provider.label))));
       if (mounted) context.go(AppRoutes.wallet);
     } on TopUpsException catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text(e.message ?? 'Could not start payment.')));
+      messenger.showSnackBar(
+          SnackBar(content: Text(e.message ?? l10n.topUpFailedGeneric)));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -72,8 +75,9 @@ class _CoinPacksPageState extends State<CoinPacksPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Buy Coins')),
+      appBar: AppBar(title: Text(l10n.walletBuyCoins)),
       body: FutureBuilder<List<CoinPack>>(
         future: _packs,
         builder: (context, snap) {
@@ -84,10 +88,9 @@ class _CoinPacksPageState extends State<CoinPacksPage> {
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
-              const Text(
-                'Coins are used inside the app — to apply to vacancies, unlock contacts, '
-                'and boost your listing. Tuition fees are settled off-platform.',
-                style: TextStyle(color: AppColors.textSecondary),
+              Text(
+                l10n.coinPacksIntro,
+                style: const TextStyle(color: AppColors.textSecondary),
               ),
               const SizedBox(height: AppSpacing.lg),
               for (final p in packs) _PackCard(pack: p, busy: _busy, onBuy: () => _buy(p)),
@@ -108,6 +111,7 @@ class _PackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       shape: const RoundedRectangleBorder(borderRadius: AppRadii.cardBorder),
@@ -131,8 +135,9 @@ class _PackCard extends StatelessWidget {
               children: [
                 Text(pack.label, style: tt.titleMedium),
                 Text(
-                  '${pack.totalCoins} coins'
-                  '${pack.bonusLabel() != null ? ' · ${pack.bonusLabel()}' : ''}',
+                  pack.bonusLabel() != null
+                      ? l10n.coinPackSubtitleWithBonus(pack.totalCoins, pack.bonusLabel()!)
+                      : l10n.coinPackSubtitle(pack.totalCoins),
                   style: tt.bodySmall,
                 ),
               ],
@@ -146,7 +151,7 @@ class _PackCard extends StatelessWidget {
               const SizedBox(height: 6),
               FilledButton(
                 onPressed: busy ? null : onBuy,
-                child: const Text('Buy'),
+                child: Text(l10n.coinPackBuy),
               ),
             ],
           ),
