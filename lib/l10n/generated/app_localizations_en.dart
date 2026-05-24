@@ -1524,4 +1524,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vacancyAlreadyAppliedSuffix => ', already applied';
+
+  @override
+  String mapSheetHandleSemantics(String state, String action) {
+    return 'Tutor list, $state, double tap to $action';
+  }
+
+  @override
+  String get mapSheetExpanded => 'expanded';
+
+  @override
+  String get mapSheetCollapsed => 'collapsed';
+
+  @override
+  String get mapSheetActionExpand => 'expand';
+
+  @override
+  String get mapSheetActionCollapse => 'collapse';
 }

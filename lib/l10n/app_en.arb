@@ -1511,5 +1511,25 @@
   },
 
   "vacancyAlreadyAppliedSuffix": ", already applied",
-  "@vacancyAlreadyAppliedSuffix": {}
+  "@vacancyAlreadyAppliedSuffix": {},
+
+  "mapSheetHandleSemantics": "Tutor list, {state}, double tap to {action}",
+  "@mapSheetHandleSemantics": {
+    "placeholders": {
+      "state": { "type": "String" },
+      "action": { "type": "String" }
+    }
+  },
+
+  "mapSheetExpanded": "expanded",
+  "@mapSheetExpanded": {},
+
+  "mapSheetCollapsed": "collapsed",
+  "@mapSheetCollapsed": {},
+
+  "mapSheetActionExpand": "expand",
+  "@mapSheetActionExpand": {},
+
+  "mapSheetActionCollapse": "collapse",
+  "@mapSheetActionCollapse": {}
 }

@@ -457,5 +457,11 @@
   "notificationCardSemantics": "{kind}, {title}, {time}{readState}",
   "notificationUnreadSuffix": ", नपढिएको",
   "vacancyCardSemantics": "{code}, {title}, {area}, {salary}{applied}",
-  "vacancyAlreadyAppliedSuffix": ", पहिले नै आवेदन भएको"
+  "vacancyAlreadyAppliedSuffix": ", पहिले नै आवेदन भएको",
+
+  "mapSheetHandleSemantics": "शिक्षक सूची, {state}, {action} गर्न दुई पटक थिच्नुहोस्",
+  "mapSheetExpanded": "विस्तारित",
+  "mapSheetCollapsed": "खुम्चिएको",
+  "mapSheetActionExpand": "विस्तार",
+  "mapSheetActionCollapse": "खुम्चिने"
 }

@@ -332,7 +332,25 @@ class _DragHandleHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final l10n = AppLocalizations.of(context);
+    // Rebuild the semantics label whenever the sheet's size crosses the
+    // halfway mark so screen readers always reflect "expanded" vs
+    // "collapsed" without spamming on every drag delta.
+    return AnimatedBuilder(
+      animation: sheetController,
+      builder: (context, child) {
+        final size = sheetController.isAttached ? sheetController.size : _BottomSheet.initialSize;
+        final isExpanded = size >= (_BottomSheet.initialSize + _BottomSheet.maxSize) / 2;
+        final state = isExpanded ? l10n.mapSheetExpanded : l10n.mapSheetCollapsed;
+        final action = isExpanded ? l10n.mapSheetActionCollapse : l10n.mapSheetActionExpand;
+        return Semantics(
+          button: true,
+          label: l10n.mapSheetHandleSemantics(state, action),
+          excludeSemantics: true,
+          child: child,
+        );
+      },
+      child: GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       onVerticalDragUpdate: (details) {
@@ -387,6 +405,7 @@ class _DragHandleHeader extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

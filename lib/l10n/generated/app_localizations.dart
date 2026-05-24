@@ -2712,6 +2712,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **', already applied'**
   String get vacancyAlreadyAppliedSuffix;
+
+  /// No description provided for @mapSheetHandleSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutor list, {state}, double tap to {action}'**
+  String mapSheetHandleSemantics(String state, String action);
+
+  /// No description provided for @mapSheetExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'expanded'**
+  String get mapSheetExpanded;
+
+  /// No description provided for @mapSheetCollapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'collapsed'**
+  String get mapSheetCollapsed;
+
+  /// No description provided for @mapSheetActionExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'expand'**
+  String get mapSheetActionExpand;
+
+  /// No description provided for @mapSheetActionCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'collapse'**
+  String get mapSheetActionCollapse;
 }
 
 class _AppLocalizationsDelegate

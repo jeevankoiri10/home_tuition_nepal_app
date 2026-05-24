@@ -1524,4 +1524,21 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get vacancyAlreadyAppliedSuffix => ', पहिले नै आवेदन भएको';
+
+  @override
+  String mapSheetHandleSemantics(String state, String action) {
+    return 'शिक्षक सूची, $state, $action गर्न दुई पटक थिच्नुहोस्';
+  }
+
+  @override
+  String get mapSheetExpanded => 'विस्तारित';
+
+  @override
+  String get mapSheetCollapsed => 'खुम्चिएको';
+
+  @override
+  String get mapSheetActionExpand => 'विस्तार';
+
+  @override
+  String get mapSheetActionCollapse => 'खुम्चिने';
 }
