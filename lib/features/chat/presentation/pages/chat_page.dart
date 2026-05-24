@@ -6,6 +6,8 @@ import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
+import '../../../contracts/presentation/blocs/contract_bloc.dart';
+import '../../../contracts/presentation/widgets/contract_banner.dart';
 import '../../domain/models/chat_message.dart';
 import '../blocs/chat_bloc.dart';
 
@@ -67,13 +69,20 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
         listenWhen: (a, b) =>
-            a.messages.length != b.messages.length || a.sendError != b.sendError,
+            a.messages.length != b.messages.length ||
+            a.sendError != b.sendError ||
+            a.thread?.id != b.thread?.id,
         listener: (context, state) {
           if (state.sendError != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.sendError!)),
             );
             context.read<ChatBloc>().add(const ChatSendErrorCleared());
+          }
+          // Once the thread is known, point the contract banner at it.
+          final threadId = state.thread?.id;
+          if (threadId != null) {
+            context.read<ContractBloc>().add(ContractThreadOpened(threadId));
           }
           WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
         },
@@ -85,8 +94,18 @@ class _ChatPageState extends State<ChatPage> {
             return const Center(child: CircularProgressIndicator());
           }
           final viewerId = context.read<AuthBloc>().state.user?.id ?? '';
+          final thread = state.thread;
           return Column(
             children: [
+              if (thread != null)
+                ContractBanner(
+                  threadId: thread.id,
+                  studentId: thread.studentId,
+                  tutorId: thread.tutorId,
+                  viewerId: viewerId,
+                  counterpartyName:
+                      widget.counterpartyMaskedName ?? thread.counterpartyMaskedName ?? '',
+                ),
               Expanded(
                 child: state.messages.isEmpty
                     ? const _EmptyState()
