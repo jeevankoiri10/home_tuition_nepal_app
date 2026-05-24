@@ -134,6 +134,522 @@ abstract class AppLocalizations {
   /// **'नेपाली'**
   String get languageNepali;
 
+  /// No description provided for @languageToggleTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get languageToggleTooltip;
+
+  /// No description provided for @noticeDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice'**
+  String get noticeDetailsTitle;
+
+  /// No description provided for @noticeDetailsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This notice is no longer available.'**
+  String get noticeDetailsNotFound;
+
+  /// No description provided for @noticeDetailsReceivedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Received {when}'**
+  String noticeDetailsReceivedAt(String when);
+
+  /// No description provided for @filterRadiusNoLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Any distance'**
+  String get filterRadiusNoLimit;
+
+  /// No description provided for @filterRadiusOptionNoLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'No limit'**
+  String get filterRadiusOptionNoLimit;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsProfileTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile and settings'**
+  String get settingsProfileTooltip;
+
+  /// No description provided for @settingsLanguageSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguageSection;
+
+  /// No description provided for @settingsLanguageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the language you prefer for the app.'**
+  String get settingsLanguageHint;
+
+  /// No description provided for @settingsLogoutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get settingsLogoutLabel;
+
+  /// No description provided for @settingsReferralSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Refer a friend'**
+  String get settingsReferralSection;
+
+  /// No description provided for @settingsReferralHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your code with a friend. When they sign up, you both earn {coins} coins.'**
+  String settingsReferralHint(int coins);
+
+  /// No description provided for @settingsReferralCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your referral code'**
+  String get settingsReferralCodeLabel;
+
+  /// No description provided for @settingsReferralCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy code'**
+  String get settingsReferralCopy;
+
+  /// No description provided for @settingsReferralCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Code copied to clipboard'**
+  String get settingsReferralCopied;
+
+  /// No description provided for @tutorCardViewCv.
+  ///
+  /// In en, this message translates to:
+  /// **'View CV'**
+  String get tutorCardViewCv;
+
+  /// No description provided for @tutorCardCvOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the CV.'**
+  String get tutorCardCvOpenFailed;
+
+  /// No description provided for @requestSubjectsCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another subject'**
+  String get requestSubjectsCustomHint;
+
+  /// No description provided for @requestSubjectsCustomAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get requestSubjectsCustomAdd;
+
+  /// No description provided for @postJobSectionMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Online or offline?'**
+  String get postJobSectionMode;
+
+  /// No description provided for @jobModeOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get jobModeOffline;
+
+  /// No description provided for @chatListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get chatListTitle;
+
+  /// No description provided for @chatListEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations yet'**
+  String get chatListEmptyTitle;
+
+  /// No description provided for @chatListEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Once you unlock a contact or are matched to a vacancy, your chats will appear here.'**
+  String get chatListEmptyHint;
+
+  /// No description provided for @tutorActionChatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get tutorActionChatsTitle;
+
+  /// No description provided for @tutorActionChatsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your conversations with students.'**
+  String get tutorActionChatsSubtitle;
+
+  /// No description provided for @tutorNavHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get tutorNavHome;
+
+  /// No description provided for @tutorNavChats.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get tutorNavChats;
+
+  /// No description provided for @tutorNavVacancies.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancies'**
+  String get tutorNavVacancies;
+
+  /// No description provided for @tutorNavSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get tutorNavSettings;
+
+  /// No description provided for @wizardServiceAreaPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the map until the pin is over the place you teach from.'**
+  String get wizardServiceAreaPinHint;
+
+  /// No description provided for @mapPinPickerUseMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get mapPinPickerUseMyLocation;
+
+  /// No description provided for @subjectSectionHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject {number}'**
+  String subjectSectionHeading(int number);
+
+  /// No description provided for @subjectLevelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get subjectLevelLabel;
+
+  /// No description provided for @subjectNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get subjectNameLabel;
+
+  /// No description provided for @subjectPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (NPR)'**
+  String get subjectPriceLabel;
+
+  /// No description provided for @subjectPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Per'**
+  String get subjectPeriodLabel;
+
+  /// No description provided for @wizardCvUploadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload your CV'**
+  String get wizardCvUploadTitle;
+
+  /// No description provided for @wizardCvUploadSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Students will be able to download this PDF from your profile.'**
+  String get wizardCvUploadSubtitle;
+
+  /// No description provided for @wizardCvSizeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF only · max 300 KB.'**
+  String get wizardCvSizeHint;
+
+  /// No description provided for @wizardCvUploadButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose CV PDF'**
+  String get wizardCvUploadButton;
+
+  /// No description provided for @wizardCvReplaceButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace CV'**
+  String get wizardCvReplaceButton;
+
+  /// No description provided for @wizardCvCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Your CV is on file.'**
+  String get wizardCvCurrent;
+
+  /// No description provided for @wizardCvUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'CV uploaded.'**
+  String get wizardCvUploaded;
+
+  /// No description provided for @wizardCvTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'CV must be smaller than 300 KB.'**
+  String get wizardCvTooLarge;
+
+  /// No description provided for @wizardCvReadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the selected file.'**
+  String get wizardCvReadFailed;
+
+  /// No description provided for @esewaSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with eSewa'**
+  String get esewaSheetTitle;
+
+  /// No description provided for @esewaSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the QR or send {price} to the eSewa account below, then upload the receipt.'**
+  String esewaSheetSubtitle(String price);
+
+  /// No description provided for @esewaPayeeNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get esewaPayeeNameLabel;
+
+  /// No description provided for @esewaPayeeNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'eSewa #'**
+  String get esewaPayeeNumberLabel;
+
+  /// No description provided for @esewaUploadReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload payment receipt'**
+  String get esewaUploadReceipt;
+
+  /// No description provided for @esewaReplaceReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace receipt'**
+  String get esewaReplaceReceipt;
+
+  /// No description provided for @esewaReceiptOnFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt uploaded — awaiting admin review.'**
+  String get esewaReceiptOnFile;
+
+  /// No description provided for @esewaReceiptUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt uploaded.'**
+  String get esewaReceiptUploaded;
+
+  /// No description provided for @esewaReceiptTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt must be smaller than 5 MB.'**
+  String get esewaReceiptTooLarge;
+
+  /// No description provided for @esewaReceiptReadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the selected file.'**
+  String get esewaReceiptReadFailed;
+
+  /// No description provided for @esewaDoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get esewaDoneLabel;
+
+  /// No description provided for @esewaAdminReviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your coins are credited once an admin verifies the receipt.'**
+  String get esewaAdminReviewHint;
+
+  /// No description provided for @esewaTopUpQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Top-up submitted. We\'ll credit your wallet after the receipt is verified.'**
+  String get esewaTopUpQueued;
+
+  /// No description provided for @loginChooserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as'**
+  String get loginChooserTitle;
+
+  /// No description provided for @loginChooserSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is registered as both a tutor and a student. Which one are you signing in as right now?'**
+  String get loginChooserSubtitle;
+
+  /// No description provided for @loginChooserAsTutor.
+  ///
+  /// In en, this message translates to:
+  /// **'Login as a tutor'**
+  String get loginChooserAsTutor;
+
+  /// No description provided for @loginChooserAsStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'Login as a student'**
+  String get loginChooserAsStudent;
+
+  /// No description provided for @contractNoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree on terms here, then start a contract.'**
+  String get contractNoneHint;
+
+  /// No description provided for @contractCompletedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your last contract is complete. Start a new one anytime.'**
+  String get contractCompletedHint;
+
+  /// No description provided for @contractStartCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Start contract'**
+  String get contractStartCta;
+
+  /// No description provided for @contractProposeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Propose a contract'**
+  String get contractProposeTitle;
+
+  /// No description provided for @contractProposeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The other person accepts before it becomes active.'**
+  String get contractProposeSubtitle;
+
+  /// No description provided for @contractSubjectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject / what you\'ll teach'**
+  String get contractSubjectLabel;
+
+  /// No description provided for @contractSubjectRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter what the contract is for.'**
+  String get contractSubjectRequired;
+
+  /// No description provided for @contractRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate (NPR)'**
+  String get contractRateLabel;
+
+  /// No description provided for @contractPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Per'**
+  String get contractPeriodLabel;
+
+  /// No description provided for @contractScheduleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule (e.g. Sun–Fri, 5pm)'**
+  String get contractScheduleLabel;
+
+  /// No description provided for @contractProposeSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send proposal'**
+  String get contractProposeSubmit;
+
+  /// No description provided for @contractAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get contractAccept;
+
+  /// No description provided for @contractDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get contractDecline;
+
+  /// No description provided for @contractCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get contractCancel;
+
+  /// No description provided for @contractWaitingResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for a response…'**
+  String get contractWaitingResponse;
+
+  /// No description provided for @contractActiveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract active'**
+  String get contractActiveLabel;
+
+  /// No description provided for @contractEndCta.
+  ///
+  /// In en, this message translates to:
+  /// **'End contract'**
+  String get contractEndCta;
+
+  /// No description provided for @reviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate {name}'**
+  String reviewTitle(String name);
+
+  /// No description provided for @reviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share how the tuition went (optional).'**
+  String get reviewHint;
+
+  /// No description provided for @reviewSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get reviewSubmit;
+
+  /// No description provided for @reviewSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get reviewSkip;
+
+  /// No description provided for @reviewThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your review!'**
+  String get reviewThanks;
+
   /// No description provided for @continueLabel.
   ///
   /// In en, this message translates to:
@@ -962,23 +1478,11 @@ abstract class AppLocalizations {
   /// **'Optional. Stay specific and respectful.'**
   String get reviewTextHint;
 
-  /// No description provided for @reviewSubmit.
-  ///
-  /// In en, this message translates to:
-  /// **'Submit review'**
-  String get reviewSubmit;
-
   /// No description provided for @reviewSending.
   ///
   /// In en, this message translates to:
   /// **'Sending…'**
   String get reviewSending;
-
-  /// No description provided for @reviewThanks.
-  ///
-  /// In en, this message translates to:
-  /// **'Thanks for your review!'**
-  String get reviewThanks;
 
   /// No description provided for @reviewGateNotMet.
   ///

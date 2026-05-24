@@ -30,6 +30,15 @@ dependencies:
   latlong2: ^0.9.1
   geolocator: ^13.0.2
 
+  # Opens the tutor's CV PDF in the OS's built-in PDF viewer (Phase 9).
+  url_launcher: ^6.3.1
+
+  # CV upload during tutor onboarding (Phase 19).
+  file_picker: ^8.1.4
+
+  # eSewa payment QR rendered in the top-up sheet (Phase 20).
+  qr_flutter: ^4.1.0
+
   # Phase 14 — Observability
   sentry_flutter: ^8.10.0
 

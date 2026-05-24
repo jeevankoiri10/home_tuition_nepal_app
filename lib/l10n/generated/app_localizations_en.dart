@@ -27,6 +27,283 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageNepali => 'नेपाली';
 
   @override
+  String get languageToggleTooltip => 'Change language';
+
+  @override
+  String get noticeDetailsTitle => 'Notice';
+
+  @override
+  String get noticeDetailsNotFound => 'This notice is no longer available.';
+
+  @override
+  String noticeDetailsReceivedAt(String when) {
+    return 'Received $when';
+  }
+
+  @override
+  String get filterRadiusNoLimit => 'Any distance';
+
+  @override
+  String get filterRadiusOptionNoLimit => 'No limit';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsProfileTooltip => 'Profile and settings';
+
+  @override
+  String get settingsLanguageSection => 'Language';
+
+  @override
+  String get settingsLanguageHint =>
+      'Pick the language you prefer for the app.';
+
+  @override
+  String get settingsLogoutLabel => 'Log out';
+
+  @override
+  String get settingsReferralSection => 'Refer a friend';
+
+  @override
+  String settingsReferralHint(int coins) {
+    return 'Share your code with a friend. When they sign up, you both earn $coins coins.';
+  }
+
+  @override
+  String get settingsReferralCodeLabel => 'Your referral code';
+
+  @override
+  String get settingsReferralCopy => 'Copy code';
+
+  @override
+  String get settingsReferralCopied => 'Code copied to clipboard';
+
+  @override
+  String get tutorCardViewCv => 'View CV';
+
+  @override
+  String get tutorCardCvOpenFailed => 'Could not open the CV.';
+
+  @override
+  String get requestSubjectsCustomHint => 'Add another subject';
+
+  @override
+  String get requestSubjectsCustomAdd => 'Add';
+
+  @override
+  String get postJobSectionMode => 'Online or offline?';
+
+  @override
+  String get jobModeOffline => 'Offline';
+
+  @override
+  String get chatListTitle => 'Chats';
+
+  @override
+  String get chatListEmptyTitle => 'No conversations yet';
+
+  @override
+  String get chatListEmptyHint =>
+      'Once you unlock a contact or are matched to a vacancy, your chats will appear here.';
+
+  @override
+  String get tutorActionChatsTitle => 'Chats';
+
+  @override
+  String get tutorActionChatsSubtitle => 'Your conversations with students.';
+
+  @override
+  String get tutorNavHome => 'Home';
+
+  @override
+  String get tutorNavChats => 'Chats';
+
+  @override
+  String get tutorNavVacancies => 'Vacancies';
+
+  @override
+  String get tutorNavSettings => 'Settings';
+
+  @override
+  String get wizardServiceAreaPinHint =>
+      'Drag the map until the pin is over the place you teach from.';
+
+  @override
+  String get mapPinPickerUseMyLocation => 'Use my current location';
+
+  @override
+  String subjectSectionHeading(int number) {
+    return 'Subject $number';
+  }
+
+  @override
+  String get subjectLevelLabel => 'Level';
+
+  @override
+  String get subjectNameLabel => 'Subject';
+
+  @override
+  String get subjectPriceLabel => 'Price (NPR)';
+
+  @override
+  String get subjectPeriodLabel => 'Per';
+
+  @override
+  String get wizardCvUploadTitle => 'Upload your CV';
+
+  @override
+  String get wizardCvUploadSubtitle =>
+      'Students will be able to download this PDF from your profile.';
+
+  @override
+  String get wizardCvSizeHint => 'PDF only · max 300 KB.';
+
+  @override
+  String get wizardCvUploadButton => 'Choose CV PDF';
+
+  @override
+  String get wizardCvReplaceButton => 'Replace CV';
+
+  @override
+  String get wizardCvCurrent => 'Your CV is on file.';
+
+  @override
+  String get wizardCvUploaded => 'CV uploaded.';
+
+  @override
+  String get wizardCvTooLarge => 'CV must be smaller than 300 KB.';
+
+  @override
+  String get wizardCvReadFailed => 'Could not read the selected file.';
+
+  @override
+  String get esewaSheetTitle => 'Pay with eSewa';
+
+  @override
+  String esewaSheetSubtitle(String price) {
+    return 'Scan the QR or send $price to the eSewa account below, then upload the receipt.';
+  }
+
+  @override
+  String get esewaPayeeNameLabel => 'Name';
+
+  @override
+  String get esewaPayeeNumberLabel => 'eSewa #';
+
+  @override
+  String get esewaUploadReceipt => 'Upload payment receipt';
+
+  @override
+  String get esewaReplaceReceipt => 'Replace receipt';
+
+  @override
+  String get esewaReceiptOnFile => 'Receipt uploaded — awaiting admin review.';
+
+  @override
+  String get esewaReceiptUploaded => 'Receipt uploaded.';
+
+  @override
+  String get esewaReceiptTooLarge => 'Receipt must be smaller than 5 MB.';
+
+  @override
+  String get esewaReceiptReadFailed => 'Could not read the selected file.';
+
+  @override
+  String get esewaDoneLabel => 'Done';
+
+  @override
+  String get esewaAdminReviewHint =>
+      'Your coins are credited once an admin verifies the receipt.';
+
+  @override
+  String get esewaTopUpQueued =>
+      'Top-up submitted. We\'ll credit your wallet after the receipt is verified.';
+
+  @override
+  String get loginChooserTitle => 'Continue as';
+
+  @override
+  String get loginChooserSubtitle =>
+      'This email is registered as both a tutor and a student. Which one are you signing in as right now?';
+
+  @override
+  String get loginChooserAsTutor => 'Login as a tutor';
+
+  @override
+  String get loginChooserAsStudent => 'Login as a student';
+
+  @override
+  String get contractNoneHint => 'Agree on terms here, then start a contract.';
+
+  @override
+  String get contractCompletedHint =>
+      'Your last contract is complete. Start a new one anytime.';
+
+  @override
+  String get contractStartCta => 'Start contract';
+
+  @override
+  String get contractProposeTitle => 'Propose a contract';
+
+  @override
+  String get contractProposeSubtitle =>
+      'The other person accepts before it becomes active.';
+
+  @override
+  String get contractSubjectLabel => 'Subject / what you\'ll teach';
+
+  @override
+  String get contractSubjectRequired => 'Enter what the contract is for.';
+
+  @override
+  String get contractRateLabel => 'Rate (NPR)';
+
+  @override
+  String get contractPeriodLabel => 'Per';
+
+  @override
+  String get contractScheduleLabel => 'Schedule (e.g. Sun–Fri, 5pm)';
+
+  @override
+  String get contractProposeSubmit => 'Send proposal';
+
+  @override
+  String get contractAccept => 'Accept';
+
+  @override
+  String get contractDecline => 'Decline';
+
+  @override
+  String get contractCancel => 'Cancel';
+
+  @override
+  String get contractWaitingResponse => 'Waiting for a response…';
+
+  @override
+  String get contractActiveLabel => 'Contract active';
+
+  @override
+  String get contractEndCta => 'End contract';
+
+  @override
+  String reviewTitle(String name) {
+    return 'Rate $name';
+  }
+
+  @override
+  String get reviewHint => 'Share how the tuition went (optional).';
+
+  @override
+  String get reviewSubmit => 'Submit review';
+
+  @override
+  String get reviewSkip => 'Skip for now';
+
+  @override
+  String get reviewThanks => 'Thanks for your review!';
+
+  @override
   String get continueLabel => 'Continue';
 
   @override
@@ -503,13 +780,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewTextHint => 'Optional. Stay specific and respectful.';
 
   @override
-  String get reviewSubmit => 'Submit review';
-
-  @override
   String get reviewSending => 'Sending…';
-
-  @override
-  String get reviewThanks => 'Thanks for your review!';
 
   @override
   String get reviewGateNotMet => 'You need to unlock this tutor first.';

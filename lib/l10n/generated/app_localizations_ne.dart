@@ -27,6 +27,284 @@ class AppLocalizationsNe extends AppLocalizations {
   String get languageNepali => 'नेपाली';
 
   @override
+  String get languageToggleTooltip => 'भाषा परिवर्तन गर्नुहोस्';
+
+  @override
+  String get noticeDetailsTitle => 'सूचना';
+
+  @override
+  String get noticeDetailsNotFound => 'यो सूचना अब उपलब्ध छैन।';
+
+  @override
+  String noticeDetailsReceivedAt(String when) {
+    return 'प्राप्त भयो $when';
+  }
+
+  @override
+  String get filterRadiusNoLimit => 'कुनै दुरी';
+
+  @override
+  String get filterRadiusOptionNoLimit => 'सीमा छैन';
+
+  @override
+  String get settingsTitle => 'सेटिङ';
+
+  @override
+  String get settingsProfileTooltip => 'प्रोफाइल र सेटिङ';
+
+  @override
+  String get settingsLanguageSection => 'भाषा';
+
+  @override
+  String get settingsLanguageHint => 'एपको लागि मन पर्ने भाषा छान्नुहोस्।';
+
+  @override
+  String get settingsLogoutLabel => 'लग आउट';
+
+  @override
+  String get settingsReferralSection => 'साथीलाई रेफर गर्नुहोस्';
+
+  @override
+  String settingsReferralHint(int coins) {
+    return 'आफ्नो कोड साथीलाई पठाउनुहोस्। उहाँले साइन अप गर्दा दुवैले $coins सिक्का पाउनुहुनेछ।';
+  }
+
+  @override
+  String get settingsReferralCodeLabel => 'तपाईंको रेफरल कोड';
+
+  @override
+  String get settingsReferralCopy => 'कोड कपी गर्नुहोस्';
+
+  @override
+  String get settingsReferralCopied => 'कोड क्लिपबोर्डमा कपी भयो';
+
+  @override
+  String get tutorCardViewCv => 'CV हेर्नुहोस्';
+
+  @override
+  String get tutorCardCvOpenFailed => 'CV खोल्न सकिएन।';
+
+  @override
+  String get requestSubjectsCustomHint => 'अर्को विषय थप्नुहोस्';
+
+  @override
+  String get requestSubjectsCustomAdd => 'थप्नुहोस्';
+
+  @override
+  String get postJobSectionMode => 'अनलाइन वा अफलाइन?';
+
+  @override
+  String get jobModeOffline => 'अफलाइन';
+
+  @override
+  String get chatListTitle => 'च्याट';
+
+  @override
+  String get chatListEmptyTitle => 'कुनै कुराकानी छैन';
+
+  @override
+  String get chatListEmptyHint =>
+      'तपाईंले सम्पर्क अनलक गर्नुभयो वा कुनै रिक्तिमा मिलाइनुभयो भने यहाँ च्याटहरू देखिनेछ।';
+
+  @override
+  String get tutorActionChatsTitle => 'च्याट';
+
+  @override
+  String get tutorActionChatsSubtitle => 'विद्यार्थीहरूसँगका कुराकानी।';
+
+  @override
+  String get tutorNavHome => 'होम';
+
+  @override
+  String get tutorNavChats => 'च्याट';
+
+  @override
+  String get tutorNavVacancies => 'रिक्ति';
+
+  @override
+  String get tutorNavSettings => 'सेटिङ';
+
+  @override
+  String get wizardServiceAreaPinHint =>
+      'तपाईंले पढाउने ठाउँमा पिन आउने गरी नक्सा सार्नुहोस्।';
+
+  @override
+  String get mapPinPickerUseMyLocation => 'मेरो वर्तमान स्थान प्रयोग गर्नुहोस्';
+
+  @override
+  String subjectSectionHeading(int number) {
+    return 'विषय $number';
+  }
+
+  @override
+  String get subjectLevelLabel => 'तह';
+
+  @override
+  String get subjectNameLabel => 'विषय';
+
+  @override
+  String get subjectPriceLabel => 'मूल्य (NPR)';
+
+  @override
+  String get subjectPeriodLabel => 'प्रति';
+
+  @override
+  String get wizardCvUploadTitle => 'आफ्नो CV अपलोड गर्नुहोस्';
+
+  @override
+  String get wizardCvUploadSubtitle =>
+      'विद्यार्थीहरूले तपाईंको प्रोफाइलबाट यो PDF डाउनलोड गर्न सक्नेछन्।';
+
+  @override
+  String get wizardCvSizeHint => 'PDF मात्र · अधिकतम ३०० KB।';
+
+  @override
+  String get wizardCvUploadButton => 'CV PDF छान्नुहोस्';
+
+  @override
+  String get wizardCvReplaceButton => 'CV बदल्नुहोस्';
+
+  @override
+  String get wizardCvCurrent => 'तपाईंको CV दाखिल भएको छ।';
+
+  @override
+  String get wizardCvUploaded => 'CV अपलोड भयो।';
+
+  @override
+  String get wizardCvTooLarge => 'CV ३०० KB भन्दा सानो हुनुपर्छ।';
+
+  @override
+  String get wizardCvReadFailed => 'छानिएको फाइल पढ्न सकिएन।';
+
+  @override
+  String get esewaSheetTitle => 'eSewa बाट तिर्नुहोस्';
+
+  @override
+  String esewaSheetSubtitle(String price) {
+    return 'QR स्क्यान गर्नुहोस् वा $price तल भएको eSewa खातामा पठाएर रसिद अपलोड गर्नुहोस्।';
+  }
+
+  @override
+  String get esewaPayeeNameLabel => 'नाम';
+
+  @override
+  String get esewaPayeeNumberLabel => 'eSewa नं.';
+
+  @override
+  String get esewaUploadReceipt => 'भुक्तानी रसिद अपलोड गर्नुहोस्';
+
+  @override
+  String get esewaReplaceReceipt => 'रसिद बदल्नुहोस्';
+
+  @override
+  String get esewaReceiptOnFile =>
+      'रसिद अपलोड भयो — व्यवस्थापकको पुष्टि बाँकी।';
+
+  @override
+  String get esewaReceiptUploaded => 'रसिद अपलोड भयो।';
+
+  @override
+  String get esewaReceiptTooLarge => 'रसिद ५ MB भन्दा सानो हुनुपर्छ।';
+
+  @override
+  String get esewaReceiptReadFailed => 'छानिएको फाइल पढ्न सकिएन।';
+
+  @override
+  String get esewaDoneLabel => 'सकियो';
+
+  @override
+  String get esewaAdminReviewHint => 'रसिद पुष्टि भएपछि सिक्का जम्मा गरिनेछ।';
+
+  @override
+  String get esewaTopUpQueued =>
+      'टप-अप पेश गरियो। रसिद पुष्टि भएपछि वालेटमा थपिनेछ।';
+
+  @override
+  String get loginChooserTitle => 'कसको रूपमा जारी राख्ने?';
+
+  @override
+  String get loginChooserSubtitle =>
+      'यो इमेल शिक्षक र विद्यार्थी दुवैको रूपमा दर्ता छ। अहिले कुन रूपमा साइन इन गर्ने?';
+
+  @override
+  String get loginChooserAsTutor => 'शिक्षकको रूपमा लग इन';
+
+  @override
+  String get loginChooserAsStudent => 'विद्यार्थीको रूपमा लग इन';
+
+  @override
+  String get contractNoneHint =>
+      'यहाँ सर्तहरूमा सहमत भएर सम्झौता सुरु गर्नुहोस्।';
+
+  @override
+  String get contractCompletedHint =>
+      'तपाईंको अघिल्लो सम्झौता पूरा भयो। जहिले पनि नयाँ सुरु गर्न सकिन्छ।';
+
+  @override
+  String get contractStartCta => 'सम्झौता सुरु गर्नुहोस्';
+
+  @override
+  String get contractProposeTitle => 'सम्झौता प्रस्ताव गर्नुहोस्';
+
+  @override
+  String get contractProposeSubtitle =>
+      'सक्रिय हुनुअघि अर्को व्यक्तिले स्वीकार गर्नुपर्छ।';
+
+  @override
+  String get contractSubjectLabel => 'विषय / के पढाउने';
+
+  @override
+  String get contractSubjectRequired =>
+      'सम्झौता केका लागि हो भन्ने लेख्नुहोस्।';
+
+  @override
+  String get contractRateLabel => 'दर (NPR)';
+
+  @override
+  String get contractPeriodLabel => 'प्रति';
+
+  @override
+  String get contractScheduleLabel => 'तालिका (जस्तै आइत–शुक्र, ५ बजे)';
+
+  @override
+  String get contractProposeSubmit => 'प्रस्ताव पठाउनुहोस्';
+
+  @override
+  String get contractAccept => 'स्वीकार गर्नुहोस्';
+
+  @override
+  String get contractDecline => 'अस्वीकार गर्नुहोस्';
+
+  @override
+  String get contractCancel => 'रद्द गर्नुहोस्';
+
+  @override
+  String get contractWaitingResponse => 'जवाफको प्रतीक्षामा…';
+
+  @override
+  String get contractActiveLabel => 'सम्झौता सक्रिय';
+
+  @override
+  String get contractEndCta => 'सम्झौता अन्त्य गर्नुहोस्';
+
+  @override
+  String reviewTitle(String name) {
+    return '$name लाई मूल्याङ्कन गर्नुहोस्';
+  }
+
+  @override
+  String get reviewHint => 'ट्युशन कस्तो रह्यो साझा गर्नुहोस् (वैकल्पिक)।';
+
+  @override
+  String get reviewSubmit => 'समीक्षा पेस गर्नुहोस्';
+
+  @override
+  String get reviewSkip => 'अहिलेलाई छोड्नुहोस्';
+
+  @override
+  String get reviewThanks => 'तपाईंको समीक्षाका लागि धन्यवाद!';
+
+  @override
   String get continueLabel => 'अगाडि बढ्नुहोस्';
 
   @override
@@ -502,13 +780,7 @@ class AppLocalizationsNe extends AppLocalizations {
   String get reviewTextHint => 'वैकल्पिक। स्पष्ट र सम्मानजनक रहनुहोस्।';
 
   @override
-  String get reviewSubmit => 'समीक्षा पेस गर्नुहोस्';
-
-  @override
   String get reviewSending => 'पठाउँदै…';
-
-  @override
-  String get reviewThanks => 'तपाईंको समीक्षाका लागि धन्यवाद!';
 
   @override
   String get reviewGateNotMet => 'पहिले यो शिक्षकलाई खोल्नुहोस्।';

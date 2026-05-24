@@ -19,6 +19,284 @@
   "languageNepali": "नेपाली",
   "@languageNepali": {},
 
+  "languageToggleTooltip": "Change language",
+  "@languageToggleTooltip": {},
+
+  "noticeDetailsTitle": "Notice",
+  "@noticeDetailsTitle": {},
+
+  "noticeDetailsNotFound": "This notice is no longer available.",
+  "@noticeDetailsNotFound": {},
+
+  "noticeDetailsReceivedAt": "Received {when}",
+  "@noticeDetailsReceivedAt": {
+    "placeholders": {
+      "when": { "type": "String" }
+    }
+  },
+
+  "filterRadiusNoLimit": "Any distance",
+  "@filterRadiusNoLimit": {},
+
+  "filterRadiusOptionNoLimit": "No limit",
+  "@filterRadiusOptionNoLimit": {},
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {},
+
+  "settingsProfileTooltip": "Profile and settings",
+  "@settingsProfileTooltip": {},
+
+  "settingsLanguageSection": "Language",
+  "@settingsLanguageSection": {},
+
+  "settingsLanguageHint": "Pick the language you prefer for the app.",
+  "@settingsLanguageHint": {},
+
+  "settingsLogoutLabel": "Log out",
+  "@settingsLogoutLabel": {},
+
+  "settingsReferralSection": "Refer a friend",
+  "@settingsReferralSection": {},
+
+  "settingsReferralHint": "Share your code with a friend. When they sign up, you both earn {coins} coins.",
+  "@settingsReferralHint": {
+    "placeholders": {
+      "coins": { "type": "int" }
+    }
+  },
+
+  "settingsReferralCodeLabel": "Your referral code",
+  "@settingsReferralCodeLabel": {},
+
+  "settingsReferralCopy": "Copy code",
+  "@settingsReferralCopy": {},
+
+  "settingsReferralCopied": "Code copied to clipboard",
+  "@settingsReferralCopied": {},
+
+  "tutorCardViewCv": "View CV",
+  "@tutorCardViewCv": {},
+
+  "tutorCardCvOpenFailed": "Could not open the CV.",
+  "@tutorCardCvOpenFailed": {},
+
+  "requestSubjectsCustomHint": "Add another subject",
+  "@requestSubjectsCustomHint": {},
+
+  "requestSubjectsCustomAdd": "Add",
+  "@requestSubjectsCustomAdd": {},
+
+  "postJobSectionMode": "Online or offline?",
+  "@postJobSectionMode": {},
+
+  "jobModeOffline": "Offline",
+  "@jobModeOffline": {},
+
+  "chatListTitle": "Chats",
+  "@chatListTitle": {},
+
+  "chatListEmptyTitle": "No conversations yet",
+  "@chatListEmptyTitle": {},
+
+  "chatListEmptyHint": "Once you unlock a contact or are matched to a vacancy, your chats will appear here.",
+  "@chatListEmptyHint": {},
+
+  "tutorActionChatsTitle": "Chats",
+  "@tutorActionChatsTitle": {},
+
+  "tutorActionChatsSubtitle": "Your conversations with students.",
+  "@tutorActionChatsSubtitle": {},
+
+  "tutorNavHome": "Home",
+  "@tutorNavHome": {},
+
+  "tutorNavChats": "Chats",
+  "@tutorNavChats": {},
+
+  "tutorNavVacancies": "Vacancies",
+  "@tutorNavVacancies": {},
+
+  "tutorNavSettings": "Settings",
+  "@tutorNavSettings": {},
+
+  "wizardServiceAreaPinHint": "Drag the map until the pin is over the place you teach from.",
+  "@wizardServiceAreaPinHint": {},
+
+  "mapPinPickerUseMyLocation": "Use my current location",
+  "@mapPinPickerUseMyLocation": {},
+
+  "subjectSectionHeading": "Subject {number}",
+  "@subjectSectionHeading": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+
+  "subjectLevelLabel": "Level",
+  "@subjectLevelLabel": {},
+
+  "subjectNameLabel": "Subject",
+  "@subjectNameLabel": {},
+
+  "subjectPriceLabel": "Price (NPR)",
+  "@subjectPriceLabel": {},
+
+  "subjectPeriodLabel": "Per",
+  "@subjectPeriodLabel": {},
+
+  "wizardCvUploadTitle": "Upload your CV",
+  "@wizardCvUploadTitle": {},
+
+  "wizardCvUploadSubtitle": "Students will be able to download this PDF from your profile.",
+  "@wizardCvUploadSubtitle": {},
+
+  "wizardCvSizeHint": "PDF only · max 300 KB.",
+  "@wizardCvSizeHint": {},
+
+  "wizardCvUploadButton": "Choose CV PDF",
+  "@wizardCvUploadButton": {},
+
+  "wizardCvReplaceButton": "Replace CV",
+  "@wizardCvReplaceButton": {},
+
+  "wizardCvCurrent": "Your CV is on file.",
+  "@wizardCvCurrent": {},
+
+  "wizardCvUploaded": "CV uploaded.",
+  "@wizardCvUploaded": {},
+
+  "wizardCvTooLarge": "CV must be smaller than 300 KB.",
+  "@wizardCvTooLarge": {},
+
+  "wizardCvReadFailed": "Could not read the selected file.",
+  "@wizardCvReadFailed": {},
+
+  "esewaSheetTitle": "Pay with eSewa",
+  "@esewaSheetTitle": {},
+
+  "esewaSheetSubtitle": "Scan the QR or send {price} to the eSewa account below, then upload the receipt.",
+  "@esewaSheetSubtitle": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+
+  "esewaPayeeNameLabel": "Name",
+  "@esewaPayeeNameLabel": {},
+
+  "esewaPayeeNumberLabel": "eSewa #",
+  "@esewaPayeeNumberLabel": {},
+
+  "esewaUploadReceipt": "Upload payment receipt",
+  "@esewaUploadReceipt": {},
+
+  "esewaReplaceReceipt": "Replace receipt",
+  "@esewaReplaceReceipt": {},
+
+  "esewaReceiptOnFile": "Receipt uploaded — awaiting admin review.",
+  "@esewaReceiptOnFile": {},
+
+  "esewaReceiptUploaded": "Receipt uploaded.",
+  "@esewaReceiptUploaded": {},
+
+  "esewaReceiptTooLarge": "Receipt must be smaller than 5 MB.",
+  "@esewaReceiptTooLarge": {},
+
+  "esewaReceiptReadFailed": "Could not read the selected file.",
+  "@esewaReceiptReadFailed": {},
+
+  "esewaDoneLabel": "Done",
+  "@esewaDoneLabel": {},
+
+  "esewaAdminReviewHint": "Your coins are credited once an admin verifies the receipt.",
+  "@esewaAdminReviewHint": {},
+
+  "esewaTopUpQueued": "Top-up submitted. We'll credit your wallet after the receipt is verified.",
+  "@esewaTopUpQueued": {},
+
+  "loginChooserTitle": "Continue as",
+  "@loginChooserTitle": {},
+
+  "loginChooserSubtitle": "This email is registered as both a tutor and a student. Which one are you signing in as right now?",
+  "@loginChooserSubtitle": {},
+
+  "loginChooserAsTutor": "Login as a tutor",
+  "@loginChooserAsTutor": {},
+
+  "loginChooserAsStudent": "Login as a student",
+  "@loginChooserAsStudent": {},
+
+  "contractNoneHint": "Agree on terms here, then start a contract.",
+  "@contractNoneHint": {},
+
+  "contractCompletedHint": "Your last contract is complete. Start a new one anytime.",
+  "@contractCompletedHint": {},
+
+  "contractStartCta": "Start contract",
+  "@contractStartCta": {},
+
+  "contractProposeTitle": "Propose a contract",
+  "@contractProposeTitle": {},
+
+  "contractProposeSubtitle": "The other person accepts before it becomes active.",
+  "@contractProposeSubtitle": {},
+
+  "contractSubjectLabel": "Subject / what you'll teach",
+  "@contractSubjectLabel": {},
+
+  "contractSubjectRequired": "Enter what the contract is for.",
+  "@contractSubjectRequired": {},
+
+  "contractRateLabel": "Rate (NPR)",
+  "@contractRateLabel": {},
+
+  "contractPeriodLabel": "Per",
+  "@contractPeriodLabel": {},
+
+  "contractScheduleLabel": "Schedule (e.g. Sun–Fri, 5pm)",
+  "@contractScheduleLabel": {},
+
+  "contractProposeSubmit": "Send proposal",
+  "@contractProposeSubmit": {},
+
+  "contractAccept": "Accept",
+  "@contractAccept": {},
+
+  "contractDecline": "Decline",
+  "@contractDecline": {},
+
+  "contractCancel": "Cancel",
+  "@contractCancel": {},
+
+  "contractWaitingResponse": "Waiting for a response…",
+  "@contractWaitingResponse": {},
+
+  "contractActiveLabel": "Contract active",
+  "@contractActiveLabel": {},
+
+  "contractEndCta": "End contract",
+  "@contractEndCta": {},
+
+  "reviewTitle": "Rate {name}",
+  "@reviewTitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "reviewHint": "Share how the tuition went (optional).",
+  "@reviewHint": {},
+
+  "reviewSubmit": "Submit review",
+  "@reviewSubmit": {},
+
+  "reviewSkip": "Skip for now",
+  "@reviewSkip": {},
+
+  "reviewThanks": "Thanks for your review!",
+  "@reviewThanks": {},
+
   "continueLabel": "Continue",
   "@continueLabel": {},
 
@@ -172,10 +450,10 @@
     }
   },
 
-  "studentHomeTitle": "Student home",
+  "studentHomeTitle": "HTN - Student home",
   "@studentHomeTitle": {},
 
-  "tutorHomeTitle": "Tutor home",
+  "tutorHomeTitle": "HTN - Tutor home",
   "@tutorHomeTitle": {},
 
   "signOutTooltip": "Sign out",
