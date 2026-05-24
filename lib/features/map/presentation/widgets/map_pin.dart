@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/map_tutor.dart';
 
 /// Color-coded tutor pin used on the map.
@@ -15,9 +16,18 @@ class MapPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final base = tutor.available ? const Color(0xFF2E7D32) : const Color(0xFFED6C02);
     final size = selected ? 44.0 : 36.0;
-    return SizedBox(
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: l10n.mapPinSemantics(
+        tutor.maskedName,
+        tutor.formatDistance(),
+        tutor.verified ? l10n.mapPinVerifiedSuffix : '',
+      ),
+      child: SizedBox(
       width: size,
       height: size,
       child: Stack(
@@ -48,6 +58,7 @@ class MapPin extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

@@ -178,6 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     obscureText: _obscure,
                     prefixIcon: Icons.lock_outline,
                     suffixIcon: IconButton(
+                      tooltip: _obscure ? l10n.showPasswordTooltip : l10n.hidePasswordTooltip,
                       icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
@@ -189,6 +190,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     obscureText: _obscureConfirm,
                     prefixIcon: Icons.lock_outline,
                     suffixIcon: IconButton(
+                      tooltip: _obscureConfirm
+                          ? l10n.showPasswordTooltip
+                          : l10n.hidePasswordTooltip,
                       icon: Icon(_obscureConfirm
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined),

@@ -2605,6 +2605,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open this URL: {url}'**
   String openThisUrl(String url);
+
+  /// No description provided for @showPasswordTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPasswordTooltip;
+
+  /// No description provided for @hidePasswordTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePasswordTooltip;
+
+  /// No description provided for @starRatingTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'{stars, plural, one{Rate {stars} star} other{Rate {stars} stars}}'**
+  String starRatingTooltip(int stars);
+
+  /// No description provided for @wizardPrevStepTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous step'**
+  String get wizardPrevStepTooltip;
+
+  /// No description provided for @mapPinSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}, {distance}{verified}'**
+  String mapPinSemantics(String name, String distance, String verified);
+
+  /// No description provided for @mapPinVerifiedSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **', verified tutor'**
+  String get mapPinVerifiedSuffix;
+
+  /// No description provided for @balanceCardSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Current balance, {count, plural, one{{count} coin} other{{count} coins}}'**
+  String balanceCardSemantics(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -1419,4 +1419,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String openThisUrl(String url) {
     return 'Open this URL: $url';
   }
+
+  @override
+  String get showPasswordTooltip => 'Show password';
+
+  @override
+  String get hidePasswordTooltip => 'Hide password';
+
+  @override
+  String starRatingTooltip(int stars) {
+    String _temp0 = intl.Intl.pluralLogic(
+      stars,
+      locale: localeName,
+      other: 'Rate $stars stars',
+      one: 'Rate $stars star',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get wizardPrevStepTooltip => 'Previous step';
+
+  @override
+  String mapPinSemantics(String name, String distance, String verified) {
+    return '$name, $distance$verified';
+  }
+
+  @override
+  String get mapPinVerifiedSuffix => ', verified tutor';
+
+  @override
+  String balanceCardSemantics(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count coins',
+      one: '$count coin',
+    );
+    return 'Current balance, $_temp0';
+  }
 }

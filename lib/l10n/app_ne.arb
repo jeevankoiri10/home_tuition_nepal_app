@@ -439,5 +439,13 @@
   "accountBlockedTitle": "खाता प्रतिबन्धित",
   "accountBlockedReason": "तपाईंको खाता निलम्बन वा प्रतिबन्धित गरिएको छ। अपिल गर्न एडमिनलाई सम्पर्क गर्नुहोस्।",
   "contactAdminOnWhatsApp": "WhatsApp मा एडमिनलाई सम्पर्क",
-  "openThisUrl": "यो URL खोल्नुहोस्: {url}"
+  "openThisUrl": "यो URL खोल्नुहोस्: {url}",
+
+  "showPasswordTooltip": "पासवर्ड देखाउनुहोस्",
+  "hidePasswordTooltip": "पासवर्ड लुकाउनुहोस्",
+  "starRatingTooltip": "{stars, plural, one{{stars} तारा दिनुहोस्} other{{stars} तारा दिनुहोस्}}",
+  "wizardPrevStepTooltip": "अघिल्लो चरण",
+  "mapPinSemantics": "{name}, {distance}{verified}",
+  "mapPinVerifiedSuffix": ", प्रमाणित शिक्षक",
+  "balanceCardSemantics": "हालको रकम, {count, plural, one{{count} सिक्का} other{{count} सिक्का}}"
 }

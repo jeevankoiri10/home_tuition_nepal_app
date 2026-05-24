@@ -1415,5 +1415,40 @@
     "placeholders": {
       "url": { "type": "String" }
     }
+  },
+
+  "showPasswordTooltip": "Show password",
+  "@showPasswordTooltip": {},
+
+  "hidePasswordTooltip": "Hide password",
+  "@hidePasswordTooltip": {},
+
+  "starRatingTooltip": "{stars, plural, one{Rate {stars} star} other{Rate {stars} stars}}",
+  "@starRatingTooltip": {
+    "placeholders": {
+      "stars": { "type": "int" }
+    }
+  },
+
+  "wizardPrevStepTooltip": "Previous step",
+  "@wizardPrevStepTooltip": {},
+
+  "mapPinSemantics": "{name}, {distance}{verified}",
+  "@mapPinSemantics": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "distance": { "type": "String" },
+      "verified": { "type": "String" }
+    }
+  },
+
+  "mapPinVerifiedSuffix": ", verified tutor",
+  "@mapPinVerifiedSuffix": {},
+
+  "balanceCardSemantics": "Current balance, {count, plural, one{{count} coin} other{{count} coins}}",
+  "@balanceCardSemantics": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   }
 }

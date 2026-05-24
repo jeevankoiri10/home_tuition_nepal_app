@@ -92,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscure,
                     prefixIcon: Icons.lock_outline,
                     suffixIcon: IconButton(
+                      tooltip: _obscure ? l10n.showPasswordTooltip : l10n.hidePasswordTooltip,
                       icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),

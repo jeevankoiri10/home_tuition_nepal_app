@@ -21,7 +21,14 @@ class CoinBalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final card = Container(
+    // Single semantic label combining role + balance — screen readers no
+    // longer announce "CURRENT BALANCE" and "1000 coins" as two unrelated
+    // fragments, and decorative icons / colors stay invisible to AT.
+    final card = Semantics(
+      label: l10n.balanceCardSemantics(coins),
+      button: onTap != null,
+      excludeSemantics: true,
+      child: Container(
       padding: EdgeInsets.all(compact ? AppSpacing.md : AppSpacing.lg),
       decoration: const BoxDecoration(
         gradient: AppColors.brandGradient,
@@ -51,6 +58,7 @@ class CoinBalanceCard extends StatelessWidget {
           if (onTap != null) const Icon(Icons.chevron_right, color: Colors.white70),
         ],
       ),
+    ),
     );
     if (onTap == null) return card;
     return InkWell(

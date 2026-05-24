@@ -196,6 +196,7 @@ class _OfferingRowState extends State<_OfferingRow> {
             ),
           ),
           IconButton(
+            tooltip: l10n.removeAction,
             icon: const Icon(Icons.delete_outline),
             onPressed: widget.onRemove,
           ),

@@ -1419,4 +1419,43 @@ class AppLocalizationsNe extends AppLocalizations {
   String openThisUrl(String url) {
     return 'यो URL खोल्नुहोस्: $url';
   }
+
+  @override
+  String get showPasswordTooltip => 'पासवर्ड देखाउनुहोस्';
+
+  @override
+  String get hidePasswordTooltip => 'पासवर्ड लुकाउनुहोस्';
+
+  @override
+  String starRatingTooltip(int stars) {
+    String _temp0 = intl.Intl.pluralLogic(
+      stars,
+      locale: localeName,
+      other: '$stars तारा दिनुहोस्',
+      one: '$stars तारा दिनुहोस्',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get wizardPrevStepTooltip => 'अघिल्लो चरण';
+
+  @override
+  String mapPinSemantics(String name, String distance, String verified) {
+    return '$name, $distance$verified';
+  }
+
+  @override
+  String get mapPinVerifiedSuffix => ', प्रमाणित शिक्षक';
+
+  @override
+  String balanceCardSemantics(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count सिक्का',
+      one: '$count सिक्का',
+    );
+    return 'हालको रकम, $_temp0';
+  }
 }

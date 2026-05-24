@@ -17,6 +17,7 @@ class StarRatingInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(5, (i) {
@@ -24,6 +25,7 @@ class StarRatingInput extends StatelessWidget {
         return IconButton(
           iconSize: size,
           padding: EdgeInsets.zero,
+          tooltip: l10n.starRatingTooltip(i + 1),
           icon: Icon(
             filled ? Icons.star_rounded : Icons.star_border_rounded,
             color: filled ? const Color(0xFFFFB300) : null,

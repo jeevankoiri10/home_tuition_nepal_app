@@ -65,7 +65,13 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
         return Scaffold(
           appBar: AppBar(
             title: Text(l10n.wizardAppBarTitle(_index + 1, _stepCount)),
-            leading: _index == 0 ? null : IconButton(icon: const Icon(Icons.arrow_back), onPressed: _prev),
+            leading: _index == 0
+                ? null
+                : IconButton(
+                    tooltip: l10n.wizardPrevStepTooltip,
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: _prev,
+                  ),
           ),
           body: Column(
             children: [
