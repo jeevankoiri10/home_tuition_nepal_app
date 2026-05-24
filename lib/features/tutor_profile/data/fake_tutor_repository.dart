@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import '../../../core/constants/app_constants.dart';
 import '../domain/models/tutor_profile.dart';
 import '../domain/tutor_repository.dart';
 
@@ -34,5 +37,27 @@ class FakeTutorRepository implements TutorRepository {
     }
     final published = profile.copyWith(draftStatus: 'published');
     return save(published);
+  }
+
+  @override
+  Future<String> uploadCv({
+    required String tutorId,
+    required Uint8List bytes,
+    required String fileName,
+  }) async {
+    if (bytes.lengthInBytes > AppConstants.tutorCvMaxBytes) {
+      throw TutorRepositoryException(
+          'cv_too_large', 'CV must be smaller than 300 KB.');
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    // In dev we don't actually persist the bytes — return a placeholder URL
+    // and stash the path on the in-memory profile so the rest of the wizard
+    // (and the student-side viewer in Phase 9) sees it.
+    final url = 'https://dev.invalid/tutor-cvs/$tutorId/$fileName';
+    final current = _store[tutorId];
+    if (current != null) {
+      _store[tutorId] = current.copyWith(cvUrl: url);
+    }
+    return url;
   }
 }

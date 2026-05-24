@@ -11,6 +11,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../auth/presentation/blocs/auth_bloc.dart';
 import '../../notifications/presentation/widgets/notification_bell.dart';
 import '../../reviews/domain/reviews_repository.dart';
+import '../../wallet/presentation/blocs/wallet_bloc.dart';
 import '../../wallet/presentation/widgets/coin_balance_card.dart';
 
 class TutorHomePage extends StatelessWidget {
@@ -27,6 +28,17 @@ class TutorHomePage extends StatelessWidget {
             title: Text(l10n.tutorHomeTitle),
             actions: [
               const NotificationBell(),
+              // Coin chip — mirrors the student map AppBar so balance is
+              // always visible at the top.
+              BlocBuilder<WalletBloc, WalletState>(
+                builder: (_, w) => TextButton.icon(
+                  onPressed: () => context.push(AppRoutes.wallet),
+                  icon: const Icon(Icons.monetization_on_outlined,
+                      color: Colors.white),
+                  label: Text('${w.balance}',
+                      style: const TextStyle(color: Colors.white)),
+                ),
+              ),
               IconButton(
                 tooltip: l10n.signOutTooltip,
                 icon: const Icon(Icons.logout),
@@ -46,9 +58,14 @@ class TutorHomePage extends StatelessWidget {
               Text(l10n.homeHandle(user?.handle ?? '—'),
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: AppSpacing.lg),
-              CoinBalanceCard(
-                coins: user?.coinBalance ?? 0,
-                onTap: () => context.push(AppRoutes.wallet),
+              // Source from WalletBloc — server-authoritative and updated by
+              // the realtime subscription. AuthBloc's user.coinBalance is only
+              // accurate at sign-in time.
+              BlocBuilder<WalletBloc, WalletState>(
+                builder: (_, w) => CoinBalanceCard(
+                  coins: w.balance,
+                  onTap: () => context.push(AppRoutes.wallet),
+                ),
               ),
               const SizedBox(height: AppSpacing.lg),
               _ActionTile(
@@ -62,6 +79,12 @@ class TutorHomePage extends StatelessWidget {
                 title: l10n.tutorActionProfileSettingsTitle,
                 subtitle: l10n.tutorActionProfileSettingsSubtitle,
                 onTap: () => context.push(AppRoutes.tutorProfileSettings),
+              ),
+              _ActionTile(
+                icon: Icons.forum_outlined,
+                title: l10n.tutorActionChatsTitle,
+                subtitle: l10n.tutorActionChatsSubtitle,
+                onTap: () => context.push(AppRoutes.chatList),
               ),
               _ActionTile(
                 icon: Icons.assignment_outlined,

@@ -23,6 +23,10 @@ class TutorProfile extends Equatable {
     this.zone,
     this.city,
     this.addressLine,
+    this.lat,
+    this.lng,
+    this.cvUrl,
+    this.wizardStep = 0,
     List<TutorOffering>? offerings,
     TutorAvailability? availability,
     List<TutorEducation>? education,
@@ -52,6 +56,20 @@ class TutorProfile extends Equatable {
   final String? zone;
   final String? city;
   final String? addressLine;
+
+  /// Tutor's primary service location (matches the `tutors.geog` point on the
+  /// server). Null while the wizard hasn't asked for a precise spot yet.
+  final double? lat;
+  final double? lng;
+
+  /// Public URL of the uploaded CV PDF. Null until the tutor uploads one in
+  /// the wizard's last step.
+  final String? cvUrl;
+
+  /// Zero-indexed page the wizard should resume on. Mirrors the `wizard_step`
+  /// column so a tutor who closes and reopens the app lands on the same step.
+  final int wizardStep;
+
   final List<TutorOffering> offerings;
   final TutorAvailability availability;
   final List<TutorEducation> education;
@@ -77,6 +95,10 @@ class TutorProfile extends Equatable {
     String? zone,
     String? city,
     String? addressLine,
+    double? lat,
+    double? lng,
+    String? cvUrl,
+    int? wizardStep,
     List<TutorOffering>? offerings,
     TutorAvailability? availability,
     List<TutorEducation>? education,
@@ -100,6 +122,10 @@ class TutorProfile extends Equatable {
       zone: zone ?? this.zone,
       city: city ?? this.city,
       addressLine: addressLine ?? this.addressLine,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      cvUrl: cvUrl ?? this.cvUrl,
+      wizardStep: wizardStep ?? this.wizardStep,
       offerings: offerings ?? this.offerings,
       availability: availability ?? this.availability,
       education: education ?? this.education,
@@ -144,6 +170,10 @@ class TutorProfile extends Equatable {
         zone,
         city,
         addressLine,
+        lat,
+        lng,
+        cvUrl,
+        wizardStep,
         offerings,
         availability,
         education,

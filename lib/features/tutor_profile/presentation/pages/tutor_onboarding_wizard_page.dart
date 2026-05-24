@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/router.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/services/location_service.dart';
 import '../../../../core/utils/phone_ban_regex.dart';
 import '../../../../core/widgets/chip_multi_select.dart';
+import '../../../../core/widgets/map_pin_picker.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/section_card.dart';
@@ -15,6 +17,7 @@ import '../../domain/models/tutor_profile.dart';
 import '../blocs/tutor_profile_bloc.dart';
 import '../enum_labels.dart';
 import '../widgets/availability_grid.dart';
+import '../widgets/cv_upload_card.dart';
 import '../widgets/draft_banner.dart';
 import '../widgets/subjects_offered_editor.dart';
 import '../widgets/teaching_mode_selector.dart';
@@ -31,14 +34,36 @@ class TutorOnboardingWizardPage extends StatefulWidget {
 class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
   final _controller = PageController();
   int _index = 0;
+  bool _resumed = false;
 
   // Step count is the total number of pages in the wizard. Step *labels*
   // are looked up per-locale via [_stepCount] / build time.
   static const int _stepCount = 7;
 
-  void _next(int total) {
+  void _resumeIfNeeded(TutorProfile profile) {
+    if (_resumed) return;
+    _resumed = true;
+    final target = profile.wizardStep.clamp(0, _stepCount - 1);
+    if (target == 0) return;
+    setState(() => _index = target);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_controller.hasClients) return;
+      _controller.jumpToPage(target);
+    });
+  }
+
+  /// Push the new step index back into the draft so a relaunch resumes here.
+  void _persistStep(BuildContext ctx, TutorProfile profile, int next) {
+    if (profile.wizardStep == next) return;
+    ctx.read<TutorProfileBloc>().add(
+          TutorProfileDraftUpdated(profile.copyWith(wizardStep: next)),
+        );
+  }
+
+  void _next(int total, BuildContext ctx, TutorProfile profile) {
     if (_index < total - 1) {
       setState(() => _index++);
+      _persistStep(ctx, profile, _index);
       _controller.animateToPage(_index, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
     } else {
       // Last step — finish onboarding and return to tutor home.
@@ -46,9 +71,10 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
     }
   }
 
-  void _prev() {
+  void _prev(BuildContext ctx, TutorProfile profile) {
     if (_index == 0) return;
     setState(() => _index--);
+    _persistStep(ctx, profile, _index);
     _controller.animateToPage(_index, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
   }
 
@@ -61,6 +87,7 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
         if (state.status == TutorProfileStatus.loading || profile == null) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
+        _resumeIfNeeded(profile);
         final isLast = _index == _stepCount - 1;
         return Scaffold(
           appBar: AppBar(
@@ -70,7 +97,7 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
                 : IconButton(
                     tooltip: l10n.wizardPrevStepTooltip,
                     icon: const Icon(Icons.arrow_back),
-                    onPressed: _prev,
+                    onPressed: () => _prev(context, profile),
                   ),
           ),
           body: Column(
@@ -80,7 +107,10 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
                 child: PageView(
                   controller: _controller,
                   physics: const NeverScrollableScrollPhysics(),
-                  onPageChanged: (i) => setState(() => _index = i),
+                  onPageChanged: (i) {
+                    setState(() => _index = i);
+                    _persistStep(context, profile, i);
+                  },
                   children: [
                     _IdentityStep(profile: profile),
                     _TeachingModeStep(profile: profile),
@@ -99,7 +129,7 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
                     if (_index > 0)
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: _prev,
+                          onPressed: () => _prev(context, profile),
                           child: Text(l10n.backAction),
                         ),
                       ),
@@ -108,7 +138,7 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
                       flex: 2,
                       child: PrimaryButton(
                         label: isLast ? l10n.finishAction : l10n.continueAction,
-                        onPressed: () => _next(_stepCount),
+                        onPressed: () => _next(_stepCount, context, profile),
                       ),
                     ),
                   ],
@@ -211,6 +241,18 @@ class _ServiceAreaStep extends StatelessWidget {
                   initialValue: profile.addressLine,
                   decoration: InputDecoration(labelText: l10n.areaChowkLabel),
                   onChanged: (v) => bloc.add(TutorProfileDraftUpdated(profile.copyWith(addressLine: v))),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Text(l10n.wizardServiceAreaPinHint,
+                    style: Theme.of(context).textTheme.bodySmall),
+                const SizedBox(height: AppSpacing.sm),
+                MapPinPicker(
+                  height: 240,
+                  initialLat: profile.lat ?? LocationService.fallbackLat,
+                  initialLng: profile.lng ?? LocationService.fallbackLng,
+                  onChanged: (lat, lng) => bloc.add(
+                    TutorProfileDraftUpdated(profile.copyWith(lat: lat, lng: lng)),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Text(l10n.travelRadiusPrefix(profile.serviceRadiusKm.toInt())),
@@ -413,6 +455,11 @@ class _AvailabilityStep extends StatelessWidget {
             onChanged: (a) =>
                 bloc.add(TutorProfileDraftUpdated(profile.copyWith(availability: a))),
           ),
+        ),
+        SectionCard(
+          title: l10n.wizardCvUploadTitle,
+          subtitle: l10n.wizardCvUploadSubtitle,
+          child: CvUploadCard(profile: profile),
         ),
       ],
     );

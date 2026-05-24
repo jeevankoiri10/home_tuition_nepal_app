@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
+import '../../../core/constants/app_constants.dart';
 import '../domain/models/profile_enums.dart';
 import '../domain/models/tutor_availability.dart';
 import '../domain/models/tutor_credentials.dart';
@@ -82,7 +85,18 @@ class SupabaseTutorRepository implements TutorRepository {
         'address_line': profile.addressLine,
         'service_radius_km': profile.serviceRadiusKm,
         'draft_status': profile.draftStatus,
+        'cv_url': profile.cvUrl,
+        'wizard_step': profile.wizardStep,
       });
+
+      // 1b. PostGIS geog can't ride along the regular upsert payload — push
+      // it through the SECURITY DEFINER RPC instead (see migration 0015).
+      if (profile.lat != null && profile.lng != null) {
+        await _client.rpc('set_tutor_location', params: {
+          'p_lat': profile.lat,
+          'p_lng': profile.lng,
+        });
+      }
 
       // 2. Replace offerings (simple upsert-replace strategy).
       await _client.from('tutor_offerings').delete().eq('tutor_id', profile.tutorId);
@@ -125,6 +139,31 @@ class SupabaseTutorRepository implements TutorRepository {
   }
 
   @override
+  Future<String> uploadCv({
+    required String tutorId,
+    required Uint8List bytes,
+    required String fileName,
+  }) async {
+    if (bytes.lengthInBytes > AppConstants.tutorCvMaxBytes) {
+      throw TutorRepositoryException(
+          'cv_too_large', 'CV must be smaller than 300 KB.');
+    }
+    final ext = fileName.toLowerCase().endsWith('.pdf') ? 'pdf' : 'bin';
+    final objectPath = '$tutorId/cv.$ext';
+    try {
+      final storage = _client.storage.from('tutor-cvs');
+      await storage.uploadBinary(
+        objectPath,
+        bytes,
+        fileOptions: const sb.FileOptions(upsert: true, contentType: 'application/pdf'),
+      );
+      return storage.getPublicUrl(objectPath);
+    } on sb.StorageException catch (e) {
+      throw TutorRepositoryException('cv_upload_failed', e.message);
+    }
+  }
+
+  @override
   Future<TutorProfile> publish(TutorProfile profile) async {
     if (!profile.isPublishable) {
       throw TutorRepositoryException(
@@ -160,9 +199,13 @@ class SupabaseTutorRepository implements TutorRepository {
       zone: tutorRow['zone'] as String?,
       city: tutorRow['city'] as String?,
       addressLine: tutorRow['address_line'] as String?,
+      lat: (tutorRow['lat'] as num?)?.toDouble(),
+      lng: (tutorRow['lng'] as num?)?.toDouble(),
       serviceRadiusKm: (tutorRow['service_radius_km'] as num?) ?? 5,
       draftStatus: (tutorRow['draft_status'] as String?) ?? 'draft',
       profileCompletion: (tutorRow['profile_completion'] as int?) ?? 0,
+      cvUrl: tutorRow['cv_url'] as String?,
+      wizardStep: (tutorRow['wizard_step'] as int?) ?? 0,
       offerings: offeringRows.map(TutorOffering.fromRow).toList(),
       availability:
           TutorAvailability.fromJson(availabilityRow?['slots'] as Map<String, dynamic>?),

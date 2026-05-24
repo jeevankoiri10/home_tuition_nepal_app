@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/profile_enums.dart';
@@ -34,8 +35,9 @@ class SubjectsOfferedEditor extends StatelessWidget {
                 style: const TextStyle(color: AppColors.textSecondary)),
           ),
         for (int i = 0; i < offerings.length; i++)
-          _OfferingRow(
+          _OfferingSection(
             key: ValueKey('${offerings[i].level.value}-${offerings[i].subject}-$i'),
+            index: i,
             offering: offerings[i],
             allowedLevels: allowedLevels,
             onChanged: (next) {
@@ -79,25 +81,30 @@ class SubjectsOfferedEditor extends StatelessWidget {
   }
 }
 
-class _OfferingRow extends StatefulWidget {
-  const _OfferingRow({
+/// One subject entry rendered as a stacked-field card. Replaces the older
+/// single-line row layout so each subject reads top-to-bottom (per Phase 18
+/// of the tobe_done doc) and can grow without overflowing the screen.
+class _OfferingSection extends StatefulWidget {
+  const _OfferingSection({
     super.key,
+    required this.index,
     required this.offering,
     required this.allowedLevels,
     required this.onChanged,
     required this.onRemove,
   });
 
+  final int index;
   final TutorOffering offering;
   final Set<StudentLevel> allowedLevels;
   final ValueChanged<TutorOffering> onChanged;
   final VoidCallback onRemove;
 
   @override
-  State<_OfferingRow> createState() => _OfferingRowState();
+  State<_OfferingSection> createState() => _OfferingSectionState();
 }
 
-class _OfferingRowState extends State<_OfferingRow> {
+class _OfferingSectionState extends State<_OfferingSection> {
   late final TextEditingController _subject;
   late final TextEditingController _min;
   late final TextEditingController _max;
@@ -135,19 +142,36 @@ class _OfferingRowState extends State<_OfferingRow> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Level dropdown
-          SizedBox(
-            width: 110,
-            child: DropdownButtonFormField<StudentLevel>(
+    final tt = Theme.of(context).textTheme;
+    return Card(
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      shape: const RoundedRectangleBorder(borderRadius: AppRadii.cardBorder),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    l10n.subjectSectionHeading(widget.index + 1),
+                    style: tt.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ),
+                IconButton(
+                  tooltip: l10n.removeAction,
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: widget.onRemove,
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            DropdownButtonFormField<StudentLevel>(
               initialValue: widget.allowedLevels.contains(widget.offering.level)
                   ? widget.offering.level
                   : widget.allowedLevels.first,
-              isDense: true,
+              decoration: InputDecoration(labelText: l10n.subjectLevelLabel),
               items: [
                 for (final l in widget.allowedLevels)
                   DropdownMenuItem(
@@ -156,51 +180,47 @@ class _OfferingRowState extends State<_OfferingRow> {
               ],
               onChanged: (v) => widget.onChanged(widget.offering.copyWith(level: v)),
             ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          // Subject
-          Expanded(
-            flex: 3,
-            child: TextField(
+            const SizedBox(height: AppSpacing.sm),
+            TextField(
               controller: _subject,
               decoration: InputDecoration(
-                isDense: true,
+                labelText: l10n.subjectNameLabel,
                 hintText: l10n.subjectHint,
               ),
               onChanged: (_) => _emit(),
             ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          // Min price
-          SizedBox(
-            width: 80,
-            child: TextField(
-              controller: _min,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(isDense: true, hintText: l10n.priceHint),
-              onChanged: (_) => _emit(),
-            ),
-          ),
-          // Period
-          SizedBox(
-            width: 100,
-            child: DropdownButtonFormField<PricePeriod>(
-              initialValue: widget.offering.period,
-              isDense: true,
-              items: [
-                for (final p in PricePeriod.values)
-                  DropdownMenuItem(value: p, child: Text(p.localizedSuffix(l10n))),
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _min,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: l10n.subjectPriceLabel,
+                      hintText: l10n.priceHint,
+                    ),
+                    onChanged: (_) => _emit(),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: DropdownButtonFormField<PricePeriod>(
+                    initialValue: widget.offering.period,
+                    decoration: InputDecoration(labelText: l10n.subjectPeriodLabel),
+                    items: [
+                      for (final p in PricePeriod.values)
+                        DropdownMenuItem(
+                            value: p, child: Text(p.localizedSuffix(l10n))),
+                    ],
+                    onChanged: (v) => widget.onChanged(
+                        widget.offering.copyWith(period: v ?? PricePeriod.month)),
+                  ),
+                ),
               ],
-              onChanged: (v) =>
-                  widget.onChanged(widget.offering.copyWith(period: v ?? PricePeriod.month)),
             ),
-          ),
-          IconButton(
-            tooltip: l10n.removeAction,
-            icon: const Icon(Icons.delete_outline),
-            onPressed: widget.onRemove,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
