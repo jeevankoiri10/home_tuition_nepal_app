@@ -7,9 +7,11 @@ import '../../../../core/widgets/chip_multi_select.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/section_card.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/profile_enums.dart';
 import '../../domain/models/tutor_profile.dart';
 import '../blocs/tutor_profile_bloc.dart';
+import '../enum_labels.dart';
 import '../widgets/availability_grid.dart';
 import '../widgets/credentials_section.dart';
 import '../widgets/draft_banner.dart';
@@ -32,8 +34,9 @@ class _TutorProfileSettingsPageState extends State<TutorProfileSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile settings')),
+      appBar: AppBar(title: Text(l10n.settingsAppBarTitle)),
       body: BlocBuilder<TutorProfileBloc, TutorProfileState>(
         builder: (context, state) {
           final profile = state.profile;
@@ -57,13 +60,13 @@ class _TutorProfileSettingsPageState extends State<TutorProfileSettingsPage> {
               if (state.lastSavedAt != null)
                 Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-                  child: Text('Auto-saved',
+                  child: Text(l10n.autoSavedLabel,
                       style: Theme.of(context).textTheme.bodySmall),
                 ),
               Padding(
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 child: PrimaryButton(
-                  label: profile.isPublishable ? 'Save & Publish' : 'Save changes',
+                  label: profile.isPublishable ? l10n.saveAndPublishCta : l10n.saveChangesCta,
                   busy: state.status == TutorProfileStatus.saving,
                   onPressed: state.status == TutorProfileStatus.saving
                       ? null
@@ -104,28 +107,36 @@ class _TabBar extends StatelessWidget {
   final _Tab active;
   final ValueChanged<_Tab> onChanged;
 
-  static const _items = {
-    _Tab.personal: 'Personal',
-    _Tab.education: 'Education',
-    _Tab.subjects: 'Subjects',
-    _Tab.availability: 'Availability',
-    _Tab.verification: 'Verification',
-  };
+  String _labelFor(AppLocalizations l10n, _Tab tab) {
+    switch (tab) {
+      case _Tab.personal:
+        return l10n.settingsTabPersonal;
+      case _Tab.education:
+        return l10n.settingsTabEducation;
+      case _Tab.subjects:
+        return l10n.settingsTabSubjects;
+      case _Tab.availability:
+        return l10n.settingsTabAvailability;
+      case _Tab.verification:
+        return l10n.settingsTabVerification;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       child: Row(
         children: [
-          for (final entry in _items.entries)
+          for (final tab in _Tab.values)
             Padding(
               padding: const EdgeInsets.only(right: AppSpacing.sm),
               child: ChoiceChip(
-                label: Text(entry.value),
-                selected: active == entry.key,
-                onSelected: (_) => onChanged(entry.key),
+                label: Text(_labelFor(l10n, tab)),
+                selected: active == tab,
+                onSelected: (_) => onChanged(tab),
               ),
             ),
         ],
@@ -174,39 +185,40 @@ class _PersonalDetailsTabState extends State<_PersonalDetailsTab> {
         )));
   }
 
-  String? _violation(String text) =>
-      PhoneBanRegex.isViolation(text) ? 'Remove phone numbers or contact details.' : null;
+  String? _violation(AppLocalizations l10n, String text) =>
+      PhoneBanRegex.isViolation(text) ? l10n.phoneInTextValidation : null;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final p = widget.profile;
     final bloc = context.read<TutorProfileBloc>();
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
         SectionCard(
-          title: 'Tagline',
-          subtitle: 'A one-line headline shown on your card.',
+          title: l10n.taglineLabel,
+          subtitle: l10n.taglineSubtitle,
           child: TextField(controller: _tagline, onChanged: (_) => _emit()),
         ),
         SectionCard(
-          title: 'Teaching mode',
+          title: l10n.postJobModeLabel,
           child: TeachingModeSelector(
             value: p.teachingMode,
             onChanged: (m) => bloc.add(TutorProfileDraftUpdated(p.copyWith(teachingMode: m))),
           ),
         ),
         SectionCard(
-          title: 'Address',
-          subtitle: 'The full address is private. Only the area name is shown publicly.',
+          title: l10n.settingsAddressTitle,
+          subtitle: l10n.settingsAddressSubtitle,
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            TextField(controller: _city, decoration: const InputDecoration(labelText: 'City'), onChanged: (_) => _emit()),
+            TextField(controller: _city, decoration: InputDecoration(labelText: l10n.cityLabel), onChanged: (_) => _emit()),
             const SizedBox(height: AppSpacing.sm),
-            TextField(controller: _addr, decoration: const InputDecoration(labelText: 'Area / chowk'), onChanged: (_) => _emit()),
+            TextField(controller: _addr, decoration: InputDecoration(labelText: l10n.areaChowkLabelShort), onChanged: (_) => _emit()),
           ]),
         ),
         SectionCard(
-          title: 'Languages I know',
+          title: l10n.settingsLanguagesTitle,
           child: ChipMultiSelect<String>(
             options: _kCommonLanguages,
             selected: p.languagesKnown.toSet(),
@@ -215,18 +227,15 @@ class _PersonalDetailsTabState extends State<_PersonalDetailsTab> {
                 bloc.add(TutorProfileDraftUpdated(p.copyWith(languagesKnown: set.toList()))),
           ),
         ),
-        const PhoneBanWarning(
-          message:
-              'Do not include phone numbers, WhatsApp links, or email addresses in the bio fields. Accounts that do will be blocked.',
-        ),
+        PhoneBanWarning(message: l10n.tutorProfilePhoneBanWarningBio),
         SectionCard(
-          title: 'About me',
+          title: l10n.aboutMeLabel,
           child: TextFormField(
             controller: _aboutMe,
             maxLines: 4,
             decoration: InputDecoration(
-              hintText: 'A short bio',
-              errorText: _violation(_aboutMe.text),
+              hintText: l10n.aboutMeHintShort,
+              errorText: _violation(l10n, _aboutMe.text),
             ),
             onChanged: (_) {
               setState(() {});
@@ -235,13 +244,13 @@ class _PersonalDetailsTabState extends State<_PersonalDetailsTab> {
           ),
         ),
         SectionCard(
-          title: 'About my sessions',
+          title: l10n.aboutSessionsLabel,
           child: TextFormField(
             controller: _aboutSessions,
             maxLines: 4,
             decoration: InputDecoration(
-              hintText: 'How you teach',
-              errorText: _violation(_aboutSessions.text),
+              hintText: l10n.aboutSessionsHintShort,
+              errorText: _violation(l10n, _aboutSessions.text),
             ),
             onChanged: (_) {
               setState(() {});
@@ -250,13 +259,13 @@ class _PersonalDetailsTabState extends State<_PersonalDetailsTab> {
           ),
         ),
         SectionCard(
-          title: 'Qualifications',
+          title: l10n.qualificationsLabel,
           child: TextFormField(
             controller: _qualifications,
             maxLines: 4,
             decoration: InputDecoration(
-              hintText: 'Degrees, certifications',
-              errorText: _violation(_qualifications.text),
+              hintText: l10n.qualificationsHintShort,
+              errorText: _violation(l10n, _qualifications.text),
             ),
             onChanged: (_) {
               setState(() {});
@@ -277,13 +286,14 @@ class _EducationTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bloc = context.read<TutorProfileBloc>();
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
         SectionCard(
-          title: 'Education',
-          subtitle: 'Optional. Degrees, schools, fields of study.',
+          title: l10n.settingsTabEducation,
+          subtitle: l10n.settingsEducationSubtitle,
           child: EducationEditor(
             items: profile.education,
             onChanged: (list) =>
@@ -291,8 +301,8 @@ class _EducationTab extends StatelessWidget {
           ),
         ),
         SectionCard(
-          title: 'Experience',
-          subtitle: 'Optional. Past teaching or work roles.',
+          title: l10n.settingsExperienceTitle,
+          subtitle: l10n.settingsExperienceSubtitle,
           child: ExperienceEditor(
             items: profile.experience,
             onChanged: (list) =>
@@ -300,8 +310,8 @@ class _EducationTab extends StatelessWidget {
           ),
         ),
         SectionCard(
-          title: 'Certificates & Awards',
-          subtitle: 'Optional. Boosts the verified-badge review.',
+          title: l10n.settingsCertificatesTitle,
+          subtitle: l10n.settingsCertificatesSubtitle,
           child: CertificatesEditor(
             items: profile.certificates,
             onChanged: (list) =>
@@ -321,16 +331,17 @@ class _SubjectsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bloc = context.read<TutorProfileBloc>();
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
         SectionCard(
-          title: 'Levels you teach',
+          title: l10n.wizardStepLevelsYouTeach,
           child: ChipMultiSelect<StudentLevel>(
             options: StudentLevel.values,
             selected: profile.levelsTaught,
-            labelOf: (l) => l.label,
+            labelOf: (l) => l.localized(l10n),
             onChanged: (set) {
               final kept = profile.offerings.where((o) => set.contains(o.level)).toList();
               bloc.add(TutorProfileDraftUpdated(
@@ -340,8 +351,8 @@ class _SubjectsTab extends StatelessWidget {
           ),
         ),
         SectionCard(
-          title: 'Subjects offered',
-          subtitle: 'For each level, list the subjects and prices.',
+          title: l10n.wizardSubjectsTitle,
+          subtitle: l10n.settingsSubjectsListedSubtitle,
           child: SubjectsOfferedEditor(
             offerings: profile.offerings,
             allowedLevels: profile.levelsTaught,
@@ -362,13 +373,14 @@ class _AvailabilityTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bloc = context.read<TutorProfileBloc>();
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
         SectionCard(
-          title: 'Weekly availability',
-          subtitle: 'Tap a cell to toggle. Row labels toggle the entire row.',
+          title: l10n.settingsAvailabilityTitle,
+          subtitle: l10n.settingsAvailabilitySubtitle,
           child: AvailabilityGrid(
             value: profile.availability,
             onChanged: (a) =>
@@ -387,40 +399,41 @@ class _VerificationTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
         SectionCard(
-          title: 'Citizenship',
-          subtitle: 'Upload front + back. Stored in a private Supabase Storage bucket; '
-              'only the admin can view it.',
+          title: l10n.verifyCitizenshipTitle,
+          subtitle: l10n.verifyCitizenshipSubtitle,
           child: OutlinedButton.icon(
             icon: const Icon(Icons.upload_file_outlined),
-            label: const Text('Upload citizenship'),
+            label: Text(l10n.verifyUploadCitizenship),
             onPressed: () => _uploadStub(context, 'citizenship'),
           ),
         ),
         SectionCard(
-          title: 'Selfie holding citizenship',
-          subtitle: 'Anti-spoof check used by the admin during verification.',
+          title: l10n.verifySelfieTitle,
+          subtitle: l10n.verifySelfieSubtitle,
           child: OutlinedButton.icon(
             icon: const Icon(Icons.camera_alt_outlined),
-            label: const Text('Upload selfie'),
+            label: Text(l10n.verifyUploadSelfie),
             onPressed: () => _uploadStub(context, 'selfie'),
           ),
         ),
-        const SectionCard(
-          title: 'Status',
-          subtitle: 'Not started — submit your documents to begin review.',
-          child: SizedBox.shrink(),
+        SectionCard(
+          title: l10n.verifyStatusTitle,
+          subtitle: l10n.verifyStatusNotStarted,
+          child: const SizedBox.shrink(),
         ),
       ],
     );
   }
 
   void _uploadStub(BuildContext context, String kind) {
+    final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$kind upload UI wires to Supabase Storage when buckets are configured.')),
+      SnackBar(content: Text(l10n.verifyUploadNotReady(kind))),
     );
   }
 }

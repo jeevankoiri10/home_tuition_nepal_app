@@ -1161,4 +1161,247 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get pricePeriodSession => '/सेसन';
+
+  @override
+  String get wizardStepIdentity => 'परिचय';
+
+  @override
+  String get wizardStepTeachingMode => 'पढाउने तरिका';
+
+  @override
+  String get wizardStepWhereYouTeach => 'तपाईं कहाँ पढाउनुहुन्छ';
+
+  @override
+  String get wizardStepLevelsYouTeach => 'तपाईंले पढाउने तह';
+
+  @override
+  String get wizardStepSubjectsPrices => 'विषय र मूल्य';
+
+  @override
+  String get wizardStepAboutYou => 'तपाईंको बारेमा';
+
+  @override
+  String get wizardStepAvailability => 'उपलब्धता';
+
+  @override
+  String wizardAppBarTitle(int step, int total) {
+    return 'शिक्षक दर्ता — $step/$total';
+  }
+
+  @override
+  String get backAction => 'पछाडि';
+
+  @override
+  String get continueAction => 'जारी राख्नुहोस्';
+
+  @override
+  String get finishAction => 'समाप्त';
+
+  @override
+  String get wizardIdentitySubtitle =>
+      'तपाईंको नाम र सम्पर्क दर्ता बखत लिइएको छ। प्रोफाइल सेटिङबाट तस्बिर र थप विवरण पछि थप्नुहोस् — अहिले वैकल्पिक छ।';
+
+  @override
+  String get wizardTeachingModeTitle => 'तपाईं कसरी पढाउनुहुन्छ?';
+
+  @override
+  String get wizardTeachingModeSubtitle =>
+      'अनलाइन मात्र पढाउनेलाई म्यापमा देखाइँदैन — खोजीमा भने आउँछन्।';
+
+  @override
+  String get wizardServiceAreaSkipTitle =>
+      'अनलाइन मात्र — सेवा क्षेत्र चाहिँदैन';
+
+  @override
+  String get wizardServiceAreaSkipSubtitle =>
+      'तपाईं अनलाइन पढाउनुहुन्छ। यो चरण छोड्नुहोस्।';
+
+  @override
+  String get wizardServiceAreaTitle => 'तपाईं कहाँ पढाउनुहुन्छ?';
+
+  @override
+  String get wizardServiceAreaSubtitle =>
+      'नजिकका विद्यार्थीसँग मिलाउन प्रयोग हुन्छ। ठेगाना निजी रहन्छ।';
+
+  @override
+  String get cityLabel => 'सहर';
+
+  @override
+  String get areaChowkLabel => 'क्षेत्र / चोक (उदाहरण: बानेश्वर)';
+
+  @override
+  String get areaChowkLabelShort => 'क्षेत्र / चोक';
+
+  @override
+  String travelRadiusPrefix(int km) {
+    return 'यात्रा क्षेत्र: $km किमी';
+  }
+
+  @override
+  String kmSuffix(int km) {
+    return '$km किमी';
+  }
+
+  @override
+  String get wizardLevelsTitle =>
+      'तपाईं कुन तहका विद्यार्थीलाई पढाउन सक्नुहुन्छ?';
+
+  @override
+  String get wizardLevelsSubtitle =>
+      'मिल्ने सबै छान्नुहोस्। विद्यार्थीले आफ्नो तह अनुसार फिल्टर गर्छन्।';
+
+  @override
+  String get wizardSubjectsTitle => 'प्रस्तावित विषयहरू';
+
+  @override
+  String get wizardSubjectsSubtitle =>
+      'प्रत्येक तहका लागि विषय र मूल्य (घण्टा, दिन, महिना वा सेसन) थप्नुहोस्। तपाईंका प्रस्तावमध्ये सबैभन्दा कम मूल्य कार्डमा ‘देखि’ दरका रूपमा देखाइन्छ।';
+
+  @override
+  String get tutorProfilePhoneBanWarning =>
+      'फोन नम्बर, WhatsApp लिङ्क वा इमेल नराख्नुहोस्। राख्ने खाताहरू ब्लक हुनेछन्।';
+
+  @override
+  String get tutorProfilePhoneBanWarningBio =>
+      'बायो फिल्डमा फोन नम्बर, WhatsApp लिङ्क वा इमेल नराख्नुहोस्। राख्ने खाताहरू ब्लक हुनेछन्।';
+
+  @override
+  String get aboutMeLabel => 'मेरो बारेमा';
+
+  @override
+  String get aboutMeHintWizard =>
+      'छोटो बायो (पूर्णताका लागि कम्तीमा १०० अक्षर)';
+
+  @override
+  String get aboutMeHintShort => 'छोटो बायो';
+
+  @override
+  String get aboutSessionsLabel => 'मेरो सेसनको बारेमा';
+
+  @override
+  String get aboutSessionsHintWizard =>
+      'तपाईं कसरी पढाउनुहुन्छ (कम्तीमा ५० अक्षर)';
+
+  @override
+  String get aboutSessionsHintShort => 'तपाईं कसरी पढाउनुहुन्छ';
+
+  @override
+  String get qualificationsLabel => 'योग्यता';
+
+  @override
+  String get qualificationsHintWizard =>
+      'डिग्री, प्रमाणपत्र (कम्तीमा ३० अक्षर)';
+
+  @override
+  String get qualificationsHintShort => 'डिग्री, प्रमाणपत्र';
+
+  @override
+  String get wizardAvailabilityTitle => 'तपाईं कहिले उपलब्ध हुनुहुन्छ?';
+
+  @override
+  String get wizardAvailabilitySubtitle =>
+      'सेल थिचेर टगल गर्नुहोस्। पङ्क्तिको लेबल (जस्तै ‘१० बजे अघि’) थिच्दा सबै पङ्क्ति टगल हुन्छ।';
+
+  @override
+  String get settingsAppBarTitle => 'प्रोफाइल सेटिङ';
+
+  @override
+  String get settingsTabPersonal => 'व्यक्तिगत';
+
+  @override
+  String get settingsTabEducation => 'शिक्षा';
+
+  @override
+  String get settingsTabSubjects => 'विषय';
+
+  @override
+  String get settingsTabAvailability => 'उपलब्धता';
+
+  @override
+  String get settingsTabVerification => 'प्रमाणीकरण';
+
+  @override
+  String get autoSavedLabel => 'स्वतः सेभ भयो';
+
+  @override
+  String get saveAndPublishCta => 'सेभ र प्रकाशन';
+
+  @override
+  String get saveChangesCta => 'परिवर्तन सेभ';
+
+  @override
+  String get taglineLabel => 'ट्यागलाइन';
+
+  @override
+  String get taglineSubtitle => 'तपाईंको कार्डमा देखिने एक-लाइन शीर्षक।';
+
+  @override
+  String get settingsAddressTitle => 'ठेगाना';
+
+  @override
+  String get settingsAddressSubtitle =>
+      'पूरै ठेगाना निजी रहन्छ। केवल क्षेत्रको नाम सार्वजनिक देखिन्छ।';
+
+  @override
+  String get settingsLanguagesTitle => 'मलाई आउने भाषाहरू';
+
+  @override
+  String get settingsEducationSubtitle =>
+      'वैकल्पिक। डिग्री, विद्यालय, अध्ययन क्षेत्र।';
+
+  @override
+  String get settingsExperienceTitle => 'अनुभव';
+
+  @override
+  String get settingsExperienceSubtitle => 'वैकल्पिक। शिक्षण वा कार्य अनुभव।';
+
+  @override
+  String get settingsCertificatesTitle => 'प्रमाणपत्र र पुरस्कार';
+
+  @override
+  String get settingsCertificatesSubtitle =>
+      'वैकल्पिक। प्रमाणित ब्याज समीक्षामा सहयोग पुग्छ।';
+
+  @override
+  String get settingsSubjectsListedSubtitle =>
+      'प्रत्येक तहका लागि विषय र मूल्य उल्लेख गर्नुहोस्।';
+
+  @override
+  String get settingsAvailabilityTitle => 'साप्ताहिक उपलब्धता';
+
+  @override
+  String get settingsAvailabilitySubtitle =>
+      'सेल थिचेर टगल गर्नुहोस्। पङ्क्ति लेबलले सबै पङ्क्ति टगल गर्छ।';
+
+  @override
+  String get verifyCitizenshipTitle => 'नागरिकता';
+
+  @override
+  String get verifyCitizenshipSubtitle =>
+      'अगाडि र पछाडि अपलोड गर्नुहोस्। निजी Supabase Storage मा रहन्छ; एडमिनले मात्र हेर्न सक्छन्।';
+
+  @override
+  String get verifyUploadCitizenship => 'नागरिकता अपलोड';
+
+  @override
+  String get verifySelfieTitle => 'नागरिकता समातेको सेल्फी';
+
+  @override
+  String get verifySelfieSubtitle =>
+      'प्रमाणीकरण बखत एडमिनले एन्टी-स्पुफ जाँचका लागि प्रयोग गर्छन्।';
+
+  @override
+  String get verifyUploadSelfie => 'सेल्फी अपलोड';
+
+  @override
+  String get verifyStatusTitle => 'स्थिति';
+
+  @override
+  String get verifyStatusNotStarted =>
+      'सुरु भएको छैन — समीक्षाका लागि कागजात पेस गर्नुहोस्।';
+
+  @override
+  String verifyUploadNotReady(String kind) {
+    return 'Supabase Storage सेटअप भएपछि $kind अपलोड UI जोडिनेछ।';
+  }
 }

@@ -1163,4 +1163,245 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pricePeriodSession => '/session';
+
+  @override
+  String get wizardStepIdentity => 'Identity';
+
+  @override
+  String get wizardStepTeachingMode => 'Teaching mode';
+
+  @override
+  String get wizardStepWhereYouTeach => 'Where you teach';
+
+  @override
+  String get wizardStepLevelsYouTeach => 'Levels you teach';
+
+  @override
+  String get wizardStepSubjectsPrices => 'Subjects & prices';
+
+  @override
+  String get wizardStepAboutYou => 'About you';
+
+  @override
+  String get wizardStepAvailability => 'Availability';
+
+  @override
+  String wizardAppBarTitle(int step, int total) {
+    return 'Tutor onboarding — $step/$total';
+  }
+
+  @override
+  String get backAction => 'Back';
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get finishAction => 'Finish';
+
+  @override
+  String get wizardIdentitySubtitle =>
+      'Your name and contact were captured at registration. Add a photo and demographic details from Profile Settings later — they\'re optional now.';
+
+  @override
+  String get wizardTeachingModeTitle => 'How do you teach?';
+
+  @override
+  String get wizardTeachingModeSubtitle =>
+      'Online-only tutors are not pinned on the map — they still appear in search.';
+
+  @override
+  String get wizardServiceAreaSkipTitle =>
+      'Online-only — no service area needed';
+
+  @override
+  String get wizardServiceAreaSkipSubtitle =>
+      'You teach online. Skip this step.';
+
+  @override
+  String get wizardServiceAreaTitle => 'Where do you teach?';
+
+  @override
+  String get wizardServiceAreaSubtitle =>
+      'Used to match students near you. The exact address is private.';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get areaChowkLabel => 'Area / chowk (e.g., Baneshwor)';
+
+  @override
+  String get areaChowkLabelShort => 'Area / chowk';
+
+  @override
+  String travelRadiusPrefix(int km) {
+    return 'Travel radius: $km km';
+  }
+
+  @override
+  String kmSuffix(int km) {
+    return '$km km';
+  }
+
+  @override
+  String get wizardLevelsTitle => 'Which student levels can you teach?';
+
+  @override
+  String get wizardLevelsSubtitle =>
+      'Pick all that apply. Students filter the map by their own level.';
+
+  @override
+  String get wizardSubjectsTitle => 'Subjects offered';
+
+  @override
+  String get wizardSubjectsSubtitle =>
+      'For each level you teach, add the subjects and the price (per hour, day, month, or session). The lowest price across your offerings is shown as the \"from\" rate on tutor cards.';
+
+  @override
+  String get tutorProfilePhoneBanWarning =>
+      'Do not include phone numbers, WhatsApp links, or email addresses. Accounts that do will be blocked.';
+
+  @override
+  String get tutorProfilePhoneBanWarningBio =>
+      'Do not include phone numbers, WhatsApp links, or email addresses in the bio fields. Accounts that do will be blocked.';
+
+  @override
+  String get aboutMeLabel => 'About me';
+
+  @override
+  String get aboutMeHintWizard => 'A short bio (min 100 chars for completion)';
+
+  @override
+  String get aboutMeHintShort => 'A short bio';
+
+  @override
+  String get aboutSessionsLabel => 'About my sessions';
+
+  @override
+  String get aboutSessionsHintWizard => 'How you teach (min 50 chars)';
+
+  @override
+  String get aboutSessionsHintShort => 'How you teach';
+
+  @override
+  String get qualificationsLabel => 'Qualifications';
+
+  @override
+  String get qualificationsHintWizard =>
+      'Degrees, certifications (min 30 chars)';
+
+  @override
+  String get qualificationsHintShort => 'Degrees, certifications';
+
+  @override
+  String get wizardAvailabilityTitle => 'When are you available?';
+
+  @override
+  String get wizardAvailabilitySubtitle =>
+      'Tap a cell to toggle. Tap a row label (e.g., \"Pre 10 am\") to toggle the whole row.';
+
+  @override
+  String get settingsAppBarTitle => 'Profile settings';
+
+  @override
+  String get settingsTabPersonal => 'Personal';
+
+  @override
+  String get settingsTabEducation => 'Education';
+
+  @override
+  String get settingsTabSubjects => 'Subjects';
+
+  @override
+  String get settingsTabAvailability => 'Availability';
+
+  @override
+  String get settingsTabVerification => 'Verification';
+
+  @override
+  String get autoSavedLabel => 'Auto-saved';
+
+  @override
+  String get saveAndPublishCta => 'Save & Publish';
+
+  @override
+  String get saveChangesCta => 'Save changes';
+
+  @override
+  String get taglineLabel => 'Tagline';
+
+  @override
+  String get taglineSubtitle => 'A one-line headline shown on your card.';
+
+  @override
+  String get settingsAddressTitle => 'Address';
+
+  @override
+  String get settingsAddressSubtitle =>
+      'The full address is private. Only the area name is shown publicly.';
+
+  @override
+  String get settingsLanguagesTitle => 'Languages I know';
+
+  @override
+  String get settingsEducationSubtitle =>
+      'Optional. Degrees, schools, fields of study.';
+
+  @override
+  String get settingsExperienceTitle => 'Experience';
+
+  @override
+  String get settingsExperienceSubtitle =>
+      'Optional. Past teaching or work roles.';
+
+  @override
+  String get settingsCertificatesTitle => 'Certificates & Awards';
+
+  @override
+  String get settingsCertificatesSubtitle =>
+      'Optional. Boosts the verified-badge review.';
+
+  @override
+  String get settingsSubjectsListedSubtitle =>
+      'For each level, list the subjects and prices.';
+
+  @override
+  String get settingsAvailabilityTitle => 'Weekly availability';
+
+  @override
+  String get settingsAvailabilitySubtitle =>
+      'Tap a cell to toggle. Row labels toggle the entire row.';
+
+  @override
+  String get verifyCitizenshipTitle => 'Citizenship';
+
+  @override
+  String get verifyCitizenshipSubtitle =>
+      'Upload front + back. Stored in a private Supabase Storage bucket; only the admin can view it.';
+
+  @override
+  String get verifyUploadCitizenship => 'Upload citizenship';
+
+  @override
+  String get verifySelfieTitle => 'Selfie holding citizenship';
+
+  @override
+  String get verifySelfieSubtitle =>
+      'Anti-spoof check used by the admin during verification.';
+
+  @override
+  String get verifyUploadSelfie => 'Upload selfie';
+
+  @override
+  String get verifyStatusTitle => 'Status';
+
+  @override
+  String get verifyStatusNotStarted =>
+      'Not started — submit your documents to begin review.';
+
+  @override
+  String verifyUploadNotReady(String kind) {
+    return '$kind upload UI wires to Supabase Storage when buckets are configured.';
+  }
 }

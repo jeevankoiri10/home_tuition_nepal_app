@@ -1169,5 +1169,235 @@
   "@pricePeriodMonth": {},
 
   "pricePeriodSession": "/session",
-  "@pricePeriodSession": {}
+  "@pricePeriodSession": {},
+
+  "wizardStepIdentity": "Identity",
+  "@wizardStepIdentity": {},
+
+  "wizardStepTeachingMode": "Teaching mode",
+  "@wizardStepTeachingMode": {},
+
+  "wizardStepWhereYouTeach": "Where you teach",
+  "@wizardStepWhereYouTeach": {},
+
+  "wizardStepLevelsYouTeach": "Levels you teach",
+  "@wizardStepLevelsYouTeach": {},
+
+  "wizardStepSubjectsPrices": "Subjects & prices",
+  "@wizardStepSubjectsPrices": {},
+
+  "wizardStepAboutYou": "About you",
+  "@wizardStepAboutYou": {},
+
+  "wizardStepAvailability": "Availability",
+  "@wizardStepAvailability": {},
+
+  "wizardAppBarTitle": "Tutor onboarding — {step}/{total}",
+  "@wizardAppBarTitle": {
+    "placeholders": {
+      "step": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "backAction": "Back",
+  "@backAction": {},
+
+  "continueAction": "Continue",
+  "@continueAction": {},
+
+  "finishAction": "Finish",
+  "@finishAction": {},
+
+  "wizardIdentitySubtitle": "Your name and contact were captured at registration. Add a photo and demographic details from Profile Settings later — they're optional now.",
+  "@wizardIdentitySubtitle": {},
+
+  "wizardTeachingModeTitle": "How do you teach?",
+  "@wizardTeachingModeTitle": {},
+
+  "wizardTeachingModeSubtitle": "Online-only tutors are not pinned on the map — they still appear in search.",
+  "@wizardTeachingModeSubtitle": {},
+
+  "wizardServiceAreaSkipTitle": "Online-only — no service area needed",
+  "@wizardServiceAreaSkipTitle": {},
+
+  "wizardServiceAreaSkipSubtitle": "You teach online. Skip this step.",
+  "@wizardServiceAreaSkipSubtitle": {},
+
+  "wizardServiceAreaTitle": "Where do you teach?",
+  "@wizardServiceAreaTitle": {},
+
+  "wizardServiceAreaSubtitle": "Used to match students near you. The exact address is private.",
+  "@wizardServiceAreaSubtitle": {},
+
+  "cityLabel": "City",
+  "@cityLabel": {},
+
+  "areaChowkLabel": "Area / chowk (e.g., Baneshwor)",
+  "@areaChowkLabel": {},
+
+  "areaChowkLabelShort": "Area / chowk",
+  "@areaChowkLabelShort": {},
+
+  "travelRadiusPrefix": "Travel radius: {km} km",
+  "@travelRadiusPrefix": {
+    "placeholders": {
+      "km": { "type": "int" }
+    }
+  },
+
+  "kmSuffix": "{km} km",
+  "@kmSuffix": {
+    "placeholders": {
+      "km": { "type": "int" }
+    }
+  },
+
+  "wizardLevelsTitle": "Which student levels can you teach?",
+  "@wizardLevelsTitle": {},
+
+  "wizardLevelsSubtitle": "Pick all that apply. Students filter the map by their own level.",
+  "@wizardLevelsSubtitle": {},
+
+  "wizardSubjectsTitle": "Subjects offered",
+  "@wizardSubjectsTitle": {},
+
+  "wizardSubjectsSubtitle": "For each level you teach, add the subjects and the price (per hour, day, month, or session). The lowest price across your offerings is shown as the \"from\" rate on tutor cards.",
+  "@wizardSubjectsSubtitle": {},
+
+  "tutorProfilePhoneBanWarning": "Do not include phone numbers, WhatsApp links, or email addresses. Accounts that do will be blocked.",
+  "@tutorProfilePhoneBanWarning": {},
+
+  "tutorProfilePhoneBanWarningBio": "Do not include phone numbers, WhatsApp links, or email addresses in the bio fields. Accounts that do will be blocked.",
+  "@tutorProfilePhoneBanWarningBio": {},
+
+  "aboutMeLabel": "About me",
+  "@aboutMeLabel": {},
+
+  "aboutMeHintWizard": "A short bio (min 100 chars for completion)",
+  "@aboutMeHintWizard": {},
+
+  "aboutMeHintShort": "A short bio",
+  "@aboutMeHintShort": {},
+
+  "aboutSessionsLabel": "About my sessions",
+  "@aboutSessionsLabel": {},
+
+  "aboutSessionsHintWizard": "How you teach (min 50 chars)",
+  "@aboutSessionsHintWizard": {},
+
+  "aboutSessionsHintShort": "How you teach",
+  "@aboutSessionsHintShort": {},
+
+  "qualificationsLabel": "Qualifications",
+  "@qualificationsLabel": {},
+
+  "qualificationsHintWizard": "Degrees, certifications (min 30 chars)",
+  "@qualificationsHintWizard": {},
+
+  "qualificationsHintShort": "Degrees, certifications",
+  "@qualificationsHintShort": {},
+
+  "wizardAvailabilityTitle": "When are you available?",
+  "@wizardAvailabilityTitle": {},
+
+  "wizardAvailabilitySubtitle": "Tap a cell to toggle. Tap a row label (e.g., \"Pre 10 am\") to toggle the whole row.",
+  "@wizardAvailabilitySubtitle": {},
+
+  "settingsAppBarTitle": "Profile settings",
+  "@settingsAppBarTitle": {},
+
+  "settingsTabPersonal": "Personal",
+  "@settingsTabPersonal": {},
+
+  "settingsTabEducation": "Education",
+  "@settingsTabEducation": {},
+
+  "settingsTabSubjects": "Subjects",
+  "@settingsTabSubjects": {},
+
+  "settingsTabAvailability": "Availability",
+  "@settingsTabAvailability": {},
+
+  "settingsTabVerification": "Verification",
+  "@settingsTabVerification": {},
+
+  "autoSavedLabel": "Auto-saved",
+  "@autoSavedLabel": {},
+
+  "saveAndPublishCta": "Save & Publish",
+  "@saveAndPublishCta": {},
+
+  "saveChangesCta": "Save changes",
+  "@saveChangesCta": {},
+
+  "taglineLabel": "Tagline",
+  "@taglineLabel": {},
+
+  "taglineSubtitle": "A one-line headline shown on your card.",
+  "@taglineSubtitle": {},
+
+  "settingsAddressTitle": "Address",
+  "@settingsAddressTitle": {},
+
+  "settingsAddressSubtitle": "The full address is private. Only the area name is shown publicly.",
+  "@settingsAddressSubtitle": {},
+
+  "settingsLanguagesTitle": "Languages I know",
+  "@settingsLanguagesTitle": {},
+
+  "settingsEducationSubtitle": "Optional. Degrees, schools, fields of study.",
+  "@settingsEducationSubtitle": {},
+
+  "settingsExperienceTitle": "Experience",
+  "@settingsExperienceTitle": {},
+
+  "settingsExperienceSubtitle": "Optional. Past teaching or work roles.",
+  "@settingsExperienceSubtitle": {},
+
+  "settingsCertificatesTitle": "Certificates & Awards",
+  "@settingsCertificatesTitle": {},
+
+  "settingsCertificatesSubtitle": "Optional. Boosts the verified-badge review.",
+  "@settingsCertificatesSubtitle": {},
+
+  "settingsSubjectsListedSubtitle": "For each level, list the subjects and prices.",
+  "@settingsSubjectsListedSubtitle": {},
+
+  "settingsAvailabilityTitle": "Weekly availability",
+  "@settingsAvailabilityTitle": {},
+
+  "settingsAvailabilitySubtitle": "Tap a cell to toggle. Row labels toggle the entire row.",
+  "@settingsAvailabilitySubtitle": {},
+
+  "verifyCitizenshipTitle": "Citizenship",
+  "@verifyCitizenshipTitle": {},
+
+  "verifyCitizenshipSubtitle": "Upload front + back. Stored in a private Supabase Storage bucket; only the admin can view it.",
+  "@verifyCitizenshipSubtitle": {},
+
+  "verifyUploadCitizenship": "Upload citizenship",
+  "@verifyUploadCitizenship": {},
+
+  "verifySelfieTitle": "Selfie holding citizenship",
+  "@verifySelfieTitle": {},
+
+  "verifySelfieSubtitle": "Anti-spoof check used by the admin during verification.",
+  "@verifySelfieSubtitle": {},
+
+  "verifyUploadSelfie": "Upload selfie",
+  "@verifyUploadSelfie": {},
+
+  "verifyStatusTitle": "Status",
+  "@verifyStatusTitle": {},
+
+  "verifyStatusNotStarted": "Not started — submit your documents to begin review.",
+  "@verifyStatusNotStarted": {},
+
+  "verifyUploadNotReady": "{kind} upload UI wires to Supabase Storage when buckets are configured.",
+  "@verifyUploadNotReady": {
+    "placeholders": {
+      "kind": { "type": "String" }
+    }
+  }
 }

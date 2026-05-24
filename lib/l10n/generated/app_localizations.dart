@@ -2155,6 +2155,432 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'/session'**
   String get pricePeriodSession;
+
+  /// No description provided for @wizardStepIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity'**
+  String get wizardStepIdentity;
+
+  /// No description provided for @wizardStepTeachingMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Teaching mode'**
+  String get wizardStepTeachingMode;
+
+  /// No description provided for @wizardStepWhereYouTeach.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you teach'**
+  String get wizardStepWhereYouTeach;
+
+  /// No description provided for @wizardStepLevelsYouTeach.
+  ///
+  /// In en, this message translates to:
+  /// **'Levels you teach'**
+  String get wizardStepLevelsYouTeach;
+
+  /// No description provided for @wizardStepSubjectsPrices.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects & prices'**
+  String get wizardStepSubjectsPrices;
+
+  /// No description provided for @wizardStepAboutYou.
+  ///
+  /// In en, this message translates to:
+  /// **'About you'**
+  String get wizardStepAboutYou;
+
+  /// No description provided for @wizardStepAvailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get wizardStepAvailability;
+
+  /// No description provided for @wizardAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutor onboarding — {step}/{total}'**
+  String wizardAppBarTitle(int step, int total);
+
+  /// No description provided for @backAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get backAction;
+
+  /// No description provided for @continueAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueAction;
+
+  /// No description provided for @finishAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finishAction;
+
+  /// No description provided for @wizardIdentitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name and contact were captured at registration. Add a photo and demographic details from Profile Settings later — they\'re optional now.'**
+  String get wizardIdentitySubtitle;
+
+  /// No description provided for @wizardTeachingModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you teach?'**
+  String get wizardTeachingModeTitle;
+
+  /// No description provided for @wizardTeachingModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Online-only tutors are not pinned on the map — they still appear in search.'**
+  String get wizardTeachingModeSubtitle;
+
+  /// No description provided for @wizardServiceAreaSkipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Online-only — no service area needed'**
+  String get wizardServiceAreaSkipTitle;
+
+  /// No description provided for @wizardServiceAreaSkipSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You teach online. Skip this step.'**
+  String get wizardServiceAreaSkipSubtitle;
+
+  /// No description provided for @wizardServiceAreaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you teach?'**
+  String get wizardServiceAreaTitle;
+
+  /// No description provided for @wizardServiceAreaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to match students near you. The exact address is private.'**
+  String get wizardServiceAreaSubtitle;
+
+  /// No description provided for @cityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// No description provided for @areaChowkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area / chowk (e.g., Baneshwor)'**
+  String get areaChowkLabel;
+
+  /// No description provided for @areaChowkLabelShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Area / chowk'**
+  String get areaChowkLabelShort;
+
+  /// No description provided for @travelRadiusPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel radius: {km} km'**
+  String travelRadiusPrefix(int km);
+
+  /// No description provided for @kmSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km'**
+  String kmSuffix(int km);
+
+  /// No description provided for @wizardLevelsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which student levels can you teach?'**
+  String get wizardLevelsTitle;
+
+  /// No description provided for @wizardLevelsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick all that apply. Students filter the map by their own level.'**
+  String get wizardLevelsSubtitle;
+
+  /// No description provided for @wizardSubjectsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects offered'**
+  String get wizardSubjectsTitle;
+
+  /// No description provided for @wizardSubjectsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'For each level you teach, add the subjects and the price (per hour, day, month, or session). The lowest price across your offerings is shown as the \"from\" rate on tutor cards.'**
+  String get wizardSubjectsSubtitle;
+
+  /// No description provided for @tutorProfilePhoneBanWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not include phone numbers, WhatsApp links, or email addresses. Accounts that do will be blocked.'**
+  String get tutorProfilePhoneBanWarning;
+
+  /// No description provided for @tutorProfilePhoneBanWarningBio.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not include phone numbers, WhatsApp links, or email addresses in the bio fields. Accounts that do will be blocked.'**
+  String get tutorProfilePhoneBanWarningBio;
+
+  /// No description provided for @aboutMeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About me'**
+  String get aboutMeLabel;
+
+  /// No description provided for @aboutMeHintWizard.
+  ///
+  /// In en, this message translates to:
+  /// **'A short bio (min 100 chars for completion)'**
+  String get aboutMeHintWizard;
+
+  /// No description provided for @aboutMeHintShort.
+  ///
+  /// In en, this message translates to:
+  /// **'A short bio'**
+  String get aboutMeHintShort;
+
+  /// No description provided for @aboutSessionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About my sessions'**
+  String get aboutSessionsLabel;
+
+  /// No description provided for @aboutSessionsHintWizard.
+  ///
+  /// In en, this message translates to:
+  /// **'How you teach (min 50 chars)'**
+  String get aboutSessionsHintWizard;
+
+  /// No description provided for @aboutSessionsHintShort.
+  ///
+  /// In en, this message translates to:
+  /// **'How you teach'**
+  String get aboutSessionsHintShort;
+
+  /// No description provided for @qualificationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Qualifications'**
+  String get qualificationsLabel;
+
+  /// No description provided for @qualificationsHintWizard.
+  ///
+  /// In en, this message translates to:
+  /// **'Degrees, certifications (min 30 chars)'**
+  String get qualificationsHintWizard;
+
+  /// No description provided for @qualificationsHintShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Degrees, certifications'**
+  String get qualificationsHintShort;
+
+  /// No description provided for @wizardAvailabilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When are you available?'**
+  String get wizardAvailabilityTitle;
+
+  /// No description provided for @wizardAvailabilitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a cell to toggle. Tap a row label (e.g., \"Pre 10 am\") to toggle the whole row.'**
+  String get wizardAvailabilitySubtitle;
+
+  /// No description provided for @settingsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile settings'**
+  String get settingsAppBarTitle;
+
+  /// No description provided for @settingsTabPersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get settingsTabPersonal;
+
+  /// No description provided for @settingsTabEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get settingsTabEducation;
+
+  /// No description provided for @settingsTabSubjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects'**
+  String get settingsTabSubjects;
+
+  /// No description provided for @settingsTabAvailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get settingsTabAvailability;
+
+  /// No description provided for @settingsTabVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification'**
+  String get settingsTabVerification;
+
+  /// No description provided for @autoSavedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-saved'**
+  String get autoSavedLabel;
+
+  /// No description provided for @saveAndPublishCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & Publish'**
+  String get saveAndPublishCta;
+
+  /// No description provided for @saveChangesCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get saveChangesCta;
+
+  /// No description provided for @taglineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tagline'**
+  String get taglineLabel;
+
+  /// No description provided for @taglineSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A one-line headline shown on your card.'**
+  String get taglineSubtitle;
+
+  /// No description provided for @settingsAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get settingsAddressTitle;
+
+  /// No description provided for @settingsAddressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The full address is private. Only the area name is shown publicly.'**
+  String get settingsAddressSubtitle;
+
+  /// No description provided for @settingsLanguagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages I know'**
+  String get settingsLanguagesTitle;
+
+  /// No description provided for @settingsEducationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Degrees, schools, fields of study.'**
+  String get settingsEducationSubtitle;
+
+  /// No description provided for @settingsExperienceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get settingsExperienceTitle;
+
+  /// No description provided for @settingsExperienceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Past teaching or work roles.'**
+  String get settingsExperienceSubtitle;
+
+  /// No description provided for @settingsCertificatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificates & Awards'**
+  String get settingsCertificatesTitle;
+
+  /// No description provided for @settingsCertificatesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Boosts the verified-badge review.'**
+  String get settingsCertificatesSubtitle;
+
+  /// No description provided for @settingsSubjectsListedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'For each level, list the subjects and prices.'**
+  String get settingsSubjectsListedSubtitle;
+
+  /// No description provided for @settingsAvailabilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly availability'**
+  String get settingsAvailabilityTitle;
+
+  /// No description provided for @settingsAvailabilitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a cell to toggle. Row labels toggle the entire row.'**
+  String get settingsAvailabilitySubtitle;
+
+  /// No description provided for @verifyCitizenshipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Citizenship'**
+  String get verifyCitizenshipTitle;
+
+  /// No description provided for @verifyCitizenshipSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload front + back. Stored in a private Supabase Storage bucket; only the admin can view it.'**
+  String get verifyCitizenshipSubtitle;
+
+  /// No description provided for @verifyUploadCitizenship.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload citizenship'**
+  String get verifyUploadCitizenship;
+
+  /// No description provided for @verifySelfieTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Selfie holding citizenship'**
+  String get verifySelfieTitle;
+
+  /// No description provided for @verifySelfieSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anti-spoof check used by the admin during verification.'**
+  String get verifySelfieSubtitle;
+
+  /// No description provided for @verifyUploadSelfie.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload selfie'**
+  String get verifyUploadSelfie;
+
+  /// No description provided for @verifyStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get verifyStatusTitle;
+
+  /// No description provided for @verifyStatusNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not started — submit your documents to begin review.'**
+  String get verifyStatusNotStarted;
+
+  /// No description provided for @verifyUploadNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind} upload UI wires to Supabase Storage when buckets are configured.'**
+  String verifyUploadNotReady(String kind);
 }
 
 class _AppLocalizationsDelegate
