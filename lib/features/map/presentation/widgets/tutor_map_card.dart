@@ -28,7 +28,25 @@ class TutorMapCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
-    return InkWell(
+    final l10n = AppLocalizations.of(context);
+    final ratingSuffix = tutor.ratingCount == 0
+        ? ''
+        : l10n.tutorCardRatingSuffix(
+            tutor.rating.toStringAsFixed(1),
+            tutor.ratingCount,
+          );
+    final verifiedSuffix = tutor.verified ? l10n.mapPinVerifiedSuffix : '';
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: l10n.tutorCardSemantics(
+        tutor.maskedName,
+        tutor.areaLabel,
+        tutor.formatDistance(),
+        verifiedSuffix,
+        ratingSuffix,
+      ),
+      child: InkWell(
       onTap: onTap,
       borderRadius: AppRadii.cardBorder,
       child: Container(
@@ -144,6 +162,7 @@ class TutorMapCard extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

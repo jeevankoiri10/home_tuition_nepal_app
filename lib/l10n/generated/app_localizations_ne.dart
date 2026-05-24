@@ -1458,4 +1458,38 @@ class AppLocalizationsNe extends AppLocalizations {
     );
     return 'हालको रकम, $_temp0';
   }
+
+  @override
+  String tutorCardSemantics(
+    String name,
+    String area,
+    String distance,
+    String verified,
+    String rating,
+  ) {
+    return '$name, $area, $distance$verified$rating';
+  }
+
+  @override
+  String tutorCardRatingSuffix(String average, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count समीक्षाबाट',
+      one: '$count समीक्षाबाट',
+    );
+    return ', $_temp0 ५ मा $average';
+  }
+
+  @override
+  String notificationBellSemantics(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'सूचना, $count नपढिएको',
+      one: 'सूचना, $count नपढिएको',
+      zero: 'सूचना, कुनै नपढिएको छैन',
+    );
+    return '$_temp0';
+  }
 }

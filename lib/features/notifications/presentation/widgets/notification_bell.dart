@@ -14,14 +14,23 @@ class NotificationBell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<NotificationsBloc, NotificationsState>(
       builder: (context, state) {
         final unread = state.unreadCount;
-        return Stack(
+        return Semantics(
+          // Bell + badge compose visually; collapse them into one node so
+          // screen readers don't read "Notifications" + "5" as two
+          // separate items.
+          excludeSemantics: true,
+          button: true,
+          label: l10n.notificationBellSemantics(unread),
+          onTap: () => context.push(AppRoutes.notifications),
+          child: Stack(
           alignment: Alignment.center,
           children: [
             IconButton(
-              tooltip: AppLocalizations.of(context).notificationsTitle,
+              tooltip: l10n.notificationsTitle,
               icon: Icon(Icons.notifications_outlined, color: iconColor),
               onPressed: () => context.push(AppRoutes.notifications),
             ),
@@ -48,6 +57,7 @@ class NotificationBell extends StatelessWidget {
                 ),
               ),
           ],
+        ),
         );
       },
     );

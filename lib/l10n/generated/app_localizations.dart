@@ -2647,6 +2647,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current balance, {count, plural, one{{count} coin} other{{count} coins}}'**
   String balanceCardSemantics(int count);
+
+  /// No description provided for @tutorCardSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}, {area}, {distance}{verified}{rating}'**
+  String tutorCardSemantics(
+    String name,
+    String area,
+    String distance,
+    String verified,
+    String rating,
+  );
+
+  /// No description provided for @tutorCardRatingSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **', rated {average} out of 5 from {count, plural, one{{count} review} other{{count} reviews}}'**
+  String tutorCardRatingSuffix(String average, int count);
+
+  /// No description provided for @notificationBellSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Notifications, no unread} one{Notifications, {count} unread} other{Notifications, {count} unread}}'**
+  String notificationBellSemantics(int count);
 }
 
 class _AppLocalizationsDelegate
