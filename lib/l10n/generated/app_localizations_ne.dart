@@ -1036,4 +1036,129 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get payProviderHint =>
       'भुक्तानी पूरा गर्न तपाईं प्रदायककहाँ जानुहुनेछ। पुष्टि भएपछि सिक्का तुरुन्तै थपिन्छन्।';
+
+  @override
+  String get draftBannerPublished =>
+      'तपाईंको प्रोफाइल लाइभ छ। सम्पादनहरू स्वतः सेभ भएर पुनः प्रकाशित हुन्छन्।';
+
+  @override
+  String get draftBannerDraft =>
+      'तपाईंको प्रोफाइल ड्राफ्टमा छ। सबै चरण पूरा गरेर प्रकाशित गर्नुहोस्।';
+
+  @override
+  String get subjectsEmpty =>
+      'अहिलेसम्म कुनै विषय थपिएको छैन। सुरु गर्न ‘विषय थप’ थिच्नुहोस्।';
+
+  @override
+  String get addSubject => 'विषय थप्नुहोस्';
+
+  @override
+  String get subjectsRequireLevel => 'विषय थप्न माथि कम्तीमा एक तह छान्नुहोस्।';
+
+  @override
+  String get subjectHint => 'विषय';
+
+  @override
+  String get priceHint => 'मूल्य';
+
+  @override
+  String get educationEmpty =>
+      'तपाईंका डिग्री, विद्यालय, अध्ययन क्षेत्र थप्नुहोस्।';
+
+  @override
+  String get addEducation => 'शिक्षा थप्नुहोस्';
+
+  @override
+  String get experienceEmpty => 'शिक्षण वा कार्य अनुभव थप्नुहोस्।';
+
+  @override
+  String get addExperience => 'अनुभव थप्नुहोस्';
+
+  @override
+  String get certificatesEmpty => 'प्रमाणपत्र र पुरस्कार थप्नुहोस्।';
+
+  @override
+  String get addCertificate => 'प्रमाणपत्र थप्नुहोस्';
+
+  @override
+  String get degreeLabel => 'डिग्री';
+
+  @override
+  String get institutionLabel => 'संस्था';
+
+  @override
+  String get fieldOfStudyLabel => 'अध्ययन क्षेत्र';
+
+  @override
+  String get startYearLabel => 'सुरु वर्ष';
+
+  @override
+  String get endYearLabel => 'अन्तिम वर्ष';
+
+  @override
+  String get roleTitleLabel => 'भूमिका शीर्षक';
+
+  @override
+  String get organizationLabel => 'संगठन';
+
+  @override
+  String get certificateTitleLabel => 'शीर्षक';
+
+  @override
+  String get issuerLabel => 'जारी गर्ने';
+
+  @override
+  String get yearAwardedLabel => 'प्रदान वर्ष';
+
+  @override
+  String get attachCertificateLabel => 'प्रमाणपत्र संलग्न (PDF / तस्बिर)';
+
+  @override
+  String get attachCertificateNotReady =>
+      'Supabase Storage सेटअप भएपछि फाइल अपलोड आउँछ।';
+
+  @override
+  String get removeAction => 'हटाउनुहोस्';
+
+  @override
+  String get timeBandPre10am => '१० बजे अघि';
+
+  @override
+  String get timeBandMidday => '१०–५ बजे';
+
+  @override
+  String get timeBandAfter5pm => '५ बजे पछि';
+
+  @override
+  String get weekdaySun => 'आइत';
+
+  @override
+  String get weekdayMon => 'सोम';
+
+  @override
+  String get weekdayTue => 'मंगल';
+
+  @override
+  String get weekdayWed => 'बुध';
+
+  @override
+  String get weekdayThu => 'बिहि';
+
+  @override
+  String get weekdayFri => 'शुक्र';
+
+  @override
+  String get weekdaySat => 'शनि';
+
+  @override
+  String get pricePeriodHour => '/घण्टा';
+
+  @override
+  String get pricePeriodDay => '/दिन';
+
+  @override
+  String get pricePeriodMonth => '/महिना';
+
+  @override
+  String get pricePeriodSession => '/सेसन';
 }

@@ -32,3 +32,52 @@ extension StudentLevelLabel on StudentLevel {
     }
   }
 }
+
+extension TimeBandLabel on TimeBand {
+  String localized(AppLocalizations l10n) {
+    switch (this) {
+      case TimeBand.pre10am:
+        return l10n.timeBandPre10am;
+      case TimeBand.midday:
+        return l10n.timeBandMidday;
+      case TimeBand.after5pm:
+        return l10n.timeBandAfter5pm;
+    }
+  }
+}
+
+extension WeekdayLabel on Weekday {
+  String localizedShort(AppLocalizations l10n) {
+    switch (this) {
+      case Weekday.sun:
+        return l10n.weekdaySun;
+      case Weekday.mon:
+        return l10n.weekdayMon;
+      case Weekday.tue:
+        return l10n.weekdayTue;
+      case Weekday.wed:
+        return l10n.weekdayWed;
+      case Weekday.thu:
+        return l10n.weekdayThu;
+      case Weekday.fri:
+        return l10n.weekdayFri;
+      case Weekday.sat:
+        return l10n.weekdaySat;
+    }
+  }
+}
+
+extension PricePeriodLabel on PricePeriod {
+  String localizedSuffix(AppLocalizations l10n) {
+    switch (this) {
+      case PricePeriod.hour:
+        return l10n.pricePeriodHour;
+      case PricePeriod.day:
+        return l10n.pricePeriodDay;
+      case PricePeriod.month:
+        return l10n.pricePeriodMonth;
+      case PricePeriod.session:
+        return l10n.pricePeriodSession;
+    }
+  }
+}

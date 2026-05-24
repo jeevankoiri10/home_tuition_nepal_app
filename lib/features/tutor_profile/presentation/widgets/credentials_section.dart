@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/tutor_credentials.dart';
 
 class EducationEditor extends StatelessWidget {
@@ -12,10 +13,11 @@ class EducationEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _CredentialList<TutorEducation>(
       items: items,
-      emptyMessage: 'Add your degrees, schools, fields of study.',
-      addLabel: 'Add education',
+      emptyMessage: l10n.educationEmpty,
+      addLabel: l10n.addEducation,
       onChanged: onChanged,
       buildAdd: (i) => TutorEducation(sortOrder: i),
       rowBuilder: (e, onEdit, onRemove) => _EducationRow(item: e, onChanged: onEdit, onRemove: onRemove),
@@ -31,10 +33,11 @@ class ExperienceEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _CredentialList<TutorExperience>(
       items: items,
-      emptyMessage: 'Add teaching or work experience.',
-      addLabel: 'Add experience',
+      emptyMessage: l10n.experienceEmpty,
+      addLabel: l10n.addExperience,
       onChanged: onChanged,
       buildAdd: (i) => TutorExperience(sortOrder: i),
       rowBuilder: (e, onEdit, onRemove) =>
@@ -51,10 +54,11 @@ class CertificatesEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _CredentialList<TutorCertificate>(
       items: items,
-      emptyMessage: 'Add certificates and awards.',
-      addLabel: 'Add certificate',
+      emptyMessage: l10n.certificatesEmpty,
+      addLabel: l10n.addCertificate,
       onChanged: onChanged,
       buildAdd: (i) => TutorCertificate(sortOrder: i),
       rowBuilder: (e, onEdit, onRemove) =>
@@ -156,16 +160,17 @@ class _EducationRowState extends State<_EducationRow> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _RowShell(
       onRemove: widget.onRemove,
       children: [
-        TextField(controller: _degree, decoration: const InputDecoration(labelText: 'Degree'), onChanged: (_) => _emit()),
-        TextField(controller: _institution, decoration: const InputDecoration(labelText: 'Institution'), onChanged: (_) => _emit()),
-        TextField(controller: _field, decoration: const InputDecoration(labelText: 'Field of study'), onChanged: (_) => _emit()),
+        TextField(controller: _degree, decoration: InputDecoration(labelText: l10n.degreeLabel), onChanged: (_) => _emit()),
+        TextField(controller: _institution, decoration: InputDecoration(labelText: l10n.institutionLabel), onChanged: (_) => _emit()),
+        TextField(controller: _field, decoration: InputDecoration(labelText: l10n.fieldOfStudyLabel), onChanged: (_) => _emit()),
         Row(children: [
-          Expanded(child: TextField(controller: _start, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Start year'), onChanged: (_) => _emit())),
+          Expanded(child: TextField(controller: _start, keyboardType: TextInputType.number, decoration: InputDecoration(labelText: l10n.startYearLabel), onChanged: (_) => _emit())),
           const SizedBox(width: AppSpacing.sm),
-          Expanded(child: TextField(controller: _end, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'End year'), onChanged: (_) => _emit())),
+          Expanded(child: TextField(controller: _end, keyboardType: TextInputType.number, decoration: InputDecoration(labelText: l10n.endYearLabel), onChanged: (_) => _emit())),
         ]),
       ],
     );
@@ -208,15 +213,16 @@ class _ExperienceRowState extends State<_ExperienceRow> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _RowShell(
       onRemove: widget.onRemove,
       children: [
-        TextField(controller: _role, decoration: const InputDecoration(labelText: 'Role title'), onChanged: (_) => _emit()),
-        TextField(controller: _org, decoration: const InputDecoration(labelText: 'Organization'), onChanged: (_) => _emit()),
+        TextField(controller: _role, decoration: InputDecoration(labelText: l10n.roleTitleLabel), onChanged: (_) => _emit()),
+        TextField(controller: _org, decoration: InputDecoration(labelText: l10n.organizationLabel), onChanged: (_) => _emit()),
         Row(children: [
-          Expanded(child: TextField(controller: _start, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Start year'), onChanged: (_) => _emit())),
+          Expanded(child: TextField(controller: _start, keyboardType: TextInputType.number, decoration: InputDecoration(labelText: l10n.startYearLabel), onChanged: (_) => _emit())),
           const SizedBox(width: AppSpacing.sm),
-          Expanded(child: TextField(controller: _end, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'End year'), onChanged: (_) => _emit())),
+          Expanded(child: TextField(controller: _end, keyboardType: TextInputType.number, decoration: InputDecoration(labelText: l10n.endYearLabel), onChanged: (_) => _emit())),
         ]),
       ],
     );
@@ -256,19 +262,20 @@ class _CertificateRowState extends State<_CertificateRow> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _RowShell(
       onRemove: widget.onRemove,
       children: [
-        TextField(controller: _title, decoration: const InputDecoration(labelText: 'Title'), onChanged: (_) => _emit()),
-        TextField(controller: _issuer, decoration: const InputDecoration(labelText: 'Issuer'), onChanged: (_) => _emit()),
-        TextField(controller: _year, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Year awarded'), onChanged: (_) => _emit()),
+        TextField(controller: _title, decoration: InputDecoration(labelText: l10n.certificateTitleLabel), onChanged: (_) => _emit()),
+        TextField(controller: _issuer, decoration: InputDecoration(labelText: l10n.issuerLabel), onChanged: (_) => _emit()),
+        TextField(controller: _year, keyboardType: TextInputType.number, decoration: InputDecoration(labelText: l10n.yearAwardedLabel), onChanged: (_) => _emit()),
         // File upload — wired in Phase 3 to a private Supabase Storage bucket; UI stub for now.
         OutlinedButton.icon(
           icon: const Icon(Icons.attach_file),
-          label: const Text('Attach certificate (PDF / image)'),
+          label: Text(l10n.attachCertificateLabel),
           onPressed: () {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('File upload UI ships when Supabase Storage is configured.')),
+              SnackBar(content: Text(l10n.attachCertificateNotReady)),
             );
           },
         ),
@@ -303,7 +310,7 @@ class _RowShell extends StatelessWidget {
             child: TextButton.icon(
               onPressed: onRemove,
               icon: const Icon(Icons.delete_outline),
-              label: const Text('Remove'),
+              label: Text(AppLocalizations.of(context).removeAction),
             ),
           ),
         ],

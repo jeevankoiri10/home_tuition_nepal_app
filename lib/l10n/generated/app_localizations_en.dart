@@ -1038,4 +1038,129 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get payProviderHint =>
       'You\'ll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.';
+
+  @override
+  String get draftBannerPublished =>
+      'Your profile is live. Edits auto-save and re-publish.';
+
+  @override
+  String get draftBannerDraft =>
+      'Your profile is in draft mode. Complete all steps to publish and go live.';
+
+  @override
+  String get subjectsEmpty =>
+      'No subjects added yet. Tap \"Add subject\" to start.';
+
+  @override
+  String get addSubject => 'Add subject';
+
+  @override
+  String get subjectsRequireLevel =>
+      'Pick at least one student level above to add subjects.';
+
+  @override
+  String get subjectHint => 'Subject';
+
+  @override
+  String get priceHint => 'Price';
+
+  @override
+  String get educationEmpty => 'Add your degrees, schools, fields of study.';
+
+  @override
+  String get addEducation => 'Add education';
+
+  @override
+  String get experienceEmpty => 'Add teaching or work experience.';
+
+  @override
+  String get addExperience => 'Add experience';
+
+  @override
+  String get certificatesEmpty => 'Add certificates and awards.';
+
+  @override
+  String get addCertificate => 'Add certificate';
+
+  @override
+  String get degreeLabel => 'Degree';
+
+  @override
+  String get institutionLabel => 'Institution';
+
+  @override
+  String get fieldOfStudyLabel => 'Field of study';
+
+  @override
+  String get startYearLabel => 'Start year';
+
+  @override
+  String get endYearLabel => 'End year';
+
+  @override
+  String get roleTitleLabel => 'Role title';
+
+  @override
+  String get organizationLabel => 'Organization';
+
+  @override
+  String get certificateTitleLabel => 'Title';
+
+  @override
+  String get issuerLabel => 'Issuer';
+
+  @override
+  String get yearAwardedLabel => 'Year awarded';
+
+  @override
+  String get attachCertificateLabel => 'Attach certificate (PDF / image)';
+
+  @override
+  String get attachCertificateNotReady =>
+      'File upload UI ships when Supabase Storage is configured.';
+
+  @override
+  String get removeAction => 'Remove';
+
+  @override
+  String get timeBandPre10am => 'Pre 10 am';
+
+  @override
+  String get timeBandMidday => '10 am – 5 pm';
+
+  @override
+  String get timeBandAfter5pm => 'After 5 pm';
+
+  @override
+  String get weekdaySun => 'Sun';
+
+  @override
+  String get weekdayMon => 'Mon';
+
+  @override
+  String get weekdayTue => 'Tue';
+
+  @override
+  String get weekdayWed => 'Wed';
+
+  @override
+  String get weekdayThu => 'Thu';
+
+  @override
+  String get weekdayFri => 'Fri';
+
+  @override
+  String get weekdaySat => 'Sat';
+
+  @override
+  String get pricePeriodHour => '/hour';
+
+  @override
+  String get pricePeriodDay => '/day';
+
+  @override
+  String get pricePeriodMonth => '/month';
+
+  @override
+  String get pricePeriodSession => '/session';
 }

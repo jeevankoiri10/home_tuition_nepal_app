@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/profile_enums.dart';
+import '../enum_labels.dart';
 
 class TeachingModeSelector extends StatelessWidget {
   const TeachingModeSelector({
@@ -73,7 +75,9 @@ class _ModeCard extends StatelessWidget {
           children: [
             Icon(_icon, color: selected ? AppColors.primary : AppColors.textSecondary, size: 28),
             const SizedBox(height: AppSpacing.xs),
-            Text(mode.label, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyMedium),
+            Text(mode.localized(AppLocalizations.of(context)),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
       ),

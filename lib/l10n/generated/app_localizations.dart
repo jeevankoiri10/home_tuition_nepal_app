@@ -1915,6 +1915,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'ll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.'**
   String get payProviderHint;
+
+  /// No description provided for @draftBannerPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile is live. Edits auto-save and re-publish.'**
+  String get draftBannerPublished;
+
+  /// No description provided for @draftBannerDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile is in draft mode. Complete all steps to publish and go live.'**
+  String get draftBannerDraft;
+
+  /// No description provided for @subjectsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No subjects added yet. Tap \"Add subject\" to start.'**
+  String get subjectsEmpty;
+
+  /// No description provided for @addSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Add subject'**
+  String get addSubject;
+
+  /// No description provided for @subjectsRequireLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one student level above to add subjects.'**
+  String get subjectsRequireLevel;
+
+  /// No description provided for @subjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get subjectHint;
+
+  /// No description provided for @priceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get priceHint;
+
+  /// No description provided for @educationEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your degrees, schools, fields of study.'**
+  String get educationEmpty;
+
+  /// No description provided for @addEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add education'**
+  String get addEducation;
+
+  /// No description provided for @experienceEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add teaching or work experience.'**
+  String get experienceEmpty;
+
+  /// No description provided for @addExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Add experience'**
+  String get addExperience;
+
+  /// No description provided for @certificatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add certificates and awards.'**
+  String get certificatesEmpty;
+
+  /// No description provided for @addCertificate.
+  ///
+  /// In en, this message translates to:
+  /// **'Add certificate'**
+  String get addCertificate;
+
+  /// No description provided for @degreeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Degree'**
+  String get degreeLabel;
+
+  /// No description provided for @institutionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Institution'**
+  String get institutionLabel;
+
+  /// No description provided for @fieldOfStudyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Field of study'**
+  String get fieldOfStudyLabel;
+
+  /// No description provided for @startYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Start year'**
+  String get startYearLabel;
+
+  /// No description provided for @endYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'End year'**
+  String get endYearLabel;
+
+  /// No description provided for @roleTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role title'**
+  String get roleTitleLabel;
+
+  /// No description provided for @organizationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization'**
+  String get organizationLabel;
+
+  /// No description provided for @certificateTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get certificateTitleLabel;
+
+  /// No description provided for @issuerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Issuer'**
+  String get issuerLabel;
+
+  /// No description provided for @yearAwardedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Year awarded'**
+  String get yearAwardedLabel;
+
+  /// No description provided for @attachCertificateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach certificate (PDF / image)'**
+  String get attachCertificateLabel;
+
+  /// No description provided for @attachCertificateNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'File upload UI ships when Supabase Storage is configured.'**
+  String get attachCertificateNotReady;
+
+  /// No description provided for @removeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeAction;
+
+  /// No description provided for @timeBandPre10am.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre 10 am'**
+  String get timeBandPre10am;
+
+  /// No description provided for @timeBandMidday.
+  ///
+  /// In en, this message translates to:
+  /// **'10 am – 5 pm'**
+  String get timeBandMidday;
+
+  /// No description provided for @timeBandAfter5pm.
+  ///
+  /// In en, this message translates to:
+  /// **'After 5 pm'**
+  String get timeBandAfter5pm;
+
+  /// No description provided for @weekdaySun.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get weekdaySun;
+
+  /// No description provided for @weekdayMon.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get weekdayMon;
+
+  /// No description provided for @weekdayTue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tue'**
+  String get weekdayTue;
+
+  /// No description provided for @weekdayWed.
+  ///
+  /// In en, this message translates to:
+  /// **'Wed'**
+  String get weekdayWed;
+
+  /// No description provided for @weekdayThu.
+  ///
+  /// In en, this message translates to:
+  /// **'Thu'**
+  String get weekdayThu;
+
+  /// No description provided for @weekdayFri.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get weekdayFri;
+
+  /// No description provided for @weekdaySat.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get weekdaySat;
+
+  /// No description provided for @pricePeriodHour.
+  ///
+  /// In en, this message translates to:
+  /// **'/hour'**
+  String get pricePeriodHour;
+
+  /// No description provided for @pricePeriodDay.
+  ///
+  /// In en, this message translates to:
+  /// **'/day'**
+  String get pricePeriodDay;
+
+  /// No description provided for @pricePeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'/month'**
+  String get pricePeriodMonth;
+
+  /// No description provided for @pricePeriodSession.
+  ///
+  /// In en, this message translates to:
+  /// **'/session'**
+  String get pricePeriodSession;
 }
 
 class _AppLocalizationsDelegate

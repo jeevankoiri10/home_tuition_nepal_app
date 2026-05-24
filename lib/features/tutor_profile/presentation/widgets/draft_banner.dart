@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 /// "Your profile is in draft mode. Complete all steps to publish and go live.
 /// 80% profile completed" — see tutor_UI.md §4.7a.
@@ -17,13 +18,12 @@ class DraftBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final published = isPublished;
     final color = published ? const Color(0xFF2E7D32) : const Color(0xFFED6C02);
     final bg = published ? const Color(0xFFE8F5E9) : const Color(0xFFFFF4E5);
     final icon = published ? Icons.check_circle_outline : Icons.warning_amber_outlined;
-    final message = published
-        ? 'Your profile is live. Edits auto-save and re-publish.'
-        : 'Your profile is in draft mode. Complete all steps to publish and go live.';
+    final message = published ? l10n.draftBannerPublished : l10n.draftBannerDraft;
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),

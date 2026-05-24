@@ -1049,5 +1049,125 @@
   "@payWithTitle": {},
 
   "payProviderHint": "You'll be taken to the provider to complete the payment. Coins are credited the moment we receive the confirmation.",
-  "@payProviderHint": {}
+  "@payProviderHint": {},
+
+  "draftBannerPublished": "Your profile is live. Edits auto-save and re-publish.",
+  "@draftBannerPublished": {},
+
+  "draftBannerDraft": "Your profile is in draft mode. Complete all steps to publish and go live.",
+  "@draftBannerDraft": {},
+
+  "subjectsEmpty": "No subjects added yet. Tap \"Add subject\" to start.",
+  "@subjectsEmpty": {},
+
+  "addSubject": "Add subject",
+  "@addSubject": {},
+
+  "subjectsRequireLevel": "Pick at least one student level above to add subjects.",
+  "@subjectsRequireLevel": {},
+
+  "subjectHint": "Subject",
+  "@subjectHint": {},
+
+  "priceHint": "Price",
+  "@priceHint": {},
+
+  "educationEmpty": "Add your degrees, schools, fields of study.",
+  "@educationEmpty": {},
+
+  "addEducation": "Add education",
+  "@addEducation": {},
+
+  "experienceEmpty": "Add teaching or work experience.",
+  "@experienceEmpty": {},
+
+  "addExperience": "Add experience",
+  "@addExperience": {},
+
+  "certificatesEmpty": "Add certificates and awards.",
+  "@certificatesEmpty": {},
+
+  "addCertificate": "Add certificate",
+  "@addCertificate": {},
+
+  "degreeLabel": "Degree",
+  "@degreeLabel": {},
+
+  "institutionLabel": "Institution",
+  "@institutionLabel": {},
+
+  "fieldOfStudyLabel": "Field of study",
+  "@fieldOfStudyLabel": {},
+
+  "startYearLabel": "Start year",
+  "@startYearLabel": {},
+
+  "endYearLabel": "End year",
+  "@endYearLabel": {},
+
+  "roleTitleLabel": "Role title",
+  "@roleTitleLabel": {},
+
+  "organizationLabel": "Organization",
+  "@organizationLabel": {},
+
+  "certificateTitleLabel": "Title",
+  "@certificateTitleLabel": {},
+
+  "issuerLabel": "Issuer",
+  "@issuerLabel": {},
+
+  "yearAwardedLabel": "Year awarded",
+  "@yearAwardedLabel": {},
+
+  "attachCertificateLabel": "Attach certificate (PDF / image)",
+  "@attachCertificateLabel": {},
+
+  "attachCertificateNotReady": "File upload UI ships when Supabase Storage is configured.",
+  "@attachCertificateNotReady": {},
+
+  "removeAction": "Remove",
+  "@removeAction": {},
+
+  "timeBandPre10am": "Pre 10 am",
+  "@timeBandPre10am": {},
+
+  "timeBandMidday": "10 am – 5 pm",
+  "@timeBandMidday": {},
+
+  "timeBandAfter5pm": "After 5 pm",
+  "@timeBandAfter5pm": {},
+
+  "weekdaySun": "Sun",
+  "@weekdaySun": {},
+
+  "weekdayMon": "Mon",
+  "@weekdayMon": {},
+
+  "weekdayTue": "Tue",
+  "@weekdayTue": {},
+
+  "weekdayWed": "Wed",
+  "@weekdayWed": {},
+
+  "weekdayThu": "Thu",
+  "@weekdayThu": {},
+
+  "weekdayFri": "Fri",
+  "@weekdayFri": {},
+
+  "weekdaySat": "Sat",
+  "@weekdaySat": {},
+
+  "pricePeriodHour": "/hour",
+  "@pricePeriodHour": {},
+
+  "pricePeriodDay": "/day",
+  "@pricePeriodDay": {},
+
+  "pricePeriodMonth": "/month",
+  "@pricePeriodMonth": {},
+
+  "pricePeriodSession": "/session",
+  "@pricePeriodSession": {}
 }
