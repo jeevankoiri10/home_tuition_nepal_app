@@ -703,4 +703,143 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get genderPrefFemale => 'महिला';
+
+  @override
+  String get myPostsTitle => 'मेरा पोस्ट';
+
+  @override
+  String myPostsTabJobs(int count) {
+    return 'जागिर ($count)';
+  }
+
+  @override
+  String myPostsTabVacancies(int count) {
+    return 'खालीस्थान ($count)';
+  }
+
+  @override
+  String get postRequirementCta => 'आवश्यकता पोस्ट';
+
+  @override
+  String get requestTutorCta => 'शिक्षक अनुरोध';
+
+  @override
+  String get myJobsEmpty =>
+      'अहिलेसम्म कुनै जागिर पोस्ट गरिएको छैन। नयाँ पोस्ट गर्न ‘आवश्यकता पोस्ट’ थिच्नुहोस्।';
+
+  @override
+  String get myVacanciesEmpty =>
+      'अहिलेसम्म कुनै शिक्षक अनुरोध छैन। एडमिनलाई पठाउन ‘शिक्षक अनुरोध’ थिच्नुहोस्।';
+
+  @override
+  String get viewMessages => 'सन्देश हेर्नुहोस्';
+
+  @override
+  String get closeAction => 'बन्द गर्नुहोस्';
+
+  @override
+  String get repostAction => 'पुनः पोस्ट';
+
+  @override
+  String get chatPhase9Hint => 'इन-एप च्याट फेज ९ मा आउँछ।';
+
+  @override
+  String get vacancyPendingReview => 'समीक्षा बाँकी';
+
+  @override
+  String get postDetailTitle => 'पोस्ट विवरण';
+
+  @override
+  String get postNotFound => 'पोस्ट भेटिएन।';
+
+  @override
+  String get postClosedBanner => 'यो आवश्यकता बन्द भयो।';
+
+  @override
+  String postPostedPrefix(String date) {
+    return 'पोस्ट: $date';
+  }
+
+  @override
+  String postRequiresPrefix(String label) {
+    return 'आवश्यक: $label';
+  }
+
+  @override
+  String postPostedByPrefix(String name) {
+    return 'पोस्ट गर्ने: $name';
+  }
+
+  @override
+  String get postWhatsAppVerified =>
+      'WhatsApp प्रमाणित ✓ (म्याच नभएसम्म नम्बर लुकाइएको)';
+
+  @override
+  String get postYouFallback => 'तपाईं';
+
+  @override
+  String get postModeOnlineYes => 'अनलाइन उपलब्ध';
+
+  @override
+  String get postModeEither => 'अनलाइन वा आफैं भेटेर';
+
+  @override
+  String get postModeOnlineNo => 'अनलाइन उपलब्ध छैन';
+
+  @override
+  String get postModeHomeYes => 'घर-शिक्षणका लागि उपलब्ध';
+
+  @override
+  String get postModeHomeNo => 'अनलाइन मात्र — घर-शिक्षण छैन';
+
+  @override
+  String get postCanTravel => 'यात्रा गर्न सक्छन्';
+
+  @override
+  String get postCannotTravel => 'यात्रा गर्न सक्दैनन्';
+
+  @override
+  String get postDescriptionHeader => 'विवरण';
+
+  @override
+  String get postNoDescription => 'विवरण छैन।';
+
+  @override
+  String get jobStatusOpen => 'खुला';
+
+  @override
+  String get jobStatusShortlisting => 'छनोट';
+
+  @override
+  String get jobStatusHired => 'नियुक्त';
+
+  @override
+  String get jobStatusClosed => 'बन्द';
+
+  @override
+  String get jobStatusExpired => 'समय सकियो';
+
+  @override
+  String get vacancyStatusPendingReview => 'एडमिन समीक्षा बाँकी';
+
+  @override
+  String get vacancyStatusOpen => 'खुला';
+
+  @override
+  String get vacancyStatusApplicationsClosed => 'आवेदन बन्द';
+
+  @override
+  String get vacancyStatusFilled => 'भरियो';
+
+  @override
+  String get vacancyStatusCancelled => 'रद्द';
+
+  @override
+  String get engagementFullTime => 'पूर्णकालीन';
+
+  @override
+  String get engagementPartTime => 'अंशकालीन';
+
+  @override
+  String get engagementOneOff => 'एकपटक';
 }

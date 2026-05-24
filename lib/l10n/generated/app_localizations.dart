@@ -1309,6 +1309,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Female'**
   String get genderPrefFemale;
+
+  /// No description provided for @myPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Posts'**
+  String get myPostsTitle;
+
+  /// No description provided for @myPostsTabJobs.
+  ///
+  /// In en, this message translates to:
+  /// **'Jobs ({count})'**
+  String myPostsTabJobs(int count);
+
+  /// No description provided for @myPostsTabVacancies.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancies ({count})'**
+  String myPostsTabVacancies(int count);
+
+  /// No description provided for @postRequirementCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Requirement'**
+  String get postRequirementCta;
+
+  /// No description provided for @requestTutorCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a Tutor'**
+  String get requestTutorCta;
+
+  /// No description provided for @myJobsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No jobs posted yet. Tap \"Post Requirement\" to create one.'**
+  String get myJobsEmpty;
+
+  /// No description provided for @myVacanciesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tutor requests yet. Tap \"Request a Tutor\" to send one to the admin.'**
+  String get myVacanciesEmpty;
+
+  /// No description provided for @viewMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'View Messages'**
+  String get viewMessages;
+
+  /// No description provided for @closeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get closeAction;
+
+  /// No description provided for @repostAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Repost'**
+  String get repostAction;
+
+  /// No description provided for @chatPhase9Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app chat ships in Phase 9.'**
+  String get chatPhase9Hint;
+
+  /// No description provided for @vacancyPendingReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending review'**
+  String get vacancyPendingReview;
+
+  /// No description provided for @postDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Detail'**
+  String get postDetailTitle;
+
+  /// No description provided for @postNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Post not found.'**
+  String get postNotFound;
+
+  /// No description provided for @postClosedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This requirement is closed.'**
+  String get postClosedBanner;
+
+  /// No description provided for @postPostedPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted: {date}'**
+  String postPostedPrefix(String date);
+
+  /// No description provided for @postRequiresPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires: {label}'**
+  String postRequiresPrefix(String label);
+
+  /// No description provided for @postPostedByPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted by: {name}'**
+  String postPostedByPrefix(String name);
+
+  /// No description provided for @postWhatsAppVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp verified ✓ (number hidden until match)'**
+  String get postWhatsAppVerified;
+
+  /// No description provided for @postYouFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get postYouFallback;
+
+  /// No description provided for @postModeOnlineYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Available online'**
+  String get postModeOnlineYes;
+
+  /// No description provided for @postModeEither.
+  ///
+  /// In en, this message translates to:
+  /// **'Online or in-person'**
+  String get postModeEither;
+
+  /// No description provided for @postModeOnlineNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available online'**
+  String get postModeOnlineNo;
+
+  /// No description provided for @postModeHomeYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Available for home tutoring'**
+  String get postModeHomeYes;
+
+  /// No description provided for @postModeHomeNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Online only — no home tutoring'**
+  String get postModeHomeNo;
+
+  /// No description provided for @postCanTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Can travel'**
+  String get postCanTravel;
+
+  /// No description provided for @postCannotTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot travel'**
+  String get postCannotTravel;
+
+  /// No description provided for @postDescriptionHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get postDescriptionHeader;
+
+  /// No description provided for @postNoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No description.'**
+  String get postNoDescription;
+
+  /// No description provided for @jobStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get jobStatusOpen;
+
+  /// No description provided for @jobStatusShortlisting.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortlisting'**
+  String get jobStatusShortlisting;
+
+  /// No description provided for @jobStatusHired.
+  ///
+  /// In en, this message translates to:
+  /// **'Hired'**
+  String get jobStatusHired;
+
+  /// No description provided for @jobStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get jobStatusClosed;
+
+  /// No description provided for @jobStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get jobStatusExpired;
+
+  /// No description provided for @vacancyStatusPendingReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending admin review'**
+  String get vacancyStatusPendingReview;
+
+  /// No description provided for @vacancyStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get vacancyStatusOpen;
+
+  /// No description provided for @vacancyStatusApplicationsClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications closed'**
+  String get vacancyStatusApplicationsClosed;
+
+  /// No description provided for @vacancyStatusFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Filled'**
+  String get vacancyStatusFilled;
+
+  /// No description provided for @vacancyStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get vacancyStatusCancelled;
+
+  /// No description provided for @engagementFullTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Full time'**
+  String get engagementFullTime;
+
+  /// No description provided for @engagementPartTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Part time'**
+  String get engagementPartTime;
+
+  /// No description provided for @engagementOneOff.
+  ///
+  /// In en, this message translates to:
+  /// **'One-off'**
+  String get engagementOneOff;
 }
 
 class _AppLocalizationsDelegate

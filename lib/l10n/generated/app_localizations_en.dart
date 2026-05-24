@@ -704,4 +704,143 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get genderPrefFemale => 'Female';
+
+  @override
+  String get myPostsTitle => 'My Posts';
+
+  @override
+  String myPostsTabJobs(int count) {
+    return 'Jobs ($count)';
+  }
+
+  @override
+  String myPostsTabVacancies(int count) {
+    return 'Vacancies ($count)';
+  }
+
+  @override
+  String get postRequirementCta => 'Post Requirement';
+
+  @override
+  String get requestTutorCta => 'Request a Tutor';
+
+  @override
+  String get myJobsEmpty =>
+      'No jobs posted yet. Tap \"Post Requirement\" to create one.';
+
+  @override
+  String get myVacanciesEmpty =>
+      'No tutor requests yet. Tap \"Request a Tutor\" to send one to the admin.';
+
+  @override
+  String get viewMessages => 'View Messages';
+
+  @override
+  String get closeAction => 'Close';
+
+  @override
+  String get repostAction => 'Repost';
+
+  @override
+  String get chatPhase9Hint => 'In-app chat ships in Phase 9.';
+
+  @override
+  String get vacancyPendingReview => 'Pending review';
+
+  @override
+  String get postDetailTitle => 'Post Detail';
+
+  @override
+  String get postNotFound => 'Post not found.';
+
+  @override
+  String get postClosedBanner => 'This requirement is closed.';
+
+  @override
+  String postPostedPrefix(String date) {
+    return 'Posted: $date';
+  }
+
+  @override
+  String postRequiresPrefix(String label) {
+    return 'Requires: $label';
+  }
+
+  @override
+  String postPostedByPrefix(String name) {
+    return 'Posted by: $name';
+  }
+
+  @override
+  String get postWhatsAppVerified =>
+      'WhatsApp verified ✓ (number hidden until match)';
+
+  @override
+  String get postYouFallback => 'You';
+
+  @override
+  String get postModeOnlineYes => 'Available online';
+
+  @override
+  String get postModeEither => 'Online or in-person';
+
+  @override
+  String get postModeOnlineNo => 'Not available online';
+
+  @override
+  String get postModeHomeYes => 'Available for home tutoring';
+
+  @override
+  String get postModeHomeNo => 'Online only — no home tutoring';
+
+  @override
+  String get postCanTravel => 'Can travel';
+
+  @override
+  String get postCannotTravel => 'Cannot travel';
+
+  @override
+  String get postDescriptionHeader => 'Description';
+
+  @override
+  String get postNoDescription => 'No description.';
+
+  @override
+  String get jobStatusOpen => 'Open';
+
+  @override
+  String get jobStatusShortlisting => 'Shortlisting';
+
+  @override
+  String get jobStatusHired => 'Hired';
+
+  @override
+  String get jobStatusClosed => 'Closed';
+
+  @override
+  String get jobStatusExpired => 'Expired';
+
+  @override
+  String get vacancyStatusPendingReview => 'Pending admin review';
+
+  @override
+  String get vacancyStatusOpen => 'Open';
+
+  @override
+  String get vacancyStatusApplicationsClosed => 'Applications closed';
+
+  @override
+  String get vacancyStatusFilled => 'Filled';
+
+  @override
+  String get vacancyStatusCancelled => 'Cancelled';
+
+  @override
+  String get engagementFullTime => 'Full time';
+
+  @override
+  String get engagementPartTime => 'Part time';
+
+  @override
+  String get engagementOneOff => 'One-off';
 }

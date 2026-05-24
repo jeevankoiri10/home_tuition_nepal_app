@@ -704,5 +704,151 @@
   "@genderPrefMale": {},
 
   "genderPrefFemale": "Female",
-  "@genderPrefFemale": {}
+  "@genderPrefFemale": {},
+
+  "myPostsTitle": "My Posts",
+  "@myPostsTitle": {},
+
+  "myPostsTabJobs": "Jobs ({count})",
+  "@myPostsTabJobs": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "myPostsTabVacancies": "Vacancies ({count})",
+  "@myPostsTabVacancies": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postRequirementCta": "Post Requirement",
+  "@postRequirementCta": {},
+
+  "requestTutorCta": "Request a Tutor",
+  "@requestTutorCta": {},
+
+  "myJobsEmpty": "No jobs posted yet. Tap \"Post Requirement\" to create one.",
+  "@myJobsEmpty": {},
+
+  "myVacanciesEmpty": "No tutor requests yet. Tap \"Request a Tutor\" to send one to the admin.",
+  "@myVacanciesEmpty": {},
+
+  "viewMessages": "View Messages",
+  "@viewMessages": {},
+
+  "closeAction": "Close",
+  "@closeAction": {},
+
+  "repostAction": "Repost",
+  "@repostAction": {},
+
+  "chatPhase9Hint": "In-app chat ships in Phase 9.",
+  "@chatPhase9Hint": {},
+
+  "vacancyPendingReview": "Pending review",
+  "@vacancyPendingReview": {},
+
+  "postDetailTitle": "Post Detail",
+  "@postDetailTitle": {},
+
+  "postNotFound": "Post not found.",
+  "@postNotFound": {},
+
+  "postClosedBanner": "This requirement is closed.",
+  "@postClosedBanner": {},
+
+  "postPostedPrefix": "Posted: {date}",
+  "@postPostedPrefix": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "postRequiresPrefix": "Requires: {label}",
+  "@postRequiresPrefix": {
+    "placeholders": {
+      "label": { "type": "String" }
+    }
+  },
+
+  "postPostedByPrefix": "Posted by: {name}",
+  "@postPostedByPrefix": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "postWhatsAppVerified": "WhatsApp verified ✓ (number hidden until match)",
+  "@postWhatsAppVerified": {},
+
+  "postYouFallback": "You",
+  "@postYouFallback": {},
+
+  "postModeOnlineYes": "Available online",
+  "@postModeOnlineYes": {},
+
+  "postModeEither": "Online or in-person",
+  "@postModeEither": {},
+
+  "postModeOnlineNo": "Not available online",
+  "@postModeOnlineNo": {},
+
+  "postModeHomeYes": "Available for home tutoring",
+  "@postModeHomeYes": {},
+
+  "postModeHomeNo": "Online only — no home tutoring",
+  "@postModeHomeNo": {},
+
+  "postCanTravel": "Can travel",
+  "@postCanTravel": {},
+
+  "postCannotTravel": "Cannot travel",
+  "@postCannotTravel": {},
+
+  "postDescriptionHeader": "Description",
+  "@postDescriptionHeader": {},
+
+  "postNoDescription": "No description.",
+  "@postNoDescription": {},
+
+  "jobStatusOpen": "Open",
+  "@jobStatusOpen": {},
+
+  "jobStatusShortlisting": "Shortlisting",
+  "@jobStatusShortlisting": {},
+
+  "jobStatusHired": "Hired",
+  "@jobStatusHired": {},
+
+  "jobStatusClosed": "Closed",
+  "@jobStatusClosed": {},
+
+  "jobStatusExpired": "Expired",
+  "@jobStatusExpired": {},
+
+  "vacancyStatusPendingReview": "Pending admin review",
+  "@vacancyStatusPendingReview": {},
+
+  "vacancyStatusOpen": "Open",
+  "@vacancyStatusOpen": {},
+
+  "vacancyStatusApplicationsClosed": "Applications closed",
+  "@vacancyStatusApplicationsClosed": {},
+
+  "vacancyStatusFilled": "Filled",
+  "@vacancyStatusFilled": {},
+
+  "vacancyStatusCancelled": "Cancelled",
+  "@vacancyStatusCancelled": {},
+
+  "engagementFullTime": "Full time",
+  "@engagementFullTime": {},
+
+  "engagementPartTime": "Part time",
+  "@engagementPartTime": {},
+
+  "engagementOneOff": "One-off",
+  "@engagementOneOff": {}
 }

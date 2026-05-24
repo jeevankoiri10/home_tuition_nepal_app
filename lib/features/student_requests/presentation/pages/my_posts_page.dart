@@ -7,27 +7,30 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/job_post.dart';
 import '../../domain/models/request_enums.dart';
 import '../../domain/models/vacancy_request.dart';
 import '../blocs/student_requests_bloc.dart';
+import '../enum_labels.dart';
 
 class MyPostsPage extends StatelessWidget {
   const MyPostsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<StudentRequestsBloc, StudentRequestsState>(
       builder: (context, state) {
         return DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('My Posts'),
+              title: Text(l10n.myPostsTitle),
               bottom: TabBar(
                 tabs: [
-                  Tab(text: 'Jobs (${state.jobs.length})'),
-                  Tab(text: 'Vacancies (${state.vacancies.length})'),
+                  Tab(text: l10n.myPostsTabJobs(state.jobs.length)),
+                  Tab(text: l10n.myPostsTabVacancies(state.vacancies.length)),
                 ],
               ),
             ),
@@ -39,7 +42,7 @@ class MyPostsPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: PrimaryButton(
-                          label: 'Post Requirement',
+                          label: l10n.postRequirementCta,
                           onPressed: () => context.push(AppRoutes.postJob),
                         ),
                       ),
@@ -51,7 +54,7 @@ class MyPostsPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: const RoundedRectangleBorder(borderRadius: AppRadii.inputBorder),
                           ),
-                          child: const Text('Request a Tutor'),
+                          child: Text(l10n.requestTutorCta),
                         ),
                       ),
                     ],
@@ -87,9 +90,9 @@ class _JobsList extends StatelessWidget {
       return const Center(child: CircularProgressIndicator());
     }
     if (jobs.isEmpty) {
-      return const _EmptyState(
+      return _EmptyState(
         icon: Icons.work_outline,
-        message: 'No jobs posted yet. Tap "Post Requirement" to create one.',
+        message: AppLocalizations.of(context).myJobsEmpty,
       );
     }
     return ListView.builder(
@@ -121,6 +124,7 @@ class _JobCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       child: InkWell(
@@ -135,7 +139,7 @@ class _JobCard extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Expanded(child: Text(job.title, style: tt.titleMedium)),
-              _StatusBadge.forJob(job.status),
+              _StatusBadge.forJob(job.status, l10n),
             ]),
             if (job.description != null) ...[
               const SizedBox(height: AppSpacing.xs),
@@ -160,19 +164,19 @@ class _JobCard extends StatelessWidget {
               TextButton.icon(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('In-app chat ships in Phase 9.')),
+                    SnackBar(content: Text(l10n.chatPhase9Hint)),
                   );
                 },
                 icon: const Icon(Icons.chat_bubble_outline, size: 16),
-                label: const Text('View Messages'),
+                label: Text(l10n.viewMessages),
               ),
               const Spacer(),
               if (job.status == JobStatus.open)
-                TextButton(onPressed: () => _close(context), child: const Text('Close')),
+                TextButton(onPressed: () => _close(context), child: Text(l10n.closeAction)),
               TextButton.icon(
                 onPressed: () => _repost(context),
                 icon: const Icon(Icons.refresh, size: 16),
-                label: const Text('Repost'),
+                label: Text(l10n.repostAction),
               ),
             ]),
           ]),
@@ -191,9 +195,9 @@ class _VacanciesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (vacancies.isEmpty) {
-      return const _EmptyState(
+      return _EmptyState(
         icon: Icons.assignment_outlined,
-        message: 'No tutor requests yet. Tap "Request a Tutor" to send one to the admin.',
+        message: AppLocalizations.of(context).myVacanciesEmpty,
       );
     }
     return ListView.builder(
@@ -211,6 +215,7 @@ class _VacancyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Padding(
@@ -218,10 +223,10 @@ class _VacancyCard extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Expanded(
-              child: Text(v.code ?? 'Pending review',
+              child: Text(v.code ?? l10n.vacancyPendingReview,
                   style: tt.labelMedium?.copyWith(color: AppColors.primary)),
             ),
-            _StatusBadge.forVacancy(v.status),
+            _StatusBadge.forVacancy(v.status, l10n),
           ]),
           const SizedBox(height: AppSpacing.xs),
           Text(v.title, style: tt.titleMedium),
@@ -260,7 +265,7 @@ class _StatusBadge extends StatelessWidget {
   final String label;
   final Color color;
 
-  factory _StatusBadge.forJob(JobStatus s) {
+  factory _StatusBadge.forJob(JobStatus s, AppLocalizations l10n) {
     final color = switch (s) {
       JobStatus.open => AppColors.primary,
       JobStatus.shortlisting => const Color(0xFFED6C02),
@@ -268,10 +273,10 @@ class _StatusBadge extends StatelessWidget {
       JobStatus.closed => const Color(0xFFD32F2F),
       JobStatus.expired => AppColors.textSecondary,
     };
-    return _StatusBadge(label: s.label, color: color);
+    return _StatusBadge(label: s.localized(l10n), color: color);
   }
 
-  factory _StatusBadge.forVacancy(VacancyStatus s) {
+  factory _StatusBadge.forVacancy(VacancyStatus s, AppLocalizations l10n) {
     final color = switch (s) {
       VacancyStatus.pendingAdminReview => const Color(0xFFED6C02),
       VacancyStatus.open => AppColors.primary,
@@ -279,7 +284,7 @@ class _StatusBadge extends StatelessWidget {
       VacancyStatus.filled => const Color(0xFF2E7D32),
       VacancyStatus.cancelled => const Color(0xFFD32F2F),
     };
-    return _StatusBadge(label: s.label, color: color);
+    return _StatusBadge(label: s.localized(l10n), color: color);
   }
 
   @override

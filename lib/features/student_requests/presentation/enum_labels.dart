@@ -30,3 +30,50 @@ extension GenderPrefLabel on GenderPref {
     }
   }
 }
+
+extension JobStatusLabel on JobStatus {
+  String localized(AppLocalizations l10n) {
+    switch (this) {
+      case JobStatus.open:
+        return l10n.jobStatusOpen;
+      case JobStatus.shortlisting:
+        return l10n.jobStatusShortlisting;
+      case JobStatus.hired:
+        return l10n.jobStatusHired;
+      case JobStatus.closed:
+        return l10n.jobStatusClosed;
+      case JobStatus.expired:
+        return l10n.jobStatusExpired;
+    }
+  }
+}
+
+extension VacancyStatusLabel on VacancyStatus {
+  String localized(AppLocalizations l10n) {
+    switch (this) {
+      case VacancyStatus.pendingAdminReview:
+        return l10n.vacancyStatusPendingReview;
+      case VacancyStatus.open:
+        return l10n.vacancyStatusOpen;
+      case VacancyStatus.applicationsClosed:
+        return l10n.vacancyStatusApplicationsClosed;
+      case VacancyStatus.filled:
+        return l10n.vacancyStatusFilled;
+      case VacancyStatus.cancelled:
+        return l10n.vacancyStatusCancelled;
+    }
+  }
+}
+
+extension EngagementTypeLabel on EngagementType {
+  String localized(AppLocalizations l10n) {
+    switch (this) {
+      case EngagementType.fullTime:
+        return l10n.engagementFullTime;
+      case EngagementType.partTime:
+        return l10n.engagementPartTime;
+      case EngagementType.oneOff:
+        return l10n.engagementOneOff;
+    }
+  }
+}
