@@ -1399,5 +1399,21 @@
     "placeholders": {
       "kind": { "type": "String" }
     }
+  },
+
+  "accountBlockedTitle": "Account is restricted",
+  "@accountBlockedTitle": {},
+
+  "accountBlockedReason": "Your account has been suspended or banned. Contact the admin to appeal.",
+  "@accountBlockedReason": {},
+
+  "contactAdminOnWhatsApp": "Contact admin on WhatsApp",
+  "@contactAdminOnWhatsApp": {},
+
+  "openThisUrl": "Open this URL: {url}",
+  "@openThisUrl": {
+    "placeholders": {
+      "url": { "type": "String" }
+    }
   }
 }

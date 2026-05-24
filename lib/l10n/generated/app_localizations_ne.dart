@@ -1404,4 +1404,19 @@ class AppLocalizationsNe extends AppLocalizations {
   String verifyUploadNotReady(String kind) {
     return 'Supabase Storage सेटअप भएपछि $kind अपलोड UI जोडिनेछ।';
   }
+
+  @override
+  String get accountBlockedTitle => 'खाता प्रतिबन्धित';
+
+  @override
+  String get accountBlockedReason =>
+      'तपाईंको खाता निलम्बन वा प्रतिबन्धित गरिएको छ। अपिल गर्न एडमिनलाई सम्पर्क गर्नुहोस्।';
+
+  @override
+  String get contactAdminOnWhatsApp => 'WhatsApp मा एडमिनलाई सम्पर्क';
+
+  @override
+  String openThisUrl(String url) {
+    return 'यो URL खोल्नुहोस्: $url';
+  }
 }

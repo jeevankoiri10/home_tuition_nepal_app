@@ -1404,4 +1404,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String verifyUploadNotReady(String kind) {
     return '$kind upload UI wires to Supabase Storage when buckets are configured.';
   }
+
+  @override
+  String get accountBlockedTitle => 'Account is restricted';
+
+  @override
+  String get accountBlockedReason =>
+      'Your account has been suspended or banned. Contact the admin to appeal.';
+
+  @override
+  String get contactAdminOnWhatsApp => 'Contact admin on WhatsApp';
+
+  @override
+  String openThisUrl(String url) {
+    return 'Open this URL: $url';
+  }
 }

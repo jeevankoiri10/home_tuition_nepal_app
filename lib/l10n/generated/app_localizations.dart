@@ -2581,6 +2581,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{kind} upload UI wires to Supabase Storage when buckets are configured.'**
   String verifyUploadNotReady(String kind);
+
+  /// No description provided for @accountBlockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account is restricted'**
+  String get accountBlockedTitle;
+
+  /// No description provided for @accountBlockedReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been suspended or banned. Contact the admin to appeal.'**
+  String get accountBlockedReason;
+
+  /// No description provided for @contactAdminOnWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact admin on WhatsApp'**
+  String get contactAdminOnWhatsApp;
+
+  /// No description provided for @openThisUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Open this URL: {url}'**
+  String openThisUrl(String url);
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../services/platform_settings_service.dart';
 import '../theme/app_radii.dart';
 import '../theme/app_spacing.dart';
@@ -19,6 +20,7 @@ class AccountBlockedBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       margin: const EdgeInsets.all(AppSpacing.lg),
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -31,28 +33,26 @@ class AccountBlockedBanner extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Row(children: [
-            Icon(Icons.block, color: Color(0xFFD32F2F)),
-            SizedBox(width: AppSpacing.sm),
-            Text('Account is restricted',
-                style: TextStyle(
+          Row(children: [
+            const Icon(Icons.block, color: Color(0xFFD32F2F)),
+            const SizedBox(width: AppSpacing.sm),
+            Text(l10n.accountBlockedTitle,
+                style: const TextStyle(
                     color: Color(0xFFD32F2F),
                     fontWeight: FontWeight.w700,
                     fontSize: 16)),
           ]),
           const SizedBox(height: AppSpacing.sm),
-          Text(reason ??
-              'Your account has been suspended or banned. Contact the admin to appeal.'),
+          Text(reason ?? l10n.accountBlockedReason),
           const SizedBox(height: AppSpacing.md),
           OutlinedButton.icon(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    'Open this URL: ${settings.adminWhatsapp}'),
+                content: Text(l10n.openThisUrl(settings.adminWhatsapp)),
               ));
             },
             icon: const Icon(Icons.chat_outlined),
-            label: const Text('Contact admin on WhatsApp'),
+            label: Text(l10n.contactAdminOnWhatsApp),
           ),
         ],
       ),

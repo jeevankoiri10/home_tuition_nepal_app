@@ -434,5 +434,10 @@
   "verifyUploadSelfie": "सेल्फी अपलोड",
   "verifyStatusTitle": "स्थिति",
   "verifyStatusNotStarted": "सुरु भएको छैन — समीक्षाका लागि कागजात पेस गर्नुहोस्।",
-  "verifyUploadNotReady": "Supabase Storage सेटअप भएपछि {kind} अपलोड UI जोडिनेछ।"
+  "verifyUploadNotReady": "Supabase Storage सेटअप भएपछि {kind} अपलोड UI जोडिनेछ।",
+
+  "accountBlockedTitle": "खाता प्रतिबन्धित",
+  "accountBlockedReason": "तपाईंको खाता निलम्बन वा प्रतिबन्धित गरिएको छ। अपिल गर्न एडमिनलाई सम्पर्क गर्नुहोस्।",
+  "contactAdminOnWhatsApp": "WhatsApp मा एडमिनलाई सम्पर्क",
+  "openThisUrl": "यो URL खोल्नुहोस्: {url}"
 }
