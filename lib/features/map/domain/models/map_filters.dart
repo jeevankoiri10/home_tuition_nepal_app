@@ -11,7 +11,7 @@ class MapFilters extends Equatable {
     this.mode,
     this.verifiedOnly = false,
     this.availableOnly = false,
-    this.radiusKm = 5,
+    this.radiusKm,
   });
 
   final StudentLevel? level;
@@ -19,7 +19,10 @@ class MapFilters extends Equatable {
   final TeachingMode? mode;
   final bool verifiedOnly;
   final bool availableOnly;
-  final double radiusKm;
+
+  /// Max search radius in km. `null` means no limit — return tutors anywhere.
+  /// Default is `null` so the first map load isn't artificially clipped.
+  final double? radiusKm;
 
   MapFilters copyWith({
     StudentLevel? level,
@@ -31,6 +34,7 @@ class MapFilters extends Equatable {
     bool clearLevel = false,
     bool clearMode = false,
     bool clearSubject = false,
+    bool clearRadius = false,
   }) {
     return MapFilters(
       level: clearLevel ? null : (level ?? this.level),
@@ -38,7 +42,7 @@ class MapFilters extends Equatable {
       mode: clearMode ? null : (mode ?? this.mode),
       verifiedOnly: verifiedOnly ?? this.verifiedOnly,
       availableOnly: availableOnly ?? this.availableOnly,
-      radiusKm: radiusKm ?? this.radiusKm,
+      radiusKm: clearRadius ? null : (radiusKm ?? this.radiusKm),
     );
   }
 

@@ -198,6 +198,30 @@ class _PostJobPageState extends State<PostJobPage> {
                     ]),
                   ),
                   SectionCard(
+                    title: l10n.postJobSectionMode,
+                    child: SegmentedButton<JobMode>(
+                      segments: [
+                        ButtonSegment(
+                          value: JobMode.inPerson,
+                          label: Text(l10n.jobModeOffline),
+                          icon: const Icon(Icons.home_outlined),
+                        ),
+                        ButtonSegment(
+                          value: JobMode.online,
+                          label: Text(l10n.jobModeOnline),
+                          icon: const Icon(Icons.public),
+                        ),
+                        ButtonSegment(
+                          value: JobMode.either,
+                          label: Text(l10n.jobModeEither),
+                          icon: const Icon(Icons.pinch),
+                        ),
+                      ],
+                      selected: {_mode},
+                      onSelectionChanged: (s) => setState(() => _mode = s.first),
+                    ),
+                  ),
+                  SectionCard(
                     title: l10n.postJobSectionBudget,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                       Row(children: [
@@ -227,16 +251,6 @@ class _PostJobPageState extends State<PostJobPage> {
                   SectionCard(
                     title: l10n.postJobSectionPreferences,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                      DropdownButtonFormField<JobMode>(
-                        initialValue: _mode,
-                        decoration: InputDecoration(labelText: l10n.postJobModeLabel),
-                        items: [
-                          for (final m in JobMode.values)
-                            DropdownMenuItem(value: m, child: Text(m.localized(l10n))),
-                        ],
-                        onChanged: (v) => setState(() => _mode = v ?? _mode),
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
                       DropdownButtonFormField<GenderPref>(
                         initialValue: _gender,
                         decoration: InputDecoration(labelText: l10n.postJobTutorGenderLabel),

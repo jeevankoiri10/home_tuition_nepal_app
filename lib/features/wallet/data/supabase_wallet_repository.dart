@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../domain/models/ledger_entry.dart';
@@ -7,6 +9,38 @@ class SupabaseWalletRepository implements WalletRepository {
   SupabaseWalletRepository(this._client);
 
   final sb.SupabaseClient _client;
+
+  @override
+  Stream<void> watchLedger(String userId) {
+    // One controller per call; cancellation tears down the channel so we
+    // don't leak realtime subscriptions when blocs close.
+    late final StreamController<void> controller;
+    sb.RealtimeChannel? channel;
+    controller = StreamController<void>.broadcast(
+      onListen: () {
+        channel = _client
+            .channel('wallet_ledger:$userId')
+            .onPostgresChanges(
+              event: sb.PostgresChangeEvent.insert,
+              schema: 'public',
+              table: 'wallet_ledger',
+              filter: sb.PostgresChangeFilter(
+                type: sb.PostgresChangeFilterType.eq,
+                column: 'user_id',
+                value: userId,
+              ),
+              callback: (_) => controller.add(null),
+            )
+            .subscribe();
+      },
+      onCancel: () async {
+        final c = channel;
+        if (c != null) await _client.removeChannel(c);
+        await controller.close();
+      },
+    );
+    return controller.stream;
+  }
 
   @override
   Future<int> loadBalance(String userId) async {

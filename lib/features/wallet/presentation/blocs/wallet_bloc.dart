@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,9 +18,17 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   final WalletRepository _repo;
   String? _userId;
+  StreamSubscription<void>? _watcher;
 
   Future<void> _onLoad(WalletLoaded event, Emitter<WalletState> emit) async {
     _userId = event.userId;
+    await _watcher?.cancel();
+    // Re-fetch whenever the server reports a wallet change so the UI stays
+    // in sync without explicit refresh calls (referrals credited by a webhook,
+    // top-ups confirmed server-side, etc.).
+    _watcher = _repo
+        .watchLedger(event.userId)
+        .listen((_) => add(const WalletBalanceChanged()));
     await _reload(emit);
   }
 
@@ -39,5 +49,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     } on WalletException catch (e) {
       emit(state.copyWith(status: WalletStatus.error, errorMessage: e.message ?? e.code));
     }
+  }
+
+  @override
+  Future<void> close() async {
+    await _watcher?.cancel();
+    return super.close();
   }
 }

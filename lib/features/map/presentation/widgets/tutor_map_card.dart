@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
@@ -146,24 +147,58 @@ class TutorMapCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: AppSpacing.sm),
-            SizedBox(
-              width: double.infinity,
-              height: 36,
-              child: FilledButton.icon(
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  shape: const RoundedRectangleBorder(borderRadius: AppRadii.inputBorder),
+            Row(
+              children: [
+                if (tutor.cvUrl != null) ...[
+                  Expanded(
+                    child: SizedBox(
+                      height: 36,
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: AppRadii.inputBorder),
+                        ),
+                        icon: const Icon(Icons.picture_as_pdf_outlined, size: 14),
+                        label: Text(l10n.tutorCardViewCv),
+                        onPressed: () => _openCv(context, tutor.cvUrl!),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                ],
+                Expanded(
+                  child: SizedBox(
+                    height: 36,
+                    child: FilledButton.icon(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: AppRadii.inputBorder),
+                      ),
+                      icon: const Icon(Icons.lock_outline, size: 14),
+                      label: Text(l10n.contactLabel),
+                      onPressed: onContact,
+                    ),
+                  ),
                 ),
-                icon: const Icon(Icons.lock_outline, size: 14),
-                label: Text(AppLocalizations.of(context).contactLabel),
-                onPressed: onContact,
-              ),
+              ],
             ),
           ],
         ),
       ),
     ),
     );
+  }
+
+  Future<void> _openCv(BuildContext context, String url) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final uri = Uri.tryParse(url);
+    final ok = uri != null &&
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!ok) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.tutorCardCvOpenFailed)));
+    }
   }
 }
 

@@ -10,6 +10,8 @@ import '../../../../core/services/platform_settings_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/widgets/masked_avatar.dart';
+import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../../notifications/presentation/widgets/notification_bell.dart';
 import '../../../wallet/domain/wallet_repository.dart';
 import '../../../wallet/presentation/blocs/wallet_bloc.dart';
@@ -102,16 +104,17 @@ class _MapPageState extends State<MapPage> {
                       style: const TextStyle(color: Colors.white)),
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.my_location),
-                tooltip: l10n.mapRecenterTooltip,
-                onPressed: () {
-                  if (state.centerLat != null && state.centerLng != null) {
-                    _mapController.move(
-                      LatLng(state.centerLat!, state.centerLng!),
-                      _mapController.camera.zoom,
-                    );
-                  }
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (_, auth) {
+                  final user = auth.user;
+                  return IconButton(
+                    tooltip: l10n.settingsProfileTooltip,
+                    onPressed: () => context.push(AppRoutes.studentSettings),
+                    icon: MaskedAvatar(
+                      name: user?.firstName ?? '?',
+                      radius: 14,
+                    ),
+                  );
                 },
               ),
             ],
@@ -156,6 +159,19 @@ class _MapPageState extends State<MapPage> {
                       controller: _sheetController,
                       minSize: _BottomSheet.minSize,
                       maxSize: _BottomSheet.maxSize,
+                    ),
+                    _SheetTrackingRecenterFab(
+                      controller: _sheetController,
+                      minSize: _BottomSheet.minSize,
+                      maxSize: _BottomSheet.maxSize,
+                      onPressed: () {
+                        if (state.centerLat != null && state.centerLng != null) {
+                          _mapController.move(
+                            LatLng(state.centerLat!, state.centerLng!),
+                            _mapController.camera.zoom,
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -456,6 +472,47 @@ class _SheetTrackingFabs extends StatelessWidget {
                 label: Text(AppLocalizations.of(context).mapPostJobFab),
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Bottom-right recenter FAB that tracks the sheet so it always sits just
+/// above the sheet's top edge — same pattern as [_SheetTrackingFabs].
+class _SheetTrackingRecenterFab extends StatelessWidget {
+  const _SheetTrackingRecenterFab({
+    required this.controller,
+    required this.minSize,
+    required this.maxSize,
+    required this.onPressed,
+  });
+
+  final DraggableScrollableController controller;
+  final double minSize;
+  final double maxSize;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final screenHeight = MediaQuery.of(context).size.height;
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final size = controller.isAttached
+            ? controller.size.clamp(minSize, maxSize)
+            : minSize;
+        final bottomInset = size * screenHeight + 12;
+        return Positioned(
+          right: AppSpacing.lg,
+          bottom: bottomInset,
+          child: FloatingActionButton(
+            heroTag: 'fab-recenter',
+            tooltip: l10n.mapRecenterTooltip,
+            onPressed: onPressed,
+            child: const Icon(Icons.my_location),
           ),
         );
       },

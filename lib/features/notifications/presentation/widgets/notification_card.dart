@@ -126,6 +126,9 @@ class NotificationCard extends StatelessWidget {
     );
   }
 
+  static String kindLabel(AppLocalizations l10n, NotificationKind kind) =>
+      _kindLabel(l10n, kind);
+
   static String _kindLabel(AppLocalizations l10n, NotificationKind kind) {
     switch (kind) {
       case NotificationKind.newJobPosted:

@@ -7,7 +7,9 @@ import '../../../../app/router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/safe_back_scope.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../domain/models/ledger_entry.dart';
 import '../blocs/wallet_bloc.dart';
 import '../widgets/coin_balance_card.dart';
@@ -18,51 +20,57 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final user = context.read<AuthBloc>().state.user;
+    final fallback = user == null
+        ? AppRoutes.login
+        : AppRoutes.routeForRole(user.role);
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(title: Text(l10n.walletTitle)),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              context.read<WalletBloc>().add(const WalletRefreshRequested());
-              await Future<void>.delayed(const Duration(milliseconds: 200));
-            },
-            child: ListView(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              children: [
-                CoinBalanceCard(coins: state.balance),
-                const SizedBox(height: AppSpacing.lg),
-                PrimaryButton(
-                  label: l10n.walletBuyCoins,
-                  onPressed: () => context.push(AppRoutes.buyCoins),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                Text(l10n.walletTransactionHistory,
-                    style: Theme.of(context).textTheme.titleLarge),
-                const SizedBox(height: AppSpacing.sm),
-                if (state.status == WalletStatus.loading && state.entries.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSpacing.xxl),
-                    child: Center(child: CircularProgressIndicator()),
-                  )
-                else if (state.entries.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
-                    child: Center(
-                      child: Text(l10n.walletNoTransactions,
-                          style: const TextStyle(color: AppColors.textSecondary)),
-                    ),
-                  )
-                else
-                  _LedgerTable(entries: state.entries),
-              ],
+        return SafeBackScope(
+          fallbackLocation: fallback,
+          child: Scaffold(
+            appBar: AppBar(title: Text(l10n.walletTitle)),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                context.read<WalletBloc>().add(const WalletRefreshRequested());
+                await Future<void>.delayed(const Duration(milliseconds: 200));
+              },
+              child: ListView(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                children: [
+                  CoinBalanceCard(coins: state.balance),
+                  const SizedBox(height: AppSpacing.lg),
+                  PrimaryButton(
+                    label: l10n.walletBuyCoins,
+                    onPressed: () => context.push(AppRoutes.buyCoins),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  Text(l10n.walletTransactionHistory,
+                      style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(height: AppSpacing.sm),
+                  if (state.status == WalletStatus.loading && state.entries.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: AppSpacing.xxl),
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                  else if (state.entries.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
+                      child: Center(
+                        child: Text(l10n.walletNoTransactions,
+                            style: const TextStyle(color: AppColors.textSecondary)),
+                      ),
+                    )
+                  else
+                    _LedgerTable(entries: state.entries),
+                ],
+              ),
             ),
           ),
         );
       },
     );
   }
-
 }
 
 class _LedgerTable extends StatelessWidget {

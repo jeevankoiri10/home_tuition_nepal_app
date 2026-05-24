@@ -25,6 +25,7 @@ class MapTutor extends Equatable {
     this.fromPriceNpr,
     this.fromPricePeriod,
     this.topSubjects = const [],
+    this.cvUrl,
   });
 
   final String tutorId;
@@ -46,6 +47,10 @@ class MapTutor extends Equatable {
   final num? fromPriceNpr;
   final String? fromPricePeriod;
   final List<String> topSubjects;
+
+  /// Public URL of the tutor's CV PDF, if uploaded. Null when the tutor has
+  /// not yet added a CV — UI hides the "View CV" affordance in that case.
+  final String? cvUrl;
 
   /// "Rs. 5,000/month" or null when the tutor has no offerings.
   String? formatFromPrice() {
@@ -89,6 +94,7 @@ class MapTutor extends Equatable {
         topSubjects: ((row['top_subjects'] as List?) ?? const [])
             .map((v) => v as String)
             .toList(),
+        cvUrl: row['cv_url'] as String?,
       );
 
   @override

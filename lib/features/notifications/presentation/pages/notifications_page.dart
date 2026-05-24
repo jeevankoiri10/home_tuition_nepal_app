@@ -15,25 +15,27 @@ class NotificationsPage extends StatelessWidget {
 
   void _onTap(BuildContext context, AppNotification n) {
     context.read<NotificationsBloc>().add(NotificationsRead(n.id));
-    // Deep-link by ref_type.
+    // Deep-link by ref_type when we have a target page; otherwise show the
+    // generic notice details page so the user always lands somewhere readable.
     switch (n.refType) {
       case 'job':
         if (n.refId != null) {
           context.push(AppRoutes.postDetail.replaceAll(':id', n.refId!));
+          return;
         }
         break;
       case 'vacancy':
         if (n.refId != null) {
           context.push(AppRoutes.vacancyDetail.replaceAll(':id', n.refId!));
+          return;
         }
         break;
       case 'tutor':
         // Tutor detail screen not yet built; route to map.
         context.push(AppRoutes.map);
-        break;
-      default:
-        break;
+        return;
     }
+    context.push(AppRoutes.noticeDetail.replaceAll(':id', n.id));
   }
 
   @override

@@ -47,7 +47,9 @@ class FakeMapRepository implements MapRepository {
     });
 
     final filtered = withDistance.where((t) {
-      if (t.distanceKm > filters.radiusKm) return false;
+      if (filters.radiusKm != null && t.distanceKm > filters.radiusKm!) {
+        return false;
+      }
       if (filters.level != null && !t.levelsTaught.contains(filters.level)) return false;
       if (filters.verifiedOnly && !t.verified) return false;
       if (filters.availableOnly && !t.available) return false;

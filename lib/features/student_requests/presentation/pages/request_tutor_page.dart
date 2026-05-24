@@ -35,10 +35,14 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
   final _duration = TextEditingController();
   final _salaryMin = TextEditingController();
   final _salaryMax = TextEditingController();
+  final _customSubject = TextEditingController();
   StudentLevel _level = StudentLevel.see;
   GenderPref _gender = GenderPref.any;
   JobMode _mode = JobMode.inPerson;
   Set<String> _subjects = {};
+  // Subjects typed in by the user. Merged with [_kCommonSubjects] when the
+  // chip selector renders so they can be toggled on/off like the rest.
+  final List<String> _customSubjects = [];
 
   @override
   void dispose() {
@@ -47,7 +51,37 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
     _duration.dispose();
     _salaryMin.dispose();
     _salaryMax.dispose();
+    _customSubject.dispose();
     super.dispose();
+  }
+
+  void _addCustomSubject() {
+    final l10n = AppLocalizations.of(context);
+    final raw = _customSubject.text.trim();
+    if (raw.isEmpty) return;
+    if (PhoneBanRegex.isViolation(raw)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.phoneInTextValidation)),
+      );
+      return;
+    }
+    final exists = _kCommonSubjects.any((s) => s.toLowerCase() == raw.toLowerCase()) ||
+        _customSubjects.any((s) => s.toLowerCase() == raw.toLowerCase());
+    if (exists) {
+      // Already in the list — just make sure it's selected.
+      final match = [..._kCommonSubjects, ..._customSubjects]
+          .firstWhere((s) => s.toLowerCase() == raw.toLowerCase());
+      setState(() {
+        _subjects = {..._subjects, match};
+        _customSubject.clear();
+      });
+      return;
+    }
+    setState(() {
+      _customSubjects.add(raw);
+      _subjects = {..._subjects, raw};
+      _customSubject.clear();
+    });
   }
 
   String? _validateText(AppLocalizations l10n, String? v) =>
@@ -154,11 +188,37 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
                   ),
                   SectionCard(
                     title: l10n.requestSectionSubjects,
-                    child: ChipMultiSelect<String>(
-                      options: _kCommonSubjects,
-                      selected: _subjects,
-                      labelOf: (s) => s,
-                      onChanged: (s) => setState(() => _subjects = s),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ChipMultiSelect<String>(
+                          options: [..._kCommonSubjects, ..._customSubjects],
+                          selected: _subjects,
+                          labelOf: (s) => s,
+                          onChanged: (s) => setState(() => _subjects = s),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _customSubject,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                  hintText: l10n.requestSubjectsCustomHint,
+                                  prefixIcon: const Icon(Icons.add_outlined),
+                                ),
+                                onSubmitted: (_) => _addCustomSubject(),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            FilledButton.tonal(
+                              onPressed: _addCustomSubject,
+                              child: Text(l10n.requestSubjectsCustomAdd),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   SectionCard(

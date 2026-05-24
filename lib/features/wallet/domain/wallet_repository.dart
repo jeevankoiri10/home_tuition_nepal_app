@@ -16,6 +16,12 @@ abstract class WalletRepository {
 
   Future<List<LedgerEntry>> loadHistory(String userId, {int limit = 50});
 
+  /// Emits each time the server reports a wallet change for [userId] (insert
+  /// into `wallet_ledger`). The bloc uses this to keep balance & history in
+  /// sync without polling. Implementations may emit `void` ticks; the bloc
+  /// reacts by re-fetching, so the payload type carries no information.
+  Stream<void> watchLedger(String userId);
+
   /// Atomically debits `unlock_coin_cost` and records a `wallet_ledger` row.
   /// Returns the new balance. Idempotent per (student, tutor) — calling twice
   /// for the same tutor returns the current balance without a second debit.

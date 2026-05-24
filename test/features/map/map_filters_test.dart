@@ -8,7 +8,14 @@ void main() {
       const f = MapFilters();
       final next = f.copyWith(level: StudentLevel.see);
       expect(next.level, StudentLevel.see);
-      expect(next.radiusKm, 5);
+      // Default radiusKm is null — meaning "no distance limit".
+      expect(next.radiusKm, isNull);
+    });
+
+    test('clearRadius wipes a previously set radius', () {
+      const f = MapFilters(radiusKm: 10);
+      final cleared = f.copyWith(clearRadius: true);
+      expect(cleared.radiusKm, isNull);
     });
 
     test('clearLevel resets to null even when level is also passed', () {

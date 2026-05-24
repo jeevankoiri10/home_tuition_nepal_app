@@ -111,20 +111,32 @@ class _RadiusChip extends StatelessWidget {
   final MapFilters filters;
   final ValueChanged<MapFilters> onChanged;
 
-  static const _options = <double>[1, 3, 5, 10, 20];
+  // `null` is rendered as "No limit" — the default when the map first loads.
+  static const _options = <double?>[null, 1, 3, 5, 10, 20];
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return PopupMenuButton<double>(
+    final radius = filters.radiusKm;
+    final label = radius == null
+        ? l10n.filterRadiusNoLimit
+        : l10n.filterRadiusKm(radius.toInt());
+    return PopupMenuButton<double?>(
       tooltip: l10n.filterRadiusTooltip,
-      onSelected: (v) => onChanged(filters.copyWith(radiusKm: v)),
+      onSelected: (v) => onChanged(
+        v == null ? filters.copyWith(clearRadius: true) : filters.copyWith(radiusKm: v),
+      ),
       itemBuilder: (_) => [
         for (final r in _options)
-          PopupMenuItem(value: r, child: Text(l10n.filterRadiusWithinKm(r.toInt()))),
+          PopupMenuItem(
+            value: r,
+            child: Text(r == null
+                ? l10n.filterRadiusOptionNoLimit
+                : l10n.filterRadiusWithinKm(r.toInt())),
+          ),
       ],
       child: Chip(
-        label: Text(l10n.filterRadiusKm(filters.radiusKm.toInt())),
+        label: Text(label),
         avatar: const Icon(Icons.radio_button_unchecked, size: 18),
       ),
     );

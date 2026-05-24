@@ -21,7 +21,9 @@ class SupabaseMapRepository implements MapRepository {
         params: {
           'p_lat': lat,
           'p_lng': lng,
-          'p_radius_km': filters.radiusKm,
+          // `null` means "no limit" — pass a sentinel large enough to
+          // cover the whole country so the RPC contract stays unchanged.
+          'p_radius_km': filters.radiusKm ?? 99999,
           'p_level': filters.level?.value,
           'p_subject': filters.subjectQuery,
           'p_mode': filters.mode?.value,

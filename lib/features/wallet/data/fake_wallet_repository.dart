@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../../core/constants/app_constants.dart';
 import '../../../core/services/platform_settings_service.dart';
 import '../domain/models/ledger_entry.dart';
@@ -11,6 +13,18 @@ class FakeWalletRepository implements WalletRepository {
 
   final PlatformSettingsService _settings;
   final Map<String, _UserWallet> _wallets = {};
+  final Map<String, StreamController<void>> _watchers = {};
+
+  StreamController<void> _watcher(String userId) {
+    return _watchers.putIfAbsent(
+      userId,
+      () => StreamController<void>.broadcast(),
+    );
+  }
+
+  void _notifyChange(String userId) {
+    _watchers[userId]?.add(null);
+  }
 
   _UserWallet _ensure(String userId) {
     return _wallets.putIfAbsent(
@@ -23,6 +37,9 @@ class FakeWalletRepository implements WalletRepository {
         ),
     );
   }
+
+  @override
+  Stream<void> watchLedger(String userId) => _watcher(userId).stream;
 
   @override
   Future<int> loadBalance(String userId) async {
@@ -63,6 +80,7 @@ class FakeWalletRepository implements WalletRepository {
     }
     w.addDebit(cost, LedgerReason.unlock,
         refType: 'tutor', refId: tutorId, description: 'Unlocked contact for tutor');
+    _notifyChange(studentId);
     return w.balance;
   }
 
@@ -86,6 +104,7 @@ class FakeWalletRepository implements WalletRepository {
     }
     w.addDebit(cost, LedgerReason.apply,
         refType: refType, refId: refId, description: 'Applied to $refType');
+    _notifyChange(userId);
     return w.balance;
   }
 
@@ -98,6 +117,7 @@ class FakeWalletRepository implements WalletRepository {
     String? description,
   }) {
     _ensure(userId).addCredit(amount, LedgerReason.topup, description: description);
+    _notifyChange(userId);
   }
 }
 
