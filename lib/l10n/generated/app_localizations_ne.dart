@@ -1492,4 +1492,36 @@ class AppLocalizationsNe extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String draftBannerSemantics(String status, int percent) {
+    return '$status, $percent प्रतिशत पूरा';
+  }
+
+  @override
+  String notificationCardSemantics(
+    String kind,
+    String title,
+    String time,
+    String readState,
+  ) {
+    return '$kind, $title, $time$readState';
+  }
+
+  @override
+  String get notificationUnreadSuffix => ', नपढिएको';
+
+  @override
+  String vacancyCardSemantics(
+    String code,
+    String title,
+    String area,
+    String salary,
+    String applied,
+  ) {
+    return '$code, $title, $area, $salary$applied';
+  }
+
+  @override
+  String get vacancyAlreadyAppliedSuffix => ', पहिले नै आवेदन भएको';
 }

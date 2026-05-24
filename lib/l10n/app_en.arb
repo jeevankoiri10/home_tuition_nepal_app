@@ -1476,5 +1476,40 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "draftBannerSemantics": "{status}, {percent} percent complete",
+  "@draftBannerSemantics": {
+    "placeholders": {
+      "status": { "type": "String" },
+      "percent": { "type": "int" }
+    }
+  },
+
+  "notificationCardSemantics": "{kind}, {title}, {time}{readState}",
+  "@notificationCardSemantics": {
+    "placeholders": {
+      "kind": { "type": "String" },
+      "title": { "type": "String" },
+      "time": { "type": "String" },
+      "readState": { "type": "String" }
+    }
+  },
+
+  "notificationUnreadSuffix": ", unread",
+  "@notificationUnreadSuffix": {},
+
+  "vacancyCardSemantics": "{code}, {title}, {area}, {salary}{applied}",
+  "@vacancyCardSemantics": {
+    "placeholders": {
+      "code": { "type": "String" },
+      "title": { "type": "String" },
+      "area": { "type": "String" },
+      "salary": { "type": "String" },
+      "applied": { "type": "String" }
+    }
+  },
+
+  "vacancyAlreadyAppliedSuffix": ", already applied",
+  "@vacancyAlreadyAppliedSuffix": {}
 }

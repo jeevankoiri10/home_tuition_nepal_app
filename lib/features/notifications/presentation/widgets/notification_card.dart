@@ -50,7 +50,18 @@ class NotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
-    return Card(
+    final title = notification.title.isNotEmpty
+        ? notification.title
+        : (notification.body ?? '');
+    return Semantics(
+      button: true,
+      label: l10n.notificationCardSemantics(
+        _kindLabel(l10n, notification.kind),
+        title,
+        _relative(l10n, notification.createdAt),
+        notification.isRead ? '' : l10n.notificationUnreadSuffix,
+      ),
+      child: Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: InkWell(
         onTap: onTap,
@@ -111,6 +122,7 @@ class NotificationCard extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 

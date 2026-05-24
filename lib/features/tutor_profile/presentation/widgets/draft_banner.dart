@@ -25,7 +25,14 @@ class DraftBanner extends StatelessWidget {
     final icon = published ? Icons.check_circle_outline : Icons.warning_amber_outlined;
     final message = published ? l10n.draftBannerPublished : l10n.draftBannerDraft;
 
-    return Container(
+    return Semantics(
+      // Banner is informational, not interactive. Collapse the icon +
+      // status text + percent + progress bar into one announcement so
+      // screen readers say "Draft, 60 percent complete" instead of
+      // reading each fragment separately.
+      excludeSemantics: true,
+      label: l10n.draftBannerSemantics(message, completion),
+      child: Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
@@ -58,6 +65,7 @@ class DraftBanner extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

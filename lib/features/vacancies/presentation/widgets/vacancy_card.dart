@@ -27,7 +27,16 @@ class VacancyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
-    return Card(
+    return Semantics(
+      button: true,
+      label: l10n.vacancyCardSemantics(
+        vacancy.code ?? '',
+        vacancy.title,
+        vacancy.areaLabel,
+        vacancy.formatSalary(),
+        alreadyApplied ? l10n.vacancyAlreadyAppliedSuffix : '',
+      ),
+      child: Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       child: InkWell(
         onTap: onTap,
@@ -110,6 +119,7 @@ class VacancyCard extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 

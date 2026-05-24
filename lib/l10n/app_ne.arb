@@ -451,5 +451,11 @@
 
   "tutorCardSemantics": "{name}, {area}, {distance}{verified}{rating}",
   "tutorCardRatingSuffix": ", {count, plural, one{{count} समीक्षाबाट} other{{count} समीक्षाबाट}} ५ मा {average}",
-  "notificationBellSemantics": "{count, plural, =0{सूचना, कुनै नपढिएको छैन} one{सूचना, {count} नपढिएको} other{सूचना, {count} नपढिएको}}"
+  "notificationBellSemantics": "{count, plural, =0{सूचना, कुनै नपढिएको छैन} one{सूचना, {count} नपढिएको} other{सूचना, {count} नपढिएको}}",
+
+  "draftBannerSemantics": "{status}, {percent} प्रतिशत पूरा",
+  "notificationCardSemantics": "{kind}, {title}, {time}{readState}",
+  "notificationUnreadSuffix": ", नपढिएको",
+  "vacancyCardSemantics": "{code}, {title}, {area}, {salary}{applied}",
+  "vacancyAlreadyAppliedSuffix": ", पहिले नै आवेदन भएको"
 }

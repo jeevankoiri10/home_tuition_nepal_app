@@ -2671,6 +2671,47 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Notifications, no unread} one{Notifications, {count} unread} other{Notifications, {count} unread}}'**
   String notificationBellSemantics(int count);
+
+  /// No description provided for @draftBannerSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{status}, {percent} percent complete'**
+  String draftBannerSemantics(String status, int percent);
+
+  /// No description provided for @notificationCardSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}, {title}, {time}{readState}'**
+  String notificationCardSemantics(
+    String kind,
+    String title,
+    String time,
+    String readState,
+  );
+
+  /// No description provided for @notificationUnreadSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **', unread'**
+  String get notificationUnreadSuffix;
+
+  /// No description provided for @vacancyCardSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{code}, {title}, {area}, {salary}{applied}'**
+  String vacancyCardSemantics(
+    String code,
+    String title,
+    String area,
+    String salary,
+    String applied,
+  );
+
+  /// No description provided for @vacancyAlreadyAppliedSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **', already applied'**
+  String get vacancyAlreadyAppliedSuffix;
 }
 
 class _AppLocalizationsDelegate
