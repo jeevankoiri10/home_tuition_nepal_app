@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
+import '../../../core/constants/app_constants.dart';
 import '../domain/models/coin_pack.dart';
 import '../domain/models/top_up.dart';
 import '../domain/top_ups_repository.dart';
@@ -73,4 +76,39 @@ class SupabaseTopUpsRepository implements TopUpsRepository {
   Future<TopUp> debugSimulateSuccess(String topUpId) =>
       throw TopUpsException('not_supported',
           'Production top-ups must go through the provider webhook.');
+
+  @override
+  Future<TopUp> attachReceipt({
+    required String topUpId,
+    required Uint8List bytes,
+    required String fileName,
+  }) async {
+    if (bytes.lengthInBytes > AppConstants.topUpReceiptMaxBytes) {
+      throw TopUpsException('receipt_too_large', 'Receipt must be smaller than 5 MB.');
+    }
+    try {
+      final ext = fileName.toLowerCase().endsWith('.pdf')
+          ? 'pdf'
+          : (fileName.toLowerCase().endsWith('.png') ? 'png' : 'jpg');
+      final objectPath = '$topUpId/receipt.$ext';
+      final storage = _client.storage.from('topup-receipts');
+      await storage.uploadBinary(
+        objectPath,
+        bytes,
+        fileOptions: sb.FileOptions(
+          upsert: true,
+          contentType: ext == 'pdf' ? 'application/pdf' : 'image/$ext',
+        ),
+      );
+      final url = storage.getPublicUrl(objectPath);
+      // Stamp the URL on the top-up row so admins reviewing the queue can
+      // open the receipt without separately querying storage.
+      await _client.from('coin_top_ups').update({'receipt_url': url}).eq('id', topUpId);
+      return getTopUp(topUpId);
+    } on sb.StorageException catch (e) {
+      throw TopUpsException('receipt_upload_failed', e.message);
+    } on sb.PostgrestException catch (e) {
+      throw TopUpsException('receipt_attach_failed', e.message);
+    }
+  }
 }

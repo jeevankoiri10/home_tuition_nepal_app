@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import '../../../core/constants/app_constants.dart';
 import '../../../core/services/platform_settings_service.dart';
 import '../../wallet/data/fake_wallet_repository.dart';
 import '../../wallet/domain/wallet_repository.dart';
@@ -115,6 +118,23 @@ class FakeTopUpsRepository implements TopUpsRepository {
       ledgerEntryId: 'demo-ledger',
       createdAt: t.createdAt,
     );
+    _byId[topUpId] = updated;
+    return updated;
+  }
+
+  @override
+  Future<TopUp> attachReceipt({
+    required String topUpId,
+    required Uint8List bytes,
+    required String fileName,
+  }) async {
+    if (bytes.lengthInBytes > AppConstants.topUpReceiptMaxBytes) {
+      throw TopUpsException('receipt_too_large', 'Receipt must be smaller than 5 MB.');
+    }
+    final t = _byId[topUpId];
+    if (t == null) throw TopUpsException('not_found');
+    final url = 'https://dev.invalid/topup-receipts/$topUpId/$fileName';
+    final updated = t.copyWith(receiptUrl: url);
     _byId[topUpId] = updated;
     return updated;
   }

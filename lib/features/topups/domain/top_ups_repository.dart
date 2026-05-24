@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'models/coin_pack.dart';
 import 'models/top_up.dart';
 
@@ -30,4 +32,13 @@ abstract class TopUpsRepository {
   /// provider's webhook arriving with `ok=true`. The SupabaseTopUpsRepository
   /// throws — production must go through the real webhook.
   Future<TopUp> debugSimulateSuccess(String topUpId);
+
+  /// Uploads the user's payment receipt for [topUpId] and stamps the URL
+  /// back onto the row. Throws [TopUpsException] with code `receipt_too_large`
+  /// when [bytes] exceeds the platform cap (5 MB).
+  Future<TopUp> attachReceipt({
+    required String topUpId,
+    required Uint8List bytes,
+    required String fileName,
+  });
 }
