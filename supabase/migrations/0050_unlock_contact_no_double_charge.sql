@@ -31,6 +31,7 @@ declare
   new_balance  int;
 begin
   if caller is null then raise exception 'not_authenticated'; end if;
+  if _is_blocked(caller) then raise exception 'account_blocked'; end if;  -- preserved from 0010
   if caller = p_tutor_id then raise exception 'cannot_unlock_self'; end if;
 
   -- Serialize concurrent unlocks of this exact (student, tutor) pair so the
