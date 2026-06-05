@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:go_router/go_router.dart';
-
-import '../../app/router.dart';
 import '../../features/auth/domain/auth_repository.dart';
 import '../../features/auth/presentation/blocs/auth_bloc.dart';
+import 'push_deep_link.dart';
 import 'push_notification_service.dart';
 
 /// Glues [PushNotificationService] to the rest of the app:
@@ -13,28 +11,31 @@ import 'push_notification_service.dart';
 ///   - On sign-out: release the OS token so the prior user stops receiving
 ///     pushes on this device. (The server-side `push_token` is cleared by
 ///     [AuthRepository.signOut].)
-///   - On notification tap: deep-link into the matching feed item using the
-///     same `ref_type` / `ref_id` convention the in-app feed uses.
+///   - On notification tap: deep-link via [resolvePushDeepLink] + the injected
+///     [navigate] callback.
 ///
-/// When [PushNotificationService] is the [FakePushNotificationService] (the
-/// default in dev) every method is a no-op — the wiring stays valid, so
-/// swapping in a real Firebase-backed implementation requires no caller
-/// changes.
+/// Depends on an auth-state [Stream] + a [navigate] port rather than on
+/// `AuthBloc`/`GoRouter` directly, so it is decoupled from Flutter routing and
+/// fully unit-testable. When [PushNotificationService] is the
+/// [FakePushNotificationService] (dev default) every method is a no-op.
 class PushNotificationCoordinator {
   PushNotificationCoordinator({
     required PushNotificationService push,
     required AuthRepository auth,
-    required AuthBloc authBloc,
-    required GoRouter router,
+    required Stream<AuthState> authStates,
+    required AuthState Function() currentAuthState,
+    required void Function(String location) navigate,
   })  : _push = push,
         _auth = auth,
-        _authBloc = authBloc,
-        _router = router;
+        _authStates = authStates,
+        _currentAuthState = currentAuthState,
+        _navigate = navigate;
 
   final PushNotificationService _push;
   final AuthRepository _auth;
-  final AuthBloc _authBloc;
-  final GoRouter _router;
+  final Stream<AuthState> _authStates;
+  final AuthState Function() _currentAuthState;
+  final void Function(String location) _navigate;
 
   StreamSubscription<AuthState>? _authSub;
   StreamSubscription<Map<String, dynamic>>? _tapSub;
@@ -42,10 +43,10 @@ class PushNotificationCoordinator {
 
   void start() {
     _tapSub = _push.onMessageOpened.listen(_handleTap);
-    _authSub = _authBloc.stream.listen(_onAuthChanged);
-    // Re-evaluate current state in case the user was already signed in
-    // when the coordinator booted (e.g. cold start with a cached session).
-    _onAuthChanged(_authBloc.state);
+    _authSub = _authStates.listen(_onAuthChanged);
+    // Re-evaluate current state in case the user was already signed in when
+    // the coordinator booted (cold start with a cached session).
+    _onAuthChanged(_currentAuthState());
   }
 
   Future<void> dispose() async {
@@ -66,34 +67,5 @@ class PushNotificationCoordinator {
     }
   }
 
-  void _handleTap(Map<String, dynamic> payload) {
-    final refType = payload['ref_type'] as String?;
-    final refId = payload['ref_id'] as String?;
-    switch (refType) {
-      case 'job':
-        if (refId != null) {
-          _router.push(AppRoutes.postDetail.replaceAll(':id', refId));
-          return;
-        }
-        break;
-      case 'vacancy':
-        if (refId != null) {
-          _router.push(AppRoutes.vacancyDetail.replaceAll(':id', refId));
-          return;
-        }
-        break;
-      case 'tutor':
-        _router.push(AppRoutes.map);
-        return;
-      case 'notice':
-        if (refId != null) {
-          _router.push(AppRoutes.noticeDetail.replaceAll(':id', refId));
-          return;
-        }
-        break;
-    }
-    // Unknown / no ref — fall back to the in-app feed so the user can see
-    // why we pinged them.
-    _router.push(AppRoutes.notifications);
-  }
+  void _handleTap(Map<String, dynamic> payload) => _navigate(resolvePushDeepLink(payload));
 }

@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import '../../../core/services/platform_settings_service.dart';
 import '../../student_requests/domain/models/request_enums.dart';
 import '../../wallet/domain/wallet_repository.dart';
+import '../domain/connect_cost.dart';
 import '../domain/models/vacancy.dart';
 import '../domain/models/vacancy_application.dart';
 import '../domain/vacancies_repository.dart';
@@ -9,9 +11,10 @@ import '../domain/vacancies_repository.dart';
 /// In-memory vacancies repository seeded with ~10 demo HTN-NNNNN vacancies
 /// across Kathmandu Valley areas. Used when no Supabase creds are available.
 class FakeVacanciesRepository implements VacanciesRepository {
-  FakeVacanciesRepository(this._wallet);
+  FakeVacanciesRepository(this._wallet, this._settings);
 
   final WalletRepository _wallet;
+  final PlatformSettingsService _settings;
   final List<Vacancy> _seed = _buildSeed();
   final Map<String, List<VacancyApplication>> _appsByTutor = {};
   final Set<String> _appliedKeys = {};
@@ -32,9 +35,46 @@ class FakeVacanciesRepository implements VacanciesRepository {
   }
 
   @override
+  Future<List<Vacancy>> searchNearby({
+    required double lat,
+    required double lng,
+    double? radiusKm,
+    String? subjectQuery,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+    final results = _seed
+        .where((v) => v.hasLocation)
+        .map((v) => v.copyWithDistance(_haversine(lat, lng, v.lat!, v.lng!)))
+        .where((v) {
+          if (radiusKm != null && (v.distanceKm ?? double.infinity) > radiusKm) {
+            return false;
+          }
+          if (subjectQuery != null && subjectQuery.isNotEmpty) {
+            final q = subjectQuery.toLowerCase();
+            if (!v.subjects.any((s) => s.toLowerCase().contains(q))) return false;
+          }
+          return true;
+        })
+        .toList()
+      ..sort((a, b) => (a.distanceKm ?? 0).compareTo(b.distanceKm ?? 0));
+    return results;
+  }
+
+  @override
   Future<List<VacancyApplication>> listMyApplications(String tutorId) async {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     return List<VacancyApplication>.from(_appsByTutor[tutorId] ?? const []);
+  }
+
+  // Haversine distance in km.
+  static double _haversine(double aLat, double aLng, double bLat, double bLng) {
+    const r = 6371.0;
+    double deg(double d) => d * pi / 180.0;
+    final dLat = deg(bLat - aLat);
+    final dLng = deg(bLng - aLng);
+    final h = sin(dLat / 2) * sin(dLat / 2) +
+        cos(deg(aLat)) * cos(deg(bLat)) * sin(dLng / 2) * sin(dLng / 2);
+    return 2 * r * asin(sqrt(h));
   }
 
   @override
@@ -53,10 +93,18 @@ class FakeVacanciesRepository implements VacanciesRepository {
       throw VacanciesException('already_applied', 'You already applied to this vacancy.');
     }
 
+    // Percentage-based connect cost from the vacancy's salary — the same
+    // formula the server enforces and the UI displays.
+    final matches = _seed.where((v) => v.id == vacancyId);
+    final cost = matches.isEmpty
+        ? _settings.applyCoinCost
+        : ConnectCost.forVacancyWithSettings(matches.first, _settings);
+
     // Atomic-ish for the demo: debit first, then create the row. If the debit
     // throws insufficient_coins we never create the application.
     try {
-      await _wallet.applyToVacancy(tutorId: demoTutorId, vacancyId: vacancyId);
+      await _wallet.applyToVacancy(
+          tutorId: demoTutorId, vacancyId: vacancyId, cost: cost);
     } on WalletException catch (e) {
       throw VacanciesException(e.code, e.message);
     }
@@ -68,7 +116,7 @@ class FakeVacanciesRepository implements VacanciesRepository {
       coverNote: coverNote,
       expectedRate: expectedRate,
       cvStoragePath: cvStoragePath,
-      coinsSpent: 1,
+      coinsSpent: cost,
       createdAt: DateTime.now(),
     );
     _appsByTutor.putIfAbsent(demoTutorId, () => []).insert(0, app);
@@ -107,6 +155,9 @@ class FakeVacanciesRepository implements VacanciesRepository {
       ['Chemistry'],
       ['English Speaking'],
     ];
+    // Kathmandu Valley centre; scatter the seeds ≈ ±2.5 km around it.
+    const seedLat = 27.7050;
+    const seedLng = 85.3300;
     return List.generate(areas.length, (i) {
       final code = 'HTN-${(276 + i).toString().padLeft(5, '0')}';
       final base = 4000 + rng.nextInt(12) * 1000;
@@ -127,6 +178,8 @@ class FakeVacanciesRepository implements VacanciesRepository {
         mode: i % 4 == 0 ? JobMode.online : JobMode.inPerson,
         notes: 'Posted by Home Tuition Nepal admin. '
             'Only nearby & experienced tutors are requested to apply.',
+        lat: seedLat + (rng.nextDouble() - 0.5) * 0.045,
+        lng: seedLng + (rng.nextDouble() - 0.5) * 0.045,
         createdAt: DateTime.now().subtract(Duration(hours: i * 3)),
       );
     });

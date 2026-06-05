@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/subject_chips.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/vacancy.dart';
 
@@ -14,12 +15,17 @@ class VacancyCard extends StatelessWidget {
     super.key,
     required this.vacancy,
     required this.alreadyApplied,
+    required this.connectCost,
     required this.onTap,
     required this.onApply,
   });
 
   final Vacancy vacancy;
   final bool alreadyApplied;
+
+  /// Coins this application will cost — shown on the apply button so the tutor
+  /// sees the price before opening the apply sheet. Computed via `ConnectCost`.
+  final int connectCost;
   final VoidCallback onTap;
   final VoidCallback onApply;
 
@@ -67,7 +73,7 @@ class VacancyCard extends StatelessWidget {
               Text(vacancy.title, style: tt.titleMedium),
               const SizedBox(height: AppSpacing.xs),
               Row(children: [
-                const Icon(Icons.place_outlined, size: 14, color: AppColors.textSecondary),
+                const Icon(Icons.place_outlined, size: 14),
                 const SizedBox(width: 2),
                 Flexible(child: Text(vacancy.areaLabel, style: tt.bodySmall)),
               ]),
@@ -76,21 +82,7 @@ class VacancyCard extends StatelessWidget {
                 Text(l10n.vacancyGradePrefix(vacancy.grade!), style: tt.bodySmall),
               if (vacancy.subjects.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.xs),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 4,
-                  children: [
-                    for (final s in vacancy.subjects)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryLight.withValues(alpha: 0.4),
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Text(s, style: tt.bodySmall),
-                      ),
-                  ],
-                ),
+                SubjectChips(subjects: vacancy.subjects),
               ],
               const SizedBox(height: AppSpacing.sm),
               Row(children: [
@@ -112,7 +104,7 @@ class VacancyCard extends StatelessWidget {
                     : FilledButton.icon(
                         onPressed: onApply,
                         icon: const Icon(Icons.send_outlined, size: 16),
-                        label: Text(l10n.vacancyApplyLabel),
+                        label: Text(l10n.applyButtonLabel(connectCost)),
                       ),
               ),
             ],

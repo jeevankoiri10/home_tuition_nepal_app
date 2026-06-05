@@ -63,6 +63,18 @@ class FakeWalletRepository implements WalletRepository {
   }
 
   @override
+  Future<String?> revealContact(
+      {required String studentId, required String tutorId}) async {
+    await Future<void>.delayed(const Duration(milliseconds: 120));
+    if (!await hasUnlocked(studentId: studentId, tutorId: tutorId)) {
+      throw WalletException('gate_not_met', 'Unlock the contact first.');
+    }
+    // Dev seam: return a deterministic demo number so the Call/WhatsApp links
+    // are exercisable without a backend.
+    return '+9779800000000';
+  }
+
+  @override
   Future<int> unlockContact({required String studentId, required String tutorId}) async {
     await Future<void>.delayed(const Duration(milliseconds: 200));
     final w = _ensure(studentId);
@@ -85,24 +97,35 @@ class FakeWalletRepository implements WalletRepository {
   }
 
   @override
-  Future<int> applyToVacancy({required String tutorId, required String vacancyId}) async {
-    return _spendApplyCost(tutorId, refType: 'vacancy', refId: vacancyId);
+  Future<int> applyToVacancy({
+    required String tutorId,
+    required String vacancyId,
+    int? cost,
+  }) async {
+    return _spendApplyCost(tutorId, refType: 'vacancy', refId: vacancyId, cost: cost);
   }
 
   @override
-  Future<int> bidOnJob({required String tutorId, required String jobId}) async {
-    return _spendApplyCost(tutorId, refType: 'job', refId: jobId);
+  Future<int> bidOnJob({required String tutorId, required String jobId, int? cost}) async {
+    return _spendApplyCost(tutorId, refType: 'job', refId: jobId, cost: cost);
   }
 
-  Future<int> _spendApplyCost(String userId, {required String refType, required String refId}) async {
+  Future<int> _spendApplyCost(
+    String userId, {
+    required String refType,
+    required String refId,
+    int? cost,
+  }) async {
     await Future<void>.delayed(const Duration(milliseconds: 200));
     final w = _ensure(userId);
-    final cost = _settings.applyCoinCost;
-    if (w.balance < cost) {
+    // Use the caller-computed percentage cost; fall back to the flat setting
+    // when none was supplied (e.g. the dormant job-bid path).
+    final resolvedCost = cost ?? _settings.applyCoinCost;
+    if (w.balance < resolvedCost) {
       throw WalletException('insufficient_coins',
-          'Need $cost coins, you have ${w.balance}.');
+          'Need $resolvedCost coins, you have ${w.balance}.');
     }
-    w.addDebit(cost, LedgerReason.apply,
+    w.addDebit(resolvedCost, LedgerReason.apply,
         refType: refType, refId: refId, description: 'Applied to $refType');
     _notifyChange(userId);
     return w.balance;

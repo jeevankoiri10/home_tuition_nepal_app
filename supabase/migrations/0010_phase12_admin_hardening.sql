@@ -64,6 +64,7 @@ create or replace function _audit(p_type text, p_target_type text, p_target_id u
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   perform set_config('app.allow_audit_write', 'yes', true);
@@ -90,6 +91,14 @@ create table if not exists moderation_log (
   created_at  timestamptz not null default now(),
   resolved_at timestamptz
 );
+
+-- Admin-panel-compatible columns. The Next.js admin reads `kind`/`status` and
+-- updates `status`; the mobile app writes `reason`/`action`. Added as a nullable
+-- superset so both surfaces share one table. See admin_setup.sql.
+alter table moderation_log add column if not exists kind        text;
+alter table moderation_log add column if not exists status      text default 'open';
+alter table moderation_log add column if not exists source_type text;
+alter table moderation_log add column if not exists source_id   uuid;
 
 create index if not exists moderation_log_open_idx on moderation_log(action) where action = 'open';
 create index if not exists moderation_log_user_idx on moderation_log(user_id, created_at desc);
@@ -149,6 +158,7 @@ create or replace function tutor_apply_to_vacancy(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -183,6 +193,7 @@ create or replace function unlock_contact(p_tutor_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -213,6 +224,7 @@ create or replace function send_chat_message(p_thread_id uuid, p_body text)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -244,6 +256,7 @@ create or replace function admin_suspend_user(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   if not exists (select 1 from admin_users where id = auth.uid()) then
@@ -267,6 +280,7 @@ create or replace function admin_ban_user(p_user uuid, p_reason text)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   if not exists (select 1 from admin_users where id = auth.uid()) then
@@ -282,6 +296,7 @@ create or replace function admin_unban_user(p_user uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   if not exists (select 1 from admin_users where id = auth.uid()) then
@@ -302,6 +317,7 @@ create or replace function admin_review_verification(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   v record;
@@ -352,6 +368,7 @@ create or replace function admin_set_setting(p_key text, p_value text)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   old_value text;
@@ -377,6 +394,7 @@ create or replace function admin_resolve_moderation(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   m record;
@@ -406,6 +424,7 @@ create or replace function user_report_content(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   rid uuid;

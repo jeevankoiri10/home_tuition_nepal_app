@@ -33,6 +33,29 @@ class SupabaseVacanciesRepository implements VacanciesRepository {
   }
 
   @override
+  Future<List<Vacancy>> searchNearby({
+    required double lat,
+    required double lng,
+    double? radiusKm,
+    String? subjectQuery,
+  }) async {
+    try {
+      final rows = await _client.rpc('search_vacancies_in_viewport', params: {
+        'p_lat': lat,
+        'p_lng': lng,
+        // null radius → no limit; pass a country-sized sentinel like the
+        // tutor map search does (migration 0003).
+        'p_radius_km': radiusKm ?? 99999,
+        'p_subject': subjectQuery,
+        'p_max_results': 100,
+      }) as List<dynamic>;
+      return rows.cast<Map<String, dynamic>>().map(Vacancy.fromRow).toList();
+    } on sb.PostgrestException catch (e) {
+      throw VacanciesException('nearby_failed', e.message);
+    }
+  }
+
+  @override
   Future<List<VacancyApplication>> listMyApplications(String tutorId) async {
     try {
       final rows = await _client

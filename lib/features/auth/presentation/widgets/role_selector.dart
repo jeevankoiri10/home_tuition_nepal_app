@@ -85,11 +85,23 @@ class _RoleCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(icon, size: 32, color: selected ? AppColors.primary : AppColors.textSecondary),
+            Icon(
+              icon,
+              size: 32,
+              color: selected ? AppColors.primary : AppColors.textSecondary,
+            ),
             const SizedBox(height: AppSpacing.sm),
-            Text(title, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: AppSpacing.xs),
-            Text(subtitle, style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center),
+            Text(
+              subtitle,
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

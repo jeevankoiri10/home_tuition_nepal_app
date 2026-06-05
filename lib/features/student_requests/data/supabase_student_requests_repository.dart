@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
+import '../../../core/utils/db_error.dart';
 import '../domain/models/job_post.dart';
 import '../domain/models/request_enums.dart';
 import '../domain/models/vacancy_request.dart';
@@ -43,7 +44,10 @@ class SupabaseStudentRequestsRepository implements StudentRequestsRepository {
       final row = await _client.from('jobs').insert(job.toInsertRow()).select().single();
       return JobPost.fromRow(row);
     } on sb.PostgrestException catch (e) {
-      throw StudentRequestsException('job_create_failed', e.message);
+      throw StudentRequestsException(
+        'job_create_failed',
+        friendlyDbMessage(e, fallback: 'Could not post your job. Please try again.'),
+      );
     }
   }
 
@@ -86,7 +90,10 @@ class SupabaseStudentRequestsRepository implements StudentRequestsRepository {
           await _client.from('vacancies').insert(vacancy.toInsertRow()).select().single();
       return VacancyRequest.fromRow(row);
     } on sb.PostgrestException catch (e) {
-      throw StudentRequestsException('vacancy_request_failed', e.message);
+      throw StudentRequestsException(
+        'vacancy_request_failed',
+        friendlyDbMessage(e, fallback: 'Could not send your request. Please try again.'),
+      );
     }
   }
 }

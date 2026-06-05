@@ -115,6 +115,123 @@ void main() {
       },
     );
   });
+
+  group('AuthBloc — login, Google, sign-out', () {
+    blocTest<AuthBloc, AuthState>(
+      'login with a verified account becomes authenticated',
+      build: () => AuthBloc(FakeAuthRepository()),
+      act: (bloc) => bloc.add(const AuthLoginRequested(
+        email: 'sita@example.com',
+        password: 'password1',
+      )),
+      wait: const Duration(milliseconds: 900),
+      verify: (bloc) {
+        expect(bloc.state.status, AuthStatus.authenticated);
+        expect(bloc.state.user!.emailVerified, isTrue);
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'login with bad credentials surfaces invalid_credentials',
+      build: () => AuthBloc(FakeAuthRepository()),
+      act: (bloc) => bloc.add(const AuthLoginRequested(
+        email: 'sita@example.com',
+        password: 'short', // < 8 chars → FakeAuthRepository rejects it
+      )),
+      wait: const Duration(milliseconds: 900),
+      verify: (bloc) {
+        expect(bloc.state.status, AuthStatus.error);
+        expect(bloc.state.errorCode, 'invalid_credentials');
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'Google sign-in authenticates straight away but before onboarding',
+      build: () => AuthBloc(FakeAuthRepository()),
+      act: (bloc) => bloc.add(const AuthGoogleSignInRequested(UserRole.tutor)),
+      wait: const Duration(milliseconds: 900),
+      verify: (bloc) {
+        expect(bloc.state.status, AuthStatus.authenticated);
+        expect(bloc.state.user!.role, UserRole.tutor);
+        expect(bloc.state.user!.emailVerified, isTrue);
+        expect(bloc.state.user!.onboardingComplete, isFalse,
+            reason: 'the router guard routes the new account into onboarding');
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'sign-out returns to unauthenticated and clears the user',
+      build: () => AuthBloc(FakeAuthRepository()),
+      act: (bloc) async {
+        bloc.add(const AuthLoginRequested(
+          email: 'sita@example.com',
+          password: 'password1',
+        ));
+        await Future<void>.delayed(const Duration(milliseconds: 600));
+        bloc.add(const AuthSignOutRequested());
+      },
+      wait: const Duration(milliseconds: 1200),
+      verify: (bloc) {
+        expect(bloc.state.status, AuthStatus.unauthenticated);
+        expect(bloc.state.user, isNull);
+      },
+    );
+  });
+
+  group('AuthBloc — AuthStarted resolves the cached session', () {
+    blocTest<AuthBloc, AuthState>(
+      'no cached user → unauthenticated',
+      build: () => AuthBloc(FakeAuthRepository()),
+      act: (bloc) => bloc.add(const AuthStarted()),
+      wait: const Duration(milliseconds: 100),
+      verify: (bloc) =>
+          expect(bloc.state.status, AuthStatus.unauthenticated),
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'cached verified user → authenticated',
+      build: () => AuthBloc(_CachedUserRepo(emailVerified: true)),
+      act: (bloc) => bloc.add(const AuthStarted()),
+      wait: const Duration(milliseconds: 100),
+      verify: (bloc) {
+        expect(bloc.state.status, AuthStatus.authenticated);
+        expect(bloc.state.user, isNotNull);
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'cached unverified email account → awaitingEmailVerification',
+      build: () => AuthBloc(_CachedUserRepo(emailVerified: false)),
+      act: (bloc) => bloc.add(const AuthStarted()),
+      wait: const Duration(milliseconds: 100),
+      verify: (bloc) =>
+          expect(bloc.state.status, AuthStatus.awaitingEmailVerification),
+    );
+  });
+}
+
+/// Exposes a pre-existing cached session so [AuthStarted] can resolve it without
+/// a live sign-in. Mirrors the app relaunching with a surviving Supabase session.
+class _CachedUserRepo extends FakeAuthRepository {
+  _CachedUserRepo({required bool emailVerified}) : _emailVerified = emailVerified;
+
+  final bool _emailVerified;
+
+  @override
+  UserProfile? get cachedUser => UserProfile(
+        id: 'cached-user',
+        firstName: 'Sita',
+        lastName: 'Khanal',
+        email: 'sita@example.com',
+        phone: '+9779812345678',
+        emailVerified: _emailVerified,
+        role: UserRole.student,
+        handle: 'Student #DEMO',
+        tosAcceptedAt: DateTime.now().subtract(const Duration(days: 30)),
+        coinBalance: 1000,
+        onboardingComplete: true,
+        studentOnboarded: true,
+      );
 }
 
 /// Returns a user whose email is not yet verified from login(), so the bloc

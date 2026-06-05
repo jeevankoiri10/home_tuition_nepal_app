@@ -13,11 +13,17 @@ class SupabaseChatRepository implements ChatRepository {
   @override
   Future<ChatThread> openOrGetThread(String counterpartyId) async {
     try {
-      final id = await _client.rpc('open_or_get_thread', params: {
-        'p_counterparty': counterpartyId,
-      }) as String;
-      final row =
-          await _client.from('chat_threads').select().eq('id', id).single();
+      final id =
+          await _client.rpc(
+                'open_or_get_thread',
+                params: {'p_counterparty': counterpartyId},
+              )
+              as String;
+      final row = await _client
+          .from('chat_threads')
+          .select()
+          .eq('id', id)
+          .single();
       return ChatThread.fromRow(row);
     } on sb.PostgrestException catch (e) {
       final m = e.message;
@@ -46,7 +52,10 @@ class SupabaseChatRepository implements ChatRepository {
   }
 
   @override
-  Future<List<ChatMessage>> loadHistory(String threadId, {int limit = 200}) async {
+  Future<List<ChatMessage>> loadHistory(
+    String threadId, {
+    int limit = 200,
+  }) async {
     try {
       final rows = await _client
           .from('chat_messages')
@@ -64,14 +73,22 @@ class SupabaseChatRepository implements ChatRepository {
   }
 
   @override
-  Future<ChatMessage> sendMessage({required String threadId, required String body}) async {
+  Future<ChatMessage> sendMessage({
+    required String threadId,
+    required String body,
+  }) async {
     try {
-      final id = await _client.rpc('send_chat_message', params: {
-        'p_thread_id': threadId,
-        'p_body': body,
-      }) as String;
-      final row =
-          await _client.from('chat_messages').select().eq('id', id).single();
+      final id =
+          await _client.rpc(
+                'send_chat_message',
+                params: {'p_thread_id': threadId, 'p_body': body},
+              )
+              as String;
+      final row = await _client
+          .from('chat_messages')
+          .select()
+          .eq('id', id)
+          .single();
       return ChatMessage.fromRow(row);
     } on sb.PostgrestException catch (e) {
       final m = e.message;
@@ -85,7 +102,10 @@ class SupabaseChatRepository implements ChatRepository {
   @override
   Future<void> markRead(String threadId) async {
     try {
-      await _client.rpc('mark_messages_read', params: {'p_thread_id': threadId});
+      await _client.rpc(
+        'mark_messages_read',
+        params: {'p_thread_id': threadId},
+      );
     } on sb.PostgrestException catch (e) {
       throw ChatException('mark_read_failed', e.message);
     }
@@ -107,7 +127,9 @@ class SupabaseChatRepository implements ChatRepository {
       callback: (payload) {
         try {
           controller.add(ChatMessage.fromRow(payload.newRecord));
-        } catch (_) {/* swallow malformed */}
+        } catch (_) {
+          /* swallow malformed */
+        }
       },
     );
     channel.subscribe();

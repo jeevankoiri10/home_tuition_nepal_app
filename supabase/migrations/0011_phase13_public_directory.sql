@@ -77,9 +77,9 @@ select
   p.handle,
   p.first_name || ' ' || left(p.last_name, 1) || '*' as masked_name,
   t.tagline,
-  coalesce(p.address_line, p.city, '')                as area_label,
-  p.city,
-  p.zone,
+  coalesce(t.address_line, t.city, '')                as area_label,
+  t.city,
+  t.zone,
   t.teaching_mode,
   t.levels_taught,
   t.languages_known,
@@ -149,7 +149,7 @@ as $$
     'subjects_covered', (select count(distinct subject) from tutor_offerings),
     'languages_covered', (select count(distinct l) from
                             (select unnest(languages_known) as l from tutors) s),
-    'areas_covered', (select count(distinct coalesce(city, address_line)) from profiles where role = 'tutor')
+    'areas_covered', (select count(distinct coalesce(city, address_line)) from tutors)
   );
 $$;
 grant execute on function public_homepage_stats() to anon, authenticated;

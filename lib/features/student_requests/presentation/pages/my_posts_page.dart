@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,6 +8,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/subject_chips.dart';
+import '../promote_job_action.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/job_post.dart';
 import '../../domain/models/request_enums.dart';
@@ -25,7 +28,7 @@ class MyPostsPage extends StatelessWidget {
         return DefaultTabController(
           length: 2,
           child: Scaffold(
-            appBar: AppBar(
+            appBar: BrandAppBar(
               title: Text(l10n.myPostsTitle),
               bottom: TabBar(
                 tabs: [
@@ -154,7 +157,7 @@ class _JobCard extends StatelessWidget {
             if (job.areaLabel != null) ...[
               const SizedBox(height: AppSpacing.xs),
               Row(children: [
-                const Icon(Icons.place_outlined, size: 14, color: AppColors.textSecondary),
+                const Icon(Icons.place_outlined, size: 14),
                 const SizedBox(width: 2),
                 Flexible(child: Text(job.areaLabel!, style: tt.bodySmall)),
               ]),
@@ -162,15 +165,17 @@ class _JobCard extends StatelessWidget {
             const Divider(height: AppSpacing.xl),
             Row(children: [
               TextButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.chatPhase9Hint)),
-                  );
-                },
+                onPressed: () => context.push(AppRoutes.chatList),
                 icon: const Icon(Icons.chat_bubble_outline, size: 16),
                 label: Text(l10n.viewMessages),
               ),
               const Spacer(),
+              if (job.status == JobStatus.open && job.id != null)
+                IconButton(
+                  tooltip: l10n.promoteJobAction,
+                  icon: const Icon(Icons.trending_up, size: 18),
+                  onPressed: () => showPromoteJobDialog(context, jobId: job.id!),
+                ),
               if (job.status == JobStatus.open)
                 TextButton(onPressed: () => _close(context), child: Text(l10n.closeAction)),
               TextButton.icon(
@@ -231,17 +236,7 @@ class _VacancyCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.xs),
           Text(v.title, style: tt.titleMedium),
           const SizedBox(height: AppSpacing.xs),
-          Wrap(spacing: 6, runSpacing: 4, children: [
-            for (final s in v.subjects)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight.withValues(alpha: 0.4),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Text(s, style: tt.bodySmall),
-              ),
-          ]),
+          SubjectChips(subjects: v.subjects),
           const SizedBox(height: AppSpacing.sm),
           Text(v.formatSalary(), style: tt.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
           if (v.areaLabel.isNotEmpty) ...[
@@ -310,7 +305,7 @@ class _EmptyState extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xxl),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(icon, size: 48, color: AppColors.textSecondary),
+        Icon(icon, size: 48),
         const SizedBox(height: AppSpacing.md),
         Text(message,
             textAlign: TextAlign.center,

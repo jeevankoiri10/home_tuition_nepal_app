@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -108,9 +109,7 @@ class _PostJobPageState extends State<PostJobPage> {
             SnackBar(content: Text(state.errorMessage!)),
           );
         }
-        if (state.status == StudentRequestsStatus.ready &&
-            state.jobs.isNotEmpty &&
-            (DateTime.now().difference(state.jobs.first.createdAt ?? DateTime.now())).inSeconds < 3) {
+        if (state.submittedJobId != null) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(l10n.postJobSuccessSnack)));
           context.pop();
@@ -119,7 +118,7 @@ class _PostJobPageState extends State<PostJobPage> {
       builder: (context, state) {
         final busy = state.status == StudentRequestsStatus.submitting;
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.postJobAppBar)),
+          appBar: BrandAppBar(title: Text(l10n.postJobAppBar)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             child: Form(

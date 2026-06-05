@@ -54,4 +54,58 @@ void main() {
       expect(summary.average, 5.0);
     });
   });
+
+  group('FakeReviewsRepository — student reviews (tutor→student)', () {
+    test('submitStudentReview persists and surfaces in listForStudent', () async {
+      final saved =
+          await reviews.submitStudentReview(studentId: 'student-1', stars: 4, text: 'Punctual.');
+      expect(saved.stars, 4);
+      expect(saved.studentId, 'student-1');
+
+      final list = await reviews.listForStudent('student-1');
+      expect(list.length, 1);
+
+      final summary = await reviews.summaryForStudent('student-1');
+      expect(summary.count, 1);
+      expect(summary.average, 4.0);
+    });
+
+    test('submitStudentReview rejects phone numbers', () async {
+      expect(
+        () => reviews.submitStudentReview(
+            studentId: 'student-2', stars: 5, text: 'reach me 9800000000'),
+        throwsA(isA<ReviewsException>().having((e) => e.isPhoneInReview, 'isPhoneInReview', true)),
+      );
+    });
+
+    test('replacing your own student review keeps the count at 1', () async {
+      await reviews.submitStudentReview(studentId: 'student-3', stars: 2, text: 'Late.');
+      await reviews.submitStudentReview(studentId: 'student-3', stars: 5, text: 'Improved!');
+      final summary = await reviews.summaryForStudent('student-3');
+      expect(summary.count, 1);
+      expect(summary.average, 5.0);
+    });
+  });
+
+  group('FakeReviewsRepository — promotions & boosts', () {
+    // Default platform settings: promoted_job_cost=20, featured_listing_cost=50,
+    // signup grant=1000.
+    test('promoteJob debits the promoted-job cost and returns the new balance',
+        () async {
+      final before = await wallet.loadBalance('fake-login');
+      final balance = await reviews.promoteJob(jobId: 'job-1');
+      expect(balance, before - 20);
+    });
+
+    test('promoteJob twice debits twice', () async {
+      await reviews.promoteJob(jobId: 'job-1');
+      final balance = await reviews.promoteJob(jobId: 'job-2');
+      expect(balance, 1000 - 40);
+    });
+
+    test('boostFeatured debits the featured-listing cost', () async {
+      final balance = await reviews.boostFeatured();
+      expect(balance, 1000 - 50);
+    });
+  });
 }

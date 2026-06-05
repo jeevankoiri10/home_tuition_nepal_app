@@ -6,15 +6,16 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../auth/presentation/blocs/auth_bloc.dart';
 import '../../chat/presentation/pages/chat_list_page.dart';
 import '../../student_requests/presentation/blocs/student_requests_bloc.dart';
+import '../../settings/presentation/pages/tutor_settings_page.dart';
 import '../../tutor_profile/presentation/blocs/tutor_profile_bloc.dart';
-import '../../tutor_profile/presentation/pages/tutor_profile_settings_page.dart';
 import '../../vacancies/presentation/blocs/vacancies_bloc.dart';
+import '../../vacancies/presentation/blocs/vacancy_map_bloc.dart';
 import '../../vacancies/presentation/pages/vacancies_feed_page.dart';
+import '../../vacancies/presentation/pages/vacancy_map_page.dart';
 import '../../wallet/presentation/blocs/wallet_bloc.dart';
-import 'tutor_home_page.dart';
 
 /// Bottom-nav shell shown after a tutor signs in. Hosts four tabs that map
-/// directly to the spec: Home (dashboard for now), Chats, Vacancies, Settings.
+/// directly to the spec: Home (vacancy map), Chats, Vacancies (list), Settings.
 ///
 /// The four child pages each own their own bloc(s); we use [IndexedStack] so
 /// switching tabs keeps the child state alive (scroll positions, fetched
@@ -36,16 +37,19 @@ class _TutorShellPageState extends State<TutorShellPage> {
       body: IndexedStack(
         index: _index,
         children: [
-          // Home — provides WalletBloc so the dashboard's coin chip + balance
-          // card stay in sync via the realtime ledger subscription.
-          BlocProvider<WalletBloc>(
-            create: (ctx) {
-              final user = ctx.read<AuthBloc>().state.user;
-              final bloc = sl<WalletBloc>();
-              if (user != null) bloc.add(WalletLoaded(user.id));
-              return bloc;
-            },
-            child: const TutorHomePage(),
+          // Home — the vacancy map (open vacancies plotted near the tutor).
+          // WalletBloc backs the app-bar coin chip (realtime ledger).
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<VacancyMapBloc>(create: (_) => sl<VacancyMapBloc>()),
+              BlocProvider<WalletBloc>(create: (ctx) {
+                final user = ctx.read<AuthBloc>().state.user;
+                final bloc = sl<WalletBloc>();
+                if (user != null) bloc.add(WalletLoaded(user.id));
+                return bloc;
+              }),
+            ],
+            child: const VacancyMapPage(),
           ),
           const ChatListPage(),
           // Vacancies — feed page needs VacanciesBloc + a WalletBloc for the
@@ -86,7 +90,7 @@ class _TutorShellPageState extends State<TutorShellPage> {
               if (user != null) bloc.add(TutorProfileLoaded(user.id));
               return bloc;
             },
-            child: const TutorProfileSettingsPage(),
+            child: const TutorSettingsPage(),
           ),
         ],
       ),

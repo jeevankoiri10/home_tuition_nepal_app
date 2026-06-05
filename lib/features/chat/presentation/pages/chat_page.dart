@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -10,9 +11,14 @@ import '../../../contracts/presentation/blocs/contract_bloc.dart';
 import '../../../contracts/presentation/widgets/contract_banner.dart';
 import '../../domain/models/chat_message.dart';
 import '../blocs/chat_bloc.dart';
+import '../widgets/chat_presence_status.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key, required this.counterpartyId, this.counterpartyMaskedName});
+  const ChatPage({
+    super.key,
+    required this.counterpartyId,
+    this.counterpartyMaskedName,
+  });
 
   final String counterpartyId;
   final String? counterpartyMaskedName;
@@ -64,8 +70,15 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.counterpartyMaskedName ?? l10n.chatTitleFallback),
+      appBar: BrandAppBar(
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(widget.counterpartyMaskedName ?? l10n.chatTitleFallback),
+            ChatPresenceStatus(userId: widget.counterpartyId),
+          ],
+        ),
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
         listenWhen: (a, b) =>
@@ -74,9 +87,9 @@ class _ChatPageState extends State<ChatPage> {
             a.thread?.id != b.thread?.id,
         listener: (context, state) {
           if (state.sendError != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.sendError!)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.sendError!)));
             context.read<ChatBloc>().add(const ChatSendErrorCleared());
           }
           // Once the thread is known, point the contract banner at it.
@@ -88,9 +101,12 @@ class _ChatPageState extends State<ChatPage> {
         },
         builder: (context, state) {
           if (state.status == ChatStatus.error) {
-            return _GateError(message: state.errorMessage ?? l10n.chatOpenError);
+            return _GateError(
+              message: state.errorMessage ?? l10n.chatOpenError,
+            );
           }
-          if (state.status == ChatStatus.opening || state.status == ChatStatus.loading) {
+          if (state.status == ChatStatus.opening ||
+              state.status == ChatStatus.loading) {
             return const Center(child: CircularProgressIndicator());
           }
           final viewerId = context.read<AuthBloc>().state.user?.id ?? '';
@@ -104,7 +120,9 @@ class _ChatPageState extends State<ChatPage> {
                   tutorId: thread.tutorId,
                   viewerId: viewerId,
                   counterpartyName:
-                      widget.counterpartyMaskedName ?? thread.counterpartyMaskedName ?? '',
+                      widget.counterpartyMaskedName ??
+                      thread.counterpartyMaskedName ??
+                      '',
                 ),
               Expanded(
                 child: state.messages.isEmpty
@@ -112,7 +130,9 @@ class _ChatPageState extends State<ChatPage> {
                     : ListView.builder(
                         controller: _scroll,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                          horizontal: AppSpacing.lg,
+                          vertical: AppSpacing.md,
+                        ),
                         itemCount: state.messages.length,
                         itemBuilder: (_, i) {
                           final m = state.messages[i];
@@ -143,8 +163,9 @@ class _Bubble extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.75,
+        ),
         decoration: BoxDecoration(
           color: bg,
           borderRadius: BorderRadius.circular(12),
@@ -153,21 +174,29 @@ class _Bubble extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(message.body),
+            Text(
+              message.body,
+              style: const TextStyle(color: AppColors.chatMessageText),
+            ),
             const SizedBox(height: 2),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   _hhmm(message.sentAt),
-                  style: const TextStyle(fontSize: 10, color: AppColors.textSecondary),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 if (mine) ...[
                   const SizedBox(width: 4),
                   Icon(
                     message.isRead ? Icons.done_all : Icons.done,
                     size: 12,
-                    color: message.isRead ? AppColors.primary : AppColors.textSecondary,
+                    color: message.isRead
+                        ? AppColors.primary
+                        : AppColors.textSecondary,
                   ),
                 ],
               ],
@@ -194,39 +223,45 @@ class _Composer extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
-            AppSpacing.md, AppSpacing.sm, AppSpacing.md, AppSpacing.md),
-        child: Row(children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              minLines: 1,
-              maxLines: 4,
-              textInputAction: TextInputAction.send,
-              onSubmitted: (_) => onSend(),
-              decoration: InputDecoration(
-                hintText: AppLocalizations.of(context).chatComposerHint,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: AppRadii.pillBorder,
-                  borderSide: BorderSide.none,
+          AppSpacing.md,
+          AppSpacing.sm,
+          AppSpacing.md,
+          AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller,
+                minLines: 1,
+                maxLines: 4,
+                textInputAction: TextInputAction.send,
+                onSubmitted: (_) => onSend(),
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context).chatComposerHint,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: AppRadii.pillBorder,
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          GestureDetector(
-            onTap: onSend,
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: const BoxDecoration(
-                gradient: AppColors.brandGradient,
-                shape: BoxShape.circle,
+            const SizedBox(width: AppSpacing.sm),
+            GestureDetector(
+              onTap: onSend,
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.send, color: Colors.white),
               ),
-              child: const Icon(Icons.send, color: Colors.white),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -261,11 +296,13 @@ class _GateError extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.lock_outline, size: 48, color: AppColors.textSecondary),
+            const Icon(Icons.lock_outline, size: 48),
             const SizedBox(height: AppSpacing.md),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: AppColors.textSecondary)),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: AppColors.textSecondary),
+            ),
           ],
         ),
       ),

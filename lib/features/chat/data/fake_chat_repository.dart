@@ -29,9 +29,15 @@ class FakeChatRepository implements ChatRepository {
     final existing = _threadsById[key];
     if (existing != null) return existing;
 
-    final ok = await _wallet.hasUnlocked(studentId: demoStudent, tutorId: counterpartyId);
+    final ok = await _wallet.hasUnlocked(
+      studentId: demoStudent,
+      tutorId: counterpartyId,
+    );
     if (!ok) {
-      throw ChatException('gate_not_met', 'Unlock the tutor first to start a chat.');
+      throw ChatException(
+        'gate_not_met',
+        'Unlock the tutor first to start a chat.',
+      );
     }
 
     final thread = ChatThread(
@@ -55,20 +61,34 @@ class FakeChatRepository implements ChatRepository {
   }
 
   @override
-  Future<List<ChatMessage>> loadHistory(String threadId, {int limit = 200}) async {
+  Future<List<ChatMessage>> loadHistory(
+    String threadId, {
+    int limit = 200,
+  }) async {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     return List<ChatMessage>.from(_messagesByThread[threadId] ?? const []);
   }
 
   @override
-  Future<ChatMessage> sendMessage({required String threadId, required String body}) async {
-    if (body.trim().isEmpty) throw ChatException('empty_message', 'Message is empty.');
+  Future<ChatMessage> sendMessage({
+    required String threadId,
+    required String body,
+  }) async {
+    if (body.trim().isEmpty) {
+      throw ChatException('empty_message', 'Message is empty.');
+    }
     if (PhoneBanRegex.isViolation(body)) {
-      throw ChatException('phone_in_message', 'Remove phone numbers or contact details.');
+      throw ChatException(
+        'phone_in_message',
+        'Remove phone numbers or contact details.',
+      );
     }
     final thread = _threadsById.values.firstWhere(
       (t) => t.id == threadId,
-      orElse: () => throw ChatException('thread_not_found_or_forbidden', 'Thread not found.'),
+      orElse: () => throw ChatException(
+        'thread_not_found_or_forbidden',
+        'Thread not found.',
+      ),
     );
     final senderId = thread.studentId; // demo: outgoing always from the student
     final msg = ChatMessage(

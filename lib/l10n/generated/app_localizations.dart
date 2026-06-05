@@ -200,6 +200,18 @@ abstract class AppLocalizations {
   /// **'Log out'**
   String get settingsLogoutLabel;
 
+  /// No description provided for @tutorSettingsProfileSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile'**
+  String get tutorSettingsProfileSection;
+
+  /// No description provided for @tutorSettingsEditProfileCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Update profile'**
+  String get tutorSettingsEditProfileCta;
+
   /// No description provided for @settingsReferralSection.
   ///
   /// In en, this message translates to:
@@ -331,6 +343,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use my current location'**
   String get mapPinPickerUseMyLocation;
+
+  /// No description provided for @openSettingsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get openSettingsAction;
+
+  /// No description provided for @locationServicesDisabledMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is turned off. Turn it on to use your current location.'**
+  String get locationServicesDisabledMessage;
+
+  /// No description provided for @locationPermissionBlockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is blocked. Enable it in Settings to use your location.'**
+  String get locationPermissionBlockedMessage;
+
+  /// No description provided for @locationPermissionDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied. Showing the default area — drag the map to your spot.'**
+  String get locationPermissionDeniedMessage;
+
+  /// No description provided for @locationUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get your location right now. Showing the default area — drag the map to your spot.'**
+  String get locationUnavailableMessage;
 
   /// No description provided for @subjectSectionHeading.
   ///
@@ -650,6 +692,36 @@ abstract class AppLocalizations {
   /// **'Thanks for your review!'**
   String get reviewThanks;
 
+  /// No description provided for @reviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsTitle;
+
+  /// No description provided for @reviewsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet'**
+  String get reviewsEmpty;
+
+  /// No description provided for @reviewsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load reviews. Pull to retry.'**
+  String get reviewsLoadError;
+
+  /// No description provided for @seeReviewsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'See reviews'**
+  String get seeReviewsAction;
+
+  /// No description provided for @reviewsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}'**
+  String reviewsCount(int count);
+
   /// No description provided for @continueLabel.
   ///
   /// In en, this message translates to:
@@ -698,6 +770,18 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get themeDark;
 
+  /// No description provided for @settingsThemeSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsThemeSection;
+
+  /// No description provided for @settingsThemeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how the app looks.'**
+  String get settingsThemeHint;
+
   /// No description provided for @emailLabel.
   ///
   /// In en, this message translates to:
@@ -734,6 +818,114 @@ abstract class AppLocalizations {
   /// **'Don\'t have an account? Create one'**
   String get loginToRegister;
 
+  /// No description provided for @googleContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get googleContinue;
+
+  /// No description provided for @googleAsStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google as a student'**
+  String get googleAsStudent;
+
+  /// No description provided for @googleAsTutor.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google as a tutor'**
+  String get googleAsTutor;
+
+  /// No description provided for @orSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get orSeparator;
+
+  /// No description provided for @nextAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextAction;
+
+  /// No description provided for @doneAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneAction;
+
+  /// No description provided for @whatsappLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp number'**
+  String get whatsappLabel;
+
+  /// No description provided for @onboardingContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact details'**
+  String get onboardingContactTitle;
+
+  /// No description provided for @onboardingContactSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We use these to connect you. They are never shown publicly.'**
+  String get onboardingContactSubtitle;
+
+  /// No description provided for @onboardingLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your location'**
+  String get onboardingLocationTitle;
+
+  /// No description provided for @onboardingLocationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the map to drop the pin where you are, or tap the locate button.'**
+  String get onboardingLocationSubtitle;
+
+  /// No description provided for @onboardingSelectMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Select my location'**
+  String get onboardingSelectMyLocation;
+
+  /// No description provided for @wizardStepContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get wizardStepContact;
+
+  /// No description provided for @wizardStepResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get wizardStepResume;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSection;
+
+  /// No description provided for @switchToTutorView.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to tutor view'**
+  String get switchToTutorView;
+
+  /// No description provided for @switchToStudentView.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to student view'**
+  String get switchToStudentView;
+
+  /// No description provided for @switchRoleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the same account to teach and to learn.'**
+  String get switchRoleSubtitle;
+
   /// No description provided for @loginErrorInvalidCredentials.
   ///
   /// In en, this message translates to:
@@ -745,6 +937,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
+
+  /// No description provided for @errorNoInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Check your network and try again.'**
+  String get errorNoInternet;
+
+  /// No description provided for @errorGoogleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t sign you in with Google. Please try again in a moment.'**
+  String get errorGoogleSignInFailed;
+
+  /// No description provided for @errorSignInCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in was cancelled before it finished. Tap Continue with Google to try again.'**
+  String get errorSignInCancelled;
+
+  /// No description provided for @errorSignInTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in took too long and timed out. Please try again.'**
+  String get errorSignInTimeout;
 
   /// No description provided for @firstNameLabel.
   ///
@@ -950,48 +1166,6 @@ abstract class AppLocalizations {
   /// **'Resend in {seconds}s'**
   String verifyEmailResendCooldown(int seconds);
 
-  /// No description provided for @studentHomeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Student home'**
-  String get studentHomeTitle;
-
-  /// No description provided for @tutorHomeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Tutor home'**
-  String get tutorHomeTitle;
-
-  /// No description provided for @signOutTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign out'**
-  String get signOutTooltip;
-
-  /// No description provided for @homeWelcome.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome, {name}'**
-  String homeWelcome(String name);
-
-  /// No description provided for @homeHandle.
-  ///
-  /// In en, this message translates to:
-  /// **'Handle: {handle}'**
-  String homeHandle(String handle);
-
-  /// No description provided for @studentMapPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'The locality-first map (the headline feature) ships in Phase 4.'**
-  String get studentMapPlaceholder;
-
-  /// No description provided for @previewLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Preview'**
-  String get previewLabel;
-
   /// No description provided for @currentBalanceLabel.
   ///
   /// In en, this message translates to:
@@ -1082,6 +1256,54 @@ abstract class AppLocalizations {
   /// **'Insufficient coins for boost.'**
   String get tutorBoostInsufficientSnack;
 
+  /// No description provided for @promoteJobAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Promote (24h)'**
+  String get promoteJobAction;
+
+  /// No description provided for @promoteJobConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Promote this post?'**
+  String get promoteJobConfirmTitle;
+
+  /// No description provided for @promoteJobConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Spend {cost} coins to push this post to the top of search for 24 hours.'**
+  String promoteJobConfirmBody(int cost);
+
+  /// No description provided for @promoteJobConfirmCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Promote'**
+  String get promoteJobConfirmCta;
+
+  /// No description provided for @promoteJobSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Post promoted for 24h · Balance: {balance}'**
+  String promoteJobSuccessSnack(int balance);
+
+  /// No description provided for @promoteJobFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not promote post.'**
+  String get promoteJobFailedSnack;
+
+  /// No description provided for @promoteJobInsufficientSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient coins to promote.'**
+  String get promoteJobInsufficientSnack;
+
+  /// No description provided for @cancelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelLabel;
+
   /// No description provided for @tutorPhasesNote.
   ///
   /// In en, this message translates to:
@@ -1106,6 +1328,36 @@ abstract class AppLocalizations {
   /// **'Re-center'**
   String get mapRecenterTooltip;
 
+  /// No description provided for @vacancyMapEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No open vacancies near here yet.'**
+  String get vacancyMapEmpty;
+
+  /// No description provided for @vacancyMapBrowseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse all vacancies'**
+  String get vacancyMapBrowseAll;
+
+  /// No description provided for @vacancyMapSortSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary: high to low'**
+  String get vacancyMapSortSalary;
+
+  /// No description provided for @vacancyMapSortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get vacancyMapSortNewest;
+
+  /// No description provided for @vacancyMapNearbyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} vacancies nearby'**
+  String vacancyMapNearbyCount(int count);
+
   /// No description provided for @mapRequestTutorFab.
   ///
   /// In en, this message translates to:
@@ -1124,6 +1376,24 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{{count} tutor} other{{count} tutors}}'**
   String mapTutorCount(int count);
 
+  /// No description provided for @mapSortNearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest'**
+  String get mapSortNearest;
+
+  /// No description provided for @mapSortPriceLowHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: low to high'**
+  String get mapSortPriceLowHigh;
+
+  /// No description provided for @mapSortTopRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Top rated'**
+  String get mapSortTopRated;
+
   /// No description provided for @mapAllMatchesHeader.
   ///
   /// In en, this message translates to:
@@ -1141,6 +1411,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try widening the radius or loosening filters.'**
   String get mapEmptyHint;
+
+  /// No description provided for @mapLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load nearby tutors.'**
+  String get mapLoadError;
+
+  /// No description provided for @mapEmptyExpandRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand radius'**
+  String get mapEmptyExpandRadius;
+
+  /// No description provided for @mapSearchHereSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching tutors around this point'**
+  String get mapSearchHereSnack;
+
+  /// No description provided for @filterClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get filterClearAll;
+
+  /// No description provided for @actionClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get actionClear;
+
+  /// No description provided for @actionRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get actionRetry;
 
   /// No description provided for @walletTitle.
   ///
@@ -1262,17 +1568,17 @@ abstract class AppLocalizations {
   /// **'WhatsApp'**
   String get whatsAppLabel;
 
-  /// No description provided for @unlockCallPhase7Hint.
+  /// No description provided for @contactNoNumber.
   ///
   /// In en, this message translates to:
-  /// **'Phone-number reveal lands when admin matches go live (Phase 7).'**
-  String get unlockCallPhase7Hint;
+  /// **'No phone number on file for this tutor.'**
+  String get contactNoNumber;
 
-  /// No description provided for @unlockWhatsAppPhase7Hint.
+  /// No description provided for @contactLaunchFailed.
   ///
   /// In en, this message translates to:
-  /// **'WhatsApp launch wires in Phase 7.'**
-  String get unlockWhatsAppPhase7Hint;
+  /// **'Couldn\'t open this app. Try the other option.'**
+  String get contactLaunchFailed;
 
   /// No description provided for @leaveReview.
   ///
@@ -1376,6 +1682,12 @@ abstract class AppLocalizations {
   /// **'New job posted'**
   String get notifKindNewJobPosted;
 
+  /// No description provided for @notifKindTutorApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'New application'**
+  String get notifKindTutorApplied;
+
   /// No description provided for @notifKindApplicationShortlisted.
   ///
   /// In en, this message translates to:
@@ -1423,6 +1735,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New review'**
   String get notifKindNewReview;
+
+  /// No description provided for @notifKindAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement'**
+  String get notifKindAnnouncement;
 
   /// No description provided for @notifKindSystem.
   ///
@@ -1513,6 +1831,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verified only'**
   String get filterVerifiedOnly;
+
+  /// No description provided for @verifiedTutorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified tutor'**
+  String get verifiedTutorLabel;
 
   /// No description provided for @filterAvailableNow.
   ///
@@ -1873,12 +2197,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repost'**
   String get repostAction;
-
-  /// No description provided for @chatPhase9Hint.
-  ///
-  /// In en, this message translates to:
-  /// **'In-app chat ships in Phase 9.'**
-  String get chatPhase9Hint;
 
   /// No description provided for @vacancyPendingReview.
   ///
@@ -3098,6 +3416,48 @@ abstract class AppLocalizations {
   /// **'Your account has been suspended or banned. Contact the admin to appeal.'**
   String get accountBlockedReason;
 
+  /// No description provided for @blockedScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deactivated'**
+  String get blockedScreenTitle;
+
+  /// No description provided for @blockedScreenMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have violated our Terms of Policy, so your account has been deactivated. You can no longer use Home Tuition Nepal. To appeal this decision, contact our team.'**
+  String get blockedScreenMessage;
+
+  /// No description provided for @blockedScreenEmailCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Email us'**
+  String get blockedScreenEmailCta;
+
+  /// No description provided for @blockedScreenRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve been reactivated — check again'**
+  String get blockedScreenRefresh;
+
+  /// No description provided for @blockedScreenStillBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is still deactivated.'**
+  String get blockedScreenStillBlocked;
+
+  /// No description provided for @presenceOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get presenceOnline;
+
+  /// No description provided for @presenceLastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen {time}'**
+  String presenceLastSeen(String time);
+
   /// No description provided for @contactAdminOnWhatsApp.
   ///
   /// In en, this message translates to:
@@ -3246,6 +3606,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'collapse'**
   String get mapSheetActionCollapse;
+
+  /// No description provided for @tutorCardExperienceYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{years, plural, one{{years} yr exp} other{{years} yrs exp}}'**
+  String tutorCardExperienceYears(int years);
 }
 
 class _AppLocalizationsDelegate

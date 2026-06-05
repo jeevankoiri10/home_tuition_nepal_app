@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import '../../../../app/router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/masked_avatar.dart';
+import '../../../../core/widgets/presence_dot.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../domain/chat_repository.dart';
@@ -47,7 +49,7 @@ class _ChatListPageState extends State<ChatListPage> {
     final l10n = AppLocalizations.of(context);
     final user = context.watch<AuthBloc>().state.user;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.chatListTitle)),
+      appBar: BrandAppBar(title: Text(l10n.chatListTitle)),
       body: FutureBuilder<List<ChatThread>>(
         future: _threads,
         builder: (context, snap) {
@@ -62,19 +64,28 @@ class _ChatListPageState extends State<ChatListPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.xl, vertical: AppSpacing.xxl),
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xxl,
+                    ),
                     child: Column(
                       children: [
-                        const Icon(Icons.forum_outlined,
-                            size: 48, color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.forum_outlined,
+                          size: 48,
+                          color: AppColors.textSecondary,
+                        ),
                         const SizedBox(height: AppSpacing.md),
-                        Text(l10n.chatListEmptyTitle,
-                            style: Theme.of(context).textTheme.titleMedium),
+                        Text(
+                          l10n.chatListEmptyTitle,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           l10n.chatListEmptyHint,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(color: AppColors.textSecondary),
+                          style: const TextStyle(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -88,10 +99,8 @@ class _ChatListPageState extends State<ChatListPage> {
             child: ListView.separated(
               itemCount: threads.length,
               separatorBuilder: (_, _) => const Divider(height: 1),
-              itemBuilder: (_, i) => _ThreadTile(
-                thread: threads[i],
-                viewerId: user?.id ?? '',
-              ),
+              itemBuilder: (_, i) =>
+                  _ThreadTile(thread: threads[i], viewerId: user?.id ?? ''),
             ),
           );
         },
@@ -112,20 +121,37 @@ class _ThreadTile extends StatelessWidget {
 
   String _subtitle(BuildContext context) {
     final ts = thread.lastMessageAt ?? thread.createdAt;
-    return DateFormat.MMMd(Localizations.localeOf(context).toString())
-        .add_jm()
-        .format(ts.toLocal());
+    return DateFormat.MMMd(
+      Localizations.localeOf(context).toString(),
+    ).add_jm().format(ts.toLocal());
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg, vertical: AppSpacing.xs),
-      leading: MaskedAvatar(name: _name, radius: 22),
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.xs,
+      ),
+      leading: SizedBox(
+        width: 44,
+        height: 44,
+        child: Stack(
+          children: [
+            MaskedAvatar(name: _name, radius: 22),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: PresenceDot(userId: thread.counterpartyFor(viewerId)),
+            ),
+          ],
+        ),
+      ),
       title: Text(_name),
-      subtitle: Text(_subtitle(context),
-          style: const TextStyle(color: AppColors.textSecondary)),
+      subtitle: Text(
+        _subtitle(context),
+        style: const TextStyle(color: AppColors.textSecondary),
+      ),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
         final counterparty = thread.counterpartyFor(viewerId);

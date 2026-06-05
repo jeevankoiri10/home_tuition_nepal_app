@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -20,7 +21,7 @@ class NoticeDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.noticeDetailsTitle)),
+      appBar: BrandAppBar(title: Text(l10n.noticeDetailsTitle)),
       body: BlocBuilder<NotificationsBloc, NotificationsState>(
         builder: (context, state) {
           final notice = state.notifications

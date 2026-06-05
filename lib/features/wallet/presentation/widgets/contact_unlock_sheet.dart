@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/router.dart';
 import '../../../../core/services/platform_settings_service.dart';
+import '../../../../core/utils/contact_links.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/verified_badge.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../app/di.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
 import '../../../map/domain/models/map_tutor.dart';
 import '../../../reviews/domain/reviews_repository.dart';
+import '../../../reviews/presentation/widgets/reviews_sheet.dart';
+import '../../../reviews/presentation/widgets/star_rating_input.dart';
 import '../../../reviews/presentation/widgets/submit_review_sheet.dart';
 import '../../domain/wallet_repository.dart';
 import '../blocs/wallet_bloc.dart';
 
-/// Shows the unlock confirm flow, then on success an actionable Call /
-/// WhatsApp surface (Phase 5 stops short of launching `tel:` / `wa.me/<num>`
-/// because the real phone number lookup ships in Phase 9 chat / Phase 7 admin
-/// match; for now we surface the unlocked state and update the wallet).
+/// Shows the unlock confirm flow, then on success an actionable Call / WhatsApp
+/// / Chat surface. The tutor's phone is fetched via the server-gated
+/// `revealContact` (only returns a number once the contact is unlocked) and the
+/// Call/WhatsApp buttons launch `tel:` / `wa.me` via [ContactLinks].
 class ContactUnlockSheet extends StatefulWidget {
   const ContactUnlockSheet({
     super.key,
@@ -39,8 +44,13 @@ class ContactUnlockSheet extends StatefulWidget {
 class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
   bool _busy = false;
   String? _error;
+  // True only when the last failure was insufficient coins — drives the
+  // "top up" shortcut. Captured from the exception type, not by matching the
+  // (localized) error text.
+  bool _needsTopUp = false;
   bool _unlocked = false;
   int? _newBalance;
+  String? _phone;
 
   Future<void> _confirm() async {
     final l10n = AppLocalizations.of(context);
@@ -52,6 +62,7 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
     setState(() {
       _busy = true;
       _error = null;
+      _needsTopUp = false;
     });
     try {
       final balance = await widget.walletRepository.unlockContact(
@@ -61,15 +72,30 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
       if (!mounted) return;
       // Tell the wallet bloc to refresh in case the wallet page is also open.
       context.read<WalletBloc>().add(const WalletBalanceChanged());
+      // Reveal the now-unlocked phone so Call/WhatsApp can launch. A reveal
+      // failure must not undo the (already-committed) unlock, so swallow it —
+      // the buttons fall back to a "no number" message.
+      String? phone;
+      try {
+        phone = await widget.walletRepository.revealContact(
+          studentId: user.id,
+          tutorId: widget.tutor.tutorId,
+        );
+      } on WalletException {
+        phone = null;
+      }
+      if (!mounted) return;
       setState(() {
         _unlocked = true;
         _newBalance = balance;
+        _phone = phone;
         _busy = false;
       });
     } on WalletException catch (e) {
       if (!mounted) return;
       setState(() {
         _busy = false;
+        _needsTopUp = e.isInsufficient;
         _error = e.isInsufficient
             ? l10n.unlockNeedMoreCoins
             : (e.message ?? l10n.unlockFailedGeneric);
@@ -89,7 +115,25 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _Header(tutor: widget.tutor),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              children: [
+                StarRatingBadge(
+                  average: widget.tutor.rating.toDouble(),
+                  count: widget.tutor.ratingCount,
+                ),
+                const Spacer(),
+                TextButton.icon(
+                  onPressed: () => ReviewsSheet.showForTutor(
+                    context,
+                    tutorId: widget.tutor.tutorId,
+                  ),
+                  icon: const Icon(Icons.reviews_outlined, size: 18),
+                  label: Text(l10n.seeReviewsAction),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.md),
             if (!_unlocked) ...[
               Text(l10n.unlockTitle(cost),
                   style: Theme.of(context).textTheme.titleMedium),
@@ -102,7 +146,7 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
                 const SizedBox(height: AppSpacing.md),
                 _ErrorBox(
                   message: _error!,
-                  showTopUp: _error == l10n.unlockNeedMoreCoins,
+                  showTopUp: _needsTopUp,
                   onTopUp: () {
                     Navigator.of(context).pop();
                     context.push(AppRoutes.wallet);
@@ -120,6 +164,7 @@ class _ContactUnlockSheetState extends State<ContactUnlockSheet> {
                 newBalance: _newBalance ?? 0,
                 tutorId: widget.tutor.tutorId,
                 tutorName: widget.tutor.maskedName,
+                phone: _phone,
               ),
           ],
         ),
@@ -155,7 +200,22 @@ class _Header extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(tutor.maskedName, style: Theme.of(context).textTheme.titleLarge),
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(tutor.maskedName,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  if (tutor.verified) ...[
+                    const SizedBox(width: AppSpacing.xs),
+                    VerifiedBadge(
+                      size: 18,
+                      semanticLabel: AppLocalizations.of(context).verifiedTutorLabel,
+                    ),
+                  ],
+                ],
+              ),
               Text('${tutor.areaLabel} · ${tutor.formatDistance()}',
                   style: const TextStyle(color: AppColors.textSecondary)),
             ],
@@ -218,11 +278,29 @@ class _UnlockedView extends StatelessWidget {
     required this.newBalance,
     required this.tutorId,
     required this.tutorName,
+    required this.phone,
   });
 
   final int newBalance;
   final String tutorId;
   final String tutorName;
+  final String? phone;
+
+  Future<void> _launch(
+      BuildContext context, Uri Function(String phone) buildUri) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final number = phone;
+    if (number == null || number.isEmpty) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.contactNoNumber)));
+      return;
+    }
+    final ok =
+        await launchUrl(buildUri(number), mode: LaunchMode.externalApplication);
+    if (!ok) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.contactLaunchFailed)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,11 +333,7 @@ class _UnlockedView extends StatelessWidget {
           children: [
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.unlockCallPhase7Hint)),
-                  );
-                },
+                onPressed: () => _launch(context, ContactLinks.tel),
                 icon: const Icon(Icons.phone_outlined),
                 label: Text(l10n.callLabel),
               ),
@@ -267,11 +341,7 @@ class _UnlockedView extends StatelessWidget {
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.unlockWhatsAppPhase7Hint)),
-                  );
-                },
+                onPressed: () => _launch(context, ContactLinks.whatsApp),
                 icon: const Icon(Icons.chat_outlined),
                 label: Text(l10n.whatsAppLabel),
               ),

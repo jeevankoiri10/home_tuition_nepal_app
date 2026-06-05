@@ -11,7 +11,7 @@ void main() {
       expect(TutorProfile.computeCompletion(p), 10);
     });
 
-    test('adding levels + offerings + about sections climbs the score', () {
+    test('a fully filled profile (incl. location + CV) scores 100', () {
       final p = TutorProfile(
         tutorId: 't1',
         levelsTaught: {StudentLevel.see, StudentLevel.plus2},
@@ -25,9 +25,22 @@ void main() {
         qualifications: 'C' * 40,
         languagesKnown: const ['English', 'Nepali'],
         availability: TutorAvailability().toggleRow(TimeBand.midday, value: true),
+        lat: 27.7,
+        lng: 85.3,
+        cvUrl: 'https://example.com/cv.pdf',
       );
       expect(TutorProfile.computeCompletion(p), 100);
       expect(p.copyWith(profileCompletion: TutorProfile.computeCompletion(p)).isPublishable, isTrue);
+    });
+
+    test('location pin and CV each contribute to the score', () {
+      final base = TutorProfile(tutorId: 't1'); // 10 (teaching mode default)
+      expect(TutorProfile.computeCompletion(base), 10);
+      expect(TutorProfile.computeCompletion(base.copyWith(lat: 27.7, lng: 85.3)), 15);
+      expect(
+        TutorProfile.computeCompletion(base.copyWith(cvUrl: 'https://x/cv.pdf')),
+        20,
+      );
     });
 
     test('about-me below 100 chars yields no about_me credit', () {

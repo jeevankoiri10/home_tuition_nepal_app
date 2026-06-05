@@ -65,6 +65,10 @@ class FakeNotificationsRepository implements NotificationsRepository {
   }
 
   @override
+  Future<Set<NotificationKind>> enabledKinds() async =>
+      NotificationKind.values.toSet();
+
+  @override
   Future<void> markRead(String notificationId) async {
     await Future<void>.delayed(const Duration(milliseconds: 80));
     for (final list in _byUser.values) {

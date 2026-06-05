@@ -25,6 +25,9 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
       textTheme: textTheme,
+      // Default icon color follows the scheme so neutral icons adapt to
+      // light/dark instead of staying a fixed grey.
+      iconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,

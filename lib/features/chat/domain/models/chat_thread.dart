@@ -20,9 +20,11 @@ class ChatThread extends Equatable {
   final String? counterpartyMaskedName;
 
   /// Returns the other party id given the viewer.
-  String counterpartyFor(String viewerId) => viewerId == studentId ? tutorId : studentId;
+  String counterpartyFor(String viewerId) =>
+      viewerId == studentId ? tutorId : studentId;
 
-  static ChatThread fromRow(Map<String, dynamic> row, {String? maskedName}) => ChatThread(
+  static ChatThread fromRow(Map<String, dynamic> row, {String? maskedName}) =>
+      ChatThread(
         id: row['id'] as String,
         studentId: row['student_id'] as String,
         tutorId: row['tutor_id'] as String,
@@ -37,5 +39,12 @@ class ChatThread extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, studentId, tutorId, openedVia, lastMessageAt, createdAt];
+  List<Object?> get props => [
+    id,
+    studentId,
+    tutorId,
+    openedVia,
+    lastMessageAt,
+    createdAt,
+  ];
 }

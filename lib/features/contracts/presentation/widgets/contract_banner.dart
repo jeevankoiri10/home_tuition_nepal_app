@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/di.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../reviews/domain/reviews_repository.dart';
 import '../../domain/models/contract.dart';
 import '../blocs/contract_bloc.dart';
 import 'propose_contract_sheet.dart';
@@ -12,7 +14,8 @@ import 'review_sheet.dart';
 
 /// Sits at the top of a chat thread. Renders the current contract state and
 /// the actions available to the viewer (propose / accept / decline / end),
-/// and pops a review sheet when the student ends an active contract.
+/// and pops a review sheet when either party ends an active contract
+/// (bidirectional, Upwork-style).
 class ContractBanner extends StatelessWidget {
   const ContractBanner({
     super.key,
@@ -52,16 +55,21 @@ class ContractBanner extends StatelessWidget {
 
   Future<void> _endThenReview(BuildContext context, Contract contract) async {
     context.read<ContractBloc>().add(ContractEnded(contract.id));
-    // The student reviews the tutor on completion. The tutor side just sees
-    // the contract flip to completed.
-    if (_viewerIsStudent) {
-      await showModalBottomSheet<bool>(
-        context: context,
-        isScrollControlled: true,
-        showDragHandle: true,
-        builder: (_) => ReviewSheet(tutorId: tutorId, tutorName: counterpartyName),
-      );
-    }
+    // Both parties review each other on completion (Upwork-style). The
+    // viewer's direction picks the right repository call: a student reviews
+    // the tutor; a tutor reviews the student.
+    final reviews = sl<ReviewsRepository>();
+    final Future<void> Function(int, String?) onSubmit = _viewerIsStudent
+        ? (stars, text) =>
+            reviews.submit(tutorId: tutorId, stars: stars, text: text)
+        : (stars, text) =>
+            reviews.submitStudentReview(studentId: studentId, stars: stars, text: text);
+    await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => ReviewSheet(revieweeName: counterpartyName, onSubmit: onSubmit),
+    );
   }
 
   @override

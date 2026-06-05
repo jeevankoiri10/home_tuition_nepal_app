@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../app/di.dart';
@@ -10,6 +11,7 @@ import '../../../../core/widgets/primary_button.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../student_requests/domain/models/request_enums.dart';
 import '../../../student_requests/presentation/enum_labels.dart';
+import '../../domain/connect_cost.dart';
 import '../../domain/models/vacancy.dart';
 import '../blocs/vacancies_bloc.dart';
 import '../widgets/apply_to_vacancy_sheet.dart';
@@ -27,20 +29,20 @@ class VacancyDetailPage extends StatelessWidget {
         final vacancy = state.vacancies.where((v) => v.id == vacancyId).firstOrNull;
         if (vacancy == null) {
           return Scaffold(
-            appBar: AppBar(title: Text(l10n.vacancyTitleFallback)),
+            appBar: BrandAppBar(title: Text(l10n.vacancyTitleFallback)),
             body: Center(child: Text(l10n.vacancyNotFound)),
           );
         }
         final applied = state.appliedVacancyIds.contains(vacancy.id);
         return Scaffold(
-          appBar: AppBar(title: Text(vacancy.code ?? l10n.vacancyTitleFallback)),
+          appBar: BrandAppBar(title: Text(vacancy.code ?? l10n.vacancyTitleFallback)),
           body: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
               Text(vacancy.title, style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: AppSpacing.sm),
               Row(children: [
-                const Icon(Icons.place_outlined, size: 16, color: AppColors.textSecondary),
+                const Icon(Icons.place_outlined, size: 16),
                 const SizedBox(width: 4),
                 Flexible(child: Text(vacancy.areaLabel)),
               ]),
@@ -101,7 +103,9 @@ class VacancyDetailPage extends StatelessWidget {
                       label: Text(l10n.vacancyAlreadyApplied),
                     )
                   : PrimaryButton(
-                      label: l10n.vacancyApplyLabel,
+                      label: l10n.applyButtonLabel(
+                          ConnectCost.forVacancyWithSettings(
+                              vacancy, sl<PlatformSettingsService>())),
                       onPressed: () => _showApply(context, vacancy),
                     ),
             ),

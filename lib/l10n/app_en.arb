@@ -56,6 +56,12 @@
   "settingsLogoutLabel": "Log out",
   "@settingsLogoutLabel": {},
 
+  "tutorSettingsProfileSection": "Your profile",
+  "@tutorSettingsProfileSection": {},
+
+  "tutorSettingsEditProfileCta": "Update profile",
+  "@tutorSettingsEditProfileCta": {},
+
   "settingsReferralSection": "Refer a friend",
   "@settingsReferralSection": {},
 
@@ -125,6 +131,21 @@
 
   "mapPinPickerUseMyLocation": "Use my current location",
   "@mapPinPickerUseMyLocation": {},
+
+  "openSettingsAction": "Open settings",
+  "@openSettingsAction": {},
+
+  "locationServicesDisabledMessage": "Location is turned off. Turn it on to use your current location.",
+  "@locationServicesDisabledMessage": {},
+
+  "locationPermissionBlockedMessage": "Location permission is blocked. Enable it in Settings to use your location.",
+  "@locationPermissionBlockedMessage": {},
+
+  "locationPermissionDeniedMessage": "Location permission denied. Showing the default area — drag the map to your spot.",
+  "@locationPermissionDeniedMessage": {},
+
+  "locationUnavailableMessage": "Couldn't get your location right now. Showing the default area — drag the map to your spot.",
+  "@locationUnavailableMessage": {},
 
   "subjectSectionHeading": "Subject {number}",
   "@subjectSectionHeading": {
@@ -297,6 +318,25 @@
   "reviewThanks": "Thanks for your review!",
   "@reviewThanks": {},
 
+  "reviewsTitle": "Reviews",
+  "@reviewsTitle": {},
+
+  "reviewsEmpty": "No reviews yet",
+  "@reviewsEmpty": {},
+
+  "reviewsLoadError": "Couldn't load reviews. Pull to retry.",
+  "@reviewsLoadError": {},
+
+  "seeReviewsAction": "See reviews",
+  "@seeReviewsAction": {},
+
+  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
   "continueLabel": "Continue",
   "@continueLabel": {},
 
@@ -316,6 +356,12 @@
   "themeLight": "Light",
   "themeDark": "Dark",
 
+  "settingsThemeSection": "Appearance",
+  "@settingsThemeSection": {},
+
+  "settingsThemeHint": "Choose how the app looks.",
+  "@settingsThemeHint": {},
+
   "emailLabel": "Email",
   "@emailLabel": {},
 
@@ -334,11 +380,73 @@
   "loginToRegister": "Don't have an account? Create one",
   "@loginToRegister": {},
 
+  "googleContinue": "Continue with Google",
+  "@googleContinue": {},
+
+  "googleAsStudent": "Continue with Google as a student",
+  "@googleAsStudent": {},
+
+  "googleAsTutor": "Continue with Google as a tutor",
+  "@googleAsTutor": {},
+
+  "orSeparator": "or",
+  "@orSeparator": {},
+
+  "nextAction": "Next",
+  "@nextAction": {},
+
+  "doneAction": "Done",
+  "@doneAction": {},
+
+  "whatsappLabel": "WhatsApp number",
+  "@whatsappLabel": {},
+
+  "onboardingContactTitle": "Your contact details",
+  "@onboardingContactTitle": {},
+
+  "onboardingContactSubtitle": "We use these to connect you. They are never shown publicly.",
+  "@onboardingContactSubtitle": {},
+
+  "onboardingLocationTitle": "Select your location",
+  "@onboardingLocationTitle": {},
+
+  "onboardingLocationSubtitle": "Drag the map to drop the pin where you are, or tap the locate button.",
+  "@onboardingLocationSubtitle": {},
+
+  "onboardingSelectMyLocation": "Select my location",
+  "@onboardingSelectMyLocation": {},
+
+  "wizardStepContact": "Contact",
+  "@wizardStepContact": {},
+
+  "wizardStepResume": "Resume",
+  "@wizardStepResume": {},
+
+  "accountSection": "Account",
+  "@accountSection": {},
+
+  "switchToTutorView": "Switch to tutor view",
+  "@switchToTutorView": {},
+
+  "switchToStudentView": "Switch to student view",
+  "@switchToStudentView": {},
+
+  "switchRoleSubtitle": "Use the same account to teach and to learn.",
+  "@switchRoleSubtitle": {},
+
   "loginErrorInvalidCredentials": "Email or password is incorrect.",
   "@loginErrorInvalidCredentials": {},
 
   "errorGeneric": "Something went wrong. Please try again.",
   "@errorGeneric": {},
+  "errorNoInternet": "No internet connection. Check your network and try again.",
+  "@errorNoInternet": {},
+  "errorGoogleSignInFailed": "We couldn't sign you in with Google. Please try again in a moment.",
+  "@errorGoogleSignInFailed": {},
+  "errorSignInCancelled": "Sign-in was cancelled before it finished. Tap Continue with Google to try again.",
+  "@errorSignInCancelled": {},
+  "errorSignInTimeout": "Sign-in took too long and timed out. Please try again.",
+  "@errorSignInTimeout": {},
 
   "firstNameLabel": "First name",
   "@firstNameLabel": {},
@@ -450,34 +558,6 @@
     }
   },
 
-  "studentHomeTitle": "HTN - Student home",
-  "@studentHomeTitle": {},
-
-  "tutorHomeTitle": "HTN - Tutor home",
-  "@tutorHomeTitle": {},
-
-  "signOutTooltip": "Sign out",
-  "@signOutTooltip": {},
-
-  "homeWelcome": "Welcome, {name}",
-  "@homeWelcome": {
-    "placeholders": {
-      "name": { "type": "String" }
-    }
-  },
-
-  "homeHandle": "Handle: {handle}",
-  "@homeHandle": {
-    "placeholders": {
-      "handle": { "type": "String" }
-    }
-  },
-
-  "studentMapPlaceholder": "The locality-first map (the headline feature) ships in Phase 4.",
-  "@studentMapPlaceholder": {},
-
-  "previewLabel": "Preview",
-  "@previewLabel": {},
 
   "currentBalanceLabel": "CURRENT BALANCE",
   "@currentBalanceLabel": {},
@@ -532,6 +612,38 @@
   "tutorBoostInsufficientSnack": "Insufficient coins for boost.",
   "@tutorBoostInsufficientSnack": {},
 
+  "promoteJobAction": "Promote (24h)",
+  "@promoteJobAction": {},
+
+  "promoteJobConfirmTitle": "Promote this post?",
+  "@promoteJobConfirmTitle": {},
+
+  "promoteJobConfirmBody": "Spend {cost} coins to push this post to the top of search for 24 hours.",
+  "@promoteJobConfirmBody": {
+    "placeholders": {
+      "cost": { "type": "int" }
+    }
+  },
+
+  "promoteJobConfirmCta": "Promote",
+  "@promoteJobConfirmCta": {},
+
+  "promoteJobSuccessSnack": "Post promoted for 24h · Balance: {balance}",
+  "@promoteJobSuccessSnack": {
+    "placeholders": {
+      "balance": { "type": "int" }
+    }
+  },
+
+  "promoteJobFailedSnack": "Could not promote post.",
+  "@promoteJobFailedSnack": {},
+
+  "promoteJobInsufficientSnack": "Insufficient coins to promote.",
+  "@promoteJobInsufficientSnack": {},
+
+  "cancelLabel": "Cancel",
+  "@cancelLabel": {},
+
   "tutorPhasesNote": "Push notifications, in-app chat, and reviews ship in Phases 8–10.",
   "@tutorPhasesNote": {},
 
@@ -543,6 +655,25 @@
 
   "mapRecenterTooltip": "Re-center",
   "@mapRecenterTooltip": {},
+
+  "vacancyMapEmpty": "No open vacancies near here yet.",
+  "@vacancyMapEmpty": {},
+
+  "vacancyMapBrowseAll": "Browse all vacancies",
+  "@vacancyMapBrowseAll": {},
+
+  "vacancyMapSortSalary": "Salary: high to low",
+  "@vacancyMapSortSalary": {},
+
+  "vacancyMapSortNewest": "Newest",
+  "@vacancyMapSortNewest": {},
+
+  "vacancyMapNearbyCount": "{count} vacancies nearby",
+  "@vacancyMapNearbyCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
 
   "mapRequestTutorFab": "Request a tutor",
   "@mapRequestTutorFab": {},
@@ -557,6 +688,15 @@
     }
   },
 
+  "mapSortNearest": "Nearest",
+  "@mapSortNearest": {},
+
+  "mapSortPriceLowHigh": "Price: low to high",
+  "@mapSortPriceLowHigh": {},
+
+  "mapSortTopRated": "Top rated",
+  "@mapSortTopRated": {},
+
   "mapAllMatchesHeader": "All matches",
   "@mapAllMatchesHeader": {},
 
@@ -565,6 +705,24 @@
 
   "mapEmptyHint": "Try widening the radius or loosening filters.",
   "@mapEmptyHint": {},
+
+  "mapLoadError": "Couldn't load nearby tutors.",
+  "@mapLoadError": {},
+
+  "mapEmptyExpandRadius": "Expand radius",
+  "@mapEmptyExpandRadius": {},
+
+  "mapSearchHereSnack": "Searching tutors around this point",
+  "@mapSearchHereSnack": {},
+
+  "filterClearAll": "Clear filters",
+  "@filterClearAll": {},
+
+  "actionClear": "Clear",
+  "@actionClear": {},
+
+  "actionRetry": "Retry",
+  "@actionRetry": {},
 
   "walletTitle": "Coin Wallet",
   "@walletTitle": {},
@@ -638,11 +796,11 @@
   "whatsAppLabel": "WhatsApp",
   "@whatsAppLabel": {},
 
-  "unlockCallPhase7Hint": "Phone-number reveal lands when admin matches go live (Phase 7).",
-  "@unlockCallPhase7Hint": {},
+  "contactNoNumber": "No phone number on file for this tutor.",
+  "@contactNoNumber": {},
 
-  "unlockWhatsAppPhase7Hint": "WhatsApp launch wires in Phase 7.",
-  "@unlockWhatsAppPhase7Hint": {},
+  "contactLaunchFailed": "Couldn't open this app. Try the other option.",
+  "@contactLaunchFailed": {},
 
   "leaveReview": "Leave a review",
   "@leaveReview": {},
@@ -715,6 +873,9 @@
   "notifKindNewJobPosted": "New job posted",
   "@notifKindNewJobPosted": {},
 
+  "notifKindTutorApplied": "New application",
+  "@notifKindTutorApplied": {},
+
   "notifKindApplicationShortlisted": "Application shortlisted",
   "@notifKindApplicationShortlisted": {},
 
@@ -738,6 +899,9 @@
 
   "notifKindNewReview": "New review",
   "@notifKindNewReview": {},
+
+  "notifKindAnnouncement": "Announcement",
+  "@notifKindAnnouncement": {},
 
   "notifKindSystem": "Notice",
   "@notifKindSystem": {},
@@ -793,6 +957,9 @@
 
   "filterVerifiedOnly": "Verified only",
   "@filterVerifiedOnly": {},
+
+  "verifiedTutorLabel": "Verified tutor",
+  "@verifiedTutorLabel": {},
 
   "filterAvailableNow": "Available now",
   "@filterAvailableNow": {},
@@ -1022,8 +1189,6 @@
   "repostAction": "Repost",
   "@repostAction": {},
 
-  "chatPhase9Hint": "In-app chat ships in Phase 9.",
-  "@chatPhase9Hint": {},
 
   "vacancyPendingReview": "Pending review",
   "@vacancyPendingReview": {},
@@ -1685,6 +1850,29 @@
   "accountBlockedReason": "Your account has been suspended or banned. Contact the admin to appeal.",
   "@accountBlockedReason": {},
 
+  "blockedScreenTitle": "Account deactivated",
+  "@blockedScreenTitle": {},
+
+  "blockedScreenMessage": "You have violated our Terms of Policy, so your account has been deactivated. You can no longer use Home Tuition Nepal. To appeal this decision, contact our team.",
+  "@blockedScreenMessage": {},
+
+  "blockedScreenEmailCta": "Email us",
+  "@blockedScreenEmailCta": {},
+
+  "blockedScreenRefresh": "I've been reactivated — check again",
+  "@blockedScreenRefresh": {},
+
+  "blockedScreenStillBlocked": "Your account is still deactivated.",
+  "@blockedScreenStillBlocked": {},
+
+  "presenceOnline": "Online",
+  "@presenceOnline": {},
+
+  "presenceLastSeen": "Last seen {time}",
+  "@presenceLastSeen": {
+    "placeholders": { "time": { "type": "String" } }
+  },
+
   "contactAdminOnWhatsApp": "Contact admin on WhatsApp",
   "@contactAdminOnWhatsApp": {},
 
@@ -1809,5 +1997,12 @@
   "@mapSheetActionExpand": {},
 
   "mapSheetActionCollapse": "collapse",
-  "@mapSheetActionCollapse": {}
+  "@mapSheetActionCollapse": {},
+
+  "tutorCardExperienceYears": "{years, plural, one{{years} yr exp} other{{years} yrs exp}}",
+  "@tutorCardExperienceYears": {
+    "placeholders": {
+      "years": { "type": "int" }
+    }
+  }
 }

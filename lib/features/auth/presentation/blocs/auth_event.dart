@@ -27,6 +27,17 @@ class AuthLoginRequested extends AuthEvent {
   List<Object?> get props => [email];
 }
 
+/// User picked a role from the "Continue with Google" toggle. Signs in (stubbed
+/// via anonymous auth until the Google provider is configured) and provisions a
+/// brand-new account in [role], which then flows into onboarding.
+class AuthGoogleSignInRequested extends AuthEvent {
+  const AuthGoogleSignInRequested(this.role);
+  final UserRole role;
+
+  @override
+  List<Object?> get props => [role];
+}
+
 /// User asked the backend to resend the confirmation email.
 class AuthEmailVerificationResendRequested extends AuthEvent {
   const AuthEmailVerificationResendRequested();

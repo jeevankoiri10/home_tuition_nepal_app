@@ -32,7 +32,23 @@ abstract class WalletRepository {
   /// fake reads the ledger.
   Future<bool> hasUnlocked({required String studentId, required String tutorId});
 
-  Future<int> applyToVacancy({required String tutorId, required String vacancyId});
+  /// Returns the tutor's phone number — but only if [studentId] has previously
+  /// unlocked [tutorId]. The gate is enforced server-side (SECURITY DEFINER
+  /// RPC), so the private phone never leaves the database without an unlock.
+  /// Returns `null` when the tutor has no phone on file. Throws
+  /// [WalletException] (`gate_not_met`) if the contact was never unlocked.
+  Future<String?> revealContact({required String studentId, required String tutorId});
 
-  Future<int> bidOnJob({required String tutorId, required String jobId});
+  /// Debits the connect cost for applying to a vacancy and returns the new
+  /// balance. [cost] is the percentage-based price computed from the vacancy's
+  /// salary (see `ConnectCost`). The Supabase implementation ignores it — the
+  /// server recomputes authoritatively — but the in-memory fake honors it so
+  /// the demo charges the same amount the UI shows.
+  Future<int> applyToVacancy({
+    required String tutorId,
+    required String vacancyId,
+    int? cost,
+  });
+
+  Future<int> bidOnJob({required String tutorId, required String jobId, int? cost});
 }

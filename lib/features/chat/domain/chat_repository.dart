@@ -23,7 +23,10 @@ abstract class ChatRepository {
 
   Future<List<ChatMessage>> loadHistory(String threadId, {int limit = 200});
 
-  Future<ChatMessage> sendMessage({required String threadId, required String body});
+  Future<ChatMessage> sendMessage({
+    required String threadId,
+    required String body,
+  });
 
   Future<void> markRead(String threadId);
 

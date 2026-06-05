@@ -10,6 +10,7 @@ import '../../../../core/utils/phone_ban_regex.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../domain/connect_cost.dart';
 import '../../domain/models/vacancy.dart';
 import '../blocs/vacancies_bloc.dart';
 
@@ -62,7 +63,10 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final cost = widget.platformSettings.applyCoinCost;
+    // Connect cost scales with the job's salary (server-authoritative formula
+    // mirrored in ConnectCost), not a flat per-apply price.
+    final cost =
+        ConnectCost.forVacancyWithSettings(widget.vacancy, widget.platformSettings);
     return BlocConsumer<VacanciesBloc, VacanciesState>(
       listenWhen: (a, b) => a.applyStatus != b.applyStatus,
       listener: (context, state) {
@@ -118,11 +122,10 @@ class _ApplyToVacancySheetState extends State<ApplyToVacancySheet> {
                   const SizedBox(height: AppSpacing.sm),
                   _ApplyError(
                     message: state.applyError!,
-                    // Heuristic: if the server-side message hints at coins,
-                    // offer a top-up shortcut. The user-visible text the
-                    // server returns is still its own English (or whatever
-                    // locale the server emits), so this stays English-only.
-                    onTopUp: state.applyError!.toLowerCase().contains('coins')
+                    // Offer a top-up shortcut only when the bloc flagged the
+                    // failure as insufficient coins (structured signal, not a
+                    // brittle match on the server's message text).
+                    onTopUp: state.applyNeedsTopUp
                         ? () {
                             Navigator.of(context).pop();
                             context.push(AppRoutes.wallet);

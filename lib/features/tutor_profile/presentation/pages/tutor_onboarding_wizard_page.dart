@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/di.dart';
 import '../../../../app/router.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/utils/phone_ban_regex.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/chip_multi_select.dart';
 import '../../../../core/widgets/map_pin_picker.dart';
 import '../../../../core/widgets/phone_ban_warning.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/section_card.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../auth/domain/auth_repository.dart';
 import '../../domain/models/profile_enums.dart';
 import '../../domain/models/tutor_profile.dart';
 import '../blocs/tutor_profile_bloc.dart';
@@ -22,23 +27,58 @@ import '../widgets/draft_banner.dart';
 import '../widgets/subjects_offered_editor.dart';
 import '../widgets/teaching_mode_selector.dart';
 
-const _kCommonLanguages = ['English', 'Nepali', 'Hindi', 'Newari', 'Maithili', 'Bhojpuri'];
+const _kCommonLanguages = [
+  'English',
+  'Nepali',
+  'Hindi',
+  'Newari',
+  'Maithili',
+  'Bhojpuri',
+];
 
 class TutorOnboardingWizardPage extends StatefulWidget {
   const TutorOnboardingWizardPage({super.key});
 
   @override
-  State<TutorOnboardingWizardPage> createState() => _TutorOnboardingWizardPageState();
+  State<TutorOnboardingWizardPage> createState() =>
+      _TutorOnboardingWizardPageState();
 }
 
 class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
   final _controller = PageController();
+  final _contactFormKey = GlobalKey<FormState>();
+  final _phone = TextEditingController();
+  final _whatsapp = TextEditingController();
   int _index = 0;
   bool _resumed = false;
 
   // Step count is the total number of pages in the wizard. Step *labels*
   // are looked up per-locale via [_stepCount] / build time.
-  static const int _stepCount = 7;
+  static const int _stepCount = 8;
+
+  @override
+  void initState() {
+    super.initState();
+    // Phone + WhatsApp live on the profiles row (auth), not the tutor draft —
+    // prefill from the cached user so a returning tutor sees what they entered.
+    final user = sl<AuthRepository>().cachedUser;
+    _phone.text = _stripCountryCode(user?.phone);
+    _whatsapp.text = _stripCountryCode(user?.whatsapp);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _phone.dispose();
+    _whatsapp.dispose();
+    super.dispose();
+  }
+
+  /// Strip the +977 prefix for editing; it is re-added on save.
+  String _stripCountryCode(String? raw) {
+    final v = raw ?? '';
+    return v.startsWith('+977') ? v.substring(4) : v;
+  }
 
   void _resumeIfNeeded(TutorProfile profile) {
     if (_resumed) return;
@@ -56,17 +96,51 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
   void _persistStep(BuildContext ctx, TutorProfile profile, int next) {
     if (profile.wizardStep == next) return;
     ctx.read<TutorProfileBloc>().add(
-          TutorProfileDraftUpdated(profile.copyWith(wizardStep: next)),
-        );
+      TutorProfileDraftUpdated(profile.copyWith(wizardStep: next)),
+    );
   }
 
-  void _next(int total, BuildContext ctx, TutorProfile profile) {
+  Future<void> _next(int total, BuildContext ctx, TutorProfile profile) async {
+    // Step 0 is the contact step: validate and persist phone + WhatsApp to the
+    // profiles row before advancing.
+    if (_index == 0) {
+      if (!_contactFormKey.currentState!.validate()) return;
+      try {
+        await sl<AuthRepository>().setTutorContact(
+          phone: '+977${_phone.text.trim()}',
+          whatsapp: '+977${_whatsapp.text.trim()}',
+        );
+      } catch (_) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).errorGeneric)),
+        );
+        return;
+      }
+      if (!mounted) return;
+    }
+
     if (_index < total - 1) {
       setState(() => _index++);
-      _persistStep(ctx, profile, _index);
-      _controller.animateToPage(_index, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+      _persistStep(context, profile, _index);
+      _controller.animateToPage(
+        _index,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+      );
     } else {
-      // Last step — finish onboarding and return to tutor home.
+      // Last step — open the onboarding gate, then return to tutor home. The
+      // router guard keeps incomplete tutors out of home until this succeeds.
+      try {
+        await sl<AuthRepository>().completeTutorOnboarding();
+      } catch (_) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).errorGeneric)),
+        );
+        return;
+      }
+      if (!mounted) return;
       context.go(AppRoutes.tutorHome);
     }
   }
@@ -75,7 +149,11 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
     if (_index == 0) return;
     setState(() => _index--);
     _persistStep(ctx, profile, _index);
-    _controller.animateToPage(_index, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+    _controller.animateToPage(
+      _index,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -85,12 +163,14 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
       builder: (context, state) {
         final profile = state.profile;
         if (state.status == TutorProfileStatus.loading || profile == null) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
         _resumeIfNeeded(profile);
         final isLast = _index == _stepCount - 1;
         return Scaffold(
-          appBar: AppBar(
+          appBar: BrandAppBar(
             title: Text(l10n.wizardAppBarTitle(_index + 1, _stepCount)),
             leading: _index == 0
                 ? null
@@ -102,7 +182,10 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
           ),
           body: Column(
             children: [
-              LinearProgressIndicator(value: (_index + 1) / _stepCount, minHeight: 4),
+              LinearProgressIndicator(
+                value: (_index + 1) / _stepCount,
+                minHeight: 4,
+              ),
               Expanded(
                 child: PageView(
                   controller: _controller,
@@ -112,9 +195,14 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
                     _persistStep(context, profile, i);
                   },
                   children: [
-                    _IdentityStep(profile: profile),
-                    _TeachingModeStep(profile: profile),
+                    _ContactStep(
+                      formKey: _contactFormKey,
+                      phone: _phone,
+                      whatsapp: _whatsapp,
+                    ),
                     _ServiceAreaStep(profile: profile),
+                    _ResumeStep(profile: profile),
+                    _TeachingModeStep(profile: profile),
                     _LevelsStep(profile: profile),
                     _SubjectsStep(profile: profile),
                     _AboutStep(profile: profile),
@@ -152,12 +240,65 @@ class _TutorOnboardingWizardPageState extends State<TutorOnboardingWizardPage> {
   }
 }
 
-// ─── Step 1: Identity (placeholder — Phase 2 form already captured first/last
-// name; the wizard can later collect avatar + gender + DOB). For now this step
-// just confirms identity and shows the draft banner. ───────────────────────────
+// ─── Step 1: Contact — phone + WhatsApp, persisted to the profiles row ────────
 
-class _IdentityStep extends StatelessWidget {
-  const _IdentityStep({required this.profile});
+class _ContactStep extends StatelessWidget {
+  const _ContactStep({
+    required this.formKey,
+    required this.phone,
+    required this.whatsapp,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final TextEditingController phone;
+  final TextEditingController whatsapp;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Form(
+      key: formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        children: [
+          SectionCard(
+            title: l10n.onboardingContactTitle,
+            subtitle: l10n.onboardingContactSubtitle,
+            child: Column(
+              children: [
+                AppTextField(
+                  label: l10n.phoneNumberLabel,
+                  hint: l10n.phoneNumberHint,
+                  controller: phone,
+                  keyboardType: TextInputType.phone,
+                  prefixIcon: Icons.phone_outlined,
+                  validator: (v) => Validators.nepaliPhone(v) == null
+                      ? null
+                      : l10n.phoneInvalid,
+                ),
+                AppTextField(
+                  label: l10n.whatsappLabel,
+                  hint: l10n.phoneNumberHint,
+                  controller: whatsapp,
+                  keyboardType: TextInputType.phone,
+                  prefixIcon: Icons.chat_outlined,
+                  validator: (v) => Validators.nepaliPhone(v) == null
+                      ? null
+                      : l10n.phoneInvalid,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Step 3: Resume / CV upload ───────────────────────────────────────────────
+
+class _ResumeStep extends StatelessWidget {
+  const _ResumeStep({required this.profile});
   final TutorProfile profile;
 
   @override
@@ -166,11 +307,14 @@ class _IdentityStep extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: profile.profileCompletion, isPublished: profile.isPublished),
+        DraftBanner(
+          completion: profile.profileCompletion,
+          isPublished: profile.isPublished,
+        ),
         SectionCard(
-          title: l10n.wizardStepIdentity,
-          subtitle: l10n.wizardIdentitySubtitle,
-          child: const SizedBox.shrink(),
+          title: l10n.wizardCvUploadTitle,
+          subtitle: l10n.wizardCvUploadSubtitle,
+          child: CvUploadCard(profile: profile),
         ),
       ],
     );
@@ -190,13 +334,18 @@ class _TeachingModeStep extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: profile.profileCompletion, isPublished: profile.isPublished),
+        DraftBanner(
+          completion: profile.profileCompletion,
+          isPublished: profile.isPublished,
+        ),
         SectionCard(
           title: l10n.wizardTeachingModeTitle,
           subtitle: l10n.wizardTeachingModeSubtitle,
           child: TeachingModeSelector(
             value: profile.teachingMode,
-            onChanged: (m) => bloc.add(TutorProfileDraftUpdated(profile.copyWith(teachingMode: m))),
+            onChanged: (m) => bloc.add(
+              TutorProfileDraftUpdated(profile.copyWith(teachingMode: m)),
+            ),
           ),
         ),
       ],
@@ -217,57 +366,65 @@ class _ServiceAreaStep extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: profile.profileCompletion, isPublished: profile.isPublished),
-        if (profile.teachingMode == TeachingMode.online)
-          SectionCard(
-            title: l10n.wizardServiceAreaSkipTitle,
-            subtitle: l10n.wizardServiceAreaSkipSubtitle,
-            child: const SizedBox.shrink(),
-          )
-        else
-          SectionCard(
-            title: l10n.wizardServiceAreaTitle,
-            subtitle: l10n.wizardServiceAreaSubtitle,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextFormField(
-                  initialValue: profile.city,
-                  decoration: InputDecoration(labelText: l10n.cityLabel),
-                  onChanged: (v) => bloc.add(TutorProfileDraftUpdated(profile.copyWith(city: v))),
+        DraftBanner(
+          completion: profile.profileCompletion,
+          isPublished: profile.isPublished,
+        ),
+        SectionCard(
+          title: l10n.wizardServiceAreaTitle,
+          subtitle: l10n.wizardServiceAreaSubtitle,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                initialValue: profile.city,
+                decoration: InputDecoration(labelText: l10n.cityLabel),
+                onChanged: (v) => bloc.add(
+                  TutorProfileDraftUpdated(profile.copyWith(city: v)),
                 ),
-                const SizedBox(height: AppSpacing.sm),
-                TextFormField(
-                  initialValue: profile.addressLine,
-                  decoration: InputDecoration(labelText: l10n.areaChowkLabel),
-                  onChanged: (v) => bloc.add(TutorProfileDraftUpdated(profile.copyWith(addressLine: v))),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              TextFormField(
+                initialValue: profile.addressLine,
+                decoration: InputDecoration(labelText: l10n.areaChowkLabel),
+                onChanged: (v) => bloc.add(
+                  TutorProfileDraftUpdated(profile.copyWith(addressLine: v)),
                 ),
-                const SizedBox(height: AppSpacing.md),
-                Text(l10n.wizardServiceAreaPinHint,
-                    style: Theme.of(context).textTheme.bodySmall),
-                const SizedBox(height: AppSpacing.sm),
-                MapPinPicker(
-                  height: 240,
-                  initialLat: profile.lat ?? LocationService.fallbackLat,
-                  initialLng: profile.lng ?? LocationService.fallbackLng,
-                  onChanged: (lat, lng) => bloc.add(
-                    TutorProfileDraftUpdated(profile.copyWith(lat: lat, lng: lng)),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                l10n.wizardServiceAreaPinHint,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              MapPinPicker(
+                height: 240,
+                initialLat: profile.lat ?? LocationService.fallbackLat,
+                initialLng: profile.lng ?? LocationService.fallbackLng,
+                onChanged: (lat, lng) => bloc.add(
+                  TutorProfileDraftUpdated(
+                    profile.copyWith(lat: lat, lng: lng),
                   ),
                 ),
-                const SizedBox(height: AppSpacing.md),
-                Text(l10n.travelRadiusPrefix(profile.serviceRadiusKm.toInt())),
-                Slider(
-                  value: profile.serviceRadiusKm.toDouble(),
-                  min: 1,
-                  max: 20,
-                  divisions: 19,
-                  label: l10n.kmSuffix(profile.serviceRadiusKm.toInt()),
-                  onChanged: (v) =>
-                      bloc.add(TutorProfileDraftUpdated(profile.copyWith(serviceRadiusKm: v))),
+                showSelectButton: true,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Text(l10n.travelRadiusPrefix(profile.serviceRadiusKm.toInt())),
+              Slider(
+                value: profile.serviceRadiusKm.toDouble(),
+                min: 1,
+                max: 20,
+                divisions: 19,
+                label: l10n.kmSuffix(profile.serviceRadiusKm.toInt()),
+                onChanged: (v) => bloc.add(
+                  TutorProfileDraftUpdated(
+                    profile.copyWith(serviceRadiusKm: v),
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
       ],
     );
   }
@@ -286,7 +443,10 @@ class _LevelsStep extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: profile.profileCompletion, isPublished: profile.isPublished),
+        DraftBanner(
+          completion: profile.profileCompletion,
+          isPublished: profile.isPublished,
+        ),
         SectionCard(
           title: l10n.wizardLevelsTitle,
           subtitle: l10n.wizardLevelsSubtitle,
@@ -296,10 +456,14 @@ class _LevelsStep extends StatelessWidget {
             labelOf: (l) => l.localized(l10n),
             onChanged: (set) {
               // Drop offerings whose level is no longer selected.
-              final keptOfferings = profile.offerings.where((o) => set.contains(o.level)).toList();
-              bloc.add(TutorProfileDraftUpdated(
-                profile.copyWith(levelsTaught: set, offerings: keptOfferings),
-              ));
+              final keptOfferings = profile.offerings
+                  .where((o) => set.contains(o.level))
+                  .toList();
+              bloc.add(
+                TutorProfileDraftUpdated(
+                  profile.copyWith(levelsTaught: set, offerings: keptOfferings),
+                ),
+              );
             },
           ),
         ),
@@ -321,15 +485,19 @@ class _SubjectsStep extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: profile.profileCompletion, isPublished: profile.isPublished),
+        DraftBanner(
+          completion: profile.profileCompletion,
+          isPublished: profile.isPublished,
+        ),
         SectionCard(
           title: l10n.wizardSubjectsTitle,
           subtitle: l10n.wizardSubjectsSubtitle,
           child: SubjectsOfferedEditor(
             offerings: profile.offerings,
             allowedLevels: profile.levelsTaught,
-            onChanged: (list) =>
-                bloc.add(TutorProfileDraftUpdated(profile.copyWith(offerings: list))),
+            onChanged: (list) => bloc.add(
+              TutorProfileDraftUpdated(profile.copyWith(offerings: list)),
+            ),
           ),
         ),
       ],
@@ -348,9 +516,15 @@ class _AboutStep extends StatefulWidget {
 }
 
 class _AboutStepState extends State<_AboutStep> {
-  late final _aboutMe = TextEditingController(text: widget.profile.aboutMe ?? '');
-  late final _aboutSessions = TextEditingController(text: widget.profile.aboutSessions ?? '');
-  late final _qualifications = TextEditingController(text: widget.profile.qualifications ?? '');
+  late final _aboutMe = TextEditingController(
+    text: widget.profile.aboutMe ?? '',
+  );
+  late final _aboutSessions = TextEditingController(
+    text: widget.profile.aboutSessions ?? '',
+  );
+  late final _qualifications = TextEditingController(
+    text: widget.profile.qualifications ?? '',
+  );
 
   @override
   void dispose() {
@@ -364,11 +538,15 @@ class _AboutStepState extends State<_AboutStep> {
       PhoneBanRegex.isViolation(text) ? l10n.phoneInTextValidation : null;
 
   void _emit() {
-    context.read<TutorProfileBloc>().add(TutorProfileDraftUpdated(widget.profile.copyWith(
+    context.read<TutorProfileBloc>().add(
+      TutorProfileDraftUpdated(
+        widget.profile.copyWith(
           aboutMe: _aboutMe.text,
           aboutSessions: _aboutSessions.text,
           qualifications: _qualifications.text,
-        )));
+        ),
+      ),
+    );
   }
 
   @override
@@ -378,7 +556,10 @@ class _AboutStepState extends State<_AboutStep> {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: widget.profile.profileCompletion, isPublished: widget.profile.isPublished),
+        DraftBanner(
+          completion: widget.profile.profileCompletion,
+          isPublished: widget.profile.isPublished,
+        ),
         PhoneBanWarning(message: l10n.tutorProfilePhoneBanWarning),
         SectionCard(
           title: l10n.aboutMeLabel,
@@ -386,11 +567,19 @@ class _AboutStepState extends State<_AboutStep> {
         ),
         SectionCard(
           title: l10n.aboutSessionsLabel,
-          child: _aboutField(l10n, _aboutSessions, l10n.aboutSessionsHintWizard),
+          child: _aboutField(
+            l10n,
+            _aboutSessions,
+            l10n.aboutSessionsHintWizard,
+          ),
         ),
         SectionCard(
           title: l10n.qualificationsLabel,
-          child: _aboutField(l10n, _qualifications, l10n.qualificationsHintWizard),
+          child: _aboutField(
+            l10n,
+            _qualifications,
+            l10n.qualificationsHintWizard,
+          ),
         ),
         const SizedBox(height: AppSpacing.md),
         Wrap(
@@ -407,8 +596,11 @@ class _AboutStepState extends State<_AboutStep> {
                   } else {
                     next.remove(lang);
                   }
-                  bloc.add(TutorProfileDraftUpdated(
-                      widget.profile.copyWith(languagesKnown: next)));
+                  bloc.add(
+                    TutorProfileDraftUpdated(
+                      widget.profile.copyWith(languagesKnown: next),
+                    ),
+                  );
                 },
               ),
           ],
@@ -417,7 +609,11 @@ class _AboutStepState extends State<_AboutStep> {
     );
   }
 
-  Widget _aboutField(AppLocalizations l10n, TextEditingController c, String hint) {
+  Widget _aboutField(
+    AppLocalizations l10n,
+    TextEditingController c,
+    String hint,
+  ) {
     return TextFormField(
       controller: c,
       maxLines: 4,
@@ -446,20 +642,19 @@ class _AvailabilityStep extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        DraftBanner(completion: profile.profileCompletion, isPublished: profile.isPublished),
+        DraftBanner(
+          completion: profile.profileCompletion,
+          isPublished: profile.isPublished,
+        ),
         SectionCard(
           title: l10n.wizardAvailabilityTitle,
           subtitle: l10n.wizardAvailabilitySubtitle,
           child: AvailabilityGrid(
             value: profile.availability,
-            onChanged: (a) =>
-                bloc.add(TutorProfileDraftUpdated(profile.copyWith(availability: a))),
+            onChanged: (a) => bloc.add(
+              TutorProfileDraftUpdated(profile.copyWith(availability: a)),
+            ),
           ),
-        ),
-        SectionCard(
-          title: l10n.wizardCvUploadTitle,
-          subtitle: l10n.wizardCvUploadSubtitle,
-          child: CvUploadCard(profile: profile),
         ),
       ],
     );

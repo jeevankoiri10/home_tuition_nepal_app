@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,11 +11,22 @@ import 'app/app.dart';
 import 'app/bloc_observer.dart';
 import 'app/di.dart';
 import 'core/config/env.dart';
+import 'core/services/firebase_messaging_push_service.dart';
 
 Future<void> main() async {
   await runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      // Remote push needs Firebase up before the DI container builds the
+      // FirebaseMessagingPushService. No-op (and no Firebase dependency at
+      // runtime) until PUSH_NOTIFICATIONS_CONFIGURED is set — see
+      // docs/push_setup.md.
+      if (Env.pushNotificationsConfigured) {
+        await Firebase.initializeApp();
+        FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+      }
+
       await setupDependencies();
       Bloc.observer = AppBlocObserver();
 

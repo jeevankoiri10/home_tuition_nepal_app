@@ -13,6 +13,7 @@ class VacanciesState extends Equatable {
     this.errorMessage,
     this.applyStatus = ApplyStatus.idle,
     this.applyError,
+    this.applyNeedsTopUp = false,
   });
 
   final VacanciesStatus status;
@@ -23,6 +24,11 @@ class VacanciesState extends Equatable {
   final String? errorMessage;
   final ApplyStatus applyStatus;
   final String? applyError;
+
+  /// True when the last apply failed specifically because the tutor lacked
+  /// coins. Lets the UI offer a top-up shortcut without string-matching the
+  /// (server-emitted, locale-variable) [applyError] text.
+  final bool applyNeedsTopUp;
 
   Set<String> get appliedVacancyIds =>
       myApplications.map((a) => a.vacancyId).toSet();
@@ -36,6 +42,7 @@ class VacanciesState extends Equatable {
     String? errorMessage,
     ApplyStatus? applyStatus,
     String? applyError,
+    bool? applyNeedsTopUp,
     bool clearError = false,
     bool clearApplyError = false,
   }) {
@@ -48,6 +55,8 @@ class VacanciesState extends Equatable {
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       applyStatus: applyStatus ?? this.applyStatus,
       applyError: clearApplyError ? null : (applyError ?? this.applyError),
+      applyNeedsTopUp:
+          clearApplyError ? false : (applyNeedsTopUp ?? this.applyNeedsTopUp),
     );
   }
 
@@ -61,5 +70,6 @@ class VacanciesState extends Equatable {
         errorMessage,
         applyStatus,
         applyError,
+        applyNeedsTopUp,
       ];
 }
