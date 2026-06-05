@@ -118,6 +118,7 @@ declare
   tier   smallint;
 begin
   if caller is null then raise exception 'not_authenticated'; end if;
+  if _is_blocked(caller) then raise exception 'account_blocked'; end if;  -- preserved from 0010
   if not exists (select 1 from tutors where id = caller) then
     raise exception 'not_a_tutor';
   end if;
@@ -167,6 +168,7 @@ declare
   s            numeric;
 begin
   if caller is null then raise exception 'not_authenticated'; end if;
+  if _is_blocked(caller) then raise exception 'account_blocked'; end if;  -- blocked users can't bid
   cost := job_apply_cost(p_job_id);
   new_balance := _ledger_apply(
     caller, -cost, 'apply', 'job', p_job_id,
