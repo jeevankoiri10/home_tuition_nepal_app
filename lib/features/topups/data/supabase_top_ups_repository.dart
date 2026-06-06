@@ -3,13 +3,15 @@ import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/cloudinary_service.dart';
 import '../domain/models/coin_pack.dart';
 import '../domain/models/top_up.dart';
 import '../domain/top_ups_repository.dart';
 
 class SupabaseTopUpsRepository implements TopUpsRepository {
-  SupabaseTopUpsRepository(this._client);
+  SupabaseTopUpsRepository(this._client, this._cloudinary);
   final sb.SupabaseClient _client;
+  final CloudinaryService _cloudinary;
 
   @override
   Future<List<CoinPack>> listPacks() async {
@@ -87,26 +89,28 @@ class SupabaseTopUpsRepository implements TopUpsRepository {
       throw TopUpsException('receipt_too_large', 'Receipt must be smaller than 5 MB.');
     }
     try {
-      final ext = fileName.toLowerCase().endsWith('.pdf')
+      final lower = fileName.toLowerCase();
+      final ext = lower.endsWith('.pdf')
           ? 'pdf'
-          : (fileName.toLowerCase().endsWith('.png') ? 'png' : 'jpg');
-      final objectPath = '$topUpId/receipt.$ext';
-      final storage = _client.storage.from('topup-receipts');
-      await storage.uploadBinary(
-        objectPath,
-        bytes,
-        fileOptions: sb.FileOptions(
-          upsert: true,
-          contentType: ext == 'pdf' ? 'application/pdf' : 'image/$ext',
-        ),
+          : (lower.endsWith('.png') ? 'png' : 'jpg');
+      // Receipts (images or PDF) are stored on Cloudinary. PDFs go in as `raw`.
+      final url = await _cloudinary.uploadBytes(
+        bytes: bytes,
+        fileName: 'receipt.$ext',
+        folder: 'topup-receipts/$topUpId',
+        resourceType: ext == 'pdf' ? 'raw' : 'image',
       );
-      final url = storage.getPublicUrl(objectPath);
-      // Stamp the URL on the top-up row so admins reviewing the queue can
-      // open the receipt without separately querying storage.
-      await _client.from('coin_top_ups').update({'receipt_url': url}).eq('id', topUpId);
+      // Stamp the URL on the top-up row via an owner-gated RPC. A direct
+      // UPDATE is blocked by RLS (only admins may update coin_top_ups);
+      // submit_topup_receipt lets the owner set receipt_url on their own
+      // pending row. See migration 0021.
+      await _client.rpc('submit_topup_receipt', params: {
+        'p_top_up_id': topUpId,
+        'p_receipt_url': url,
+      });
       return getTopUp(topUpId);
-    } on sb.StorageException catch (e) {
-      throw TopUpsException('receipt_upload_failed', e.message);
+    } on CloudinaryException catch (e) {
+      throw TopUpsException('receipt_upload_failed', e.detail);
     } on sb.PostgrestException catch (e) {
       throw TopUpsException('receipt_attach_failed', e.message);
     }

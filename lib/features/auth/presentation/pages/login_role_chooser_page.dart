@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/di.dart';
 import '../../../../app/router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../domain/auth_repository.dart';
 import '../../domain/models/user_role.dart';
 
 /// Shown after sign-in when the same email backs both a tutor and a student
@@ -15,18 +18,22 @@ import '../../domain/models/user_role.dart';
 class LoginRoleChooserPage extends StatelessWidget {
   const LoginRoleChooserPage({super.key});
 
-  void _pick(BuildContext context, UserRole role) {
-    // Plain routing for now — the cached `state.user.role` already matches
-    // the only available role. When the multi-role schema lands, this is the
-    // place to call AuthRepository.activateRole(role) before navigating.
-    context.go(AppRoutes.routeForRole(role));
+  Future<void> _pick(BuildContext context, UserRole role) async {
+    // Set the chosen role active so the rest of the app (home, guard) follows
+    // it; the guard will route to that role's home or its onboarding.
+    try {
+      await sl<AuthRepository>().switchActiveRole(role);
+    } catch (_) {
+      /* fall through to plain routing; guard still applies */
+    }
+    if (context.mounted) context.go(AppRoutes.routeForRole(role));
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
+      appBar: BrandAppBar(
         title: Text(l10n.loginChooserTitle),
         automaticallyImplyLeading: false,
       ),
@@ -35,8 +42,10 @@ class LoginRoleChooserPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l10n.loginChooserSubtitle,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l10n.loginChooserSubtitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: AppSpacing.xl),
             Row(
               children: [

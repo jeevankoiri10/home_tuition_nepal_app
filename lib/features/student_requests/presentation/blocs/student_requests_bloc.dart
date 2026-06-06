@@ -32,7 +32,8 @@ class StudentRequestsBloc extends Bloc<StudentRequestsEvent, StudentRequestsStat
   Future<void> _reload(Emitter<StudentRequestsState> emit) async {
     final id = _studentId;
     if (id == null) return;
-    emit(state.copyWith(status: StudentRequestsStatus.loading, clearError: true));
+    emit(state.copyWith(
+        status: StudentRequestsStatus.loading, clearError: true, clearSubmitted: true));
     try {
       final jobs = await _repo.loadMyJobs(id);
       final vacancies = await _repo.loadMyVacancies(id);
@@ -46,12 +47,16 @@ class StudentRequestsBloc extends Bloc<StudentRequestsEvent, StudentRequestsStat
 
   Future<void> _onJobSubmit(
       StudentJobSubmitted event, Emitter<StudentRequestsState> emit) async {
-    emit(state.copyWith(status: StudentRequestsStatus.submitting, clearError: true));
+    emit(state.copyWith(
+        status: StudentRequestsStatus.submitting,
+        clearError: true,
+        clearSubmitted: true));
     try {
       final saved = await _repo.createJob(event.job);
       emit(state.copyWith(
         status: StudentRequestsStatus.ready,
         jobs: [saved, ...state.jobs],
+        submittedJobId: saved.id,
       ));
     } on StudentRequestsException catch (e) {
       emit(state.copyWith(
@@ -85,12 +90,16 @@ class StudentRequestsBloc extends Bloc<StudentRequestsEvent, StudentRequestsStat
 
   Future<void> _onVacancyRequest(
       StudentVacancyRequested event, Emitter<StudentRequestsState> emit) async {
-    emit(state.copyWith(status: StudentRequestsStatus.submitting, clearError: true));
+    emit(state.copyWith(
+        status: StudentRequestsStatus.submitting,
+        clearError: true,
+        clearSubmitted: true));
     try {
       final saved = await _repo.requestVacancy(event.vacancy);
       emit(state.copyWith(
         status: StudentRequestsStatus.ready,
         vacancies: [saved, ...state.vacancies],
+        submittedVacancyId: saved.id,
       ));
     } on StudentRequestsException catch (e) {
       emit(state.copyWith(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -50,26 +51,28 @@ class _RegisterPageState extends State<RegisterPage> {
   void _submit() {
     final l10n = AppLocalizations.of(context);
     if (_role == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.pickRoleSnack)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.pickRoleSnack)));
       return;
     }
     if (!_tosAccepted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.tosRequiredSnack)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.tosRequiredSnack)));
       return;
     }
     if (_role == UserRole.tutor && !_cocAccepted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.cocRequiredSnack)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.cocRequiredSnack)));
       return;
     }
     if (!_formKey.currentState!.validate()) return;
 
-    context.read<AuthBloc>().add(AuthRegisterRequested(RegistrationInput(
+    context.read<AuthBloc>().add(
+      AuthRegisterRequested(
+        RegistrationInput(
           firstName: _first.text,
           lastName: _last.text,
           email: _email.text,
@@ -78,7 +81,9 @@ class _RegisterPageState extends State<RegisterPage> {
           role: _role!,
           tosAccepted: _tosAccepted,
           codeOfConductAccepted: _cocAccepted,
-        )));
+        ),
+      ),
+    );
   }
 
   String _errorMessage(AppLocalizations l10n, String code) {
@@ -89,6 +94,8 @@ class _RegisterPageState extends State<RegisterPage> {
         return l10n.tosRequiredSnack;
       case 'coc_required':
         return l10n.registerErrorCocRequired;
+      case 'no_internet':
+        return l10n.errorNoInternet;
       default:
         return l10n.errorGeneric;
     }
@@ -109,8 +116,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? _validateConfirm(AppLocalizations l10n, String? v) =>
       Validators.confirmPassword(v, _password.text) == null
-          ? null
-          : l10n.confirmPasswordMismatch;
+      ? null
+      : l10n.confirmPasswordMismatch;
 
   @override
   Widget build(BuildContext context) {
@@ -118,146 +125,180 @@ class _RegisterPageState extends State<RegisterPage> {
     return SafeBackScope(
       fallbackLocation: AppRoutes.login,
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.registerTitle)),
+        appBar: BrandAppBar(title: Text(l10n.registerTitle)),
         body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state.status == AuthStatus.awaitingEmailVerification) {
-            context.go(AppRoutes.verifyEmail);
-          } else if (state.status == AuthStatus.error && state.errorCode != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),
-            );
-          }
-        },
-        builder: (context, state) {
-          final busy = state.status == AuthStatus.registering;
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(l10n.registerSubtitle, style: Theme.of(context).textTheme.bodyLarge),
-                  const SizedBox(height: AppSpacing.lg),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppTextField(
-                          label: l10n.firstNameLabel,
-                          controller: _first,
-                          prefixIcon: Icons.person_outline,
-                          validator: (v) => _validateName(l10n, v),
+          listener: (context, state) {
+            if (state.status == AuthStatus.authenticated) {
+              // Auto-confirmed signup (no email step): route in immediately.
+              // First-time tutors must complete onboarding before the home.
+              final user = state.user!;
+              if (user.role == UserRole.tutor) {
+                context.go(AppRoutes.tutorOnboarding);
+              } else {
+                context.go(AppRoutes.routeForRole(user.role));
+              }
+            } else if (state.status == AuthStatus.awaitingEmailVerification) {
+              context.go(AppRoutes.verifyEmail);
+            } else if (state.status == AuthStatus.error &&
+                state.errorCode != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),
+              );
+            }
+          },
+          builder: (context, state) {
+            final busy = state.status == AuthStatus.registering;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      l10n.registerSubtitle,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppTextField(
+                            label: l10n.firstNameLabel,
+                            controller: _first,
+                            prefixIcon: Icons.person_outline,
+                            validator: (v) => _validateName(l10n, v),
+                          ),
                         ),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(
+                          child: AppTextField(
+                            label: l10n.lastNameLabel,
+                            controller: _last,
+                            validator: (v) => _validateName(l10n, v),
+                          ),
+                        ),
+                      ],
+                    ),
+                    AppTextField(
+                      label: l10n.emailAddressLabel,
+                      controller: _email,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: Icons.mail_outline,
+                      validator: (v) => _validateEmail(l10n, v),
+                    ),
+                    AppTextField(
+                      label: l10n.phoneNumberLabel,
+                      hint: l10n.phoneNumberHint,
+                      controller: _phone,
+                      keyboardType: TextInputType.phone,
+                      prefixIcon: Icons.phone_outlined,
+                      validator: (v) => _validatePhone(l10n, v),
+                    ),
+                    AppTextField(
+                      label: l10n.passwordLabel,
+                      controller: _password,
+                      obscureText: _obscure,
+                      prefixIcon: Icons.lock_outline,
+                      suffixIcon: IconButton(
+                        tooltip: _obscure
+                            ? l10n.showPasswordTooltip
+                            : l10n.hidePasswordTooltip,
+                        icon: Icon(
+                          _obscure
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () => setState(() => _obscure = !_obscure),
                       ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: AppTextField(
-                          label: l10n.lastNameLabel,
-                          controller: _last,
-                          validator: (v) => _validateName(l10n, v),
+                      validator: (v) => _validatePassword(l10n, v),
+                    ),
+                    AppTextField(
+                      label: l10n.confirmPasswordLabel,
+                      controller: _confirm,
+                      obscureText: _obscureConfirm,
+                      prefixIcon: Icons.lock_outline,
+                      suffixIcon: IconButton(
+                        tooltip: _obscureConfirm
+                            ? l10n.showPasswordTooltip
+                            : l10n.hidePasswordTooltip,
+                        icon: Icon(
+                          _obscureConfirm
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () =>
+                            setState(() => _obscureConfirm = !_obscureConfirm),
+                      ),
+                      validator: (v) => _validateConfirm(l10n, v),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      l10n.roleLabel,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    RoleSelector(
+                      value: _role,
+                      onChanged: (r) => setState(() {
+                        _role = r;
+                        if (r != UserRole.tutor) _cocAccepted = false;
+                      }),
+                      tutorLabel: l10n.roleTutor,
+                      tutorSubtitle: l10n.roleTutorSubtitle,
+                      studentLabel: l10n.roleStudent,
+                      studentSubtitle: l10n.roleStudentSubtitle,
+                    ),
+                    if (_role != null) ...[
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        l10n.rolePermanentNote,
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 12,
                         ),
                       ),
                     ],
-                  ),
-                  AppTextField(
-                    label: l10n.emailAddressLabel,
-                    controller: _email,
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icons.mail_outline,
-                    validator: (v) => _validateEmail(l10n, v),
-                  ),
-                  AppTextField(
-                    label: l10n.phoneNumberLabel,
-                    hint: l10n.phoneNumberHint,
-                    controller: _phone,
-                    keyboardType: TextInputType.phone,
-                    prefixIcon: Icons.phone_outlined,
-                    validator: (v) => _validatePhone(l10n, v),
-                  ),
-                  AppTextField(
-                    label: l10n.passwordLabel,
-                    controller: _password,
-                    obscureText: _obscure,
-                    prefixIcon: Icons.lock_outline,
-                    suffixIcon: IconButton(
-                      tooltip: _obscure ? l10n.showPasswordTooltip : l10n.hidePasswordTooltip,
-                      icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-                      onPressed: () => setState(() => _obscure = !_obscure),
-                    ),
-                    validator: (v) => _validatePassword(l10n, v),
-                  ),
-                  AppTextField(
-                    label: l10n.confirmPasswordLabel,
-                    controller: _confirm,
-                    obscureText: _obscureConfirm,
-                    prefixIcon: Icons.lock_outline,
-                    suffixIcon: IconButton(
-                      tooltip: _obscureConfirm
-                          ? l10n.showPasswordTooltip
-                          : l10n.hidePasswordTooltip,
-                      icon: Icon(_obscureConfirm
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined),
-                      onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
-                    ),
-                    validator: (v) => _validateConfirm(l10n, v),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Text(l10n.roleLabel, style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: AppSpacing.sm),
-                  RoleSelector(
-                    value: _role,
-                    onChanged: (r) => setState(() {
-                      _role = r;
-                      if (r != UserRole.tutor) _cocAccepted = false;
-                    }),
-                    tutorLabel: l10n.roleTutor,
-                    tutorSubtitle: l10n.roleTutorSubtitle,
-                    studentLabel: l10n.roleStudent,
-                    studentSubtitle: l10n.roleStudentSubtitle,
-                  ),
-                  if (_role != null) ...[
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      l10n.rolePermanentNote,
-                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
-                    ),
-                  ],
-                  const SizedBox(height: AppSpacing.lg),
-                  CheckboxListTile(
-                    value: _tosAccepted,
-                    onChanged: (v) => setState(() => _tosAccepted = v ?? false),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(l10n.tosAcceptLabel),
-                  ),
-                  if (_role == UserRole.tutor)
+                    const SizedBox(height: AppSpacing.lg),
                     CheckboxListTile(
-                      value: _cocAccepted,
-                      onChanged: (v) => setState(() => _cocAccepted = v ?? false),
+                      value: _tosAccepted,
+                      onChanged: (v) =>
+                          setState(() => _tosAccepted = v ?? false),
                       controlAffinity: ListTileControlAffinity.leading,
                       contentPadding: EdgeInsets.zero,
-                      title: Text(l10n.cocAcceptLabel),
+                      title: Text(l10n.tosAcceptLabel),
                     ),
-                  const SizedBox(height: AppSpacing.lg),
-                  PrimaryButton(label: l10n.registerSubmit, busy: busy, onPressed: busy ? null : _submit),
-                  const SizedBox(height: AppSpacing.lg),
-                  TextButton(
-                    onPressed: () {
-                      if (context.canPop()) {
-                        context.pop();
-                      } else {
-                        context.go(AppRoutes.login);
-                      }
-                    },
-                    child: Text(l10n.registerToLogin),
-                  ),
-                ],
+                    if (_role == UserRole.tutor)
+                      CheckboxListTile(
+                        value: _cocAccepted,
+                        onChanged: (v) =>
+                            setState(() => _cocAccepted = v ?? false),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(l10n.cocAcceptLabel),
+                      ),
+                    const SizedBox(height: AppSpacing.lg),
+                    PrimaryButton(
+                      label: l10n.registerSubmit,
+                      busy: busy,
+                      onPressed: busy ? null : _submit,
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    TextButton(
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go(AppRoutes.login);
+                        }
+                      },
+                      child: Text(l10n.registerToLogin),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
         ),
       ),
     );

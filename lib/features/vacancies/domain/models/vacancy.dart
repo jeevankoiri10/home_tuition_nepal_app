@@ -21,6 +21,9 @@ class Vacancy extends Equatable {
     this.genderPref = GenderPref.any,
     this.mode = JobMode.inPerson,
     this.notes,
+    this.lat,
+    this.lng,
+    this.distanceKm,
     required this.createdAt,
   });
 
@@ -39,7 +42,46 @@ class Vacancy extends Equatable {
   final GenderPref genderPref;
   final JobMode mode;
   final String? notes;
+
+  /// Location of the vacancy (from `vacancies.geog`). Null when the admin
+  /// hasn't pinned it. `distanceKm` is set only by the geo-search path.
+  final double? lat;
+  final double? lng;
+  final double? distanceKm;
+
   final DateTime createdAt;
+
+  bool get hasLocation => lat != null && lng != null;
+
+  String? formatDistance() {
+    final d = distanceKm;
+    if (d == null) return null;
+    if (d < 1) return '${(d * 1000).round()} m';
+    return '${d.toStringAsFixed(1)} km';
+  }
+
+  /// Returns a copy stamped with [distanceKm] — used by the geo-search path.
+  Vacancy copyWithDistance(double distanceKm) => Vacancy(
+        id: id,
+        code: code,
+        title: title,
+        areaLabel: areaLabel,
+        grade: grade,
+        subjects: subjects,
+        numStudents: numStudents,
+        durationText: durationText,
+        frequency: frequency,
+        salaryMinNpr: salaryMinNpr,
+        salaryMaxNpr: salaryMaxNpr,
+        salaryPeriod: salaryPeriod,
+        genderPref: genderPref,
+        mode: mode,
+        notes: notes,
+        lat: lat,
+        lng: lng,
+        distanceKm: distanceKm,
+        createdAt: createdAt,
+      );
 
   String formatSalary() {
     if (salaryMinNpr == null) return '—';
@@ -67,6 +109,9 @@ class Vacancy extends Equatable {
         genderPref: GenderPref.fromString(row['gender_pref'] as String?),
         mode: JobMode.fromString(row['mode'] as String?),
         notes: row['notes'] as String?,
+        lat: (row['lat'] as num?)?.toDouble(),
+        lng: (row['lng'] as num?)?.toDouble(),
+        distanceKm: (row['distance_km'] as num?)?.toDouble(),
         createdAt: row['created_at'] == null
             ? DateTime.now()
             : DateTime.parse(row['created_at'] as String),
@@ -99,6 +144,9 @@ class Vacancy extends Equatable {
         genderPref,
         mode,
         notes,
+        lat,
+        lng,
+        distanceKm,
         createdAt,
       ];
 }

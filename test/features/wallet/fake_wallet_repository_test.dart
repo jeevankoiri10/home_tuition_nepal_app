@@ -46,6 +46,18 @@ void main() {
       expect(balance, 999);
     });
 
+    test('watchLedger emits when the balance changes', () async {
+      await repo.loadBalance('w1');
+      final events = <void>[];
+      final sub = repo.watchLedger('w1').listen(events.add);
+      await repo.unlockContact(studentId: 'w1', tutorId: 't1');
+      await repo.applyToVacancy(tutorId: 'w1', vacancyId: 'v1');
+      // Let the broadcast stream flush.
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      await sub.cancel();
+      expect(events.length, greaterThanOrEqualTo(2));
+    });
+
     test('insufficient funds throw WalletException', () async {
       await repo.loadBalance('poor');
       // Drain the wallet by repeatedly unlocking different tutors.
@@ -60,5 +72,21 @@ void main() {
         throwsA(isA<WalletException>().having((e) => e.isInsufficient, 'isInsufficient', true)),
       );
     }, timeout: const Timeout(Duration(minutes: 2)));
+
+    test('revealContact throws gate_not_met before any unlock', () async {
+      await repo.loadBalance('u1');
+      expect(
+        () => repo.revealContact(studentId: 'u1', tutorId: 't1'),
+        throwsA(isA<WalletException>().having((e) => e.code, 'code', 'gate_not_met')),
+      );
+    });
+
+    test('revealContact returns a number once the contact is unlocked', () async {
+      await repo.loadBalance('u1');
+      await repo.unlockContact(studentId: 'u1', tutorId: 't1');
+      final phone = await repo.revealContact(studentId: 'u1', tutorId: 't1');
+      expect(phone, isNotNull);
+      expect(phone, isNotEmpty);
+    });
   });
 }

@@ -92,6 +92,7 @@ create or replace function open_or_get_thread(p_counterparty uuid)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -157,6 +158,7 @@ create or replace function send_chat_message(p_thread_id uuid, p_body text)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -192,6 +194,7 @@ create or replace function mark_messages_read(p_thread_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();

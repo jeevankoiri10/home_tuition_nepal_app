@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +30,7 @@ class WalletPage extends StatelessWidget {
         return SafeBackScope(
           fallbackLocation: fallback,
           child: Scaffold(
-            appBar: AppBar(title: Text(l10n.walletTitle)),
+            appBar: BrandAppBar(title: Text(l10n.walletTitle)),
             body: RefreshIndicator(
               onRefresh: () async {
                 context.read<WalletBloc>().add(const WalletRefreshRequested());

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,6 +9,7 @@ import '../../../../app/router.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../domain/models/user_role.dart';
 import '../blocs/auth_bloc.dart';
 
 class EmailVerificationPage extends StatefulWidget {
@@ -56,20 +58,23 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     Future<void>.delayed(const Duration(milliseconds: 800), () {
       if (!mounted) return;
       final after = context.read<AuthBloc>().state.user;
-      if (!wasVerified && after != null && !after.emailVerified && !_manualRefreshShownHint) {
+      if (!wasVerified &&
+          after != null &&
+          !after.emailVerified &&
+          !_manualRefreshShownHint) {
         _manualRefreshShownHint = true;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.verifyEmailNotYet)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.verifyEmailNotYet)));
       }
     });
   }
 
   void _resend(AppLocalizations l10n) {
     context.read<AuthBloc>().add(const AuthEmailVerificationResendRequested());
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.verifyEmailResentSnack)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.verifyEmailResentSnack)));
     setState(() => _cooldownRemaining = _resendCooldownSeconds);
     _cooldownTimer?.cancel();
     _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -95,12 +100,21 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.verifyEmailTitle)),
+      appBar: BrandAppBar(title: Text(l10n.verifyEmailTitle)),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.status == AuthStatus.authenticated) {
-            context.go(AppRoutes.routeForRole(state.user!.role));
-          } else if (state.status == AuthStatus.error && state.errorCode != null) {
+            final user = state.user!;
+            // First-time tutors must complete onboarding (their details + CV)
+            // before reaching the tutor home. Email verification happens only
+            // right after sign-up, so this is the natural first-run gate.
+            if (user.role == UserRole.tutor) {
+              context.go(AppRoutes.tutorOnboarding);
+            } else {
+              context.go(AppRoutes.routeForRole(user.role));
+            }
+          } else if (state.status == AuthStatus.error &&
+              state.errorCode != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(_errorMessage(l10n, state.errorCode!))),
             );
@@ -132,7 +146,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 TextButton(
-                  onPressed: (busy || _cooldownRemaining > 0) ? null : () => _resend(l10n),
+                  onPressed: (busy || _cooldownRemaining > 0)
+                      ? null
+                      : () => _resend(l10n),
                   child: Text(resendLabel),
                 ),
               ],

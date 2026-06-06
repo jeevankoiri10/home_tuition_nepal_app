@@ -28,6 +28,23 @@ class SupabaseNotificationsRepository implements NotificationsRepository {
   }
 
   @override
+  Future<Set<NotificationKind>> enabledKinds() async {
+    try {
+      final rows = await _client
+          .from('notification_settings')
+          .select('kind')
+          .eq('enabled', true);
+      return (rows as List)
+          .cast<Map<String, dynamic>>()
+          .map((r) => NotificationKind.fromString(r['kind'] as String?))
+          .toSet();
+    } on sb.PostgrestException {
+      // Registry unreadable — don't hide anything.
+      return NotificationKind.values.toSet();
+    }
+  }
+
+  @override
   Future<void> markRead(String notificationId) async {
     try {
       await _client

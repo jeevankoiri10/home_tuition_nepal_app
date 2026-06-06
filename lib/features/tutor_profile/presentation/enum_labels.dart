@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../../l10n/generated/app_localizations.dart';
 import '../domain/models/profile_enums.dart';
 
@@ -14,6 +16,22 @@ extension TeachingModeLabel on TeachingMode {
         return l10n.teachingModeOffline;
       case TeachingMode.both:
         return l10n.teachingModeBoth;
+    }
+  }
+}
+
+/// At-a-glance icon for a teaching mode — globe (online), home (in-person), or
+/// pinch (both). Shared by the map pin and the tutor card so the visual
+/// language stays consistent.
+extension TeachingModeIcon on TeachingMode {
+  IconData get icon {
+    switch (this) {
+      case TeachingMode.online:
+        return Icons.public;
+      case TeachingMode.offline:
+        return Icons.home;
+      case TeachingMode.both:
+        return Icons.pinch;
     }
   }
 }

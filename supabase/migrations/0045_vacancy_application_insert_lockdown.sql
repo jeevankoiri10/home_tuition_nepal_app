@@ -1,0 +1,28 @@
+-- Home Tuition Nepal — Lock down direct vacancy_applications inserts (security).
+-- Run after 0044_coin_topup_insert_lockdown.sql.
+--
+-- VULNERABILITY (coin-debit bypass / privilege escalation) — same class as 0044:
+-- The vacancy_applications_insert_self policy (0006) let any authenticated user
+-- INSERT an application row directly via PostgREST, validating only
+-- `auth.uid() = tutor_id`. The intended path, tutor_apply_to_vacancy(), is a
+-- SECURITY DEFINER RPC that:
+--   * verifies the caller is a tutor,
+--   * verifies the vacancy is open and not already applied to,
+--   * DEBITS coins via _ledger_apply (the "apply cost" = the core monetization),
+--   * records the row with the server-computed coins_spent.
+-- The permissive insert policy let a tutor skip all of that — POST directly to
+-- /rest/v1/vacancy_applications and:
+--   * apply for FREE (no coin debit) — breaking monetization + the
+--     "coin ledger is server-authoritative" invariant,
+--   * apply to vacancies that are not open,
+--   * set coins_spent / status to arbitrary values (e.g. status = 'hired',
+--     which the check constraint permits and which client UI may trust).
+--
+-- FIX: drop the direct-insert policy. With RLS enabled and no INSERT policy,
+-- direct client inserts are denied. The Flutter app only ever creates
+-- applications through tutor_apply_to_vacancy() (see
+-- supabase_vacancies_repository.dart), which runs SECURITY DEFINER and bypasses
+-- RLS, so legitimate applies are unaffected. Admin matching uses
+-- admin_assign_vacancy() (UPDATE only) under the service role.
+
+drop policy if exists vacancy_applications_insert_self on vacancy_applications;

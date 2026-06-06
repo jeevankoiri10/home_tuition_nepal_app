@@ -14,7 +14,11 @@ class FakeReviewsRepository implements ReviewsRepository {
   final PlatformSettingsService _settings;
 
   final Map<String, List<Review>> _byTutor = {};
+  final Map<String, List<Review>> _byStudent = {};
   int _counter = 0;
+
+  // Dev seam: the bloc/UI runs as this id in fake mode.
+  static const _demoSelf = 'fake-login';
 
   @override
   Future<List<Review>> listForTutor(String tutorId, {int limit = 50}) async {
@@ -67,6 +71,53 @@ class FakeReviewsRepository implements ReviewsRepository {
 
     final list = _byTutor.putIfAbsent(tutorId, () => []);
     list.removeWhere((r) => r.studentId == demoStudent);
+    list.insert(0, saved);
+    return saved;
+  }
+
+  @override
+  Future<List<Review>> listForStudent(String studentId, {int limit = 50}) async {
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    return List<Review>.from(_byStudent[studentId] ?? const []).take(limit).toList();
+  }
+
+  @override
+  Future<RatingSummary> summaryForStudent(String studentId) async {
+    final list = _byStudent[studentId] ?? const <Review>[];
+    if (list.isEmpty) return const RatingSummary(average: 0, count: 0);
+    final avg = list.map((r) => r.stars).reduce((a, b) => a + b) / list.length;
+    return RatingSummary(average: avg, count: list.length);
+  }
+
+  @override
+  Future<Review> submitStudentReview({
+    required String studentId,
+    required int stars,
+    String? text,
+  }) async {
+    if (stars < 1 || stars > 5) {
+      throw ReviewsException('invalid_stars', 'Stars must be between 1 and 5.');
+    }
+    if (text != null && PhoneBanRegex.isViolation(text)) {
+      throw ReviewsException('phone_in_review', 'Remove phone numbers or contact details.');
+    }
+    if (_demoSelf == studentId) {
+      throw ReviewsException('cannot_review_self');
+    }
+    // The author is the current (tutor) user in fake mode.
+    final existing = (_byStudent[studentId] ?? const <Review>[])
+        .where((r) => r.tutorId == _demoSelf)
+        .toList();
+    final saved = Review(
+      id: existing.isEmpty ? 'srev-${++_counter}' : existing.first.id,
+      tutorId: _demoSelf,
+      studentId: studentId,
+      stars: stars,
+      text: text,
+      createdAt: existing.isEmpty ? DateTime.now() : existing.first.createdAt,
+    );
+    final list = _byStudent.putIfAbsent(studentId, () => []);
+    list.removeWhere((r) => r.tutorId == _demoSelf);
     list.insert(0, saved);
     return saved;
   }

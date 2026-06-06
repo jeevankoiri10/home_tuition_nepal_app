@@ -45,6 +45,45 @@ abstract class AuthRepository {
 
   Future<UserProfile> login({required String email, required String password});
 
+  /// Sign in with Google in the chosen [role]. Until the Google provider is
+  /// configured (Env.googleOAuthConfigured), this is stubbed via anonymous
+  /// sign-in so the role-toggle + onboarding flow is testable end-to-end. The
+  /// returned profile is a brand-new account with `onboardingComplete == false`.
+  Future<UserProfile> signInWithGoogle({required UserRole role});
+
+  /// Persist the onboarding step the user is currently on so a relaunch resumes
+  /// at the same place. Mirrors `profiles.onboarding_step`.
+  Future<UserProfile> saveOnboardingStep(int step);
+
+  /// Save a student's contact + location and open the onboarding gate
+  /// (`onboarding_complete = true`). Phone numbers are expected pre-formatted.
+  Future<UserProfile> completeStudentOnboarding({
+    required String phone,
+    required String whatsapp,
+    required double lat,
+    required double lng,
+  });
+
+  /// Save a tutor's contact (phone + WhatsApp) during the onboarding wizard.
+  Future<UserProfile> setTutorContact({
+    required String phone,
+    required String whatsapp,
+  });
+
+  /// Open the onboarding gate for a tutor who has finished the wizard.
+  Future<UserProfile> completeTutorOnboarding();
+
+  /// Re-fetch the signed-in user's profile from the backend and emit it on
+  /// [currentUser]. Used by the blocked screen to detect reactivation without a
+  /// full restart. No-op when there is no session.
+  Future<void> reloadProfile();
+
+  /// Switch which dashboard the account is currently acting as. Grants the
+  /// target role to the account (so one email can be both tutor and student)
+  /// and sets it active. Routing into a not-yet-onboarded role is handled by
+  /// the router guard.
+  Future<UserProfile> switchActiveRole(UserRole role);
+
   /// Resend the confirmation email to the user's registered address.
   Future<void> sendEmailVerification();
 
@@ -59,6 +98,11 @@ abstract class AuthRepository {
   /// notification permission. Safe to call when there's no signed-in user
   /// (the implementation will no-op).
   Future<void> setPushToken(String? token);
+
+  /// Persist the user's preferred app language (`'en'` / `'ne'`) on their
+  /// profile so server-side fan-outs (e.g. admin broadcasts) localize the
+  /// notification text. Safe to call when signed out (no-ops).
+  Future<void> setLanguage(String languageCode);
 
   /// Returns the set of roles this user account has profiles for. With the
   /// current single-role schema this is always a one-element set ({user.role});

@@ -15,6 +15,7 @@ create or replace function set_tutor_geog(p_lat double precision, p_lng double p
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   update tutors
@@ -70,9 +71,9 @@ begin
     select t.*,
            p.handle,
            p.first_name || ' ' || left(p.last_name, 1) || '*' as masked_name,
-           p.city,
-           p.address_line,
-           coalesce(p.address_line, p.city, '') as area_label,
+           t.city,
+           t.address_line,
+           coalesce(t.address_line, t.city, '') as area_label,
            st_distance(t.geog, viewer.g) / 1000.0 as distance_km,
            st_y(t.geog::geometry) as lat,
            st_x(t.geog::geometry) as lng

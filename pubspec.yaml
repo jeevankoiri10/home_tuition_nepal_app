@@ -36,20 +36,31 @@ dependencies:
   # CV upload during tutor onboarding (Phase 19).
   file_picker: ^8.1.4
 
-  # eSewa payment QR rendered in the top-up sheet (Phase 20).
-  qr_flutter: ^4.1.0
-
   # Phase 14 — Observability
   sentry_flutter: ^8.10.0
 
   # Typography — Noto Sans Devanagari fetched at runtime, no bundled .ttf assets.
   google_fonts: ^6.2.1
 
+  # Cloudinary unsigned uploads for images / documents (multipart POST).
+  http: ^1.2.2
+
+  # Phase 16 — remote push (FCM). Inert until Firebase is configured for the app
+  # (firebase_options.dart + native config) and PUSH_NOTIFICATIONS_CONFIGURED=true;
+  # see docs/push_setup.md. The in-app feed works without these.
+  firebase_core: ^3.6.0
+  firebase_messaging: ^15.1.3
+  flutter_local_notifications: ^17.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^10.0.0
   flutter_lints: ^6.0.0
+
+  # Generates Android mipmaps + iOS AppIcon set from a single source image.
+  # Run: dart run flutter_launcher_icons
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -60,3 +71,14 @@ flutter:
 
   # Devanagari support for Nepali is loaded at runtime via the google_fonts package
   # (see lib/core/theme/app_text_styles.dart). No font files are bundled.
+
+# Launcher icon: white brand logo on indigo (#3F51B5). Sources composited from
+# assets/images/logo-white.png (see assets/icons/). Regenerate with:
+#   dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  adaptive_icon_background: "#3F51B5"
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
+  remove_alpha_ios: true

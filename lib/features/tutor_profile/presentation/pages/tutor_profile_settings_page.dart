@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_spacing.dart';
@@ -36,7 +37,7 @@ class _TutorProfileSettingsPageState extends State<TutorProfileSettingsPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsAppBarTitle)),
+      appBar: BrandAppBar(title: Text(l10n.settingsAppBarTitle)),
       body: BlocBuilder<TutorProfileBloc, TutorProfileState>(
         builder: (context, state) {
           final profile = state.profile;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -133,13 +134,8 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
             SnackBar(content: Text(state.errorMessage!)),
           );
         }
-        // Pop back when the submission lands.
-        if (state.status == StudentRequestsStatus.ready &&
-            state.vacancies.isNotEmpty &&
-            state.vacancies.first.status == VacancyStatus.pendingAdminReview &&
-            (DateTime.now().difference(state.vacancies.first.createdAt ?? DateTime.now()))
-                    .inSeconds <
-                3) {
+        // Pop back deterministically when the submission lands.
+        if (state.submittedVacancyId != null) {
           final l10n = AppLocalizations.of(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(l10n.requestSuccessSnack)),
@@ -151,7 +147,7 @@ class _RequestTutorPageState extends State<RequestTutorPage> {
         final l10n = AppLocalizations.of(context);
         final busy = state.status == StudentRequestsStatus.submitting;
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.requestTutorCta)),
+          appBar: BrandAppBar(title: Text(l10n.requestTutorCta)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             child: Form(

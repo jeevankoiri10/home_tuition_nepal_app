@@ -1,10 +1,16 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/info_badge.dart';
+import '../../../../core/widgets/subject_chips.dart';
+import '../../../../core/widgets/verified_badge.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../tutor_profile/presentation/enum_labels.dart';
 import '../../domain/models/map_tutor.dart';
 
 /// Card shown in the carousel (bottom sheet) and in the full list view.
@@ -87,13 +93,13 @@ class TutorMapCard extends StatelessWidget {
                           ),
                           if (tutor.verified) ...[
                             const SizedBox(width: 4),
-                            const Icon(Icons.verified, size: 14, color: AppColors.primary),
+                            const VerifiedBadge(),
                           ],
                         ],
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.place_outlined, size: 12, color: AppColors.textSecondary),
+                          const Icon(Icons.place_outlined, size: 12),
                           const SizedBox(width: 2),
                           Flexible(
                             child: Text(
@@ -111,22 +117,10 @@ class TutorMapCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: AppSpacing.sm),
+            _InfoBadgeRow(tutor: tutor),
+            const SizedBox(height: AppSpacing.sm),
             if (tutor.topSubjects.isNotEmpty)
-              Wrap(
-                spacing: 4,
-                runSpacing: 4,
-                children: [
-                  for (final s in tutor.topSubjects)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryLight.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Text(s, style: tt.bodySmall),
-                    ),
-                ],
-              ),
+              SubjectChips(subjects: tutor.topSubjects, spacing: 4),
             const SizedBox(height: AppSpacing.sm),
             Row(
               children: [
@@ -221,6 +215,38 @@ class _Avatar extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: const Icon(Icons.person_outline, color: AppColors.primary),
+    );
+  }
+}
+
+/// Row of at-a-glance fact badges — teaching mode and years of experience —
+/// so a tutor's background is visible on the card without opening the profile.
+class _InfoBadgeRow extends StatelessWidget {
+  const _InfoBadgeRow({required this.tutor});
+
+  final MapTutor tutor;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final years =
+        math.max(tutor.experienceOffline, tutor.experienceOnline).round();
+    return Wrap(
+      spacing: AppSpacing.xs,
+      runSpacing: AppSpacing.xs,
+      children: [
+        InfoBadge(
+          icon: tutor.teachingMode.icon,
+          label: tutor.teachingMode.localized(l10n),
+          color: AppColors.info,
+        ),
+        if (years > 0)
+          InfoBadge(
+            icon: Icons.workspace_premium_outlined,
+            label: l10n.tutorCardExperienceYears(years),
+            color: AppColors.primary,
+          ),
+      ],
     );
   }
 }

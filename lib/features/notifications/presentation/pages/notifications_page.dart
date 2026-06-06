@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/models/app_notification.dart';
 import '../blocs/notifications_bloc.dart';
+import '../notification_deep_link.dart';
 import '../widgets/notification_card.dart';
 
 class NotificationsPage extends StatelessWidget {
@@ -15,27 +16,9 @@ class NotificationsPage extends StatelessWidget {
 
   void _onTap(BuildContext context, AppNotification n) {
     context.read<NotificationsBloc>().add(NotificationsRead(n.id));
-    // Deep-link by ref_type when we have a target page; otherwise show the
-    // generic notice details page so the user always lands somewhere readable.
-    switch (n.refType) {
-      case 'job':
-        if (n.refId != null) {
-          context.push(AppRoutes.postDetail.replaceAll(':id', n.refId!));
-          return;
-        }
-        break;
-      case 'vacancy':
-        if (n.refId != null) {
-          context.push(AppRoutes.vacancyDetail.replaceAll(':id', n.refId!));
-          return;
-        }
-        break;
-      case 'tutor':
-        // Tutor detail screen not yet built; route to map.
-        context.push(AppRoutes.map);
-        return;
-    }
-    context.push(AppRoutes.noticeDetail.replaceAll(':id', n.id));
+    // Resolve the deep-link target (shared with push); falls back to this
+    // notification's own detail page when the ref can't be resolved.
+    context.push(resolveNotificationDeepLink(n));
   }
 
   @override
@@ -45,7 +28,7 @@ class NotificationsPage extends StatelessWidget {
       builder: (context, state) {
         final visible = state.visible;
         return Scaffold(
-          appBar: AppBar(
+          appBar: BrandAppBar(
             title: Text(l10n.notificationsTitle),
             actions: [
               if (state.unreadCount > 0)

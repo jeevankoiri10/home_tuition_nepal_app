@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../config/env.dart';
@@ -8,6 +9,11 @@ import '../constants/app_constants.dart';
 /// absent, falls back to the defaults in [AppConstants].
 class PlatformSettingsService {
   PlatformSettingsService();
+
+  /// Test-only: seed the cached values directly without hitting Supabase.
+  @visibleForTesting
+  PlatformSettingsService.withValues(Map<String, String> values)
+      : _values = values;
 
   Map<String, String> _values = const {};
 
@@ -39,6 +45,18 @@ class PlatformSettingsService {
 
   int get applyCoinCost =>
       getInt('apply_coin_cost', AppConstants.defaultApplyCoinCost);
+
+  /// Percentage-based connect cost knobs. The apply price is
+  /// `ceil(salary × applyCostPercent%)` clamped to `[applyCostMin, applyCostMax]`.
+  /// See [AppConstants.defaultApplyCostPercent] and `ConnectCost`.
+  int get applyCostPercent =>
+      getInt('apply_cost_percent', AppConstants.defaultApplyCostPercent);
+
+  int get applyCostMin =>
+      getInt('apply_cost_min', AppConstants.defaultApplyCostMin);
+
+  int get applyCostMax =>
+      getInt('apply_cost_max', AppConstants.defaultApplyCostMax);
 
   int get unlockCoinCost =>
       getInt('unlock_coin_cost', AppConstants.defaultUnlockCoinCost);

@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/cloudinary_service.dart';
+import '../../../core/utils/pdf_validator.dart';
 import '../domain/models/profile_enums.dart';
 import '../domain/models/tutor_availability.dart';
 import '../domain/models/tutor_credentials.dart';
@@ -11,9 +13,10 @@ import '../domain/models/tutor_profile.dart';
 import '../domain/tutor_repository.dart';
 
 class SupabaseTutorRepository implements TutorRepository {
-  SupabaseTutorRepository(this._client);
+  SupabaseTutorRepository(this._client, this._cloudinary);
 
   final sb.SupabaseClient _client;
+  final CloudinaryService _cloudinary;
 
   @override
   Future<TutorProfile> load(String tutorId) async {
@@ -148,18 +151,19 @@ class SupabaseTutorRepository implements TutorRepository {
       throw TutorRepositoryException(
           'cv_too_large', 'CV must be smaller than 300 KB.');
     }
-    final ext = fileName.toLowerCase().endsWith('.pdf') ? 'pdf' : 'bin';
-    final objectPath = '$tutorId/cv.$ext';
+    if (!PdfValidator.isPdf(bytes)) {
+      throw TutorRepositoryException('cv_not_pdf', 'CV must be a PDF file.');
+    }
+    // CVs are stored on Cloudinary as `raw` assets (PDFs are not media).
     try {
-      final storage = _client.storage.from('tutor-cvs');
-      await storage.uploadBinary(
-        objectPath,
-        bytes,
-        fileOptions: const sb.FileOptions(upsert: true, contentType: 'application/pdf'),
+      return await _cloudinary.uploadBytes(
+        bytes: bytes,
+        fileName: 'cv.pdf',
+        folder: 'tutor-cvs/$tutorId',
+        resourceType: 'raw',
       );
-      return storage.getPublicUrl(objectPath);
-    } on sb.StorageException catch (e) {
-      throw TutorRepositoryException('cv_upload_failed', e.message);
+    } on CloudinaryException catch (e) {
+      throw TutorRepositoryException('cv_upload_failed', e.detail);
     }
   }
 

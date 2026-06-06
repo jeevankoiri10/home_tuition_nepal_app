@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150138113733",
+    "project_id": "home-tuition-nepal-1c0c1",
+    "storage_bucket": "home-tuition-nepal-1c0c1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150138113733:android:af54d8e36834bc05e6aaac",
+        "android_client_info": {
+          "package_name": "com.ktmacademy.hometuitionnepal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0NaZYoYgG4S69JEnWmm0jPYb9Xip9f2A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

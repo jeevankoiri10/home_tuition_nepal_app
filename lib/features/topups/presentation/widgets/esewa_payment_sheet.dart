@@ -1,6 +1,5 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../app/di.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -99,12 +98,6 @@ class _EsewaPaymentSheetState extends State<EsewaPaymentSheet> {
     final tt = Theme.of(context).textTheme;
     final topUp = _topUp;
     final hasReceipt = topUp?.receiptUrl != null;
-    // The QR encodes a plain payment instruction — eSewa scanners accept the
-    // phone number directly; the surrounding text is for users scanning with
-    // generic QR readers.
-    final qrPayload = 'eSewa: ${AppConstants.esewaPayeeNumber} '
-        '(${AppConstants.esewaPayeeName}) '
-        '— Rs. ${widget.pack.priceNpr}';
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -128,10 +121,20 @@ class _EsewaPaymentSheetState extends State<EsewaPaymentSheet> {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.border),
                 ),
-                child: QrImageView(
-                  data: qrPayload,
-                  size: 200,
-                  backgroundColor: Colors.white,
+                child: Image.asset(
+                  AppConstants.esewaQrAsset,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.contain,
+                  // Until the owner's QR image is added at esewaQrAsset, fall
+                  // back to a placeholder instead of throwing. The payee number
+                  // shown below still lets users pay manually.
+                  errorBuilder: (_, _, _) => const SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Icon(Icons.qr_code_2,
+                        size: 120, color: AppColors.textSecondary),
+                  ),
                 ),
               ),
             ),

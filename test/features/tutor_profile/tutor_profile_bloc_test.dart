@@ -74,6 +74,9 @@ void main() {
           aboutSessions: 'B' * 60,
           qualifications: 'C' * 40,
           languagesKnown: const ['English'],
+          lat: 27.7,
+          lng: 85.3,
+          cvUrl: 'https://example.com/cv.pdf',
         );
         bloc.add(TutorProfileDraftUpdated(complete));
         await Future<void>.delayed(const Duration(milliseconds: 100));

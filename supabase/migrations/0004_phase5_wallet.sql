@@ -73,6 +73,7 @@ create or replace function _ledger_apply(
 ) returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   new_balance int;
@@ -106,6 +107,7 @@ $$;
 create or replace function grant_signup_coins() returns trigger
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   amount int;
@@ -131,6 +133,7 @@ create or replace function unlock_contact(p_tutor_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -164,6 +167,7 @@ create or replace function apply_to_vacancy(p_vacancy_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -185,6 +189,7 @@ create or replace function spend_coins_and_bid(p_job_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -207,6 +212,7 @@ create or replace function admin_credit(p_user uuid, p_delta int, p_reason_note 
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();

@@ -17,7 +17,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatMessagesMarkedRead>(_onMarkRead);
     on<_ChatMessageReceived>(_onReceived);
     on<ChatSendErrorCleared>(
-        (_, emit) => emit(state.copyWith(clearSendError: true)));
+      (_, emit) => emit(state.copyWith(clearSendError: true)),
+    );
   }
 
   final ChatRepository _repo;
@@ -31,20 +32,24 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final history = await _repo.loadHistory(thread.id);
       emit(state.copyWith(status: ChatStatus.ready, messages: history));
       _sub?.cancel();
-      _sub = _repo.watchInserts(thread.id).listen(
-        (m) => add(_ChatMessageReceived(m)),
-      );
+      _sub = _repo
+          .watchInserts(thread.id)
+          .listen((m) => add(_ChatMessageReceived(m)));
       // Mark incoming as read on open.
       try {
         await _repo.markRead(thread.id);
-      } catch (_) {/* non-fatal */}
+      } catch (_) {
+        /* non-fatal */
+      }
     } on ChatException catch (err) {
-      emit(state.copyWith(
-        status: ChatStatus.error,
-        errorMessage: err.isGateNotMet
-            ? 'Unlock the tutor first to start chatting.'
-            : (err.message ?? err.code),
-      ));
+      emit(
+        state.copyWith(
+          status: ChatStatus.error,
+          errorMessage: err.isGateNotMet
+              ? 'Unlock the tutor first to start chatting.'
+              : (err.message ?? err.code),
+        ),
+      );
     }
   }
 
@@ -59,11 +64,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(state.copyWith(messages: [...state.messages, sent]));
       }
     } on ChatException catch (err) {
-      emit(state.copyWith(
-        sendError: err.isPhoneInMessage
-            ? 'Remove phone numbers or contact details from your message.'
-            : (err.message ?? err.code),
-      ));
+      emit(
+        state.copyWith(
+          sendError: err.isPhoneInMessage
+              ? 'Remove phone numbers or contact details from your message.'
+              : (err.message ?? err.code),
+        ),
+      );
     }
   }
 
@@ -72,7 +79,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (t == null) return;
     try {
       await _repo.markRead(t.id);
-    } catch (_) {/* non-fatal */}
+    } catch (_) {
+      /* non-fatal */
+    }
   }
 
   void _onReceived(_ChatMessageReceived e, Emitter<ChatState> emit) {

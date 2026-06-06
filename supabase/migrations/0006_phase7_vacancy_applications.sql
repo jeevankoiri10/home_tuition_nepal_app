@@ -60,6 +60,7 @@ create or replace function tutor_apply_to_vacancy(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -102,6 +103,7 @@ create or replace function admin_assign_vacancy(p_application_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();

@@ -67,6 +67,7 @@ class VacanciesBloc extends Bloc<VacanciesEvent, VacanciesState> {
     } on VacanciesException catch (err) {
       emit(state.copyWith(
         applyStatus: ApplyStatus.error,
+        applyNeedsTopUp: err.isInsufficientCoins,
         applyError: err.isAlreadyApplied
             ? 'You already applied to this vacancy.'
             : (err.isInsufficientCoins

@@ -41,6 +41,12 @@ create policy reviews_update_self on reviews for update
 drop policy if exists reviews_delete_self on reviews;
 create policy reviews_delete_self on reviews for delete using (auth.uid() = student_id);
 
+-- Aggregate rating columns on tutors, maintained by recompute_tutor_rating below
+-- and read by the public directory view / map RPCs.
+alter table tutors add column if not exists rating         numeric(3,2);
+alter table tutors add column if not exists rating_count   integer not null default 0;
+alter table tutors add column if not exists ranking_score  numeric not null default 0;
+
 -- ────────────────────────────────────────────────────────────────────────────
 -- submit_review — must already have a relationship gate (unlock or assignment).
 -- Recomputes tutors.rating + rating_count + ranking_score on every write.
@@ -52,6 +58,7 @@ create or replace function submit_review(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller     uuid := auth.uid();
@@ -153,6 +160,7 @@ create or replace function boost_tutor_featured(p_hours int default 24)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller      uuid := auth.uid();
@@ -181,6 +189,7 @@ create or replace function promote_job(p_job_id uuid, p_hours int default 24)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller      uuid := auth.uid();

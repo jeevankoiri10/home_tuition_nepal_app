@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:label="home_tuition_nepal_app"
+        android:label="Home Tuition Nepal"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -49,6 +49,20 @@
                 <data android:pathPrefix="/s/" />
                 <data android:pathPrefix="/v/" />
                 <data android:pathPrefix="/j/" />
+            </intent-filter>
+
+            <!-- Google OAuth callback. Supabase redirects the external sign-in
+                 browser back to this custom scheme once Google completes; the
+                 supabase_flutter SDK then exchanges the code for a session.
+                 Must match Env.googleOAuthRedirect and the Supabase dashboard
+                 Redirect URL allow-list. -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="com.ktmacademy.hometuitionnepal"
+                    android:host="login-callback" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

@@ -21,12 +21,18 @@ class MapPinPicker extends StatefulWidget {
     required this.initialLng,
     required this.onChanged,
     this.height,
+    this.showSelectButton = false,
   });
 
   final double initialLat;
   final double initialLng;
   final void Function(double lat, double lng) onChanged;
   final double? height;
+
+  /// When true, renders a labelled "Select my location" button beneath the map
+  /// (in addition to the in-map locate FAB). Used by the onboarding location
+  /// steps where an explicit confirm-my-spot action is expected.
+  final bool showSelectButton;
 
   @override
   State<MapPinPicker> createState() => _MapPinPickerState();
@@ -38,11 +44,53 @@ class _MapPinPickerState extends State<MapPinPicker> {
 
   Future<void> _useCurrentLocation() async {
     setState(() => _busy = true);
-    final (lat, lng) = await sl<LocationService>().currentOrFallback();
+    final service = sl<LocationService>();
+    final result = await service.resolveCurrent();
     if (!mounted) return;
     setState(() => _busy = false);
-    _controller.move(LatLng(lat, lng), _controller.camera.zoom);
-    widget.onChanged(lat, lng);
+    _controller.move(
+      LatLng(result.latitude, result.longitude),
+      _controller.camera.zoom,
+    );
+    widget.onChanged(result.latitude, result.longitude);
+    if (!result.isResolved) {
+      _showFallbackFeedback(service, result.resolution);
+    }
+  }
+
+  /// When we couldn't get a real fix, tell the user why (and offer a route to
+  /// fix it) instead of silently dropping the pin on the Kathmandu fallback.
+  void _showFallbackFeedback(
+    LocationService service,
+    LocationResolution resolution,
+  ) {
+    final l10n = AppLocalizations.of(context);
+    final (String? message, SnackBarAction? action) = switch (resolution) {
+      LocationResolution.servicesDisabled => (
+        l10n.locationServicesDisabledMessage,
+        SnackBarAction(
+          label: l10n.openSettingsAction,
+          onPressed: service.openLocationSettings,
+        ),
+      ),
+      LocationResolution.permissionDeniedForever => (
+        l10n.locationPermissionBlockedMessage,
+        SnackBarAction(
+          label: l10n.openSettingsAction,
+          onPressed: service.openAppSettings,
+        ),
+      ),
+      LocationResolution.permissionDenied => (
+        l10n.locationPermissionDeniedMessage,
+        null,
+      ),
+      LocationResolution.unavailable => (l10n.locationUnavailableMessage, null),
+      LocationResolution.resolved => (null, null),
+    };
+    if (message == null) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), action: action),
+    );
   }
 
   @override
@@ -57,7 +105,9 @@ class _MapPinPickerState extends State<MapPinPicker> {
             initialCenter: LatLng(widget.initialLat, widget.initialLng),
             initialZoom: 14,
             onPositionChanged: (pos, hasGesture) {
-              if (hasGesture) widget.onChanged(pos.center.latitude, pos.center.longitude);
+              if (hasGesture) {
+                widget.onChanged(pos.center.latitude, pos.center.longitude);
+              }
             },
             interactionOptions: const InteractionOptions(
               flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
@@ -87,18 +137,38 @@ class _MapPinPickerState extends State<MapPinPicker> {
             onPressed: _busy ? null : _useCurrentLocation,
             child: _busy
                 ? const SizedBox(
-                    width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Icon(Icons.my_location),
           ),
         ),
       ],
     );
-    return SizedBox(
+    final map = SizedBox(
       height: widget.height,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: content,
-      ),
+      child: ClipRRect(borderRadius: BorderRadius.circular(12), child: content),
+    );
+    if (!widget.showSelectButton) return map;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        map,
+        const SizedBox(height: AppSpacing.md),
+        OutlinedButton.icon(
+          onPressed: _busy ? null : _useCurrentLocation,
+          icon: _busy
+              ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.my_location),
+          label: Text(l10n.onboardingSelectMyLocation),
+        ),
+      ],
     );
   }
 }

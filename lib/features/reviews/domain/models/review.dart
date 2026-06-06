@@ -32,11 +32,15 @@ class Review extends Equatable {
   List<Object?> get props => [id, tutorId, studentId, stars, text, createdAt];
 }
 
-class TutorRatingSummary extends Equatable {
-  const TutorRatingSummary({required this.average, required this.count});
+/// Average stars + review count for a person (tutor or student).
+class RatingSummary extends Equatable {
+  const RatingSummary({required this.average, required this.count});
   final double average;
   final int count;
 
   @override
   List<Object?> get props => [average, count];
 }
+
+/// Back-compat alias — tutor rating summaries are just a [RatingSummary].
+typedef TutorRatingSummary = RatingSummary;

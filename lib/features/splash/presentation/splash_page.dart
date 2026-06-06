@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
     final auth = context.read<AuthBloc>().state;
     if (auth.status == AuthStatus.authenticated && auth.user != null) {
       _routed = true;
-      context.go(AppRoutes.routeForRole(auth.user!.role));
+      context.go(AppRoutes.routeForRole(auth.user!.activeRole));
     } else if (auth.status == AuthStatus.awaitingEmailVerification) {
       _routed = true;
       context.go(AppRoutes.verifyEmail);
@@ -69,7 +69,10 @@ class _SplashContent extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.xxl),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xl,
+            vertical: AppSpacing.xxl,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -116,14 +119,30 @@ class _BrandHeader extends StatelessWidget {
             gradient: AppColors.brandGradient,
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.school_outlined, color: Colors.white, size: 56),
+          child: const Icon(
+            Icons.school_outlined,
+            color: Colors.white,
+            size: 56,
+          ),
         ),
         const SizedBox(height: AppSpacing.lg),
-        Text(l10n.appName, style: textTheme.displayMedium, textAlign: TextAlign.center),
+        Text(
+          l10n.appName,
+          style: textTheme.displayMedium,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: AppSpacing.xs),
-        Text(l10n.publisher, style: textTheme.bodySmall, textAlign: TextAlign.center),
+        Text(
+          l10n.publisher,
+          style: textTheme.bodySmall,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: AppSpacing.sm),
-        Text(l10n.appTagline, style: textTheme.titleMedium, textAlign: TextAlign.center),
+        Text(
+          l10n.appTagline,
+          style: textTheme.titleMedium,
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }

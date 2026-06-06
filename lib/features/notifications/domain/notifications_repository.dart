@@ -13,6 +13,13 @@ abstract class NotificationsRepository {
   Future<void> markRead(String notificationId);
   Future<void> markAllRead(String userId);
 
+  /// The set of notification kinds the admin currently has enabled (the
+  /// `notification_settings` registry). The feed hides kinds absent from this
+  /// set so an admin toggling a type off is reflected in the app. Returns the
+  /// full set of all kinds when the registry can't be read, so nothing is
+  /// hidden by accident.
+  Future<Set<NotificationKind>> enabledKinds();
+
   /// Realtime feed of inserts/updates so the in-app screen updates live as
   /// the `notify_matching_tutors` trigger fires. Implementations may emit no
   /// events when realtime isn't configured.

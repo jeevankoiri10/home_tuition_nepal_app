@@ -38,7 +38,12 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     emit(state.copyWith(status: NotificationsStatus.loading, clearError: true));
     try {
       final list = await _repo.list(id);
-      emit(state.copyWith(status: NotificationsStatus.ready, notifications: list));
+      final enabled = await _repo.enabledKinds();
+      emit(state.copyWith(
+        status: NotificationsStatus.ready,
+        notifications: list,
+        enabledKinds: enabled,
+      ));
     } on NotificationsException catch (e) {
       emit(state.copyWith(
           status: NotificationsStatus.error, errorMessage: e.message ?? e.code));

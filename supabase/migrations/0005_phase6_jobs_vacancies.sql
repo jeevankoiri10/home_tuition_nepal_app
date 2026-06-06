@@ -158,6 +158,7 @@ create policy vacancies_admin_write
 create or replace function notify_matching_tutors() returns trigger
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   body text;

@@ -24,6 +24,41 @@ class MapFilters extends Equatable {
   /// Default is `null` so the first map load isn't artificially clipped.
   final double? radiusKm;
 
+  /// Selectable radius tiers (km) shown in the filter UI, per `student_UI.md`
+  /// §4.3.2. The "Expand radius" empty-state CTA steps up through these.
+  static const List<double> radiusTiers = [1, 3, 5, 10];
+
+  /// Whether the radius can still be widened. False once it's already
+  /// unlimited (`radiusKm == null`).
+  bool get canExpandRadius => radiusKm != null;
+
+  /// Active radius in metres — used to draw the map's search-radius circle
+  /// (`student_UI.md` §4.3.2). Null when there's no distance limit, in which
+  /// case no circle is drawn.
+  double? get radiusMeters => radiusKm == null ? null : radiusKm! * 1000;
+
+  /// True when any filter narrows the default (everything, no distance limit).
+  /// Drives the "Clear filters" affordance and the active-chip highlighting.
+  bool get hasActiveFilters =>
+      level != null ||
+      subjectQuery != null ||
+      mode != null ||
+      verifiedOnly ||
+      availableOnly ||
+      radiusKm != null;
+
+  /// Returns filters with the radius widened to the next tier — or to "no
+  /// limit" when already at/above the widest tier. Used by the empty-state
+  /// "Expand radius" CTA to help a student who matched nothing nearby.
+  MapFilters expandedRadius() {
+    final current = radiusKm;
+    if (current == null) return this; // already unlimited
+    for (final tier in radiusTiers) {
+      if (tier > current) return copyWith(radiusKm: tier);
+    }
+    return copyWith(clearRadius: true); // widen all the way to no limit
+  }
+
   MapFilters copyWith({
     StudentLevel? level,
     String? subjectQuery,

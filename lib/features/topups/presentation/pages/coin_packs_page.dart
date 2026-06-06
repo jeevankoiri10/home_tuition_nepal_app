@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -82,7 +83,7 @@ class _CoinPacksPageState extends State<CoinPacksPage> {
     return SafeBackScope(
       fallbackLocation: AppRoutes.wallet,
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.walletBuyCoins)),
+        appBar: BrandAppBar(title: Text(l10n.walletBuyCoins)),
         body: FutureBuilder<List<CoinPack>>(
           future: _packs,
           builder: (context, snap) {

@@ -396,6 +396,7 @@ create or replace function set_tutor_geog(p_lat double precision, p_lng double p
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   update tutors
@@ -451,9 +452,9 @@ begin
     select t.*,
            p.handle,
            p.first_name || ' ' || left(p.last_name, 1) || '*' as masked_name,
-           p.city,
-           p.address_line,
-           coalesce(p.address_line, p.city, '') as area_label,
+           t.city,
+           t.address_line,
+           coalesce(t.address_line, t.city, '') as area_label,
            st_distance(t.geog, viewer.g) / 1000.0 as distance_km,
            st_y(t.geog::geometry) as lat,
            st_x(t.geog::geometry) as lng
@@ -604,6 +605,7 @@ create or replace function _ledger_apply(
 ) returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   new_balance int;
@@ -637,6 +639,7 @@ $$;
 create or replace function grant_signup_coins() returns trigger
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   amount int;
@@ -662,6 +665,7 @@ create or replace function unlock_contact(p_tutor_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -695,6 +699,7 @@ create or replace function apply_to_vacancy(p_vacancy_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -716,6 +721,7 @@ create or replace function spend_coins_and_bid(p_job_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -738,6 +744,7 @@ create or replace function admin_credit(p_user uuid, p_delta int, p_reason_note 
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -915,6 +922,7 @@ create policy vacancies_admin_write
 create or replace function notify_matching_tutors() returns trigger
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   body text;
@@ -1021,6 +1029,7 @@ create or replace function tutor_apply_to_vacancy(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -1063,6 +1072,7 @@ create or replace function admin_assign_vacancy(p_application_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -1197,6 +1207,7 @@ create or replace function open_or_get_thread(p_counterparty uuid)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -1262,6 +1273,7 @@ create or replace function send_chat_message(p_thread_id uuid, p_body text)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -1297,6 +1309,7 @@ create or replace function mark_messages_read(p_thread_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -1359,6 +1372,12 @@ create policy reviews_update_self on reviews for update
 drop policy if exists reviews_delete_self on reviews;
 create policy reviews_delete_self on reviews for delete using (auth.uid() = student_id);
 
+-- Aggregate rating columns on tutors, maintained by recompute_tutor_rating below
+-- and read by the public directory view / map RPCs.
+alter table tutors add column if not exists rating         numeric(3,2);
+alter table tutors add column if not exists rating_count   integer not null default 0;
+alter table tutors add column if not exists ranking_score  numeric not null default 0;
+
 -- ────────────────────────────────────────────────────────────────────────────
 -- submit_review — must already have a relationship gate (unlock or assignment).
 -- Recomputes tutors.rating + rating_count + ranking_score on every write.
@@ -1370,6 +1389,7 @@ create or replace function submit_review(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller     uuid := auth.uid();
@@ -1471,6 +1491,7 @@ create or replace function boost_tutor_featured(p_hours int default 24)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller      uuid := auth.uid();
@@ -1499,6 +1520,7 @@ create or replace function promote_job(p_job_id uuid, p_hours int default 24)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller      uuid := auth.uid();
@@ -1613,6 +1635,7 @@ create or replace function start_top_up(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -1647,6 +1670,7 @@ create or replace function finalize_top_up(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   t   record;
@@ -1699,6 +1723,7 @@ create or replace function cancel_top_up(p_top_up_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   t record;
@@ -1782,6 +1807,7 @@ create or replace function _audit(p_type text, p_target_type text, p_target_id u
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   perform set_config('app.allow_audit_write', 'yes', true);
@@ -1808,6 +1834,14 @@ create table if not exists moderation_log (
   created_at  timestamptz not null default now(),
   resolved_at timestamptz
 );
+
+-- Admin-panel-compatible columns. The Next.js admin reads `kind`/`status` and
+-- updates `status`; the mobile app writes `reason`/`action`. Added as a nullable
+-- superset so both surfaces share one table. See admin_setup.sql.
+alter table moderation_log add column if not exists kind        text;
+alter table moderation_log add column if not exists status      text default 'open';
+alter table moderation_log add column if not exists source_type text;
+alter table moderation_log add column if not exists source_id   uuid;
 
 create index if not exists moderation_log_open_idx on moderation_log(action) where action = 'open';
 create index if not exists moderation_log_user_idx on moderation_log(user_id, created_at desc);
@@ -1867,6 +1901,7 @@ create or replace function tutor_apply_to_vacancy(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -1901,6 +1936,7 @@ create or replace function unlock_contact(p_tutor_id uuid)
 returns int
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller       uuid := auth.uid();
@@ -1931,6 +1967,7 @@ create or replace function send_chat_message(p_thread_id uuid, p_body text)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   caller uuid := auth.uid();
@@ -1962,6 +1999,7 @@ create or replace function admin_suspend_user(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   if not exists (select 1 from admin_users where id = auth.uid()) then
@@ -1985,6 +2023,7 @@ create or replace function admin_ban_user(p_user uuid, p_reason text)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   if not exists (select 1 from admin_users where id = auth.uid()) then
@@ -2000,6 +2039,7 @@ create or replace function admin_unban_user(p_user uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
   if not exists (select 1 from admin_users where id = auth.uid()) then
@@ -2020,6 +2060,7 @@ create or replace function admin_review_verification(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   v record;
@@ -2070,6 +2111,7 @@ create or replace function admin_set_setting(p_key text, p_value text)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   old_value text;
@@ -2095,6 +2137,7 @@ create or replace function admin_resolve_moderation(
 ) returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   m record;
@@ -2124,6 +2167,7 @@ create or replace function user_report_content(
 ) returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   rid uuid;
@@ -2222,9 +2266,9 @@ select
   p.handle,
   p.first_name || ' ' || left(p.last_name, 1) || '*' as masked_name,
   t.tagline,
-  coalesce(p.address_line, p.city, '')                as area_label,
-  p.city,
-  p.zone,
+  coalesce(t.address_line, t.city, '')                as area_label,
+  t.city,
+  t.zone,
   t.teaching_mode,
   t.levels_taught,
   t.languages_known,
@@ -2294,7 +2338,7 @@ as $$
     'subjects_covered', (select count(distinct subject) from tutor_offerings),
     'languages_covered', (select count(distinct l) from
                             (select unnest(languages_known) as l from tutors) s),
-    'areas_covered', (select count(distinct coalesce(city, address_line)) from profiles where role = 'tutor')
+    'areas_covered', (select count(distinct coalesce(city, address_line)) from tutors)
   );
 $$;
 grant execute on function public_homepage_stats() to anon, authenticated;
@@ -2695,3 +2739,1012 @@ begin
 end;
 $$;
 grant execute on function cancel_contract(uuid) to authenticated;
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0019_student_reviews.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- Home Tuition Nepal — bidirectional reviews (Upwork-style).
+--
+-- 0008 added student→tutor reviews (`reviews`). This adds the reverse
+-- direction: a tutor reviews a student after a contract, mirroring how an
+-- Upwork freelancer reviews a client. Kept as a parallel table so the
+-- existing tutor rating/ranking pipeline is untouched.
+--
+-- Run after 0018_contracts.sql.
+
+-- Student rating aggregate, surfaced like tutors.rating.
+alter table profiles add column if not exists student_rating       numeric(3,2) not null default 0;
+alter table profiles add column if not exists student_rating_count integer      not null default 0;
+
+create table if not exists student_reviews (
+  id          uuid primary key default uuid_generate_v4(),
+  student_id  uuid not null references profiles(id) on delete cascade, -- reviewee
+  tutor_id    uuid not null references profiles(id) on delete cascade, -- author
+  contract_id uuid references contracts(id) on delete set null,
+  stars       smallint not null check (stars between 1 and 5),
+  text        text,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now(),
+  unique (student_id, tutor_id)
+);
+
+create index if not exists student_reviews_student_idx on student_reviews(student_id, created_at desc);
+create index if not exists student_reviews_tutor_idx   on student_reviews(tutor_id, created_at desc);
+
+drop trigger if exists trg_student_reviews_updated_at on student_reviews;
+create trigger trg_student_reviews_updated_at
+  before update on student_reviews
+  for each row execute function set_updated_at();
+
+alter table student_reviews enable row level security;
+
+drop policy if exists student_reviews_select_all on student_reviews;
+create policy student_reviews_select_all on student_reviews for select using (true);
+
+-- Only the authoring tutor may write their own row.
+drop policy if exists student_reviews_insert_self on student_reviews;
+create policy student_reviews_insert_self on student_reviews
+  for insert with check (auth.uid() = tutor_id);
+
+drop policy if exists student_reviews_update_self on student_reviews;
+create policy student_reviews_update_self on student_reviews
+  for update using (auth.uid() = tutor_id) with check (auth.uid() = tutor_id);
+
+drop policy if exists student_reviews_delete_self on student_reviews;
+create policy student_reviews_delete_self on student_reviews
+  for delete using (auth.uid() = tutor_id);
+
+-- Recompute a single student's rating aggregate.
+create or replace function recompute_student_rating(p_student_id uuid)
+returns void language plpgsql as $$
+declare
+  avg_stars numeric;
+  n_reviews int;
+begin
+  select coalesce(avg(stars)::numeric(3,2), 0)::numeric, count(*)::int
+    into avg_stars, n_reviews
+    from student_reviews where student_id = p_student_id;
+  update profiles
+     set student_rating = avg_stars, student_rating_count = n_reviews
+   where id = p_student_id;
+end;
+$$;
+
+-- submit_student_review — caller (tutor) reviews a student. Gate: the two
+-- must share a contract (any status) OR an unlock OR a vacancy assignment,
+-- mirroring submit_review's relationship gate.
+create or replace function submit_student_review(
+  p_student_id uuid,
+  p_stars      smallint,
+  p_text       text
+) returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  caller    uuid := auth.uid();
+  gated     boolean;
+  review_id uuid;
+begin
+  if caller is null then raise exception 'not_authenticated'; end if;
+  if caller = p_student_id then raise exception 'cannot_review_self'; end if;
+  if p_stars < 1 or p_stars > 5 then raise exception 'invalid_stars'; end if;
+  if _has_phone_or_contact(coalesce(p_text, '')) then
+    raise exception 'phone_in_review';
+  end if;
+
+  gated := exists (
+      select 1 from contracts
+       where tutor_id = caller and student_id = p_student_id
+    ) or exists (
+      select 1 from wallet_ledger
+       where user_id = p_student_id and reason = 'unlock' and ref_id = caller
+    ) or exists (
+      select 1 from vacancies
+       where linked_student = p_student_id and filled_by_tutor = caller
+    );
+  if not gated then raise exception 'gate_not_met'; end if;
+
+  insert into student_reviews(student_id, tutor_id, stars, text)
+  values (p_student_id, caller, p_stars, p_text)
+  on conflict (student_id, tutor_id) do update
+    set stars = excluded.stars,
+        text  = excluded.text,
+        updated_at = now()
+  returning id into review_id;
+
+  perform recompute_student_rating(p_student_id);
+  return review_id;
+end;
+$$;
+grant execute on function submit_student_review(uuid, smallint, text) to authenticated;
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0020_wallet_admin_rpcs.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- Home Tuition Nepal — canonical admin wallet RPCs.
+--
+-- The admin panel needs manual credit / debit / refund. Earlier drafts did a
+-- direct INSERT into wallet_ledger, which fails twice over: the table's
+-- append-only trigger (block_direct_ledger_writes) rejects any insert that
+-- doesn't go through _ledger_apply, and the reason CHECK only allows the
+-- closed set {signup,apply,unlock,boost,topup,reward,refund,admin}.
+--
+-- These RPCs route through _ledger_apply (which sets the write guard, updates
+-- profiles.coin_balance, and enforces the non-negative invariant) and use
+-- valid reasons. Run after 0019_student_reviews.sql.
+
+-- Manual credit (+delta) or debit (-delta). The free-text reason is stored as
+-- the ledger description; the ledger reason is always 'admin'.
+create or replace function admin_adjust_coins(
+  p_user_id uuid,
+  p_delta   int,
+  p_reason  text
+) returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare caller uuid := auth.uid();
+begin
+  if not exists (select 1 from admin_users where id = caller) then
+    raise exception 'not_admin';
+  end if;
+  if p_delta = 0 then raise exception 'delta_must_be_nonzero'; end if;
+  return _ledger_apply(p_user_id, p_delta, 'admin', null, null, p_reason);
+end;
+$$;
+grant execute on function admin_adjust_coins(uuid, int, text) to authenticated;
+
+-- Refund: a positive credit recorded under the dedicated 'refund' reason so it
+-- is distinguishable from a goodwill 'admin' credit in the ledger UI.
+create or replace function refund_coins(
+  p_user_id uuid,
+  p_amount  int,
+  p_note    text
+) returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare caller uuid := auth.uid();
+begin
+  if not exists (select 1 from admin_users where id = caller) then
+    raise exception 'not_admin';
+  end if;
+  if p_amount <= 0 then raise exception 'amount_must_be_positive'; end if;
+  return _ledger_apply(p_user_id, p_amount, 'refund', null, null, p_note);
+end;
+$$;
+grant execute on function refund_coins(uuid, int, text) to authenticated;
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0021_topup_receipt_rpcs.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- Home Tuition Nepal — manual eSewa receipt review RPCs.
+--
+-- The eSewa flow is: user pays via QR → uploads a receipt → an admin verifies
+-- it → coins are credited. coin_top_ups only allows admins to UPDATE the row
+-- (0009), so a user attaching their own receipt_url via a direct update is
+-- blocked by RLS. These owner/admin-gated RPCs close that gap cleanly and
+-- reuse finalize_top_up for the actual credit.
+--
+-- Run after 0020_wallet_admin_rpcs.sql.
+
+-- Add the receipt_url column if 0017 hasn't run (it adds the same column).
+alter table coin_top_ups add column if not exists receipt_url text;
+
+-- Owner attaches their receipt to their own pending top-up.
+create or replace function submit_topup_receipt(
+  p_top_up_id  uuid,
+  p_receipt_url text
+) returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare t record;
+begin
+  select * into t from coin_top_ups where id = p_top_up_id;
+  if t is null then raise exception 'top_up_not_found'; end if;
+  if t.user_id <> auth.uid() then raise exception 'forbidden'; end if;
+  if t.status <> 'pending' then raise exception 'not_pending'; end if;
+  update coin_top_ups set receipt_url = p_receipt_url where id = p_top_up_id;
+end;
+$$;
+grant execute on function submit_topup_receipt(uuid, text) to authenticated;
+
+-- Admin approves a receipted top-up → credits coins via finalize_top_up.
+create or replace function approve_topup_receipt(p_top_up_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare t record;
+begin
+  if not exists (select 1 from admin_users where id = auth.uid()) then
+    raise exception 'not_admin';
+  end if;
+  select * into t from coin_top_ups where id = p_top_up_id;
+  if t is null then raise exception 'top_up_not_found'; end if;
+  if t.receipt_url is null then raise exception 'no_receipt'; end if;
+  if t.status <> 'pending' then raise exception 'not_pending'; end if;
+  perform finalize_top_up(
+    p_top_up_id,
+    null,
+    jsonb_build_object('manual_approval', true, 'approved_by', auth.uid()),
+    true
+  );
+end;
+$$;
+grant execute on function approve_topup_receipt(uuid) to authenticated;
+
+-- Admin rejects a receipted top-up → marks it failed, no credit.
+create or replace function reject_topup_receipt(p_top_up_id uuid, p_note text)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not exists (select 1 from admin_users where id = auth.uid()) then
+    raise exception 'not_admin';
+  end if;
+  perform finalize_top_up(
+    p_top_up_id,
+    null,
+    jsonb_build_object('manual_rejection', true, 'rejected_by', auth.uid(), 'note', p_note),
+    false
+  );
+end;
+$$;
+grant execute on function reject_topup_receipt(uuid, text) to authenticated;
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0022_tutor_completion_v2.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- Home Tuition Nepal — tutor profile completion v2.
+--
+-- The original compute_tutor_completion (0002) ignored two core onboarding
+-- steps: the service-area map pin (tutors.geog) and the uploaded CV
+-- (tutors.cv_url, added in 0016). This redefines it to include both, with
+-- weights re-balanced to still sum to 100. Kept byte-for-byte in sync with
+-- TutorProfile.computeCompletion on the client.
+--
+-- Run after 0021_topup_receipt_rpcs.sql. The refresh_tutor_completion trigger
+-- (0002) already recomputes on every tutor write, so cv_url / geog changes
+-- now move the bar.
+
+create or replace function compute_tutor_completion(t_id uuid)
+returns smallint
+language sql
+as $$
+  with t as (select * from tutors where id = t_id),
+       o_count as (select count(*) c from tutor_offerings where tutor_id = t_id),
+       avail as (select slots from tutor_availability where tutor_id = t_id)
+  select greatest(0, least(100,
+    (case when (select teaching_mode from t) is not null then 10 else 0 end) +
+    (case when array_length((select levels_taught from t), 1) > 0 then 10 else 0 end) +
+    (case when (select c from o_count) > 0 then 15 else 0 end) +
+    (case when (select c from o_count) >= 3 then 5  else 0 end) +
+    (case when coalesce(length((select about_me from t)),0)       >= 100 then 10 else 0 end) +
+    (case when coalesce(length((select about_sessions from t)),0) >= 50  then 10 else 0 end) +
+    (case when coalesce(length((select qualifications from t)),0) >= 30  then 10 else 0 end) +
+    (case when (select slots from avail) is not null
+              and jsonb_typeof((select slots from avail)) = 'object'
+              and (select count(*) from jsonb_each((select slots from avail))) > 0
+              then 10 else 0 end) +
+    (case when array_length((select languages_known from t), 1) > 0 then 5 else 0 end) +
+    (case when (select geog from t) is not null then 5 else 0 end) +
+    (case when coalesce(length((select cv_url from t)),0) > 0 then 10 else 0 end)
+  ))::smallint;
+$$;
+
+-- Recompute everyone once so existing rows reflect the new formula.
+update tutors set profile_completion = compute_tutor_completion(id);
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0023_account_roles.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- Home Tuition Nepal — multi-role accounts (dual-role login).
+--
+-- `profiles` stays 1:1 with auth.users (one canonical role), but a single
+-- person may be allowed to act as BOTH a tutor and a student. account_roles
+-- records every role an auth user may enter the app as. The login flow reads
+-- it via availableRoles(): one row → auto-route, two rows → role chooser.
+--
+-- Additive and non-destructive: a trigger seeds the profile's own role on
+-- insert, and existing profiles are back-filled, so today every user has
+-- exactly one row (no behaviour change). Granting a second role later is just
+-- an extra insert (an admin action / future "add the other role" flow).
+--
+-- Run after 0022_tutor_completion_v2.sql.
+
+create table if not exists account_roles (
+  user_id    uuid not null references profiles(id) on delete cascade,
+  role       text not null check (role in ('student','tutor')),
+  created_at timestamptz not null default now(),
+  primary key (user_id, role)
+);
+
+create index if not exists account_roles_user_idx on account_roles(user_id);
+
+alter table account_roles enable row level security;
+
+-- A user can see their own roles.
+drop policy if exists account_roles_select_self on account_roles;
+create policy account_roles_select_self
+  on account_roles for select
+  using (auth.uid() = user_id);
+
+-- Inserts/updates are server-managed (trigger + admin RPCs); no client writes.
+
+-- Seed the profile's own role into account_roles whenever a profile is created.
+create or replace function seed_account_role() returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into account_roles(user_id, role)
+  values (new.id, new.role)
+  on conflict (user_id, role) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_profiles_seed_account_role on profiles;
+create trigger trg_profiles_seed_account_role
+  after insert on profiles
+  for each row execute function seed_account_role();
+
+-- Back-fill existing profiles.
+insert into account_roles(user_id, role)
+select id, role from profiles
+on conflict (user_id, role) do nothing;
+
+-- Admin-only: grant a user an additional role (so one email can be both a
+-- tutor and a student). Idempotent.
+create or replace function admin_grant_account_role(p_user_id uuid, p_role text)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not exists (select 1 from admin_users where id = auth.uid()) then
+    raise exception 'not_admin';
+  end if;
+  if p_role not in ('student','tutor') then raise exception 'invalid_role'; end if;
+  insert into account_roles(user_id, role)
+  values (p_user_id, p_role)
+  on conflict (user_id, role) do nothing;
+end;
+$$;
+grant execute on function admin_grant_account_role(uuid, text) to authenticated;
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0024_vacancy_geo_search.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- Home Tuition Nepal — vacancy geo-search for the tutor map view.
+--
+-- vacancies already store a PostGIS point in `geog` (0005) which admins set
+-- via set_vacancy_location. This exposes geog as plain lat/lng columns the
+-- Flutter client can read, and adds search_vacancies_in_viewport — the
+-- vacancy analogue of search_tutors_in_viewport (0003) — so tutors can browse
+-- open vacancies on a map.
+--
+-- Run after 0023_account_roles.sql.
+
+-- Generated lat/lng so `select lat, lng from vacancies` works client-side.
+-- (Also added defensively in the admin setup; `if not exists` makes both safe
+-- regardless of apply order.)
+alter table vacancies
+  add column if not exists lat double precision generated always as (st_y(geog::geometry)) stored,
+  add column if not exists lng double precision generated always as (st_x(geog::geometry)) stored;
+
+create index if not exists vacancies_geog_search_gix on vacancies using gist (geog);
+
+create or replace function search_vacancies_in_viewport(
+  p_lat         double precision,
+  p_lng         double precision,
+  p_radius_km   double precision default 99999,
+  p_subject     text default null,
+  p_max_results int default 100
+)
+returns table (
+  id            uuid,
+  code          text,
+  title         text,
+  area_label    text,
+  grade         text,
+  subjects      text[],
+  num_students  integer,
+  duration_text text,
+  salary_min_npr numeric,
+  salary_max_npr numeric,
+  salary_period text,
+  gender_pref   text,
+  mode          text,
+  notes         text,
+  lat           double precision,
+  lng           double precision,
+  distance_km   double precision,
+  created_at    timestamptz
+)
+language sql
+stable
+as $$
+  with viewer as (
+    select st_setsrid(st_makepoint(p_lng, p_lat), 4326)::geography as g
+  )
+  select
+    v.id, v.code, v.title, v.area_label, v.grade, v.subjects, v.num_students,
+    v.duration_text, v.salary_min_npr, v.salary_max_npr, v.salary_period,
+    v.gender_pref, v.mode, v.notes,
+    st_y(v.geog::geometry) as lat,
+    st_x(v.geog::geometry) as lng,
+    (st_distance(v.geog, viewer.g) / 1000.0) as distance_km,
+    v.created_at
+  from vacancies v
+  cross join viewer
+  where v.status = 'open'
+    and v.geog is not null
+    and st_dwithin(v.geog, viewer.g, p_radius_km * 1000)
+    and (
+      p_subject is null
+      or exists (select 1 from unnest(v.subjects) s where s ilike '%' || p_subject || '%')
+    )
+  order by distance_km asc
+  limit p_max_results;
+$$;
+grant execute on function search_vacancies_in_viewport(double precision, double precision, double precision, text, int) to authenticated;
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0025_contact_reveal.sql
+-- ════════════════════════════════════════════════════════════════════
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0025 — Contact reveal
+--
+-- The unlock flow (0004 unlock_contact) debits coins and records the ledger row
+-- but never returns the tutor's phone. This adds a server-gated reveal so the
+-- Call / WhatsApp actions can launch tel: / wa.me links after an unlock — while
+-- keeping profiles.phone leak-proof (only reachable via this SECURITY DEFINER
+-- RPC, and only for a (student, tutor) pair that has actually been unlocked).
+-- ─────────────────────────────────────────────────────────────────────────────
+
+create or replace function get_unlocked_contact(p_tutor_id uuid)
+returns text
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  caller  uuid := auth.uid();
+  gate    uuid;
+  result  text;
+begin
+  if caller is null then raise exception 'not_authenticated'; end if;
+
+  -- Gate: the caller must have a prior unlock for this tutor. Mirrors the
+  -- one-time check in unlock_contact / hasUnlocked.
+  select id into gate
+    from wallet_ledger
+   where user_id = caller and reason = 'unlock' and ref_id = p_tutor_id
+   limit 1;
+  if gate is null then raise exception 'gate_not_met'; end if;
+
+  select phone into result from profiles where id = p_tutor_id;
+  return result;  -- null when the tutor has no phone on file
+end;
+$$;
+
+grant execute on function get_unlocked_contact(uuid) to authenticated;
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Phase 16: notifications system (mirrors migration 0031_notifications.sql).
+-- Notification-type registry + toggle, student "tutor applied" notice, tutor
+-- area+subject matching, admin broadcasts (recurring daily slots + send-now),
+-- per-user language + quiet hours.
+-- ═══════════════════════════════════════════════════════════════════════════
+
+alter table profiles add column if not exists language          text default 'en';
+alter table profiles add column if not exists quiet_hours_start time;
+alter table profiles add column if not exists quiet_hours_end   time;
+
+insert into platform_settings (key, value)
+values ('notif_hourly_cap', '20')
+on conflict (key) do nothing;
+
+create table if not exists notification_settings (
+  kind        text primary key,
+  label       text not null,
+  audience    text not null check (audience in ('student','tutor','all')),
+  enabled     boolean not null default true,
+  updated_by  uuid references admin_users(id),
+  updated_at  timestamptz not null default now()
+);
+
+insert into notification_settings (kind, label, audience) values
+  ('new_job_posted',                 'New job posted (matched tutors)', 'tutor'),
+  ('tutor_applied',                  'Tutor applied to your job',       'student'),
+  ('application_shortlisted',        'Application shortlisted',         'tutor'),
+  ('application_hired',              'You were hired',                  'tutor'),
+  ('contact_revealed',              'Contact revealed / matched',      'all'),
+  ('identity_verification_approved', 'Identity verification approved',  'tutor'),
+  ('identity_verification_rejected', 'Identity verification rejected',  'tutor'),
+  ('coin_credited',                  'Coins credited',                 'all'),
+  ('coin_debited',                   'Coins debited',                  'all'),
+  ('new_review',                     'New review',                     'all'),
+  ('announcement',                   'Admin announcement / broadcast',  'all'),
+  ('system',                         'System message',                 'all')
+on conflict (kind) do nothing;
+
+drop trigger if exists trg_notification_settings_updated_at on notification_settings;
+create trigger trg_notification_settings_updated_at
+  before update on notification_settings
+  for each row execute function set_updated_at();
+
+alter table notification_settings enable row level security;
+
+drop policy if exists notification_settings_select_all on notification_settings;
+create policy notification_settings_select_all
+  on notification_settings for select
+  using (auth.uid() is not null);
+
+drop policy if exists notification_settings_admin_write on notification_settings;
+create policy notification_settings_admin_write
+  on notification_settings for all
+  using (exists (select 1 from admin_users where id = auth.uid()))
+  with check (exists (select 1 from admin_users where id = auth.uid()));
+
+create or replace function notif_kind_enabled(p_kind text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce((select enabled from notification_settings where kind = p_kind), true);
+$$;
+
+create or replace function notify_matching_tutors() returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  body             text;
+  ref              text;
+  v_subject_single text;
+  v_subjects       text[];
+  v_match_subject  boolean;
+begin
+  if not notif_kind_enabled('new_job_posted') then
+    return new;
+  end if;
+
+  if tg_table_name = 'jobs' and new.status = 'open' then
+    body := coalesce(new.title, 'New job posted') || ' in ' || coalesce(new.area_label, '—');
+    ref  := 'job';
+    v_subject_single := new.subject;
+    v_match_subject  := new.subject is not null;
+  elsif tg_table_name = 'vacancies' and new.status = 'open' then
+    body := coalesce(new.title, 'New vacancy') || ' — ' || coalesce(new.area_label, '—');
+    ref  := 'vacancy';
+    v_subjects      := new.subjects;
+    v_match_subject := coalesce(array_length(new.subjects, 1), 0) > 0;
+  else
+    return new;
+  end if;
+
+  insert into notifications(user_id, kind, title, body, ref_type, ref_id)
+  select t.id, 'new_job_posted', 'New job posted', body, ref, new.id
+    from tutors t
+    join profiles p on p.id = t.id
+   where t.draft_status = 'published'
+     and (
+       new.geog is null
+       or t.geog is null
+       or st_dwithin(t.geog, new.geog, coalesce(t.service_radius_km, 5) * 1000)
+     )
+     and (
+       not v_match_subject
+       or exists (
+         select 1
+           from tutor_offerings o
+          where o.tutor_id = t.id
+            and (
+              (tg_table_name = 'jobs'
+                 and lower(o.subject) = lower(v_subject_single))
+              or (tg_table_name = 'vacancies'
+                 and exists (select 1 from unnest(v_subjects) s
+                              where lower(s) = lower(o.subject)))
+            )
+       )
+     );
+  return new;
+end;
+$$;
+
+create or replace function tutor_apply_to_vacancy(
+  p_vacancy_id   uuid,
+  p_cover_note   text,
+  p_expected_rate numeric,
+  p_cv_path      text default null
+) returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  caller uuid := auth.uid();
+  cost   int;
+  app_id uuid;
+begin
+  if caller is null then raise exception 'not_authenticated'; end if;
+  if not exists (select 1 from tutors where id = caller) then
+    raise exception 'not_a_tutor';
+  end if;
+  if not exists (select 1 from vacancies where id = p_vacancy_id and status = 'open') then
+    raise exception 'vacancy_not_open';
+  end if;
+  if exists (select 1 from vacancy_applications where vacancy_id = p_vacancy_id and tutor_id = caller) then
+    raise exception 'already_applied';
+  end if;
+
+  cost := get_platform_setting_int('apply_coin_cost', 1);
+
+  perform _ledger_apply(
+    caller, -cost, 'apply', 'vacancy', p_vacancy_id, 'Applied to vacancy'
+  );
+
+  insert into vacancy_applications(vacancy_id, tutor_id, cover_note, expected_rate, cv_storage_path, coins_spent)
+  values (p_vacancy_id, caller, p_cover_note, p_expected_rate, p_cv_path, cost)
+  returning id into app_id;
+
+  if notif_kind_enabled('tutor_applied') then
+    insert into notifications(user_id, kind, title, body, ref_type, ref_id)
+    select v.linked_student, 'tutor_applied', 'New application',
+           'A tutor applied to ' || coalesce(v.code, v.title) || '. Tap to review.',
+           'vacancy', v.id
+      from vacancies v
+     where v.id = p_vacancy_id
+       and v.linked_student is not null;
+  end if;
+
+  return app_id;
+end;
+$$;
+grant execute on function tutor_apply_to_vacancy(uuid, text, numeric, text) to authenticated;
+
+create table if not exists notification_broadcasts (
+  id            uuid primary key default uuid_generate_v4(),
+  title_en      text not null,
+  body_en       text,
+  title_ne      text not null,
+  body_ne       text,
+  audience      text not null check (audience in ('all','student','tutor')),
+  slot          text not null check (slot in ('morning','day','evening')),
+  send_at_local time not null,
+  enabled       boolean not null default true,
+  last_sent_on  date,
+  created_by    uuid references admin_users(id),
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+
+create index if not exists notification_broadcasts_active_idx
+  on notification_broadcasts (enabled, send_at_local);
+
+drop trigger if exists trg_notification_broadcasts_updated_at on notification_broadcasts;
+create trigger trg_notification_broadcasts_updated_at
+  before update on notification_broadcasts
+  for each row execute function set_updated_at();
+
+alter table notification_broadcasts enable row level security;
+
+drop policy if exists notification_broadcasts_admin_all on notification_broadcasts;
+create policy notification_broadcasts_admin_all
+  on notification_broadcasts for all
+  using (exists (select 1 from admin_users where id = auth.uid()))
+  with check (exists (select 1 from admin_users where id = auth.uid()));
+
+create or replace function _fan_out_broadcast(p_id uuid) returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  b            notification_broadcasts%rowtype;
+  n_recipients int;
+begin
+  select * into b from notification_broadcasts where id = p_id;
+  if b.id is null then return 0; end if;
+  if not notif_kind_enabled('announcement') then return 0; end if;
+
+  insert into notifications(user_id, kind, title, body, ref_type)
+  select p.id, 'announcement',
+         case when coalesce(p.language, 'en') = 'ne' then b.title_ne else b.title_en end,
+         case when coalesce(p.language, 'en') = 'ne' then b.body_ne  else b.body_en  end,
+         'notice'
+    from profiles p
+   where p.banned_at is null
+     and (
+       b.audience = 'all'
+       or exists (select 1 from account_roles ar
+                   where ar.user_id = p.id and ar.role = b.audience)
+     );
+
+  get diagnostics n_recipients = row_count;
+  return n_recipients;
+end;
+$$;
+
+create or replace function dispatch_due_broadcasts() returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  b         record;
+  today_ktm date := (now() at time zone 'Asia/Kathmandu')::date;
+  now_ktm   time := (now() at time zone 'Asia/Kathmandu')::time;
+  fired     int  := 0;
+begin
+  for b in
+    select id from notification_broadcasts
+     where enabled
+       and (last_sent_on is null or last_sent_on < today_ktm)
+       and send_at_local <= now_ktm
+     order by send_at_local
+  loop
+    perform _fan_out_broadcast(b.id);
+    update notification_broadcasts set last_sent_on = today_ktm where id = b.id;
+    fired := fired + 1;
+  end loop;
+  return fired;
+end;
+$$;
+
+create or replace function admin_send_broadcast_now(p_id uuid) returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  n int;
+begin
+  n := _fan_out_broadcast(p_id);
+  update notification_broadcasts
+     set last_sent_on = (now() at time zone 'Asia/Kathmandu')::date
+   where id = p_id;
+  return n;
+end;
+$$;
+
+revoke execute on function _fan_out_broadcast(uuid)       from public, authenticated, anon;
+revoke execute on function dispatch_due_broadcasts()      from public, authenticated, anon;
+revoke execute on function admin_send_broadcast_now(uuid) from public, authenticated, anon;
+grant  execute on function admin_send_broadcast_now(uuid) to service_role;
+grant  execute on function dispatch_due_broadcasts()      to service_role;
+
+do $$
+begin
+  execute 'create extension if not exists pg_cron';
+  begin
+    perform cron.unschedule('htn_dispatch_broadcasts');
+  exception when others then null;
+  end;
+  perform cron.schedule('htn_dispatch_broadcasts', '*/15 * * * *',
+                        'select dispatch_due_broadcasts();');
+exception when others then
+  raise notice 'pg_cron not configured (%). Call dispatch_due_broadcasts() from an external scheduler.', sqlerrm;
+end $$;
+
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0034_percentage_connect_cost.sql
+-- ════════════════════════════════════════════════════════════════════
+-- Percentage-based connect (apply) cost. The coins a tutor spends to apply
+-- to a vacancy scale with the job's salary instead of a flat fee:
+--   cost = clamp(ceil(monthly_salary * apply_cost_percent / 100),
+--                apply_cost_min, apply_cost_max)
+-- These create-or-replace definitions are the authoritative final state and
+-- override any flat-cost versions above.
+
+insert into platform_settings (key, value) values
+  ('apply_cost_percent',       '10'),
+  ('apply_cost_min',           '1'),
+  ('apply_cost_max',           '25'),
+  ('apply_cost_hourly_hours',  '30')
+on conflict (key) do nothing;
+
+create or replace function vacancy_apply_cost(p_vacancy_id uuid)
+returns int
+language plpgsql
+stable
+set search_path = public
+as $$
+declare
+  v_min     numeric;
+  v_max     numeric;
+  v_period  text;
+  pct       int := get_platform_setting_int('apply_cost_percent', 10);
+  cost_min  int := get_platform_setting_int('apply_cost_min', 1);
+  cost_max  int := get_platform_setting_int('apply_cost_max', 25);
+  hours     int := get_platform_setting_int('apply_cost_hourly_hours', 30);
+  base      numeric;
+  monthly   numeric;
+  cost      int;
+begin
+  select salary_min_npr, salary_max_npr, salary_period
+    into v_min, v_max, v_period
+    from vacancies
+   where id = p_vacancy_id;
+
+  base := coalesce(v_max, v_min);
+
+  if base is null or base <= 0 then
+    return cost_min;
+  end if;
+
+  monthly := case when v_period = 'hour' then base * hours else base end;
+  cost := ceil(monthly * pct / 100.0);
+
+  return greatest(cost_min, least(cost_max, cost));
+end;
+$$;
+grant execute on function vacancy_apply_cost(uuid) to authenticated;
+
+create or replace function tutor_apply_to_vacancy(
+  p_vacancy_id   uuid,
+  p_cover_note   text,
+  p_expected_rate numeric,
+  p_cv_path      text default null
+) returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  caller uuid := auth.uid();
+  cost   int;
+  app_id uuid;
+begin
+  if caller is null then raise exception 'not_authenticated'; end if;
+  if not exists (select 1 from tutors where id = caller) then
+    raise exception 'not_a_tutor';
+  end if;
+  if not exists (select 1 from vacancies where id = p_vacancy_id and status = 'open') then
+    raise exception 'vacancy_not_open';
+  end if;
+  if exists (select 1 from vacancy_applications where vacancy_id = p_vacancy_id and tutor_id = caller) then
+    raise exception 'already_applied';
+  end if;
+
+  cost := vacancy_apply_cost(p_vacancy_id);
+
+  perform _ledger_apply(
+    caller, -cost, 'apply', 'vacancy', p_vacancy_id, 'Applied to vacancy'
+  );
+
+  insert into vacancy_applications(vacancy_id, tutor_id, cover_note, expected_rate, cv_storage_path, coins_spent)
+  values (p_vacancy_id, caller, p_cover_note, p_expected_rate, p_cv_path, cost)
+  returning id into app_id;
+
+  return app_id;
+end;
+$$;
+grant execute on function tutor_apply_to_vacancy(uuid, text, numeric, text) to authenticated;
+
+create or replace function apply_to_vacancy(p_vacancy_id uuid)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  caller       uuid := auth.uid();
+  cost         int;
+  new_balance  int;
+begin
+  if caller is null then raise exception 'not_authenticated'; end if;
+  cost := vacancy_apply_cost(p_vacancy_id);
+  new_balance := _ledger_apply(
+    caller, -cost, 'apply', 'vacancy', p_vacancy_id,
+    'Applied to vacancy'
+  );
+  return new_balance;
+end;
+$$;
+grant execute on function apply_to_vacancy(uuid) to authenticated;
+
+
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0035_percentage_bid_cost.sql
+-- ════════════════════════════════════════════════════════════════════
+-- Extends the percentage connect cost to the job-bid path so every coin-spend
+-- "connect" scales with the tutor's potential earnings. Job budgets add the
+-- 'day' (normalized to monthly) and 'fixed' (raw) periods.
+
+insert into platform_settings (key, value) values
+  ('apply_cost_day_days', '26')
+on conflict (key) do nothing;
+
+create or replace function job_apply_cost(p_job_id uuid)
+returns int
+language plpgsql
+stable
+set search_path = public
+as $$
+declare
+  b_min     numeric;
+  b_max     numeric;
+  b_period  text;
+  pct       int := get_platform_setting_int('apply_cost_percent', 10);
+  cost_min  int := get_platform_setting_int('apply_cost_min', 1);
+  cost_max  int := get_platform_setting_int('apply_cost_max', 25);
+  hours     int := get_platform_setting_int('apply_cost_hourly_hours', 30);
+  days      int := get_platform_setting_int('apply_cost_day_days', 26);
+  base      numeric;
+  monthly   numeric;
+  cost      int;
+begin
+  select budget_min_npr, budget_max_npr, budget_period
+    into b_min, b_max, b_period
+    from jobs
+   where id = p_job_id;
+
+  base := coalesce(b_max, b_min);
+
+  if base is null or base <= 0 then
+    return cost_min;
+  end if;
+
+  monthly := case b_period
+               when 'hour' then base * hours
+               when 'day'  then base * days
+               else base
+             end;
+  cost := ceil(monthly * pct / 100.0);
+
+  return greatest(cost_min, least(cost_max, cost));
+end;
+$$;
+grant execute on function job_apply_cost(uuid) to authenticated;
+
+create or replace function spend_coins_and_bid(p_job_id uuid)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  caller       uuid := auth.uid();
+  cost         int;
+  new_balance  int;
+begin
+  if caller is null then raise exception 'not_authenticated'; end if;
+  cost := job_apply_cost(p_job_id);
+  new_balance := _ledger_apply(
+    caller, -cost, 'apply', 'job', p_job_id,
+    'Bid on job'
+  );
+  return new_balance;
+end;
+$$;
+grant execute on function spend_coins_and_bid(uuid) to authenticated;

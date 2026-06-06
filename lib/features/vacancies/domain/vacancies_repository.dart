@@ -15,6 +15,17 @@ class VacanciesException implements Exception {
 
 abstract class VacanciesRepository {
   Future<List<Vacancy>> listOpen({String? subjectQuery, String? areaQuery});
+
+  /// Open vacancies near (lat, lng) for the tutor map view. Only vacancies
+  /// with a pinned location are returned, each carrying `distanceKm`, sorted
+  /// nearest-first. `radiusKm` null means no distance limit.
+  Future<List<Vacancy>> searchNearby({
+    required double lat,
+    required double lng,
+    double? radiusKm,
+    String? subjectQuery,
+  });
+
   Future<List<VacancyApplication>> listMyApplications(String tutorId);
 
   /// Atomic apply via the `tutor_apply_to_vacancy` RPC — debits coins AND

@@ -136,20 +136,25 @@ class TutorProfile extends Equatable {
     );
   }
 
-  /// Mirrors compute_tutor_completion() in supabase/migrations/0002_phase3_tutors.sql.
-  /// Kept in sync so the UI can show an instant local estimate before the server
-  /// trigger writes the authoritative value back.
+  /// Mirrors compute_tutor_completion() in
+  /// supabase/migrations/0022_tutor_completion_v2.sql (which supersedes the
+  /// original in 0002). Kept byte-for-byte in sync so the UI can show an
+  /// instant local estimate before the server trigger writes the
+  /// authoritative value back. Weights sum to 100, now including the
+  /// service-area pin and the uploaded CV.
   static int computeCompletion(TutorProfile p) {
     int score = 0;
     score += 10; // teaching_mode is always set
-    if (p.levelsTaught.isNotEmpty) score += 15;
-    if (p.offerings.isNotEmpty) score += 20;
+    if (p.levelsTaught.isNotEmpty) score += 10;
+    if (p.offerings.isNotEmpty) score += 15;
     if (p.offerings.length >= 3) score += 5;
     if ((p.aboutMe ?? '').length >= 100) score += 10;
     if ((p.aboutSessions ?? '').length >= 50) score += 10;
     if ((p.qualifications ?? '').length >= 30) score += 10;
-    if (p.availability.isSet) score += 15;
+    if (p.availability.isSet) score += 10;
     if (p.languagesKnown.isNotEmpty) score += 5;
+    if (p.lat != null && p.lng != null) score += 5; // service-area pin
+    if ((p.cvUrl ?? '').isNotEmpty) score += 10; // uploaded CV
     if (score > 100) score = 100;
     return score;
   }

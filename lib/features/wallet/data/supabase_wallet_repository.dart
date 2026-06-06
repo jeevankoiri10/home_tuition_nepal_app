@@ -96,12 +96,31 @@ class SupabaseWalletRepository implements WalletRepository {
   }
 
   @override
-  Future<int> applyToVacancy({required String tutorId, required String vacancyId}) {
+  Future<String?> revealContact(
+      {required String studentId, required String tutorId}) async {
+    try {
+      final res = await _client.rpc('get_unlocked_contact', params: {'p_tutor_id': tutorId});
+      return res as String?;
+    } on sb.PostgrestException catch (e) {
+      final msg = e.message;
+      if (msg.contains('gate_not_met')) {
+        throw WalletException('gate_not_met', msg);
+      }
+      throw WalletException('reveal_contact_failed', msg);
+    }
+  }
+
+  @override
+  Future<int> applyToVacancy({
+    required String tutorId,
+    required String vacancyId,
+    int? cost, // ignored — the RPC recomputes the cost server-side.
+  }) {
     return _callIntRpc('apply_to_vacancy', {'p_vacancy_id': vacancyId});
   }
 
   @override
-  Future<int> bidOnJob({required String tutorId, required String jobId}) {
+  Future<int> bidOnJob({required String tutorId, required String jobId, int? cost}) {
     return _callIntRpc('spend_coins_and_bid', {'p_job_id': jobId});
   }
 

@@ -1,0 +1,29 @@
+-- Home Tuition Nepal — Lock down direct coin_top_ups inserts (security).
+-- Run after 0043_hot_path_indexes.sql.
+--
+-- VULNERABILITY (economic / privilege escalation):
+-- The coin_top_ups_insert_self policy (0009) let any authenticated user INSERT
+-- a top-up row directly via PostgREST, validating only `user_id` and
+-- `status = 'pending'`. That leaves `coin_amount`, `price_npr` and `pack_id`
+-- fully attacker-controlled. The intended creation path, start_top_up(), is a
+-- SECURITY DEFINER RPC that derives coin_amount/price_npr from the server-side
+-- coin_packs catalog — but the permissive insert policy bypassed it entirely.
+--
+-- Because approve_topup_receipt → finalize_top_up credits the row's stored
+-- coin_amount (0009 line ~147), a user could:
+--   1. POST /rest/v1/coin_top_ups { user_id: self, status: 'pending',
+--      coin_amount: 9999999, price_npr: 1, provider: 'esewa' }
+--   2. attach any image via submit_topup_receipt (checks ownership + pending
+--      only, not the amount)
+--   3. get an admin to approve the receipt → mint arbitrary coins.
+-- This violates the "coin ledger is server-authoritative; never trust the
+-- client" invariant.
+--
+-- FIX: drop the direct-insert policy. With RLS enabled and no INSERT policy,
+-- direct client inserts are denied. The Flutter app only ever creates top-ups
+-- through start_top_up() (see supabase_top_ups_repository.dart), which runs as
+-- SECURITY DEFINER and bypasses RLS, so legitimate top-ups are unaffected.
+-- finalize_top_up / approve_topup_receipt now only ever see pack-derived
+-- amounts.
+
+drop policy if exists coin_top_ups_insert_self on coin_top_ups;

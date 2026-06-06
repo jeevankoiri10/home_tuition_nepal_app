@@ -26,6 +26,8 @@ class NotificationCard extends StatelessWidget {
     switch (notification.kind) {
       case NotificationKind.newJobPosted:
         return Icons.work_outline;
+      case NotificationKind.tutorApplied:
+        return Icons.person_add_alt_outlined;
       case NotificationKind.applicationShortlisted:
         return Icons.star_outline;
       case NotificationKind.applicationHired:
@@ -41,6 +43,8 @@ class NotificationCard extends StatelessWidget {
         return Icons.remove_circle_outline;
       case NotificationKind.newReview:
         return Icons.rate_review_outlined;
+      case NotificationKind.announcement:
+        return Icons.campaign_outlined;
       case NotificationKind.systemMessage:
         return Icons.info_outline;
     }
@@ -133,6 +137,8 @@ class NotificationCard extends StatelessWidget {
     switch (kind) {
       case NotificationKind.newJobPosted:
         return l10n.notifKindNewJobPosted;
+      case NotificationKind.tutorApplied:
+        return l10n.notifKindTutorApplied;
       case NotificationKind.applicationShortlisted:
         return l10n.notifKindApplicationShortlisted;
       case NotificationKind.applicationHired:
@@ -149,6 +155,8 @@ class NotificationCard extends StatelessWidget {
         return l10n.notifKindCoinDebited;
       case NotificationKind.newReview:
         return l10n.notifKindNewReview;
+      case NotificationKind.announcement:
+        return l10n.notifKindAnnouncement;
       case NotificationKind.systemMessage:
         return l10n.notifKindSystem;
     }

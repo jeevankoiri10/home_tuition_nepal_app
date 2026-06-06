@@ -62,6 +62,12 @@ class AppLocalizationsNe extends AppLocalizations {
   String get settingsLogoutLabel => 'लग आउट';
 
   @override
+  String get tutorSettingsProfileSection => 'तपाईंको प्रोफाइल';
+
+  @override
+  String get tutorSettingsEditProfileCta => 'प्रोफाइल अपडेट गर्नुहोस्';
+
+  @override
   String get settingsReferralSection => 'साथीलाई रेफर गर्नुहोस्';
 
   @override
@@ -130,6 +136,25 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get mapPinPickerUseMyLocation => 'मेरो वर्तमान स्थान प्रयोग गर्नुहोस्';
+
+  @override
+  String get openSettingsAction => 'सेटिङ खोल्नुहोस्';
+
+  @override
+  String get locationServicesDisabledMessage =>
+      'स्थान सेवा बन्द छ। आफ्नो वर्तमान स्थान प्रयोग गर्न यसलाई खोल्नुहोस्।';
+
+  @override
+  String get locationPermissionBlockedMessage =>
+      'स्थानको अनुमति रोकिएको छ। आफ्नो स्थान प्रयोग गर्न सेटिङमा गई अनुमति दिनुहोस्।';
+
+  @override
+  String get locationPermissionDeniedMessage =>
+      'स्थानको अनुमति दिइएन। पूर्वनिर्धारित क्षेत्र देखाइँदै छ — नक्सा तानेर आफ्नो स्थानमा राख्नुहोस्।';
+
+  @override
+  String get locationUnavailableMessage =>
+      'अहिले तपाईंको स्थान पत्ता लगाउन सकिएन। पूर्वनिर्धारित क्षेत्र देखाइँदै छ — नक्सा तानेर आफ्नो स्थानमा राख्नुहोस्।';
 
   @override
   String subjectSectionHeading(int number) {
@@ -305,6 +330,31 @@ class AppLocalizationsNe extends AppLocalizations {
   String get reviewThanks => 'तपाईंको समीक्षाका लागि धन्यवाद!';
 
   @override
+  String get reviewsTitle => 'समीक्षाहरू';
+
+  @override
+  String get reviewsEmpty => 'अहिलेसम्म कुनै समीक्षा छैन';
+
+  @override
+  String get reviewsLoadError =>
+      'समीक्षाहरू लोड गर्न सकिएन। पुनः प्रयास गर्न तान्नुहोस्।';
+
+  @override
+  String get seeReviewsAction => 'समीक्षाहरू हेर्नुहोस्';
+
+  @override
+  String reviewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count समीक्षाहरू',
+      one: '१ समीक्षा',
+      zero: 'कुनै समीक्षा छैन',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get continueLabel => 'अगाडि बढ्नुहोस्';
 
   @override
@@ -330,6 +380,12 @@ class AppLocalizationsNe extends AppLocalizations {
   String get themeDark => 'डार्क';
 
   @override
+  String get settingsThemeSection => 'रूप';
+
+  @override
+  String get settingsThemeHint => 'एप कस्तो देखिने छान्नुहोस्।';
+
+  @override
   String get emailLabel => 'इमेल';
 
   @override
@@ -348,10 +404,84 @@ class AppLocalizationsNe extends AppLocalizations {
   String get loginToRegister => 'खाता छैन? बनाउनुहोस्';
 
   @override
+  String get googleContinue => 'Google मार्फत जारी राख्नुहोस्';
+
+  @override
+  String get googleAsStudent =>
+      'विद्यार्थीको रूपमा Google मार्फत जारी राख्नुहोस्';
+
+  @override
+  String get googleAsTutor => 'ट्युटरको रूपमा Google मार्फत जारी राख्नुहोस्';
+
+  @override
+  String get orSeparator => 'वा';
+
+  @override
+  String get nextAction => 'अर्को';
+
+  @override
+  String get doneAction => 'सम्पन्न';
+
+  @override
+  String get whatsappLabel => 'WhatsApp नम्बर';
+
+  @override
+  String get onboardingContactTitle => 'तपाईंको सम्पर्क विवरण';
+
+  @override
+  String get onboardingContactSubtitle =>
+      'हामी यी तपाईंलाई जोड्न प्रयोग गर्छौं। यी सार्वजनिक रूपमा देखाइँदैन।';
+
+  @override
+  String get onboardingLocationTitle => 'तपाईंको स्थान छान्नुहोस्';
+
+  @override
+  String get onboardingLocationSubtitle =>
+      'तपाईं भएको ठाउँमा पिन राख्न नक्सा तान्नुहोस्, वा लोकेट बटन थिच्नुहोस्।';
+
+  @override
+  String get onboardingSelectMyLocation => 'मेरो स्थान छान्नुहोस्';
+
+  @override
+  String get wizardStepContact => 'सम्पर्क';
+
+  @override
+  String get wizardStepResume => 'बायोडाटा';
+
+  @override
+  String get accountSection => 'खाता';
+
+  @override
+  String get switchToTutorView => 'ट्युटर भ्यूमा स्विच गर्नुहोस्';
+
+  @override
+  String get switchToStudentView => 'विद्यार्थी भ्यूमा स्विच गर्नुहोस्';
+
+  @override
+  String get switchRoleSubtitle =>
+      'एउटै खाता पढाउन र सिक्न दुवैमा प्रयोग गर्नुहोस्।';
+
+  @override
   String get loginErrorInvalidCredentials => 'इमेल वा पासवर्ड मिलेन।';
 
   @override
   String get errorGeneric => 'केही गडबड भयो। फेरि प्रयास गर्नुहोस्।';
+
+  @override
+  String get errorNoInternet =>
+      'इन्टरनेट जडान छैन। आफ्नो नेटवर्क जाँच गरी फेरि प्रयास गर्नुहोस्।';
+
+  @override
+  String get errorGoogleSignInFailed =>
+      'Google मार्फत साइन इन गर्न सकिएन। केही बेरमा फेरि प्रयास गर्नुहोस्।';
+
+  @override
+  String get errorSignInCancelled =>
+      'साइन इन पूरा हुनु अघि नै रद्द भयो। फेरि प्रयास गर्न Google जारी राख्नुहोस् थिच्नुहोस्।';
+
+  @override
+  String get errorSignInTimeout =>
+      'साइन इन गर्न धेरै समय लाग्यो र समय सकियो। फेरि प्रयास गर्नुहोस्।';
 
   @override
   String get firstNameLabel => 'नाम';
@@ -463,32 +593,6 @@ class AppLocalizationsNe extends AppLocalizations {
   }
 
   @override
-  String get studentHomeTitle => 'विद्यार्थी होम';
-
-  @override
-  String get tutorHomeTitle => 'शिक्षक होम';
-
-  @override
-  String get signOutTooltip => 'साइन आउट';
-
-  @override
-  String homeWelcome(String name) {
-    return 'स्वागत छ, $name';
-  }
-
-  @override
-  String homeHandle(String handle) {
-    return 'ह्यान्डल: $handle';
-  }
-
-  @override
-  String get studentMapPlaceholder =>
-      'क्षेत्र-आधारित म्याप (मुख्य सुविधा) फेज ४ मा आउँछ।';
-
-  @override
-  String get previewLabel => 'पूर्वावलोकन';
-
-  @override
   String get currentBalanceLabel => 'हालको रकम';
 
   @override
@@ -549,6 +653,34 @@ class AppLocalizationsNe extends AppLocalizations {
   String get tutorBoostInsufficientSnack => 'बूस्टका लागि सिक्का अपुग।';
 
   @override
+  String get promoteJobAction => 'प्रवर्द्धन (२४घ)';
+
+  @override
+  String get promoteJobConfirmTitle => 'यो पोस्ट प्रवर्द्धन गर्ने?';
+
+  @override
+  String promoteJobConfirmBody(int cost) {
+    return 'यो पोस्टलाई २४ घण्टा खोजको शीर्षमा पुर्‍याउन $cost सिक्का खर्च गर्नुहोस्।';
+  }
+
+  @override
+  String get promoteJobConfirmCta => 'प्रवर्द्धन गर्नुहोस्';
+
+  @override
+  String promoteJobSuccessSnack(int balance) {
+    return 'पोस्ट २४घका लागि प्रवर्द्धन भयो · ब्यालेन्स: $balance';
+  }
+
+  @override
+  String get promoteJobFailedSnack => 'पोस्ट प्रवर्द्धन गर्न सकिएन।';
+
+  @override
+  String get promoteJobInsufficientSnack => 'प्रवर्द्धनका लागि सिक्का अपुग।';
+
+  @override
+  String get cancelLabel => 'रद्द गर्नुहोस्';
+
+  @override
   String get tutorPhasesNote =>
       'पुस-नोटिफिकेसन, इन-एप च्याट, र समीक्षा फेज ८–१० मा आउँछन्।';
 
@@ -560,6 +692,23 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get mapRecenterTooltip => 'केन्द्र मा फर्काउनुहोस्';
+
+  @override
+  String get vacancyMapEmpty => 'यहाँ नजिक अहिले कुनै खुला रिक्ति छैन।';
+
+  @override
+  String get vacancyMapBrowseAll => 'सबै रिक्तिहरू हेर्नुहोस्';
+
+  @override
+  String get vacancyMapSortSalary => 'तलब: बढीदेखि कम';
+
+  @override
+  String get vacancyMapSortNewest => 'नयाँ';
+
+  @override
+  String vacancyMapNearbyCount(int count) {
+    return 'नजिकका $count रिक्ति';
+  }
 
   @override
   String get mapRequestTutorFab => 'शिक्षक अनुरोध';
@@ -579,6 +728,15 @@ class AppLocalizationsNe extends AppLocalizations {
   }
 
   @override
+  String get mapSortNearest => 'नजिकको';
+
+  @override
+  String get mapSortPriceLowHigh => 'मूल्य: कमदेखि बढी';
+
+  @override
+  String get mapSortTopRated => 'उत्कृष्ट मूल्याङ्कन';
+
+  @override
   String get mapAllMatchesHeader => 'सबै मिलेका';
 
   @override
@@ -587,6 +745,24 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get mapEmptyHint =>
       'क्षेत्र फराकिलो बनाउनुहोस् वा फिल्टर खुकुलो गर्नुहोस्।';
+
+  @override
+  String get mapLoadError => 'नजिकका शिक्षकहरू लोड गर्न सकिएन।';
+
+  @override
+  String get mapEmptyExpandRadius => 'क्षेत्र बढाउनुहोस्';
+
+  @override
+  String get mapSearchHereSnack => 'यस बिन्दु वरिपरि शिक्षक खोज्दै';
+
+  @override
+  String get filterClearAll => 'फिल्टर हटाउनुहोस्';
+
+  @override
+  String get actionClear => 'हटाउनुहोस्';
+
+  @override
+  String get actionRetry => 'पुनः प्रयास';
 
   @override
   String get walletTitle => 'सिक्का वालेट';
@@ -656,11 +832,11 @@ class AppLocalizationsNe extends AppLocalizations {
   String get whatsAppLabel => 'WhatsApp';
 
   @override
-  String get unlockCallPhase7Hint =>
-      'फोन नम्बर खुलासा फेज ७ का एडमिन म्याचसँगै आउँछ।';
+  String get contactNoNumber => 'यो शिक्षकको फोन नम्बर उपलब्ध छैन।';
 
   @override
-  String get unlockWhatsAppPhase7Hint => 'WhatsApp लिङ्क फेज ७ मा जोडिनेछ।';
+  String get contactLaunchFailed =>
+      'यो एप खोल्न सकिएन। अर्को विकल्प प्रयोग गर्नुहोस्।';
 
   @override
   String get leaveReview => 'समीक्षा छोड्नुहोस्';
@@ -724,6 +900,9 @@ class AppLocalizationsNe extends AppLocalizations {
   String get notifKindNewJobPosted => 'नयाँ जागिर पोस्ट';
 
   @override
+  String get notifKindTutorApplied => 'नयाँ आवेदन';
+
+  @override
   String get notifKindApplicationShortlisted => 'आवेदन छनोट';
 
   @override
@@ -746,6 +925,9 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get notifKindNewReview => 'नयाँ समीक्षा';
+
+  @override
+  String get notifKindAnnouncement => 'घोषणा';
 
   @override
   String get notifKindSystem => 'सूचना';
@@ -796,6 +978,9 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get filterVerifiedOnly => 'प्रमाणित मात्र';
+
+  @override
+  String get verifiedTutorLabel => 'प्रमाणित शिक्षक';
 
   @override
   String get filterAvailableNow => 'अहिले उपलब्ध';
@@ -1011,9 +1196,6 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get repostAction => 'पुनः पोस्ट';
-
-  @override
-  String get chatPhase9Hint => 'इन-एप च्याट फेज ९ मा आउँछ।';
 
   @override
   String get vacancyPendingReview => 'समीक्षा बाँकी';
@@ -1685,6 +1867,31 @@ class AppLocalizationsNe extends AppLocalizations {
       'तपाईंको खाता निलम्बन वा प्रतिबन्धित गरिएको छ। अपिल गर्न एडमिनलाई सम्पर्क गर्नुहोस्।';
 
   @override
+  String get blockedScreenTitle => 'खाता निष्क्रिय गरिएको छ';
+
+  @override
+  String get blockedScreenMessage =>
+      'तपाईंले हाम्रो नीति सर्तहरू उल्लङ्घन गर्नुभएको हुनाले तपाईंको खाता निष्क्रिय गरिएको छ। तपाईं अब Home Tuition Nepal प्रयोग गर्न सक्नुहुन्न। यो निर्णयमा अपिल गर्न हाम्रो टोलीलाई सम्पर्क गर्नुहोस्।';
+
+  @override
+  String get blockedScreenEmailCta => 'हामीलाई इमेल गर्नुहोस्';
+
+  @override
+  String get blockedScreenRefresh =>
+      'मलाई पुनः सक्रिय गरिएको छ — फेरि जाँच गर्नुहोस्';
+
+  @override
+  String get blockedScreenStillBlocked => 'तपाईंको खाता अझै निष्क्रिय छ।';
+
+  @override
+  String get presenceOnline => 'अनलाइन';
+
+  @override
+  String presenceLastSeen(String time) {
+    return 'पछिल्लो पटक देखिएको $time';
+  }
+
+  @override
   String get contactAdminOnWhatsApp => 'WhatsApp मा एडमिनलाई सम्पर्क';
 
   @override
@@ -1813,4 +2020,15 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get mapSheetActionCollapse => 'खुम्चिने';
+
+  @override
+  String tutorCardExperienceYears(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years वर्ष अनुभव',
+      one: '$years वर्ष अनुभव',
+    );
+    return '$_temp0';
+  }
 }

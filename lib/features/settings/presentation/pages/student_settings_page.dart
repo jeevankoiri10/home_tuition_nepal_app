@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,9 +11,11 @@ import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/language_toggle.dart';
 import '../../../../core/widgets/masked_avatar.dart';
+import '../../../../core/widgets/theme_mode_toggle.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../auth/domain/models/user_profile.dart';
 import '../../../auth/presentation/blocs/auth_bloc.dart';
+import '../widgets/role_switch_section.dart';
 
 class StudentSettingsPage extends StatelessWidget {
   const StudentSettingsPage({super.key});
@@ -24,7 +27,7 @@ class StudentSettingsPage extends StatelessWidget {
       builder: (context, state) {
         final user = state.user;
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.settingsTitle)),
+          appBar: BrandAppBar(title: Text(l10n.settingsTitle)),
           body: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
@@ -32,7 +35,11 @@ class StudentSettingsPage extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               _LanguageSection(),
               const SizedBox(height: AppSpacing.lg),
+              _ThemeSection(),
+              const SizedBox(height: AppSpacing.lg),
               if (user != null) _ReferralSection(user: user),
+              const SizedBox(height: AppSpacing.lg),
+              const RoleSwitchSection(),
               const SizedBox(height: AppSpacing.xl),
               _LogoutButton(),
             ],
@@ -65,13 +72,19 @@ class _ProfileHeader extends StatelessWidget {
                 children: [
                   Text(user.displayName, style: tt.titleLarge),
                   const SizedBox(height: 2),
-                  Text('@${user.handle}',
-                      style: tt.bodyMedium
-                          ?.copyWith(color: AppColors.textSecondary)),
+                  Text(
+                    '@${user.handle}',
+                    style: tt.bodyMedium?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                   const SizedBox(height: 2),
-                  Text(user.email,
-                      style: tt.bodySmall
-                          ?.copyWith(color: AppColors.textSecondary)),
+                  Text(
+                    user.email,
+                    style: tt.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -109,9 +122,9 @@ class _ReferralSection extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     await Clipboard.setData(ClipboardData(text: _code));
     if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.settingsReferralCopied)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.settingsReferralCopied)));
   }
 
   @override
@@ -128,13 +141,16 @@ class _ReferralSection extends StatelessWidget {
             style: tt.bodyMedium,
           ),
           const SizedBox(height: AppSpacing.md),
-          Text(l10n.settingsReferralCodeLabel,
-              style: tt.labelMedium
-                  ?.copyWith(color: AppColors.textSecondary)),
+          Text(
+            l10n.settingsReferralCodeLabel,
+            style: tt.labelMedium?.copyWith(color: AppColors.textSecondary),
+          ),
           const SizedBox(height: AppSpacing.xs),
           Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
+            ),
             decoration: BoxDecoration(
               borderRadius: AppRadii.inputBorder,
               border: Border.all(color: AppColors.border),
@@ -145,7 +161,9 @@ class _ReferralSection extends StatelessWidget {
                   child: Text(
                     _code,
                     style: tt.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700, letterSpacing: 1.2),
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2,
+                    ),
                   ),
                 ),
                 TextButton.icon(
@@ -155,6 +173,30 @@ class _ReferralSection extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemeSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return _Section(
+      title: l10n.settingsThemeSection,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l10n.settingsThemeHint,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: ThemeModeToggle(),
           ),
         ],
       ),
@@ -194,11 +236,15 @@ class _Section extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,
-            style: tt.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+        Text(
+          title,
+          style: tt.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+        ),
         const SizedBox(height: AppSpacing.sm),
         Card(
-          shape: const RoundedRectangleBorder(borderRadius: AppRadii.cardBorder),
+          shape: const RoundedRectangleBorder(
+            borderRadius: AppRadii.cardBorder,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.lg),
             child: child,

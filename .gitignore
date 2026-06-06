@@ -43,3 +43,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local Supabase dart-define (contains anon key)
+dart_define.json
+
+# supabase CLI local temp state
+supabase/.temp/
+supabase/supabase/
+
+# local debug screenshots
+app_screen.png
+app_screen.err

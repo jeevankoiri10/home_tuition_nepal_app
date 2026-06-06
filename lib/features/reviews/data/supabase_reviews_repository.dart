@@ -63,6 +63,61 @@ class SupabaseReviewsRepository implements ReviewsRepository {
   }
 
   @override
+  Future<List<Review>> listForStudent(String studentId, {int limit = 50}) async {
+    try {
+      final rows = await _client
+          .from('student_reviews')
+          .select()
+          .eq('student_id', studentId)
+          .order('created_at', ascending: false)
+          .limit(limit);
+      return (rows as List).cast<Map<String, dynamic>>().map(Review.fromRow).toList();
+    } on sb.PostgrestException catch (e) {
+      throw ReviewsException('list_student_failed', e.message);
+    }
+  }
+
+  @override
+  Future<RatingSummary> summaryForStudent(String studentId) async {
+    try {
+      final row = await _client
+          .from('profiles')
+          .select('student_rating, student_rating_count')
+          .eq('id', studentId)
+          .maybeSingle();
+      if (row == null) return const RatingSummary(average: 0, count: 0);
+      return RatingSummary(
+        average: ((row['student_rating'] as num?) ?? 0).toDouble(),
+        count: (row['student_rating_count'] as int?) ?? 0,
+      );
+    } on sb.PostgrestException catch (e) {
+      throw ReviewsException('student_summary_failed', e.message);
+    }
+  }
+
+  @override
+  Future<Review> submitStudentReview({
+    required String studentId,
+    required int stars,
+    String? text,
+  }) async {
+    try {
+      final id = await _client.rpc('submit_student_review', params: {
+        'p_student_id': studentId,
+        'p_stars': stars,
+        'p_text': text,
+      }) as String;
+      final row = await _client.from('student_reviews').select().eq('id', id).single();
+      return Review.fromRow(row);
+    } on sb.PostgrestException catch (e) {
+      final m = e.message;
+      if (m.contains('gate_not_met')) throw ReviewsException('gate_not_met', m);
+      if (m.contains('phone_in_review')) throw ReviewsException('phone_in_review', m);
+      throw ReviewsException('submit_student_failed', m);
+    }
+  }
+
+  @override
   Future<int> boostFeatured({int hours = 24}) async {
     try {
       final res = await _client.rpc('boost_tutor_featured', params: {'p_hours': hours});

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 /// Closed set of notification kinds matching `notifications.kind` in SQL.
 enum NotificationKind {
   newJobPosted('new_job_posted', 'New job posted'),
+  tutorApplied('tutor_applied', 'New application'),
   applicationShortlisted('application_shortlisted', 'Application shortlisted'),
   applicationHired('application_hired', 'You were hired'),
   contactRevealed('contact_revealed', 'Contact revealed'),
@@ -11,6 +12,7 @@ enum NotificationKind {
   coinCredited('coin_credited', 'Coins credited'),
   coinDebited('coin_debited', 'Coins debited'),
   newReview('new_review', 'New review'),
+  announcement('announcement', 'Announcement'),
   systemMessage('system', 'Notice');
 
   const NotificationKind(this.value, this.fallbackLabel);

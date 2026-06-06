@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/utils/pdf_validator.dart';
 import '../domain/models/tutor_profile.dart';
 import '../domain/tutor_repository.dart';
 
@@ -48,6 +49,9 @@ class FakeTutorRepository implements TutorRepository {
     if (bytes.lengthInBytes > AppConstants.tutorCvMaxBytes) {
       throw TutorRepositoryException(
           'cv_too_large', 'CV must be smaller than 300 KB.');
+    }
+    if (!PdfValidator.isPdf(bytes)) {
+      throw TutorRepositoryException('cv_not_pdf', 'CV must be a PDF file.');
     }
     await Future<void>.delayed(const Duration(milliseconds: 200));
     // In dev we don't actually persist the bytes — return a placeholder URL

@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_tuition_nepal_app/core/services/platform_settings_service.dart';
 import 'package:home_tuition_nepal_app/features/topups/data/fake_top_ups_repository.dart';
 import 'package:home_tuition_nepal_app/features/topups/domain/models/top_up.dart';
+import 'package:home_tuition_nepal_app/features/topups/domain/top_ups_repository.dart';
 import 'package:home_tuition_nepal_app/features/wallet/data/fake_wallet_repository.dart';
 
 void main() {
@@ -47,6 +50,32 @@ void main() {
       await topups.cancelTopUp(pending.id);
       final after = await topups.getTopUp(pending.id);
       expect(after.status, TopUpStatus.cancelled);
+    });
+
+    test('attachReceipt stamps receiptUrl on the top-up', () async {
+      final packs = await topups.listPacks();
+      final pending = await topups.startTopUp(pack: packs.first, provider: PaymentProvider.esewa);
+      final updated = await topups.attachReceipt(
+        topUpId: pending.id,
+        bytes: Uint8List.fromList(List<int>.filled(1024, 0)),
+        fileName: 'receipt.jpg',
+      );
+      expect(updated.receiptUrl, isNotNull);
+      final fetched = await topups.getTopUp(pending.id);
+      expect(fetched.receiptUrl, isNotNull);
+    });
+
+    test('attachReceipt rejects an oversized file', () async {
+      final packs = await topups.listPacks();
+      final pending = await topups.startTopUp(pack: packs.first, provider: PaymentProvider.esewa);
+      expect(
+        () => topups.attachReceipt(
+          topUpId: pending.id,
+          bytes: Uint8List(6 * 1024 * 1024),
+          fileName: 'big.pdf',
+        ),
+        throwsA(isA<TopUpsException>()),
+      );
     });
   });
 }

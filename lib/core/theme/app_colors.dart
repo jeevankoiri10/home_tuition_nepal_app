@@ -14,12 +14,19 @@ class AppColors {
   static const Color danger = Color(0xFFD32F2F);
   static const Color info = Color(0xFF1976D2);
 
+  // Map presence badges — online (connected) vs offline tutors.
+  static const Color online = Color(0xFF1976D2);
+  static const Color offline = Color(0xFF9E9E9E);
+
   static const Color surfaceLight = Color(0xFFFAFAFA);
   static const Color surfaceDark = Color(0xFF121212);
 
   static const Color border = Color(0xFFE0E0E0);
   static const Color textPrimary = Color(0xFF212121);
   static const Color textSecondary = Color(0xFF616161);
+
+  // Chat message body text — solid black on the message bubbles.
+  static const Color chatMessageText = Color(0xFF000000);
 
   static const LinearGradient brandGradient = LinearGradient(
     begin: Alignment.topLeft,

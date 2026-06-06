@@ -12,7 +12,8 @@ import '../domain/models/user_role.dart';
 class FakeAuthRepository implements AuthRepository {
   FakeAuthRepository();
 
-  final StreamController<UserProfile?> _controller = StreamController<UserProfile?>.broadcast();
+  final StreamController<UserProfile?> _controller =
+      StreamController<UserProfile?>.broadcast();
   UserProfile? _user;
 
   @override
@@ -39,8 +40,11 @@ class FakeAuthRepository implements AuthRepository {
       role: input.role,
       handle: handle,
       tosAcceptedAt: DateTime.now(),
-      codeOfConductAcceptedAt: input.role == UserRole.tutor ? DateTime.now() : null,
+      codeOfConductAcceptedAt: input.role == UserRole.tutor
+          ? DateTime.now()
+          : null,
       coinBalance: 1000,
+      activeRole: input.role,
     );
     _user = profile;
     _controller.add(profile);
@@ -48,7 +52,10 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<UserProfile> login({required String email, required String password}) async {
+  Future<UserProfile> login({
+    required String email,
+    required String password,
+  }) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
     if (email.isEmpty || password.length < 8) {
       throw AuthException('invalid_credentials');
@@ -64,10 +71,105 @@ class FakeAuthRepository implements AuthRepository {
       handle: 'Student #DEMO',
       tosAcceptedAt: DateTime.now().subtract(const Duration(days: 30)),
       coinBalance: 1000,
+      onboardingComplete: true,
+      activeRole: UserRole.student,
+      studentOnboarded: true,
     );
     _user = profile;
     _controller.add(profile);
     return profile;
+  }
+
+  @override
+  Future<UserProfile> signInWithGoogle({required UserRole role}) async {
+    await Future<void>.delayed(const Duration(milliseconds: 400));
+    final profile = UserProfile(
+      id: 'fake-google-${DateTime.now().microsecondsSinceEpoch}',
+      firstName: '',
+      lastName: '',
+      email: 'demo.${role.value}@gmail.com',
+      phone: '',
+      emailVerified: true,
+      role: role,
+      handle: _generateHandle(role),
+      tosAcceptedAt: DateTime.now(),
+      codeOfConductAcceptedAt: role == UserRole.tutor ? DateTime.now() : null,
+      coinBalance: 1000,
+      onboardingComplete: false,
+      activeRole: role,
+    );
+    _user = profile;
+    _controller.add(profile);
+    return profile;
+  }
+
+  @override
+  Future<UserProfile> saveOnboardingStep(int step) async {
+    final updated = _user?.copyWith(onboardingStep: step);
+    if (updated == null) throw AuthException('no_session');
+    _user = updated;
+    _controller.add(updated);
+    return updated;
+  }
+
+  @override
+  Future<UserProfile> completeStudentOnboarding({
+    required String phone,
+    required String whatsapp,
+    required double lat,
+    required double lng,
+  }) async {
+    final updated = _user?.copyWith(
+      whatsapp: whatsapp,
+      lat: lat,
+      lng: lng,
+      onboardingComplete: true,
+      onboardingStep: 0,
+      studentOnboarded: true,
+    );
+    if (updated == null) throw AuthException('no_session');
+    _user = updated;
+    _controller.add(updated);
+    return updated;
+  }
+
+  @override
+  Future<UserProfile> setTutorContact({
+    required String phone,
+    required String whatsapp,
+  }) async {
+    final updated = _user?.copyWith(whatsapp: whatsapp);
+    if (updated == null) throw AuthException('no_session');
+    _user = updated;
+    _controller.add(updated);
+    return updated;
+  }
+
+  @override
+  Future<UserProfile> completeTutorOnboarding() async {
+    final updated = _user?.copyWith(
+      onboardingComplete: true,
+      tutorOnboarded: true,
+    );
+    if (updated == null) throw AuthException('no_session');
+    _user = updated;
+    _controller.add(updated);
+    return updated;
+  }
+
+  @override
+  Future<UserProfile> switchActiveRole(UserRole role) async {
+    final updated = _user?.copyWith(activeRole: role);
+    if (updated == null) throw AuthException('no_session');
+    _user = updated;
+    _controller.add(updated);
+    return updated;
+  }
+
+  @override
+  Future<void> reloadProfile() async {
+    // No backend — just re-emit the cached user.
+    if (_user != null) _controller.add(_user);
   }
 
   @override
@@ -92,6 +194,12 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<void> setLanguage(String languageCode) async {
+    // Fake repo doesn't persist anything — see
+    // [SupabaseAuthRepository.setLanguage] for the real write.
+  }
+
+  @override
   Future<Set<UserRole>> availableRoles(String userId) async {
     // Single-role schema today — the user has exactly the role they
     // registered with. The interface returns a Set so the chooser code
@@ -110,7 +218,10 @@ class FakeAuthRepository implements AuthRepository {
   String _generateHandle(UserRole role) {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     final rng = Random();
-    final code = List<String>.generate(4, (_) => chars[rng.nextInt(chars.length)]).join();
+    final code = List<String>.generate(
+      4,
+      (_) => chars[rng.nextInt(chars.length)],
+    ).join();
     final prefix = role == UserRole.tutor ? 'Tutor' : 'Student';
     return '$prefix #$code';
   }

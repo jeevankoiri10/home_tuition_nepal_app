@@ -63,6 +63,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLogoutLabel => 'Log out';
 
   @override
+  String get tutorSettingsProfileSection => 'Your profile';
+
+  @override
+  String get tutorSettingsEditProfileCta => 'Update profile';
+
+  @override
   String get settingsReferralSection => 'Refer a friend';
 
   @override
@@ -131,6 +137,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapPinPickerUseMyLocation => 'Use my current location';
+
+  @override
+  String get openSettingsAction => 'Open settings';
+
+  @override
+  String get locationServicesDisabledMessage =>
+      'Location is turned off. Turn it on to use your current location.';
+
+  @override
+  String get locationPermissionBlockedMessage =>
+      'Location permission is blocked. Enable it in Settings to use your location.';
+
+  @override
+  String get locationPermissionDeniedMessage =>
+      'Location permission denied. Showing the default area — drag the map to your spot.';
+
+  @override
+  String get locationUnavailableMessage =>
+      'Couldn\'t get your location right now. Showing the default area — drag the map to your spot.';
 
   @override
   String subjectSectionHeading(int number) {
@@ -304,6 +329,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewThanks => 'Thanks for your review!';
 
   @override
+  String get reviewsTitle => 'Reviews';
+
+  @override
+  String get reviewsEmpty => 'No reviews yet';
+
+  @override
+  String get reviewsLoadError => 'Couldn\'t load reviews. Pull to retry.';
+
+  @override
+  String get seeReviewsAction => 'See reviews';
+
+  @override
+  String reviewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reviews',
+      one: '1 review',
+      zero: 'No reviews',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get continueLabel => 'Continue';
 
   @override
@@ -328,6 +377,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get themeDark => 'Dark';
 
   @override
+  String get settingsThemeSection => 'Appearance';
+
+  @override
+  String get settingsThemeHint => 'Choose how the app looks.';
+
+  @override
   String get emailLabel => 'Email';
 
   @override
@@ -346,10 +401,83 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginToRegister => 'Don\'t have an account? Create one';
 
   @override
+  String get googleContinue => 'Continue with Google';
+
+  @override
+  String get googleAsStudent => 'Continue with Google as a student';
+
+  @override
+  String get googleAsTutor => 'Continue with Google as a tutor';
+
+  @override
+  String get orSeparator => 'or';
+
+  @override
+  String get nextAction => 'Next';
+
+  @override
+  String get doneAction => 'Done';
+
+  @override
+  String get whatsappLabel => 'WhatsApp number';
+
+  @override
+  String get onboardingContactTitle => 'Your contact details';
+
+  @override
+  String get onboardingContactSubtitle =>
+      'We use these to connect you. They are never shown publicly.';
+
+  @override
+  String get onboardingLocationTitle => 'Select your location';
+
+  @override
+  String get onboardingLocationSubtitle =>
+      'Drag the map to drop the pin where you are, or tap the locate button.';
+
+  @override
+  String get onboardingSelectMyLocation => 'Select my location';
+
+  @override
+  String get wizardStepContact => 'Contact';
+
+  @override
+  String get wizardStepResume => 'Resume';
+
+  @override
+  String get accountSection => 'Account';
+
+  @override
+  String get switchToTutorView => 'Switch to tutor view';
+
+  @override
+  String get switchToStudentView => 'Switch to student view';
+
+  @override
+  String get switchRoleSubtitle =>
+      'Use the same account to teach and to learn.';
+
+  @override
   String get loginErrorInvalidCredentials => 'Email or password is incorrect.';
 
   @override
   String get errorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorNoInternet =>
+      'No internet connection. Check your network and try again.';
+
+  @override
+  String get errorGoogleSignInFailed =>
+      'We couldn\'t sign you in with Google. Please try again in a moment.';
+
+  @override
+  String get errorSignInCancelled =>
+      'Sign-in was cancelled before it finished. Tap Continue with Google to try again.';
+
+  @override
+  String get errorSignInTimeout =>
+      'Sign-in took too long and timed out. Please try again.';
 
   @override
   String get firstNameLabel => 'First name';
@@ -465,32 +593,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get studentHomeTitle => 'Student home';
-
-  @override
-  String get tutorHomeTitle => 'Tutor home';
-
-  @override
-  String get signOutTooltip => 'Sign out';
-
-  @override
-  String homeWelcome(String name) {
-    return 'Welcome, $name';
-  }
-
-  @override
-  String homeHandle(String handle) {
-    return 'Handle: $handle';
-  }
-
-  @override
-  String get studentMapPlaceholder =>
-      'The locality-first map (the headline feature) ships in Phase 4.';
-
-  @override
-  String get previewLabel => 'Preview';
-
-  @override
   String get currentBalanceLabel => 'CURRENT BALANCE';
 
   @override
@@ -551,6 +653,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tutorBoostInsufficientSnack => 'Insufficient coins for boost.';
 
   @override
+  String get promoteJobAction => 'Promote (24h)';
+
+  @override
+  String get promoteJobConfirmTitle => 'Promote this post?';
+
+  @override
+  String promoteJobConfirmBody(int cost) {
+    return 'Spend $cost coins to push this post to the top of search for 24 hours.';
+  }
+
+  @override
+  String get promoteJobConfirmCta => 'Promote';
+
+  @override
+  String promoteJobSuccessSnack(int balance) {
+    return 'Post promoted for 24h · Balance: $balance';
+  }
+
+  @override
+  String get promoteJobFailedSnack => 'Could not promote post.';
+
+  @override
+  String get promoteJobInsufficientSnack => 'Insufficient coins to promote.';
+
+  @override
+  String get cancelLabel => 'Cancel';
+
+  @override
   String get tutorPhasesNote =>
       'Push notifications, in-app chat, and reviews ship in Phases 8–10.';
 
@@ -562,6 +692,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapRecenterTooltip => 'Re-center';
+
+  @override
+  String get vacancyMapEmpty => 'No open vacancies near here yet.';
+
+  @override
+  String get vacancyMapBrowseAll => 'Browse all vacancies';
+
+  @override
+  String get vacancyMapSortSalary => 'Salary: high to low';
+
+  @override
+  String get vacancyMapSortNewest => 'Newest';
+
+  @override
+  String vacancyMapNearbyCount(int count) {
+    return '$count vacancies nearby';
+  }
 
   @override
   String get mapRequestTutorFab => 'Request a tutor';
@@ -581,6 +728,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get mapSortNearest => 'Nearest';
+
+  @override
+  String get mapSortPriceLowHigh => 'Price: low to high';
+
+  @override
+  String get mapSortTopRated => 'Top rated';
+
+  @override
   String get mapAllMatchesHeader => 'All matches';
 
   @override
@@ -588,6 +744,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapEmptyHint => 'Try widening the radius or loosening filters.';
+
+  @override
+  String get mapLoadError => 'Couldn\'t load nearby tutors.';
+
+  @override
+  String get mapEmptyExpandRadius => 'Expand radius';
+
+  @override
+  String get mapSearchHereSnack => 'Searching tutors around this point';
+
+  @override
+  String get filterClearAll => 'Clear filters';
+
+  @override
+  String get actionClear => 'Clear';
+
+  @override
+  String get actionRetry => 'Retry';
 
   @override
   String get walletTitle => 'Coin Wallet';
@@ -657,11 +831,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatsAppLabel => 'WhatsApp';
 
   @override
-  String get unlockCallPhase7Hint =>
-      'Phone-number reveal lands when admin matches go live (Phase 7).';
+  String get contactNoNumber => 'No phone number on file for this tutor.';
 
   @override
-  String get unlockWhatsAppPhase7Hint => 'WhatsApp launch wires in Phase 7.';
+  String get contactLaunchFailed =>
+      'Couldn\'t open this app. Try the other option.';
 
   @override
   String get leaveReview => 'Leave a review';
@@ -725,6 +899,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifKindNewJobPosted => 'New job posted';
 
   @override
+  String get notifKindTutorApplied => 'New application';
+
+  @override
   String get notifKindApplicationShortlisted => 'Application shortlisted';
 
   @override
@@ -747,6 +924,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifKindNewReview => 'New review';
+
+  @override
+  String get notifKindAnnouncement => 'Announcement';
 
   @override
   String get notifKindSystem => 'Notice';
@@ -797,6 +977,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterVerifiedOnly => 'Verified only';
+
+  @override
+  String get verifiedTutorLabel => 'Verified tutor';
 
   @override
   String get filterAvailableNow => 'Available now';
@@ -1011,9 +1194,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get repostAction => 'Repost';
-
-  @override
-  String get chatPhase9Hint => 'In-app chat ships in Phase 9.';
 
   @override
   String get vacancyPendingReview => 'Pending review';
@@ -1684,6 +1864,30 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your account has been suspended or banned. Contact the admin to appeal.';
 
   @override
+  String get blockedScreenTitle => 'Account deactivated';
+
+  @override
+  String get blockedScreenMessage =>
+      'You have violated our Terms of Policy, so your account has been deactivated. You can no longer use Home Tuition Nepal. To appeal this decision, contact our team.';
+
+  @override
+  String get blockedScreenEmailCta => 'Email us';
+
+  @override
+  String get blockedScreenRefresh => 'I\'ve been reactivated — check again';
+
+  @override
+  String get blockedScreenStillBlocked => 'Your account is still deactivated.';
+
+  @override
+  String get presenceOnline => 'Online';
+
+  @override
+  String presenceLastSeen(String time) {
+    return 'Last seen $time';
+  }
+
+  @override
   String get contactAdminOnWhatsApp => 'Contact admin on WhatsApp';
 
   @override
@@ -1812,4 +2016,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapSheetActionCollapse => 'collapse';
+
+  @override
+  String tutorCardExperienceYears(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years yrs exp',
+      one: '$years yr exp',
+    );
+    return '$_temp0';
+  }
 }

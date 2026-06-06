@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/di.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/phone_ban_regex.dart';
@@ -8,14 +7,16 @@ import '../../../../core/widgets/primary_button.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../reviews/domain/reviews_repository.dart';
 
-/// Prompted right after a contract is completed so the student can rate the
-/// tutor. Reuses the existing [ReviewsRepository]; the contract-completion
-/// gate is already satisfied because the parties have an unlocked thread.
+/// Star + text review sheet prompted after a contract completes. Reusable in
+/// both directions (student→tutor and tutor→student): the caller supplies the
+/// reviewee name and an [onSubmit] that targets the right repository method.
 class ReviewSheet extends StatefulWidget {
-  const ReviewSheet({super.key, required this.tutorId, required this.tutorName});
+  const ReviewSheet({super.key, required this.revieweeName, required this.onSubmit});
 
-  final String tutorId;
-  final String tutorName;
+  final String revieweeName;
+
+  /// Persists the review. Throws [ReviewsException] on failure.
+  final Future<void> Function(int stars, String? text) onSubmit;
 
   @override
   State<ReviewSheet> createState() => _ReviewSheetState();
@@ -42,11 +43,7 @@ class _ReviewSheetState extends State<ReviewSheet> {
     }
     setState(() => _busy = true);
     try {
-      await sl<ReviewsRepository>().submit(
-        tutorId: widget.tutorId,
-        stars: _stars,
-        text: body.isEmpty ? null : body,
-      );
+      await widget.onSubmit(_stars, body.isEmpty ? null : body);
       if (!mounted) return;
       messenger.showSnackBar(SnackBar(content: Text(l10n.reviewThanks)));
       Navigator.of(context).pop(true);
@@ -72,7 +69,7 @@ class _ReviewSheetState extends State<ReviewSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l10n.reviewTitle(widget.tutorName),
+            Text(l10n.reviewTitle(widget.revieweeName),
                 style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: AppSpacing.md),
             Row(

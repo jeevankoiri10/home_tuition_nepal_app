@@ -1,5 +1,26 @@
 # Push notifications — wiring guide
 
+> **Phase 16 status — the code is now wired; only credentials/config remain.**
+> The FCM client (`lib/core/services/firebase_messaging_push_service.dart`),
+> the DI/`main.dart` init (both gated on `Env.pushNotificationsConfigured`), and
+> the `push_dispatcher` Edge Function (`supabase/functions/push_dispatcher/`)
+> are implemented. To turn remote push on, do the **manual steps** below — until
+> then the app keeps using `FakePushNotificationService` and notifications still
+> appear live in-app via Supabase Realtime.
+>
+> **Manual steps to go live:**
+> 1. **Firebase project** — create one, add the Android + iOS apps.
+> 2. **Native config** — `flutterfire configure` (writes `lib/firebase_options.dart`); drop `android/app/google-services.json` + the Google services Gradle plugin; add `ios/Runner/GoogleService-Info.plist`, an APNs auth key in Firebase, and `remote-notification` background mode in `Info.plist`. (`Firebase.initializeApp()` in `main.dart` reads the native files; pass `options: DefaultFirebaseOptions.currentPlatform` if you prefer the generated options.)
+> 3. **Edge Function** — `supabase functions deploy push_dispatcher`, then set secrets: `PUSH_WEBHOOK_SECRET`, `FCM_PROJECT_ID`, `FCM_CLIENT_EMAIL`, `FCM_PRIVATE_KEY` (from the Firebase service-account JSON).
+> 4. **Database Webhook** — Supabase Studio → Database → Webhooks → *AFTER INSERT on `public.notifications`* → HTTP POST to the function URL with header `x-webhook-secret: <PUSH_WEBHOOK_SECRET>`. Every notification row (tutor-applied, job matches, admin broadcasts, …) then becomes a push automatically.
+> 5. **Build** with `--dart-define=PUSH_NOTIFICATIONS_CONFIGURED=true`.
+>
+> The function already enforces quiet hours (`profiles.quiet_hours_*`), the
+> per-user hourly cap (`platform_settings.notif_hourly_cap`), and the
+> `notification_settings` type toggle before sending.
+
+The original design notes (still accurate) follow.
+
 Phase 8 shipped the **in-app feed** (Notifications screen, real-time Supabase channel for inserts, bell badge in every AppBar). Remote OS push (FCM / OneSignal) is intentionally **not** wired by default because it requires platform credentials. Follow these steps once you have them.
 
 ## Choice: FCM directly or OneSignal

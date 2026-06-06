@@ -4,7 +4,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_radii.dart';
 import '../theme/app_spacing.dart';
 
-/// Full-width primary CTA with the brand gradient. Use for the most important
+/// Full-width primary CTA in the solid brand color. Use for the most important
 /// action on a screen (Register, Book this teacher, Confirm unlock).
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
@@ -30,7 +30,7 @@ class PrimaryButton extends StatelessWidget {
           height: 52,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
-            gradient: AppColors.brandGradient,
+            color: AppColors.primary,
             borderRadius: AppRadii.inputBorder,
           ),
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),

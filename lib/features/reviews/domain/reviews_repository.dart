@@ -16,10 +16,23 @@ abstract class ReviewsRepository {
   Future<List<Review>> listForTutor(String tutorId, {int limit = 50});
   Future<TutorRatingSummary> summaryForTutor(String tutorId);
 
-  /// Submits or replaces the caller's review for `tutorId`.
+  /// Submits or replaces the caller's (student's) review of `tutorId`.
   /// Throws ReviewsException('gate_not_met') if no prior unlock or assignment.
   Future<Review> submit({
     required String tutorId,
+    required int stars,
+    String? text,
+  });
+
+  // ─── Reverse direction: a tutor reviews a student (Upwork-style) ──────────
+
+  Future<List<Review>> listForStudent(String studentId, {int limit = 50});
+  Future<RatingSummary> summaryForStudent(String studentId);
+
+  /// Submits or replaces the caller's (tutor's) review of `studentId`.
+  /// Gated server-side on a shared contract / unlock / assignment.
+  Future<Review> submitStudentReview({
+    required String studentId,
     required int stars,
     String? text,
   });

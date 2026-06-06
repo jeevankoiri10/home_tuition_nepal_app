@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/brand_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +10,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../wallet/presentation/blocs/wallet_bloc.dart';
+import '../../domain/connect_cost.dart';
 import '../../domain/models/vacancy.dart';
 import '../blocs/vacancies_bloc.dart';
 import '../widgets/apply_to_vacancy_sheet.dart';
@@ -48,7 +50,7 @@ class VacanciesFeedPage extends StatelessWidget {
       child: Builder(builder: (context) {
         final l10n = AppLocalizations.of(context);
         return Scaffold(
-        appBar: AppBar(
+        appBar: BrandAppBar(
           title: Text(l10n.vacanciesTitle),
           actions: [
             IconButton(
@@ -98,6 +100,8 @@ class VacanciesFeedPage extends StatelessWidget {
                   return VacancyCard(
                     vacancy: v,
                     alreadyApplied: applied,
+                    connectCost: ConnectCost.forVacancyWithSettings(
+                        v, sl<PlatformSettingsService>()),
                     onTap: () =>
                         context.push(AppRoutes.vacancyDetail.replaceAll(':id', v.id)),
                     onApply: () => _showApply(context, v),

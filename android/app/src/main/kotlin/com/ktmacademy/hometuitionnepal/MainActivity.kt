@@ -1,4 +1,4 @@
-package com.example.home_tuition_nepal_app
+package com.ktmacademy.hometuitionnepal
 
 import io.flutter.embedding.android.FlutterActivity
 

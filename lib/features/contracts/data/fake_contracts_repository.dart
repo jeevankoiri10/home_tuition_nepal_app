@@ -8,9 +8,14 @@ class FakeContractsRepository implements ContractsRepository {
 
   @override
   Future<Contract?> latestForThread(String threadId) async {
-    final matches = _byId.values.where((c) => c.threadId == threadId).toList()
-      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    return matches.isEmpty ? null : matches.first;
+    // _byId is insertion-ordered (Dart LinkedHashMap), so the last matching
+    // entry is the most recently proposed — deterministic even when two
+    // proposals share a createdAt millisecond.
+    Contract? latest;
+    for (final c in _byId.values) {
+      if (c.threadId == threadId) latest = c;
+    }
+    return latest;
   }
 
   @override
