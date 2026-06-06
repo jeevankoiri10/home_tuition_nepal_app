@@ -1,5 +1,5 @@
 -- Home Tuition Nepal — Add the _is_blocked backstop to apply_to_vacancy (security).
--- Run after 0052_block_guard_boost_promote.sql.
+-- Run after 0054_revoke_audit_helper.sql.
 --
 -- GAP (same class as 0052): apply_to_vacancy(p_vacancy_id) (0004 → repriced 0034)
 -- is a live, coin-debiting "connect" action — the wallet repository calls it at
